@@ -1,4 +1,4 @@
-package com.changsin.webapp.mes.base.user;
+package com.changsin.webapp.mes.basic.user;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,7 +10,7 @@ import java.util.List;
 @Controller
 public class UserController {
 
-    @RequestMapping(value = "/mes/base/user/list")
+    @RequestMapping(value = "/mes/basic/user/list")
     public ModelAndView list() throws Exception {
         ModelAndView mav = new ModelAndView("/mes/base/user/list");
         mav.addObject("name", "goddaehee");

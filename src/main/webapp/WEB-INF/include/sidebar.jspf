@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
@@ -13,7 +15,7 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fa fa-solid fa-leaf"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">CSM <sup>2</sup></div>
     </a>
 
     <!-- Divider -->
@@ -32,21 +34,25 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Interface
+        MES
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBase"
            aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Components</span>
+            <i class="fas fa-fw fa-solid fa-database"></i>
+            <span>기준정보</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseBase" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Custom Components:</h6>
-                <a class="collapse-item" href="buttons.html">Buttons</a>
-                <a class="collapse-item" href="cards.html">Cards</a>
+<%--                <h6 class="collapse-header">기준정보</h6>--%>
+                <a class="collapse-item" href="/mes/basic/company/list">거래처정보</a>
+                <a class="collapse-item" href="/mes/basic/product/list">제품정보</a>
+                <a class="collapse-item" href="/mes/basic/material/raw/list">원자재정보</a>
+                <a class="collapse-item" href="/mes/basic/material/sub/list">부자재정보</a>
+                <a class="collapse-item" href="/mes/basic/process/list">공정정보</a>
+                <a class="collapse-item" href="/mes/basic/notice/list">공지정보</a>
             </div>
         </div>
     </li>
@@ -75,7 +81,7 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Addons
+        시스템관리
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
