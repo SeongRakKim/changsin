@@ -1,12 +1,103 @@
 <%--
   Created by IntelliJ IDEA.
-  User: noname
+  User: Mi Ra
   Date: 2022-02-09
   Time: 오후 10:51
   To change this template use File | Settings | File Templates.
 --%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Your Website 2021</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom -->
+<script src="/common/common.js"></script>
+<link href="/common/common.css" rel="stylesheet">
+
+<!-- Bootstrap core JavaScript-->
+<script src="/sbadmin/vendor/jquery/jquery.min.js"></script>
+<script src="/sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="/sbadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="/sbadmin/js/sb-admin-2.min.js"></script>
+
+<!-- Page level plugins -->
+<script src="/sbadmin/vendor/chart.js/Chart.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="/sbadmin/js/demo/chart-area-demo.js"></script>
+<script src="/sbadmin/js/demo/chart-pie-demo.js"></script>
+
+
+<%-- Icon Include --%>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="/bamburgh/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!--Bootstrap init-->
+<script src="/bamburgh/js/demo/bootstrap/bootstrap.min.js"></script>
+
+<!--Perfect scrollbar-->
+<script src="/bamburgh/vendor/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
+
+<!--Perfect scrollbar init-->
+<script src="/bamburgh/js/demo/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+
+<!--StickyKit-->
+<script src="/bamburgh/vendor/stickykit/js/stickykit.min.js"></script>
+<!--StickyKit init-->
+
+<script src="/bamburgh/js/demo/stickykit/stickykit.min.js"></script>
+<!--Apexcharts-->
+
+<script src="/bamburgh/vendor/apexcharts/js/apexcharts.min.js"></script>
+<script src="/bamburgh/js/demo/apexcharts/light-charts.min.js"></script>
+<script src="/bamburgh/js/demo/apexcharts/dark-charts.min.js"></script>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: noname
+  User: Mi Ra
   Date: 2022-02-09
   Time: 오후 10:51
   To change this template use File | Settings | File Templates.
@@ -22,6 +22,9 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
+        <!-- Disable tap highlight on IE -->
+        <meta name="msapplication-tap-highlight" content="no">
+
         <title>CS</title>
 
         <!-- Custom fonts for this template-->
@@ -31,7 +34,11 @@
         <!-- Custom styles for this template-->
         <link href="/sbadmin/css/sb-admin-2.min.css" rel="stylesheet">
 
+        <link rel="stylesheet" type="text/css" href="/bamburgh/css/bamburgh.min.css">
+
     </head>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
     <body id="page-top">
 
@@ -39,3 +46,11 @@
         <div id="wrapper">
 
             <%@ include file="/WEB-INF/include/sidebar.jspf" %>
+
+                <!-- Content Wrapper -->
+                <div id="content-wrapper" class="d-flex flex-column">
+
+                    <!-- Main Content -->
+                    <div id="content">
+
+                        <%@ include file="/WEB-INF/include/topbar.jspf" %>

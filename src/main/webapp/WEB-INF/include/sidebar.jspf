@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: noname
+  User: Mi Ra
   Date: 2022-02-10
   Time: 오후 6:02
   To change this template use File | Settings | File Templates.
@@ -8,6 +8,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
+<!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
@@ -47,12 +48,12 @@
         <div id="collapseBase" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
 <%--                <h6 class="collapse-header">기준정보</h6>--%>
-                <a class="collapse-item" href="/mes/basic/company/list">거래처정보</a>
-                <a class="collapse-item" href="/mes/basic/product/list">제품정보</a>
-                <a class="collapse-item" href="/mes/basic/material/raw/list">원자재정보</a>
-                <a class="collapse-item" href="/mes/basic/material/sub/list">부자재정보</a>
-                <a class="collapse-item" href="/mes/basic/process/list">공정정보</a>
-                <a class="collapse-item" href="/mes/basic/notice/list">공지정보</a>
+                <a class="_isUrl collapse-item" data-url="/mes/base/company/list" href="/mes/base/company/list">거래처정보</a>
+                <a class="_isUrl collapse-item" data-url="/mes/base/product/list" href="/mes/base/product/list">제품정보</a>
+                <a class="_isUrl collapse-item" data-url="/mes/base/material/list" href="/mes/base/material/raw/list">원자재정보</a>
+                <a class="_isUrl collapse-item" data-url="/mes/base/material/list" href="/mes/base/material/sub/list">부자재정보</a>
+                <a class="_isUrl collapse-item" data-url="/mes/base/process/list" href="/mes/base/process/list">공정정보</a>
+                <a class="_isUrl collapse-item" data-url="/mes/base/notice/list" href="/mes/base/notice/list">공지정보</a>
             </div>
         </div>
     </li>
@@ -128,10 +129,11 @@
     </div>
 
     <!-- Sidebar Message -->
-    <div class="sidebar-card d-none d-lg-flex">
-        </img class="sidebar-card-illustration mb-2" src="/sbadmin/img/undraw_rocket.svg" alt="...">
-        <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>
-        <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>
-    </div>
+<%--    <div class="sidebar-card d-none d-lg-flex">--%>
+<%--        </img class="sidebar-card-illustration mb-2" src="/sbadmin/img/undraw_rocket.svg" alt="...">--%>
+<%--        <p class="text-center mb-2"><strong>SB Admin Pro</strong> is packed with premium features, components, and more!</p>--%>
+<%--        <a class="btn btn-success btn-sm" href="https://startbootstrap.com/theme/sb-admin-pro">Upgrade to Pro!</a>--%>
+<%--    </div>--%>
 
 </ul>
+<!-- End of Sidebar -->
