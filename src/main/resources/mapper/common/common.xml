@@ -3,11 +3,21 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="common">
+<mapper namespace="common.common">
 
-
-    <select id="baseDetailList" parameterMap="java.util.LinkedHashMap" resultMap="RowMap">
-
+    <select id="baseDetailList" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,BASE_CD
+               ,BASE_DETAIL_CD
+               ,BASE_DETAIL_NM
+               ,BASE_DETAIL_YN
+               ,BASE_DETAIL_NT
+               ,BASE_DETAIL_INDATE
+               ,BASE_DETAIL_INUSER
+               ,BASE_DETAIL_UPDATE
+               ,BASE_DETAIL_UPUSER
+        FROM DFT_BASE_DETAIL
+        WHERE BASE_CD = #{base_cd}
     </select>
 
 </mapper>

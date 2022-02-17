@@ -1,8 +1,6 @@
 package com.changsin.webapp.common.vo;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;

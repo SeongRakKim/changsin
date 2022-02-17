@@ -52,6 +52,20 @@
     </div>
 </div>
 
+
+<script>
+
+    $(function() {
+
+        // Menu Select
+        setTreeMenuActive("${vmap.requestUri}");
+
+
+
+    });
+
+</script>
+
 <!-- Custom -->
 <script src="/common/common.js"></script>
 <link href="/common/common.css" rel="stylesheet">

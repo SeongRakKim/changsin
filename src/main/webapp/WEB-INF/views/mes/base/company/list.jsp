@@ -38,11 +38,27 @@
             <thead class="thead-light">
                 <tr>
                     <th scope="col">거래처구분</th>
-                    <td></td>
+                    <td>
+                        <select id="comp_type" name="comp_type" class="custom-select w-100" required="">
+                            <option value="">거래처구분선택</option>
+                            <c:forEach var="item" items="${vmap.compTypeList}" varStatus="status">
+                                <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
+                            </c:forEach>
+                        </select>
+                    </td>
                     <th scope="col">거래처분류</th>
-                    <td></td>
+                    <td>
+                        <select id="comp_group" name="comp_group" class="custom-select w-100" required="">
+                            <option value="">거래처구분선택</option>
+                            <c:forEach var="item" items="${vmap.compGroupList}" varStatus="status">
+                                <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
+                            </c:forEach>
+                        </select>
+                    </td>
                     <th scope="col">검색어</th>
-                    <td></td>
+                    <td>
+                        <input type="text" class="form-control" id="search_text" name="search_text" placeholder="검색어">
+                    </td>
                 </tr>
             </thead>
         </table>
@@ -53,8 +69,6 @@
 <script>
     $(function()
     {
-        // Menu Select
-        setTreeMenuActive("${vmap.requestUri}");
 
     });
 </script>
