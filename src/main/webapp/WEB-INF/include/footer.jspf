@@ -60,11 +60,89 @@
         // Menu Select
         setTreeMenuActive("${vmap.requestUri}");
 
-
-
     });
 
+    function setDataTablesOption()
+    {
+        var orderIdx = arguments[0].orderIdx;
+        var orderGubn = arguments[0].orderGubn;
+
+        var isCheck = true;
+        if (Array.isArray(orderGubn) == false) {
+            isCheck = false;
+        } else if (orderIdx.length != orderGubn.length) {
+            alert("orderGubn이 Array일 때 orderIdx와 orderGubn 길이는 같아야 합니다.\n테이블에 DataTables는 적용되지 않습니다.");
+            return false;
+        }
+
+        var orderArray = [];
+        if (IsNotNull(orderIdx)) {
+            $.each(arguments[0].orderIdx, function (index, item) {
+                var array = [];
+                array.push(item);
+                array.push(isCheck ? orderGubn[index] : orderGubn);
+                orderArray.push(array);
+            });
+        }
+
+        var scrollY = IsNull(arguments[0].scrollY) ? "" : arguments[0].scrollY + "px";
+        
+        var $dataTable = $("#" + arguments[0].sheetID).DataTable({
+            buttons: [{
+                extend: "excelHtml5"
+                , footer: true
+                , title: ""
+                , filename: moment().locale("ko").format("YYYY-MM-DD_HHmmss")
+            }, {
+                extend: "pdfHtml5"
+                , footer: true
+                , title: ""
+                , filename: moment().locale("ko").format("YYYY-MM-DD_HHmmss")
+            }]
+            ,fixedHeader: false
+            ,rowId: "test"
+            ,ordering: arguments[0].ordering
+            ,order: orderArray
+            ,rowsGroup: arguments[0].rowspan
+            ,paging: arguments[0].paging
+            ,pageLength: arguments[0].pageLength
+            ,info: arguments[0].info
+            ,filter: arguments[0].filter
+            ,stateSave: arguments[0].stateSave
+            ,stateLoadParams: function (settings, data) {
+                //data.start = 0;
+                //data.search.search = "";
+                data.order = orderArray;
+            }
+            ,scrollY: scrollY
+            ,scrollCollapse: arguments[0].collapse
+            // ,dom: "<'row-centered info-div'<'col-centered pull-left text-left w33'<'topLF'>Bf><'col-centered w34 field'><'col-centered pull-right text-right w33'li>><t><p>"
+            ,pagingType: "full_numbers"
+            ,lengthMenu: arguments[0].lengthMenu
+            ,language: {
+                lengthMenu: "_MENU_"
+                , zeroRecords: "<div class='text-center'>데이터가 없습니다..</div>"
+                , info: "<small>현재 _START_ to _END_ / _TOTAL_건</small>"
+                , infoEmpty: ""
+                , infoFiltered: "<small>( 재검색 : _TOTAL_개 )</small>"
+                , search: "<small>재검색 : </small>"
+                , paginate: {
+                    first: "<i class='fa fa-angle-double-left'></i>"
+                    , previous: "<i class='fa fa-angle-left'></i>"
+                    , next: "<i class='fa fa-angle-right'></i>"
+                    , last: "<i class='fa fa-angle-double-right'></i>"
+                }
+            }
+            ,footerCallback: arguments[0].footerCallback
+            ,serverSide: arguments[0].serverSide
+            ,processing: arguments[0].processing
+        });
+    }
+
 </script>
+
+<%-- moment.js --%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
 <!-- Custom -->
 <script src="/common/common.js"></script>
@@ -87,6 +165,9 @@
 <script src="/sbadmin/js/demo/chart-area-demo.js"></script>
 <script src="/sbadmin/js/demo/chart-pie-demo.js"></script>
 
+<%-- Datatables --%>
+<link rel="stylesheet" type="text/css" href="/sbadmin/vendor/datatables/datatables.css"/>
+<script type="text/javascript" src="/sbadmin/vendor/datatables/datatables.js"></script>
 
 <%-- Icon Include --%>
 

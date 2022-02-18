@@ -217,7 +217,7 @@ table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sor
 .scrollBtn.up {right:20px;bottom:125px;}
 .scrollBtn.dw {right:20px;bottom:70px;}
 
-.table-responsive {max-height:650px;}
+/*.table-responsive {max-height:650px;}*/
 
 .new_row {background-color: #c9e3f0;}
 
@@ -249,4 +249,17 @@ table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sor
     text-align:left;
     vertical-align:middle !important;
     border-bottom: 1px solid #dcdef1 !important;
+}
+
+.main-form-group {
+
+}
+
+.dataTables_info {
+    float: left !important;
+    font-size: 1.2em !important;
+}
+
+.dataTables_length {
+    float: left !important;
 }
