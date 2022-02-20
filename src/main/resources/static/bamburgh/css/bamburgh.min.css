@@ -5364,7 +5364,11 @@ a.close.disabled {
     content: none;
 }
 .modal-content {
-    position: relative;
+    /*position: relative;*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: -ms-flexbox;
     display: flex;
     -ms-flex-direction: column;

@@ -263,3 +263,14 @@ table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sor
 .dataTables_length {
     float: left !important;
 }
+
+@media (min-width: 1200px) {
+    .modal-form-xl {
+        max-width: 85% !important;
+    }
+}
+
+.table-form th {
+    text-align: center !important;
+    background-color: #f4f5fd!important;
+}

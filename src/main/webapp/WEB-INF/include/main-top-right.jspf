@@ -9,38 +9,38 @@
 
 <div id="btnGroup">
 
-    <button class="btn btn-sm btn-second" type="button" id="btnSearch">
-                <span class="btn-wrapper--icon">
-                    <i class="fas fa-search"></i>
-                </span>
+    <button class="btn btn-sm btn-primary" type="button" id="btnSearch">
+        <span class="btn-wrapper--icon">
+            <i class="fas fa-search"></i>
+        </span>
         <span class="btn-wrapper--label">조회</span>
     </button>
 
-    <button class="btn btn-sm btn-secondary" type="button" id="btnNew">
-                <span class="btn-wrapper--icon">
-                    <i class="fas fa-plus"></i>
-                </span>
+    <button class="btn btn-sm btn-dark" type="button" id="btnNew">
+        <span class="btn-wrapper--icon">
+            <i class="fas fa-plus"></i>
+        </span>
         <span class="btn-wrapper--label">추가</span>
     </button>
 
     <button class="btn btn-sm btn-first" type="button" id="btnInsert">
-                <span class="btn-wrapper--icon">
-                    <i class="fas fa-save"></i>
-                </span>
+        <span class="btn-wrapper--icon">
+            <i class="fas fa-save"></i>
+        </span>
         <span class="btn-wrapper--label">저장</span>
     </button>
 
     <button class="btn btn-sm btn-warning" type="button" id="btnModify">
-                <span class="btn-wrapper--icon">
-                    <i class="fas fa-download"></i>
-                </span>
+        <span class="btn-wrapper--icon">
+            <i class="fas fa-download"></i>
+        </span>
         <span class="btn-wrapper--label">수정</span>
     </button>
 
     <button class="btn btn-sm btn-danger" type="button" id="btnDelete">
-                <span class="btn-wrapper--icon">
-                    <i class="fas fa-trash-alt"></i>
-                </span>
+        <span class="btn-wrapper--icon">
+            <i class="fas fa-trash-alt"></i>
+        </span>
         <span class="btn-wrapper--label">삭제</span>
     </button>
 

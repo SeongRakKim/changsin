@@ -14,6 +14,20 @@ function setTreeMenuActive(el) {
 	});
 }
 
+function eAlert(content) {
+	Swal.fire({
+		icon : 'error',         // Alert 제목
+		text : content,  // Alert 내용
+	});
+}
+
+function alert(content) {
+	Swal.fire({
+		icon : 'success',         // Alert 제목
+		text : content,  // Alert 내용
+	});
+}
+
 function IsNotNull(el) {
 	if (el == null) return false;
 	if (el == "NaN") return false;

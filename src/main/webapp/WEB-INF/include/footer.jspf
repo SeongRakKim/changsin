@@ -15,7 +15,7 @@
         <footer class="sticky-footer bg-white">
             <div class="container my-auto">
                 <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Your Website 2021</span>
+                    <span>Copyright &copy; Ysis MES 2022</span>
                 </div>
             </div>
         </footer>
@@ -60,14 +60,31 @@
         // Menu Select
         setTreeMenuActive("${vmap.requestUri}");
 
+        // Parsely set
+        window.Parsley.on('field:error', function(field) {
+            // This global callback will be called for any field that fails validation.
+            console.log('Validation failed for: ', this.$element);
+
+            var errorMessageStr = "";
+
+            $.each(field.getErrorsMessages(), function(index, value) {
+                if (errorMessageStr !== "") {
+                    errorMessageStr += "\n";
+                }
+                errorMessageStr += field.element.title + "은(는) " + value;
+            });
+
+            eAlert(errorMessageStr);
+        });
+
     });
 
     function setDataTablesOption()
     {
-        var orderIdx = arguments[0].orderIdx;
-        var orderGubn = arguments[0].orderGubn;
+        let orderIdx = arguments[0].orderIdx;
+        let orderGubn = arguments[0].orderGubn;
 
-        var isCheck = true;
+        let isCheck = true;
         if (Array.isArray(orderGubn) == false) {
             isCheck = false;
         } else if (orderIdx.length != orderGubn.length) {
@@ -75,7 +92,7 @@
             return false;
         }
 
-        var orderArray = [];
+        let orderArray = [];
         if (IsNotNull(orderIdx)) {
             $.each(arguments[0].orderIdx, function (index, item) {
                 var array = [];
@@ -85,9 +102,10 @@
             });
         }
 
-        var scrollY = IsNull(arguments[0].scrollY) ? "" : arguments[0].scrollY + "px";
-        
-        var $dataTable = $("#" + arguments[0].sheetID).DataTable({
+        let scrollY = IsNull(arguments[0].scrollY) ? "" : arguments[0].scrollY + "px";
+        let lengthMenu = IsNull(arguments[0].lengthMenu ? [20, 50, 100, 500, 1000] : arguments[0].lengthMenu);
+
+        let $dataTable = $("#" + arguments[0].sheetID).DataTable({
             buttons: [{
                 extend: "excelHtml5"
                 , footer: true
@@ -118,7 +136,7 @@
             ,scrollCollapse: arguments[0].collapse
             // ,dom: "<'row-centered info-div'<'col-centered pull-left text-left w33'<'topLF'>Bf><'col-centered w34 field'><'col-centered pull-right text-right w33'li>><t><p>"
             ,pagingType: "full_numbers"
-            ,lengthMenu: arguments[0].lengthMenu
+            ,lengthMenu: lengthMenu
             ,language: {
                 lengthMenu: "_MENU_"
                 , zeroRecords: "<div class='text-center'>데이터가 없습니다..</div>"
@@ -141,19 +159,28 @@
 
 </script>
 
+<%-- Parsley.js--%>
+<%--<script src="/plugin/parsley/parsley.js"></script>--%>
+<script src="/plugin/parsley/parsley.min.js"></script>
+<script src="/plugin/parsley/i18n/ko.js"></script>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.all.min.js"></script>
+
 <%-- moment.js --%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
 
 <!-- Custom -->
 <script src="/common/common.js"></script>
 <link href="/common/common.css" rel="stylesheet">
 
 <!-- Bootstrap core JavaScript-->
-<script src="/sbadmin/vendor/jquery/jquery.min.js"></script>
+<%--<script src="/sbadmin/vendor/jquery/jquery.min.js"></script>--%>
 <script src="/sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="/sbadmin/vendor/jquery-easing/jquery.easing.min.js"></script>
+<%--<script src="/sbadmin/vendor/jquery-easing/jquery.easing.min.js"></script>--%>
 
 <!-- Custom scripts for all pages-->
 <script src="/sbadmin/js/sb-admin-2.min.js"></script>
