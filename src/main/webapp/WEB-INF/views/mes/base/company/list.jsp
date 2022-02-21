@@ -29,11 +29,11 @@
         <table class="tableSearch table table-hover table-striped table-bordered mb-5" style="margin-bottom: 0.5rem !important;">
             <colgroup>
                 <col style="width: 10%">
+                <col style="width: 20%">
+                <col style="width: 10%">
+                <col style="width: 20%">
+                <col style="width: 10%">
                 <col style="width: 30%">
-                <col style="width: 10%">
-                <col style="width: 20%">
-                <col style="width: 10%">
-                <col style="width: 20%">
             </colgroup>
             <thead class="thead-light">
                 <tr>
@@ -300,7 +300,7 @@
 
     function registModifyData()
     {
-        run_waitMe($("#dataModal"), 4, 'roundBounce');
+        showWait('dataModal');
 
         $.ajax({
             type: "post"
@@ -337,6 +337,7 @@
         })
         .fail(function (jqHXR, textStatus, errorThrown) {
             ajaxErrorAlert(jqHXR);
+            hideWait('dataModal');
         });
     }
 

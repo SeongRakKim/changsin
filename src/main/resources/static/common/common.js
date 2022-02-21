@@ -78,7 +78,15 @@ function run_waitMe(el, num, effect)
 }
 
 function ajaxErrorAlert(jqHXR) {
-	alert("ajax 호출 실패 / 상태 : " + jqHXR.statusText);
+	eAlert("ajax 호출 실패 / 상태 : " + jqHXR.statusText);
+}
+
+function showWait(formId) {
+	run_waitMe($("#" + formId), 4, 'roundBounce')
+}
+
+function hideWait(formId) {
+	$('#' + formId).waitMe('hide');
 }
 
 function IsNotNull(el) {
