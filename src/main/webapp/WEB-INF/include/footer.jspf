@@ -103,7 +103,7 @@
         }
 
         let scrollY = IsNull(arguments[0].scrollY) ? "" : arguments[0].scrollY + "px";
-        let lengthMenu = IsNull(arguments[0].lengthMenu ? [20, 50, 100, 500, 1000] : arguments[0].lengthMenu);
+        let lengthMenu = IsNull(arguments[0].lengthMenu) ? [20, 50, 100, 500, 1000] : arguments[0].lengthMenu;
 
         let $dataTable = $("#" + arguments[0].sheetID).DataTable({
             buttons: [{
@@ -158,6 +158,10 @@
     }
 
 </script>
+
+<%-- waitMe --%>
+<link rel="stylesheet" type="text/css" href="/plugin/waitme/waitMe.min.css">
+<script src="/plugin/waitme/waitMe.min.js"></script>
 
 <%-- Parsley.js--%>
 <%--<script src="/plugin/parsley/parsley.js"></script>--%>

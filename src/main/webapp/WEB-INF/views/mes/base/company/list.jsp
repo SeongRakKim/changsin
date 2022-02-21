@@ -71,7 +71,7 @@
         </table>
     </div>
 
-    <div class="card shadow" style="min-height: 800px;">
+    <div class="card shadow" style="min-height: 770px;">
         <div class="card-body">
             <div class="table-responsive">
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
@@ -254,6 +254,7 @@
             ,orderIdx: []
             ,orderGubn:	[]
             ,rowspan: ""
+            ,lengthMenu: [20, 50, 100, 500, 1000]
             ,paging: true
             ,field: true
             ,info: true
@@ -279,7 +280,7 @@
 
     $("#btnPopRegist").on("click", function()
     {
-        if (!parsleyFormValidate("dataForm")) return false;
+        if (!parsleyIsValidate("dataForm")) return false;
 
         Swal.fire({
             title: '',
@@ -299,26 +300,44 @@
 
     function registModifyData()
     {
+        run_waitMe($("#dataModal"), 4, 'roundBounce');
 
-        // $.ajax({
-        //     type: "post"
-        //     ,url: "/mes/base/equipment/repairRegist"
-        //     ,headers: {
-        //         "Content-Type": "application/json"
-        //         ,"X-HTTP-Method-Override": "POST"
-        //     }
-        //     ,data: JSON.stringify({
-        //         equp_cd: equp_cd
-        //         ,repair_date : repair_date
-        //         ,repair_note : repair_note
-        //         ,repair_comp : repair_comp
-        //         ,repair_cost : repair_cost
-        //     })
-        //     ,dataType: "json"
-        //     ,success: function(data) {
-        //
-        //     }
-        // });
+        $.ajax({
+            type: "post"
+            ,url: "/mes/base/company/compRegistModify"
+            ,headers: {
+                "Content-Type": "application/json"
+                ,"X-HTTP-Method-Override": "POST"
+            }
+            ,dataType: "json"
+            ,data: JSON.stringify({
+                fact_cd: "${vmap.fact_cd}"
+                ,comp_cd: $("#pop_comp_cd").val()
+                ,comp_nm: $("#pop_comp_nm").val()
+                ,comp_busin_num: $("#pop_comp_busin_num").val()
+                ,comp_type: $("#pop_comp_type").val()
+                ,comp_group: $("#pop_comp_group").val()
+                ,comp_ceo: $("#pop_comp_ceo").val()
+                ,comp_tel: $("#pop_comp_tel").val()
+                ,comp_fax: $("#pop_comp_fax").val()
+                ,comp_email: $("#pop_comp_email").val()
+                ,comp_mana: $("#pop_comp_mana").val()
+                ,comp_mana_tel: $("#pop_comp_mana_tel").val()
+                ,comp_busin_stat: $("#pop_comp_busin_stat").val()
+                ,comp_busin_kind: $("#pop_comp_busin_kind").val()
+                ,comp_address: $("#pop_comp_address").val()
+                ,comp_nt: $("#pop_comp_nt").val()
+            })
+        })
+        .done(function (data) {
+            console.log('오후 3:09', '333', data);
+        })
+        .always(function (data) {
+
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+        });
     }
 
 

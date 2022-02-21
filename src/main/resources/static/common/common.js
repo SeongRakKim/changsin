@@ -28,6 +28,59 @@ function alert(content) {
 	});
 }
 
+function run_waitMe(el, num, effect)
+{
+	/*
+     effect list
+     none,bounce,otateplane,stretch,orbit,roundBounce,win8,win8_linear,ios
+     facebook,rotation,timer,pulse,progressBar,bouncePulse,img
+    */
+
+	let text = 'Please wait...';
+	let fontSize = '';
+	let maxSize = '';
+	let textPos = '';
+
+	switch (num) {
+		case 1:
+			maxSize = '';
+			textPos = 'vertical';
+			break;
+		case 2:
+			text = '';
+			maxSize = 30;
+			textPos = 'vertical';
+			break;
+		case 3:
+			maxSize = 30;
+			textPos = 'horizontal';
+			fontSize = '18px';
+			break;
+		case 4:
+			maxSize = 150;
+			textPos = 'vertical';
+			fontSize = '50px';
+			break;
+	}
+
+	el.waitMe({
+		effect: effect,
+		text: text,
+		bg: 'rgba(255,255,255,0.4)',
+		color: '#000',
+		maxSize: maxSize,
+		waitTime: -1,
+		source: 'img.svg',
+		textPos: textPos,
+		fontSize: fontSize,
+		onClose: function(el) {}
+	});
+}
+
+function ajaxErrorAlert(jqHXR) {
+	alert("ajax 호출 실패 / 상태 : " + jqHXR.statusText);
+}
+
 function IsNotNull(el) {
 	if (el == null) return false;
 	if (el == "NaN") return false;
@@ -194,12 +247,8 @@ function initParsley() {
 	});
 }
 
-function parsleyFormValidate(formId) {
-	var parsleyConfig = {
-		errorsWrapper: '',
-		errorTemplate: ''
-	};
-
+function parsleyIsValidate(formId) {
+	var parsleyConfig = {errorsWrapper: '',errorTemplate: ''};
 	return $("form#" + formId).parsley(parsleyConfig).validate();
 }
 
