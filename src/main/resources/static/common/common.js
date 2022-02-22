@@ -89,6 +89,24 @@ function hideWait(formId) {
 	$(formId).waitMe('hide');
 }
 
+function setDataOne(prefix, data) {
+	$.each(data, function(key, value) {
+		let type = $("[name=" + prefix + key + "]").prop("type");
+		let inputType = $("input[name=" + prefix + key + "]").prop("type");
+
+		if(inputType === "text" || inputType === "hidden") {
+			if(key.indexOf("_cost") != -1 || key.indexOf("_qty") != -1 || key.indexOf("_amt") != -1) {
+				$("input[name=" + prefix + key + "]").val(IsEmpty(value).comma());
+			}else {
+				$("input[name=" + prefix + key + "]").val(IsEmpty(value));
+			}
+		}else if (inputType === "checkbox" || inputType === "radio") {
+			$("input[name=" + prefix + key + "]").val([IsEmpty(value)]);
+		}else if (type === "textarea" || type === "select" || type === "select-one") {
+			$("[name=" + prefix + key + "]").val(IsEmpty(value));
+		}
+	});
+}
 
 function IsNotNull(el) {
 	if (el == null) return false;

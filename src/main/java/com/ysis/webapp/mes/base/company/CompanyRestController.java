@@ -23,6 +23,15 @@ public class CompanyRestController {
         return new ResponseEntity<>(compList, HttpStatus.OK);
     }
 
+    @GetMapping("/mes/base/company/compOne/{comp_cd}")
+    public ResponseEntity<Map<String, Object>> compOne(VMap vmap, @PathVariable("comp_cd") String comp_cd) throws Exception
+    {
+        vmap.put("comp_cd", comp_cd);
+        Map<String, Object> compList = companyService.compOne(vmap);
+
+        return new ResponseEntity<>(compList, HttpStatus.OK);
+    }
+
     @PostMapping("/mes/base/company/compRegistModify")
     public ResponseEntity<String> compRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
     {
@@ -30,6 +39,15 @@ public class CompanyRestController {
         companyService.compRegistModify(vmap);
 
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/mes/base/company/compPackDelete")
+    public ResponseEntity<String> compPackDeleteDELETE(VMap vmap, @RequestBody Map<String, Object> map ) throws Exception
+    {
+        vmap.set(map);
+        companyService.compPackDelete(vmap);
+
+        return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
 
 }

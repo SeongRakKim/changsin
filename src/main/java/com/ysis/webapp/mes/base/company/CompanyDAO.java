@@ -16,8 +16,16 @@ public class CompanyDAO extends MapperDAO {
         return selectList(mapperName + ".compList", vMap.getMap());
     }
 
+    public Map<String, Object> compOne(VMap vMap) throws Exception {
+        return selectOne(mapperName + ".compOne", vMap.getMap());
+    }
+
     public int compRegistModify(VMap vmap) throws Exception {
         return insert(mapperName + ".compRegistModify", vmap.getMap());
+    }
+
+    public int compPackDelete(VMap vmap) throws Exception {
+        return delete(mapperName + ".compPackDelete", vmap.getMap());
     }
 
 }

@@ -20,6 +20,10 @@ public class CompanyService {
         return companyDAO.compList(vmap);
     }
 
+    public Map<String, Object> compOne(VMap vmap) throws Exception {
+        return companyDAO.compOne(vmap);
+    }
+
     @Transactional
     public int compRegistModify(VMap vmap) throws Exception {
 
@@ -27,6 +31,10 @@ public class CompanyService {
         vmap.put("comp_cd", CommonUtils.isNotEmpty(vmap.getString("comp_cd")) ? vmap.getString("comp_cd") : commonDAO.getTablePrimaryCode(vmap));
 
         return companyDAO.compRegistModify(vmap);
+    }
+
+    public int compPackDelete(VMap vmap) throws Exception {
+        return companyDAO.compPackDelete(vmap);
     }
 
 }

@@ -45,6 +45,41 @@
        </if>
     </select>
 
+    <select id="compOne" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,COMP_CD
+               ,COMP_NM
+               ,COMP_TYPE
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = COMP_TYPE
+                ) COMP_TYPE_NM
+               ,COMP_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                   FROM DFT_BASE_DETAIL
+                  WHERE BASE_DETAIL_CD = COMP_GROUP
+                 ) COMP_GROUP_NM
+               ,COMP_BUSIN_NUM
+               ,COMP_CEO
+               ,COMP_BUSIN_STAT
+               ,COMP_BUSIN_KIND
+               ,COMP_TEL
+               ,COMP_FAX
+               ,COMP_ADDRESS
+               ,COMP_EMAIL
+               ,COMP_MANA
+               ,COMP_MANA_TEL
+               ,COMP_YN
+               ,COMP_NOTICE
+               ,COMP_INDATE
+               ,COMP_INUSER
+               ,COMP_UPDATE
+               ,COMP_UPUSER
+          FROM MES_COMPANY_INFO
+         WHERE COMP_YN = 'Y'
+           AND COMP_CD = #{comp_cd}
+    </select>
+
     <insert id="compRegistModify" parameterType="VMap">
         INSERT INTO MES_COMPANY_INFO
         (
@@ -109,5 +144,13 @@
             ,COMP_UPDATE = NOW()
             ,COMP_UPUSER = #{u_cd}
     </insert>
+
+    <delete id="compPackDelete" parameterType="VMap">
+        DELETE FROM MES_COMPANY_INFO
+        WHERE COMP_CD IN
+        <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
 
 </mapper>

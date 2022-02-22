@@ -38,4 +38,9 @@ public class MapperDAO {
         mapperId(selectId);
         return sqlSessionTemplate.insert(selectId, parameter);
     }
+
+    public int delete(String selectId, Object parameter) {
+        mapperId(selectId);
+        return sqlSessionTemplate.delete(selectId, parameter);
+    }
 }

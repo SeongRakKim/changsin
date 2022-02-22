@@ -16,7 +16,7 @@
             <!-- Page Heading -->
 <%--            <span class="btn btn-pill btn-secondary">--%>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> > 기준정보 > 거래처정보
+                <i class="fas fa-home"></i> <i class="fas fa-arrow-right"></i> 기준정보 <i class="fas fa-arrow-right"></i> 거래처정보
             </span>
         </div>
 
@@ -85,7 +85,6 @@
                                                 <input type="checkbox" class="custom-control-input" id="listAll">
                                                 <label class="custom-control-label" for="listAll"></label>
                                             </div>
-<%--                                            <input type="checkbox" id="listAll" name="listAll" />--%>
                                         </th>
                                         <th>거래처코드</th>
                                         <th>거래처명</th>
@@ -125,7 +124,7 @@
                             <tr>
                                 <th>거래처코드</th>
                                 <td>
-                                    <input type="text" id="pop_comp_cd" name="pop_comp_cd" class="form-control" placeholder="거래처코드 / 미입력 시 자동생성" title="거래처코드"
+                                    <input type="text" id="pop_comp_cd" name="pop_comp_cd" class="form-control key" placeholder="거래처코드 / 미입력 시 자동생성" title="거래처코드"
                                            />
                                     <div class="invalid-feedback"></div>
                                 </td>
@@ -188,7 +187,7 @@
                                 </td>
                                 <th>업태</th>
                                 <td>
-                                    <input type="text" id="pop_comp_busin_stat" name=pop_comp_busin_stat" class="form-control" placeholder="업태" title="업태" />
+                                    <input type="text" id="pop_comp_busin_stat" name="pop_comp_busin_stat" class="form-control" placeholder="업태" title="업태" />
                                 </td>
                             </tr>
                             <tr>
@@ -216,7 +215,7 @@
                     <span class="btn-wrapper--icon">
                         <i class="fas fa-download"></i>
                     </span>
-                    <span class="btn-wrapper--label">등록</span>
+                    <span class="btn-wrapper--label">저장</span>
                 </button>
 
                 <button type="button" id="btnPopModify" class="btn btn-success ">수정</button>
@@ -237,6 +236,7 @@
     $(document).ready(() => {
         // DataTables setting
         setDatatable();
+        getData();
     });
 
 
@@ -247,14 +247,14 @@
 
     // Add Data - Call Data Form
     $("#btnNew").on("click", () => {
-        $("#dataModal").modal("show");
-        $("#form-modal-title").text("거래처 추가");
-        $("#btnPopRegist").show();
-        $("#btnPopModify").hide();
-
-        resetForm("dataForm");
+        callEditmodal("거래처 추가");
     });
 
+    $("#tblMaster").on("dblclick", "tr", function() {
+        let comp_cd = $(this).find("input[name=comp_cd]").val();
+        callEditmodal("거래처 수정");
+        getDataOne(comp_cd);
+    });
 
     // set tblMaster Database
     function setDatatable()
@@ -285,16 +285,16 @@
         };
 
         setDataTablesOption(arguments);
+    }
 
-        // setTimeout(function() {
-        //     $("#" + arguments.sheetID).DataTable().draw(false);
-        // }, 300);
-        //
-        // $(window).resize(function() {
-        //     if($.fn.DataTable.isDataTable("#" + arguments.sheetID)) {
-        //         $("#" + arguments.sheetID).DataTable().draw(false);
-        //     }
-        // });
+    function callEditmodal(title)
+    {
+        $("#dataModal").modal("show");
+        $("#form-modal-title").text(title);
+        $("#btnPopRegist").show();
+        $("#btnPopModify").hide();
+
+        resetForm("dataForm");
     }
 
     function resetForm(formId)
@@ -330,6 +330,7 @@
                 let node = [];
 
                 let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
+                                   "    <input type=\"hidden\" name=\"comp_cd\" value=\"" + item.comp_cd + "\">" +
                                    "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
                                    "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
                                    "</div>";
@@ -348,42 +349,42 @@
                 node.push(IsEmpty(item.comp_ceo));
 
                 // 각 row node 추가
-                $('#tblMaster').DataTable().row.add(node).node();
+                $("#tblMaster").DataTable().row.add(node).node();
             });
 
             // datatables draw
-            $('#tblMaster').DataTable().draw(false);
+            $("#tblMaster").DataTable().draw(false);
         })
         .always(function (data) {
             hideWait('.container-fluid');
         })
         .fail(function (jqHXR, textStatus, errorThrown) {
-            console.log('오후 4:46', '335', 11111);
-            console.log('오후 4:46', '336', jqHXR);
             ajaxErrorAlert(jqHXR);
         });
     }
 
-    // Add Data - regist button click
-    $("#btnPopRegist").on("click", function()
+    function getDataOne(comp_cd)
     {
-        if (!parsleyIsValidate("dataForm")) return false;
+        showWait('.dataModal');
 
-        Swal.fire({
-            title: '',
-            text: "거래처 정보를 저장하시겠습니까?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '확인',
-            cancelButtonText: '취소'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                registModifyData();
-            }
+        $.ajax({
+            url: "/mes/base/company/compOne/" + comp_cd
+            ,type: "get"
+            ,dataType: "json"
+            // ,data: JSON.stringify({})
         })
-    });
+        .done(function (data)
+        {
+            setDataOne("pop_", data);
+            $("#dataForm").find(".key").prop("disabled", true);
+        })
+        .always(function (data) {
+            hideWait('.dataModal');
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+        });
+    }
 
     // Add Data - ajax regist
     function registModifyData()
@@ -419,6 +420,8 @@
         })
         .done(function (data) {
             hideWait('.dataModal');
+            $("#dataModal").modal("hide");
+            getData();
         })
         .always(function (data) {
 
@@ -427,6 +430,58 @@
             ajaxErrorAlert(jqHXR);
             hideWait('.dataModal');
         });
+    }
+
+    $("#btnDelete").on("click", () => {
+
+        Swal.fire({
+            title: '',
+            text: "거래처 정보를 삭제하시겠습니까?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteData();
+            }
+        })
+    });
+
+    function deleteData()
+    {
+        showWait('.container-fluid');
+
+        let deleteItems = [];
+        $.each($("input[name=listCheck]:checked"), function(item, index) {
+            deleteItems.push($(this).closest("tr").find("input[name=comp_cd]").val());
+        });
+
+        $.ajax({
+            type: "delete"
+            ,url: "/mes/base/company/compPackDelete"
+            ,headers: {
+                "Content-Type": "application/json"
+                ,"X-HTTP-Method-Override": "DELETE"
+            }
+            ,dataType: "text"
+            ,data: JSON.stringify({
+                deleteItems: deleteItems
+            })
+        })
+        .done(function (data) {
+            getData();
+            hideWait('.container-fluid');
+        })
+        .always(function (data) {
+
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+        });
+
     }
 
 
