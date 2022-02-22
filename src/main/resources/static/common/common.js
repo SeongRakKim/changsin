@@ -82,12 +82,13 @@ function ajaxErrorAlert(jqHXR) {
 }
 
 function showWait(formId) {
-	run_waitMe($("#" + formId), 4, 'roundBounce')
+	run_waitMe($(formId), 4, 'roundBounce');
 }
 
 function hideWait(formId) {
-	$('#' + formId).waitMe('hide');
+	$(formId).waitMe('hide');
 }
+
 
 function IsNotNull(el) {
 	if (el == null) return false;

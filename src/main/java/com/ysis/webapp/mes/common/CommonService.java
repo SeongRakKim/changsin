@@ -12,6 +12,10 @@ public class CommonService {
 
     @Autowired CommonDAO commonDAO;
 
+    public String getTablePrimaryCode(VMap vmap) throws Exception {
+        return commonDAO.getTablePrimaryCode(vmap);
+    }
+
     public List<Map<String, Object>> baseDetailList(VMap vmap) throws Exception {
         return commonDAO.baseDetailList(vmap);
     }

@@ -12,6 +12,10 @@ public class CommonDAO extends MapperDAO {
 
     private static String mapperName = "common.common";
 
+    public String getTablePrimaryCode(VMap vmap) throws Exception {
+        return selectOneString(mapperName + ".getTablePrimaryCode", vmap.getMap());
+    }
+
     public List<Map<String, Object>> baseDetailList(VMap vmap) throws Exception {
         return selectList(mapperName + ".baseDetailList", vmap.getMap());
     }

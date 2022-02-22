@@ -60,6 +60,12 @@
         // Menu Select
         setTreeMenuActive("${vmap.requestUri}");
 
+        // list check
+        $("#listAll").on("click", () => {
+            console.log('오후 5:30', '243', $("#listAll").is(":checked"));
+            $("input:checkbox[name=listCheck]").prop("checked", $("#listAll").is(":checked"));
+        });
+
         // Parsely set
         window.Parsley.on('field:error', function(field) {
             // This global callback will be called for any field that fails validation.
@@ -119,6 +125,9 @@
             }]
             ,fixedHeader: false
             ,rowId: "test"
+            // ,columns : arguments[0].columns
+            ,responsive : arguments[0].responsive
+            ,columnDefs : arguments[0].columnDefs
             ,ordering: arguments[0].ordering
             ,order: orderArray
             ,rowsGroup: arguments[0].rowspan
@@ -139,7 +148,7 @@
             ,lengthMenu: lengthMenu
             ,language: {
                 lengthMenu: "_MENU_"
-                , zeroRecords: "<div class='text-center'>데이터가 없습니다..</div>"
+                , zeroRecords: "<div class='text-center'>데이터가 없습니다.</div>"
                 , info: "<small>현재 _START_ to _END_ / _TOTAL_건</small>"
                 , infoEmpty: ""
                 , infoFiltered: "<small>( 재검색 : _TOTAL_개 )</small>"

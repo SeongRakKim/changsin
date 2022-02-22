@@ -23,4 +23,19 @@ public class MapperDAO {
         mapperId(selectId);
         return sqlSessionTemplate.selectList(selectId, parameter);
     }
+
+    public String selectOneString(String selectId, Object parameter) {
+        mapperId(selectId);
+        return sqlSessionTemplate.selectOne(selectId, parameter);
+    }
+
+    public Map<String, Object> selectOne(String selectId, Object parameter) {
+        mapperId(selectId);
+        return sqlSessionTemplate.selectOne(selectId, parameter);
+    }
+
+    public int insert(String selectId, Object parameter) {
+        mapperId(selectId);
+        return sqlSessionTemplate.insert(selectId, parameter);
+    }
 }

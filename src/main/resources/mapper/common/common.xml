@@ -5,6 +5,11 @@
 
 <mapper namespace="common.common">
 
+    <select id="getTablePrimaryCode" parameterType="VMap" resultType="string">
+        SELECT NEXT_SEQ_CODE(#{table_type})
+        FROM DUAL
+    </select>
+
     <select id="baseDetailList" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
                ,BASE_CD

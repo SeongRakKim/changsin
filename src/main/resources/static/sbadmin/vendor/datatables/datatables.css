@@ -1024,7 +1024,7 @@ div.dataTables_scroll.dtfc-has-left table.table-bordered {
 }
 
 div.dataTables_scrollBody {
-  border-left: 1px solid #ddd !important;
+  /*border-left: 1px solid #ddd !important;*/
 }
 
 div.dataTables_scrollFootInner table.table-bordered tr th:first-child,

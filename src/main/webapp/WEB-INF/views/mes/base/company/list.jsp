@@ -25,7 +25,7 @@
 
     <%@ include file="/WEB-INF/include/main-progress.jspf"%>
 
-    <div>
+    <div class="main-content">
         <table class="tableSearch table table-hover table-striped table-bordered mb-5" style="margin-bottom: 0.5rem !important;">
             <colgroup>
                 <col style="width: 10%">
@@ -77,35 +77,30 @@
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12">
-<%--                            <table id ="tblMaster" class="table table-bordered dataTable"--%>
-<%--                                   cellspacing="0" role="grid" aria-describedby="dataTable_info"--%>
-<%--                                   style="width: 100%;">--%>
-                            <table id ="tblMaster" class="table table-hover table-striped table-bordered mb-5">
+                            <table id ="tblMaster" class="tblMaster table table-hover table-striped table-bordered mb-5">
                                 <thead>
                                     <tr role="row">
-                                        <th>Name
+                                        <th class="no-sort" style="width: 3%">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="listAll">
+                                                <label class="custom-control-label" for="listAll"></label>
+                                            </div>
+<%--                                            <input type="checkbox" id="listAll" name="listAll" />--%>
                                         </th>
-                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                            aria-label="Position: activate to sort column ascending" style="width: 117.172px;">
-                                            Position
-                                        </th>
-                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                            aria-label="Office: activate to sort column ascending" style="width: 63.4219px;">Office
-                                        </th>
-                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                            aria-label="Age: activate to sort column ascending" style="width: 30.1719px;">Age
-                                        </th>
-                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                            aria-label="Start date: activate to sort column ascending" style="width: 70.1406px;">
-                                            Start date
-                                        </th>
-                                        <th class="sorting" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
-                                            aria-label="Salary: activate to sort column ascending" style="width: 66.1406px;">Salary
-                                        </th>
+                                        <th>거래처코드</th>
+                                        <th>거래처명</th>
+                                        <th>구분</th>
+                                        <th>분류</th>
+                                        <th>업태</th>
+                                        <th>종목</th>
+                                        <th>전화</th>
+                                        <th>FAX</th>
+                                        <th>MAIL</th>
+                                        <th>사업자등록번호</th>
+                                        <th>대표자명</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <%@ include file="/WEB-INF/include/test-data.jspf"%>
                                 </tbody>
                         </table>
                 </div>
@@ -114,7 +109,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="registModal" aria-hidden="true">
+<div class="modal fade dataModal" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="registModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl modal-form-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -123,15 +118,15 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form id="dataForm" name="dataForm" method="post">
+            <form id="dataForm" name="dataForm" class="dataForm" method="post">
                 <div class="modal-body">
                     <table id="tblPopData" class="table table-hover table-bordered mb-5 table-form">
                         <tbody>
                             <tr>
-                                <th>거래처코드<span class="red"> (필수)</span></th>
+                                <th>거래처코드</th>
                                 <td>
-                                    <input type="text" id="pop_comp_cd" name="pop_comp_cd" class="form-control" placeholder="거래처코드" title="거래처코드"
-                                           required />
+                                    <input type="text" id="pop_comp_cd" name="pop_comp_cd" class="form-control" placeholder="거래처코드 / 미입력 시 자동생성" title="거래처코드"
+                                           />
                                     <div class="invalid-feedback"></div>
                                 </td>
                                 <th>거래처명<span class="red"> (필수)</span></th>
@@ -209,7 +204,7 @@
                             <tr>
                                 <th>비고</th>
                                 <td colspan="5">
-                                    <input type="text" id="pop_comp_nt" name="pop_comp_nt" class="form-control" placeholder="비고" title="비고" />
+                                    <input type="text" id="pop_comp_notice" name="pop_comp_notice" class="form-control" placeholder="비고" title="비고" />
                                 </td>
                             </tr>
                         </tbody>
@@ -238,10 +233,26 @@
 </div>
 
 <script>
-    $(function()
-    {
+
+    $(document).ready(() => {
         // DataTables setting
         setDatatable();
+    });
+
+
+    // button Event
+
+    // 조회
+    $("#btnSearch").on("click", () => { getData() });
+
+    // Add Data - Call Data Form
+    $("#btnNew").on("click", () => {
+        $("#dataModal").modal("show");
+        $("#form-modal-title").text("거래처 추가");
+        $("#btnPopRegist").show();
+        $("#btnPopModify").hide();
+
+        resetForm("dataForm");
     });
 
 
@@ -251,6 +262,7 @@
         var arguments = {
             sheetID: "tblMaster"
             ,ordering: true
+            ,responsive: true
             ,orderIdx: []
             ,orderGubn:	[]
             ,rowspan: ""
@@ -261,23 +273,98 @@
             ,filter: true
             ,stateSave: true
             ,collapse: false
-            ,scrollY: 580
+            ,scrollY: 570
             ,selected: true
             ,multiSelected: false
+            ,columnDefs : [
+                {
+                    "targets": 'no-sort',
+                    "orderable": false
+                }
+            ]
         };
 
         setDataTablesOption(arguments);
 
+        // setTimeout(function() {
+        //     $("#" + arguments.sheetID).DataTable().draw(false);
+        // }, 300);
+        //
+        // $(window).resize(function() {
+        //     if($.fn.DataTable.isDataTable("#" + arguments.sheetID)) {
+        //         $("#" + arguments.sheetID).DataTable().draw(false);
+        //     }
+        // });
     }
 
-    // Add Data - Call Data Form
-    $("#btnNew").on("click",function() {
-        $("#dataModal").modal("show");
-        $("#form-modal-title").text("거래처 추가");
-        $("#btnPopRegist").show();
-        $("#btnPopModify").hide();
-    });
+    function resetForm(formId)
+    {
+        $("#"+formId).find("input").val("");
+        $("#"+formId).find("select").val("");
+        $("#"+formId).find("input[name$='yn']").val("Y");
+    }
 
+    function getData()
+    {
+        showWait('.container-fluid');
+
+        $.ajax({
+            url: "/mes/base/company/compList"
+            ,type: "post"
+            ,headers: {
+                "Content-Type": "application/json"
+                ,"X-HTTP-Method-Override": "POST"
+            }
+            ,dataType: "json"
+            ,data: JSON.stringify({
+                fact_cd: "${vmap.fact_cd}"
+                ,comp_type: $("#comp_type").val()
+                ,comp_group: $("#comp_group").val()
+            })
+        })
+        .done(function (data)
+        {
+            $("#tblMaster").DataTable().clear();
+
+            data.forEach((item, index) => {
+                let node = [];
+
+                let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
+                                   "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
+                                   "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
+                                   "</div>";
+
+                node.push(checkBoxNode);
+                node.push(IsEmpty(item.comp_cd));
+                node.push(IsEmpty(item.comp_nm));
+                node.push(IsEmpty(item.comp_type_nm));
+                node.push(IsEmpty(item.comp_group_nm));
+                node.push(IsEmpty(item.comp_busin_stat));
+                node.push(IsEmpty(item.comp_busin_kind));
+                node.push(IsEmpty(item.comp_tel));
+                node.push(IsEmpty(item.comp_fax));
+                node.push(IsEmpty(item.comp_email));
+                node.push(IsEmpty(item.comp_busin_num));
+                node.push(IsEmpty(item.comp_ceo));
+
+                // 각 row node 추가
+                $('#tblMaster').DataTable().row.add(node).node();
+            });
+
+            // datatables draw
+            $('#tblMaster').DataTable().draw(false);
+        })
+        .always(function (data) {
+            hideWait('.container-fluid');
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            console.log('오후 4:46', '335', 11111);
+            console.log('오후 4:46', '336', jqHXR);
+            ajaxErrorAlert(jqHXR);
+        });
+    }
+
+    // Add Data - regist button click
     $("#btnPopRegist").on("click", function()
     {
         if (!parsleyIsValidate("dataForm")) return false;
@@ -298,9 +385,10 @@
         })
     });
 
+    // Add Data - ajax regist
     function registModifyData()
     {
-        showWait('dataModal');
+        showWait('.dataModal');
 
         $.ajax({
             type: "post"
@@ -309,7 +397,7 @@
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "POST"
             }
-            ,dataType: "json"
+            ,dataType: "text"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
                 ,comp_cd: $("#pop_comp_cd").val()
@@ -326,18 +414,18 @@
                 ,comp_busin_stat: $("#pop_comp_busin_stat").val()
                 ,comp_busin_kind: $("#pop_comp_busin_kind").val()
                 ,comp_address: $("#pop_comp_address").val()
-                ,comp_nt: $("#pop_comp_nt").val()
+                ,comp_notice: $("#pop_comp_notice").val()
             })
         })
         .done(function (data) {
-            console.log('오후 3:09', '333', data);
+            hideWait('.dataModal');
         })
         .always(function (data) {
 
         })
         .fail(function (jqHXR, textStatus, errorThrown) {
             ajaxErrorAlert(jqHXR);
-            hideWait('dataModal');
+            hideWait('.dataModal');
         });
     }
 
