@@ -80,6 +80,49 @@
            AND COMP_CD = #{comp_cd}
     </select>
 
+    <select id="compOverlap" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,COMP_CD
+               ,COMP_NM
+               ,COMP_TYPE
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = COMP_TYPE
+                ) COMP_TYPE_NM
+               ,COMP_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                   FROM DFT_BASE_DETAIL
+                  WHERE BASE_DETAIL_CD = COMP_GROUP
+                 ) COMP_GROUP_NM
+               ,COMP_BUSIN_NUM
+               ,COMP_CEO
+               ,COMP_BUSIN_STAT
+               ,COMP_BUSIN_KIND
+               ,COMP_TEL
+               ,COMP_FAX
+               ,COMP_ADDRESS
+               ,COMP_EMAIL
+               ,COMP_MANA
+               ,COMP_MANA_TEL
+               ,COMP_YN
+               ,COMP_NOTICE
+               ,COMP_INDATE
+               ,COMP_INUSER
+               ,COMP_UPDATE
+               ,COMP_UPUSER
+          FROM MES_COMPANY_INFO
+         WHERE COMP_YN = 'Y'
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(comp_cd)">
+            AND COMP_CD = #{comp_cd}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(comp_type)">
+            AND COMP_TYPE = #{comp_type}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(comp_group)">
+            AND COMP_GROUP = #{comp_group}
+        </if>
+    </select>
+
     <insert id="compRegistModify" parameterType="VMap">
         INSERT INTO MES_COMPANY_INFO
         (

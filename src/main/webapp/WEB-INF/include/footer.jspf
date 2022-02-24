@@ -62,8 +62,11 @@
 
         // list check
         $("#listAll").on("click", () => {
-            console.log('오후 5:30', '243', $("#listAll").is(":checked"));
             $("input:checkbox[name=listCheck]").prop("checked", $("#listAll").is(":checked"));
+        });
+
+        $("#tblMaster").on("click", "tr", function() {
+            $(this).find("[name=listCheck]").prop("checked", $(this).find("[name=listCheck]").is(":checked") ? false : true);
         });
 
         // Parsely set
@@ -167,6 +170,8 @@
     }
 
 </script>
+
+<%--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">--%>
 
 <%-- waitMe --%>
 <link rel="stylesheet" type="text/css" href="/plugin/waitme/waitMe.min.css">

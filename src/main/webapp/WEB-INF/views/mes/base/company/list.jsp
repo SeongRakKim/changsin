@@ -77,7 +77,7 @@
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12">
-                            <table id ="tblMaster" class="tblMaster table table-hover table-striped table-bordered mb-5">
+                            <table id ="tblMaster" class="table-list table table-hover table-striped table-bordered mb-5">
                                 <thead>
                                     <tr role="row">
                                         <th class="no-sort" style="width: 3%">
@@ -237,10 +237,52 @@
         // DataTables setting
         setDatatable();
         getData();
+        // initAutoCompelte("#pop_comp_cd");
     });
 
-
-    // button Event
+    function initAutoCompelte(el)
+    {
+        $(el).autocomplete({
+            source : function(reuqest, response) {
+                $.ajax({
+                    type : 'get',
+                    url: '/json',
+                    dataType : 'json',
+                    success : function(data) {
+                        // 서버에서 json 데이터 response 후 목록 추가
+                        response(
+                            $.map(data, function(item) {
+                                return {
+                                    label : item + 'label',
+                                    value : item,
+                                    test : item + 'test'
+                                }
+                            })
+                        );
+                    }
+                });
+            },
+            select : function(event, ui) {
+                console.log(ui);
+                console.log(ui.item.label);
+                console.log(ui.item.value);
+                console.log(ui.item.test);
+            },
+            focus : function(event, ui) {
+                return false;
+            },
+            minLength : 1,
+            autoFocus : true,
+            classes : {
+                'ui-autocomplete': 'highlight'
+            },
+            delay : 500,
+            position : { my : 'right top', at : 'right bottom' },
+            close : function(event) {
+                console.log(event);
+            }
+        });
+    }
 
     // 조회
     $("#btnSearch").on("click", () => { getData() });
@@ -250,10 +292,82 @@
         callEditmodal("거래처 추가");
     });
 
+    // 상세조회
     $("#tblMaster").on("dblclick", "tr", function() {
         let comp_cd = $(this).find("input[name=comp_cd]").val();
         callEditmodal("거래처 수정");
         getDataOne(comp_cd);
+    });
+
+    // 저장
+    $("#btnPopRegist").on("click", () => {
+
+        if($(".invalid-feedback").text() != "") {
+            eAlert("중복된 코드값이 존재합니다.");
+            return;
+        }
+
+        Swal.fire({
+            title: '',
+            text: "거래처 정보를 저장하시겠습니까?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                registModifyData();
+            }
+        });
+
+    });
+
+    // 데이터 삭제
+    $("#btnDelete").on("click", () => {
+
+        Swal.fire({
+            title: '',
+            text: "거래처 정보를 삭제하시겠습니까?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deleteData();
+            }
+        });
+
+    });
+
+    $("#pop_comp_cd").on("keyup", () => {
+        if($("#pop_comp_cd").val().length > 3)
+        {
+            $.ajax({
+                type : 'get'
+                ,url: '/mes/base/company/compOverlap/' + $("#pop_comp_cd").val()
+                ,dataType : 'json'
+            })
+            .done(function (data)
+            {
+                if(data) {
+                    $("#pop_comp_cd").removeClass("is-valid");
+                    $("#pop_comp_cd").addClass("is-invalid");
+                    $(".invalid-feedback").text("중복된 거래처 코드입니다.");
+                }else {
+                    $("#pop_comp_cd").removeClass("is-invalid");
+                    $("#pop_comp_cd").addClass("is-valid");
+                    $(".invalid-feedback").text("");
+                }
+            })
+            .always(function (data) {
+
+            });
+        }
     });
 
     // set tblMaster Database
@@ -302,6 +416,8 @@
         $("#"+formId).find("input").val("");
         $("#"+formId).find("select").val("");
         $("#"+formId).find("input[name$='yn']").val("Y");
+        $(".key").removeClass("is-valid").removeClass("is-invalid");
+        $(".invalid-feedback").text(" ");
     }
 
     function getData()
@@ -431,24 +547,6 @@
             hideWait('.dataModal');
         });
     }
-
-    $("#btnDelete").on("click", () => {
-
-        Swal.fire({
-            title: '',
-            text: "거래처 정보를 삭제하시겠습니까?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '확인',
-            cancelButtonText: '취소'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                deleteData();
-            }
-        })
-    });
 
     function deleteData()
     {

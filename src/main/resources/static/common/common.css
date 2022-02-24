@@ -277,10 +277,16 @@ table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sor
     background-color: #f4f5fd!important;
 }
 
-.tblMaster thead tr th {
+.table-list thead tr th {
     text-align: center !important;
 }
 
-.tblMaster tbody tr td {
+.table-list tbody tr td {
     text-align: center;
+    background-color: white;
+}
+
+.table-list:hover tbody tr:hover td {
+    background: #FDF5E6 !important;
+    color: black !important;
 }

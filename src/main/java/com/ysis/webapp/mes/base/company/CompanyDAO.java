@@ -20,6 +20,10 @@ public class CompanyDAO extends MapperDAO {
         return selectOne(mapperName + ".compOne", vMap.getMap());
     }
 
+    public Map<String, Object> compOverlap(VMap vMap) throws Exception {
+        return selectOne(mapperName + ".compOverlap", vMap.getMap());
+    }
+
     public int compRegistModify(VMap vmap) throws Exception {
         return insert(mapperName + ".compRegistModify", vmap.getMap());
     }

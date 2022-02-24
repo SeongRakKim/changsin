@@ -1,5 +1,6 @@
 package com.ysis.webapp.mes.base.company;
 
+import com.ysis.webapp.common.util.CommonUtils;
 import com.ysis.webapp.common.vo.VMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,9 +28,19 @@ public class CompanyRestController {
     public ResponseEntity<Map<String, Object>> compOne(VMap vmap, @PathVariable("comp_cd") String comp_cd) throws Exception
     {
         vmap.put("comp_cd", comp_cd);
-        Map<String, Object> compList = companyService.compOne(vmap);
+        Map<String, Object> compOne = companyService.compOne(vmap);
 
-        return new ResponseEntity<>(compList, HttpStatus.OK);
+        return new ResponseEntity<>(compOne, HttpStatus.OK);
+    }
+
+    @GetMapping("/mes/base/company/compOverlap/{comp_cd}")
+    public ResponseEntity<Boolean> compOverlap(VMap vmap, @PathVariable("comp_cd") String comp_cd) throws Exception
+    {
+        vmap.put("comp_cd", comp_cd);
+        Map<String, Object> compOverlap = companyService.compOverlap(vmap);
+        boolean isFalg = CommonUtils.isNotEmpty(compOverlap);
+
+        return new ResponseEntity<>(isFalg, HttpStatus.OK);
     }
 
     @PostMapping("/mes/base/company/compRegistModify")
