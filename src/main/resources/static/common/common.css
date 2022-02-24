@@ -161,7 +161,8 @@ table.dataTable tbody > tr.selected, table.dataTable tbody > tr > .selected {bac
 table.dataTable tbody tr.selected, table.dataTable tbody th.selected, table.dataTable tbody td.selected {color: inherit;}
 div.dataTables_wrapper div.dataTables_filter {text-align: left;}
 
-.table>tbody>tr>td {padding:5px 8px 5px 8px !important;}
+/*.table>tbody>tr>td {padding:5px 8px 5px 8px !important;}*/
+.table>tbody>tr>td {padding:3px 6px 3px 6px !important;}
 
 .ellipsis {text-overflow:ellipsis;overflow:hidden;white-space:nowrap;}
 
@@ -198,7 +199,8 @@ div#ui-datepicker-div {z-index:10000 !important;}
 img.lazy {display: none;}
 
 /* DataTables thead 부분 너비 때문에 수정 */
-.table>thead>tr>th {padding: 8px 15px 8px 8px;}
+/*.table>thead>tr>th {padding: 8px 15px 8px 8px;}*/
+.table>thead>tr>th {padding: 4px 10px 6px 4px;}
 table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sorting_desc, table.dataTable thead > tr > th.sorting
 , table.dataTable thead > tr > td.sorting_asc, table.dataTable thead > tr > td.sorting_desc, table.dataTable thead > tr > td.sorting 
 {padding-right:15px;}

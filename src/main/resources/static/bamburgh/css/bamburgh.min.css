@@ -3535,9 +3535,9 @@ input[type="submit"].btn-block {
 .custom-select {
     display: inline-block;
     width: 100%;
-    height: calc(1.2em + 1rem + 2px);
+    height: calc(1em + 0.7rem + 10px);
     padding: 0.53rem 2.3rem 0.53rem 1.3rem;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 400;
     line-height: 1.5;
     color: #3b3e66;
@@ -7352,7 +7352,7 @@ button.bg-second:hover {
 }
 .mb-4,
 .my-4 {
-    margin-bottom: 1.3rem !important;
+    margin-bottom: 0.7rem !important;
 }
 .ml-4,
 .mx-4 {
@@ -10842,7 +10842,8 @@ a.card-img-wrapper:hover .img-wrapper-overlay {
 .table thead th {
     text-transform: uppercase;
     background: #eaf6ff;
-    font-size: 0.83125rem;
+    /*font-size: 0.83125rem;*/
+    font-size: 0.75rem;
 }
 .table tr {
     transition: all 0.2s ease-in-out;
