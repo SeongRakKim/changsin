@@ -16,7 +16,7 @@
             <!-- Page Heading -->
 <%--            <span class="btn btn-pill btn-secondary">--%>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-arrow-right"></i> 기준정보 <i class="fas fa-arrow-right"></i> 거래처정보
+                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 기준정보 <i class="fas fa-chevron-right"></i> 거래처정보
             </span>
         </div>
 
@@ -77,7 +77,8 @@
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12">
-                            <table id ="tblMaster" class="table-list table table-hover table-striped table-bordered mb-5">
+<%--                            <button type="button" class="btn btn-sm btn-success" onclick='setExcelPdfButtonEvent({tableID:"tblMaster", btn:"excel"});'><i class="fas fa-file-excel"></i> 엑셀</button>--%>
+                            <table id ="tblMaster" class="table-list table table-hover table-striped table-bordered mb-5" style="width: 100%">
                                 <thead>
                                     <tr role="row">
                                         <th class="no-sort" style="width: 3%">
@@ -238,6 +239,7 @@
         setDatatable();
         getData();
         // initAutoCompelte("#pop_comp_cd");
+
     });
 
     function initAutoCompelte(el)
@@ -374,9 +376,9 @@
     function setDatatable()
     {
         var arguments = {
-            sheetID: "tblMaster"
+            tabldID: "tblMaster"
             ,ordering: true
-            ,responsive: true
+            // ,responsive: true
             ,orderIdx: []
             ,orderGubn:	[]
             ,rowspan: ""
@@ -399,6 +401,7 @@
         };
 
         setDataTablesOption(arguments);
+
     }
 
     function callEditmodal(title)

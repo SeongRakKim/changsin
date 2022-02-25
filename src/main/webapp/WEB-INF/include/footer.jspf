@@ -114,7 +114,7 @@
         let scrollY = IsNull(arguments[0].scrollY) ? "" : arguments[0].scrollY + "px";
         let lengthMenu = IsNull(arguments[0].lengthMenu) ? [20, 50, 100, 500, 1000] : arguments[0].lengthMenu;
 
-        let $dataTable = $("#" + arguments[0].sheetID).DataTable({
+        let $dataTable = $("#" + arguments[0].tabldID).DataTable({
             buttons: [{
                 extend: "excelHtml5"
                 , footer: true
@@ -166,12 +166,28 @@
             ,footerCallback: arguments[0].footerCallback
             ,serverSide: arguments[0].serverSide
             ,processing: arguments[0].processing
+            // ,scrollX: true
+            // ,fixedColumns: true
         });
+
+        const tabldID = arguments[0].tabldID;
+        let text = "<button type=\"button\" style=\"margin-left: 7px;\" class=\"btn btn-sm btn-success\" onclick=\"setExcelPdfButtonEvent({tableID:" + arguments[0].tabldID + ", btn:'excel'});\"><i class=\"fas fa-file-excel\"></i> 엑셀</button>";
+        $("#tblMaster_filter").append(text);
+
+    }
+
+    function setExcelPdfButtonEvent() {
+        if ($.fn.DataTable.isDataTable("#" + arguments[0].tableID)) {
+            $("#" + arguments[0].tableID).DataTable().button(".buttons-" + arguments[0].btn).trigger();
+        }
     }
 
 </script>
 
 <%--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">--%>
+<%--<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>--%>
+<%--<script src="https://cdn.datatables.net/fixedcolumns/4.0.1/js/dataTables.fixedColumns.min.js"></script>--%>
+
 
 <%-- waitMe --%>
 <link rel="stylesheet" type="text/css" href="/plugin/waitme/waitMe.min.css">
@@ -194,46 +210,41 @@
 <link href="/common/common.css" rel="stylesheet">
 
 <!-- Bootstrap core JavaScript-->
-<%--<script src="/sbadmin/vendor/jquery/jquery.min.js"></script>--%>
 <script src="/sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Core plugin JavaScript-->
-<%--<script src="/sbadmin/vendor/jquery-easing/jquery.easing.min.js"></script>--%>
-
-<!-- Custom scripts for all pages-->
+<%--<!-- Custom scripts for all pages-->--%>
 <script src="/sbadmin/js/sb-admin-2.min.js"></script>
 
-<!-- Page level plugins -->
-<script src="/sbadmin/vendor/chart.js/Chart.min.js"></script>
+<%--<!-- Page level plugins -->--%>
+<%--<script src="/sbadmin/vendor/chart.js/Chart.min.js"></script>--%>
 
-<!-- Page level custom scripts -->
-<script src="/sbadmin/js/demo/chart-area-demo.js"></script>
-<script src="/sbadmin/js/demo/chart-pie-demo.js"></script>
+<%--<!-- Page level custom scripts -->--%>
+<%--<script src="/sbadmin/js/demo/chart-area-demo.js"></script>--%>
+<%--<script src="/sbadmin/js/demo/chart-pie-demo.js"></script>--%>
 
 <%-- Datatables --%>
 <link rel="stylesheet" type="text/css" href="/sbadmin/vendor/datatables/datatables.css"/>
 <script type="text/javascript" src="/sbadmin/vendor/datatables/datatables.js"></script>
 
 <%-- Icon Include --%>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="/bamburgh/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-<!--Bootstrap init-->
+<%--<!--Bootstrap init-->--%>
 <script src="/bamburgh/js/demo/bootstrap/bootstrap.min.js"></script>
 
-<!--Perfect scrollbar-->
+<%--<!--Perfect scrollbar-->--%>
 <script src="/bamburgh/vendor/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
 
-<!--Perfect scrollbar init-->
+<%--<!--Perfect scrollbar init-->--%>
 <script src="/bamburgh/js/demo/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 
-<!--StickyKit-->
+<%--<!--StickyKit-->--%>
 <script src="/bamburgh/vendor/stickykit/js/stickykit.min.js"></script>
-<!--StickyKit init-->
+<%--<!--StickyKit init-->--%>
 
 <script src="/bamburgh/js/demo/stickykit/stickykit.min.js"></script>
-<!--Apexcharts-->
+<%--<!--Apexcharts-->--%>
 
 <script src="/bamburgh/vendor/apexcharts/js/apexcharts.min.js"></script>
 <script src="/bamburgh/js/demo/apexcharts/light-charts.min.js"></script>
