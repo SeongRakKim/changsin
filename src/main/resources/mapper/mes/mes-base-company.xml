@@ -43,6 +43,17 @@
        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(comp_group)">
            AND COMP_GROUP = #{comp_group}
        </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+            AND
+            (
+                COMP_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR COMP_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = COMP_TYPE) LIKE CONCAT('%', #{search_text}, '%')
+                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = COMP_GROUP) LIKE CONCAT('%', #{search_text}, '%')
+                OR COMP_BUSIN_NUM LIKE CONCAT('%', #{search_text}, '%')
+                OR COMP_CEO LIKE CONCAT('%', #{search_text}, '%')
+            )
+        </if>
     </select>
 
     <select id="compOne" parameterType="VMap" resultType="RowMap">

@@ -240,6 +240,95 @@
         getData();
         // initAutoCompelte("#pop_comp_cd");
 
+        $("#comp_type, #comp_group").on("change", () => { getData() });
+
+        // 조회
+        $("#btnSearch").on("click", () => { getData() });
+
+        // Add Data - Call Data Form
+        $("#btnNew").on("click", () => {
+            callEditmodal("거래처 추가");
+        });
+
+        // 상세조회
+        $("#tblMaster").on("dblclick", "tr", function() {
+            let comp_cd = $(this).find("input[name=comp_cd]").val();
+            callEditmodal("거래처 수정");
+            getDataOne(comp_cd);
+        });
+
+        // 저장
+        $("#btnPopRegist").on("click", () => {
+
+            if(IsNotNull($(".invalid-feedback").text())) {
+                eAlert("중복된 코드값이 존재합니다.");
+                return;
+            }
+
+            if(!parsleyIsValidate("dataForm")) return false;
+
+            Swal.fire({
+                title: '',
+                text: "거래처 정보를 저장하시겠습니까?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    registModifyData();
+                }
+            });
+
+        });
+
+        // 데이터 삭제
+        $("#btnDelete").on("click", () => {
+
+            Swal.fire({
+                title: '',
+                text: "거래처 정보를 삭제하시겠습니까?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    deleteData();
+                }
+            });
+
+        });
+
+        $("#pop_comp_cd").on("keyup", () => {
+            if($("#pop_comp_cd").val().length > 3)
+            {
+                $.ajax({
+                    type : 'get'
+                    ,url: '/mes/base/company/compOverlap/' + $("#pop_comp_cd").val()
+                    ,dataType : 'json'
+                })
+                    .done(function (data)
+                    {
+                        if(data) {
+                            $("#pop_comp_cd").removeClass("is-valid");
+                            $("#pop_comp_cd").addClass("is-invalid");
+                            $(".invalid-feedback").text("중복된 거래처 코드입니다.");
+                        }else {
+                            $("#pop_comp_cd").removeClass("is-invalid");
+                            $("#pop_comp_cd").addClass("is-valid");
+                            $(".invalid-feedback").text("");
+                        }
+                    })
+                    .always(function (data) {
+
+                    });
+            }
+        });
     });
 
     function initAutoCompelte(el)
@@ -285,92 +374,6 @@
             }
         });
     }
-
-    // 조회
-    $("#btnSearch").on("click", () => { getData() });
-
-    // Add Data - Call Data Form
-    $("#btnNew").on("click", () => {
-        callEditmodal("거래처 추가");
-    });
-
-    // 상세조회
-    $("#tblMaster").on("dblclick", "tr", function() {
-        let comp_cd = $(this).find("input[name=comp_cd]").val();
-        callEditmodal("거래처 수정");
-        getDataOne(comp_cd);
-    });
-
-    // 저장
-    $("#btnPopRegist").on("click", () => {
-
-        if($(".invalid-feedback").text() != "") {
-            eAlert("중복된 코드값이 존재합니다.");
-            return;
-        }
-
-        Swal.fire({
-            title: '',
-            text: "거래처 정보를 저장하시겠습니까?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '확인',
-            cancelButtonText: '취소'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                registModifyData();
-            }
-        });
-
-    });
-
-    // 데이터 삭제
-    $("#btnDelete").on("click", () => {
-
-        Swal.fire({
-            title: '',
-            text: "거래처 정보를 삭제하시겠습니까?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '확인',
-            cancelButtonText: '취소'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                deleteData();
-            }
-        });
-
-    });
-
-    $("#pop_comp_cd").on("keyup", () => {
-        if($("#pop_comp_cd").val().length > 3)
-        {
-            $.ajax({
-                type : 'get'
-                ,url: '/mes/base/company/compOverlap/' + $("#pop_comp_cd").val()
-                ,dataType : 'json'
-            })
-            .done(function (data)
-            {
-                if(data) {
-                    $("#pop_comp_cd").removeClass("is-valid");
-                    $("#pop_comp_cd").addClass("is-invalid");
-                    $(".invalid-feedback").text("중복된 거래처 코드입니다.");
-                }else {
-                    $("#pop_comp_cd").removeClass("is-invalid");
-                    $("#pop_comp_cd").addClass("is-valid");
-                    $(".invalid-feedback").text("");
-                }
-            })
-            .always(function (data) {
-
-            });
-        }
-    });
 
     // set tblMaster Database
     function setDatatable()
@@ -420,7 +423,8 @@
         $("#"+formId).find("select").val("");
         $("#"+formId).find("input[name$='yn']").val("Y");
         $(".key").removeClass("is-valid").removeClass("is-invalid");
-        $(".invalid-feedback").text(" ");
+        $(".invalid-feedback").text("");
+        $("#"+formId).find(":disabled").prop("disabled", false);
     }
 
     function getData()
@@ -439,6 +443,7 @@
                 fact_cd: "${vmap.fact_cd}"
                 ,comp_type: $("#comp_type").val()
                 ,comp_group: $("#comp_group").val()
+                ,search_text: $("#search_text").val()
             })
         })
         .done(function (data)

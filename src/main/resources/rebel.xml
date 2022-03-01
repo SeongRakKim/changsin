@@ -13,4 +13,11 @@
 		</dir>
 	</classpath>
 
+	<web>
+		<link target="/">
+			<dir name="G:/IntellijProject/changsin/src/main/webapp">
+			</dir>
+		</link>
+	</web>
+
 </application>

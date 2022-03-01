@@ -125,10 +125,10 @@ function IsNotNull(el) {
 	if (el == "NaN") return false;
 	if (el == NaN) return true;
 	if (new String(el).valueOf() == "undefined") return false;
-	var chkStr = new String(el);
-	if( chkStr.valueOf() == "undefined" ) return false;
-	if (chkStr == null) return false;
-	if (chkStr.toString().length == 0 ) return false;  
+	var elString = new String(el);
+	if( elString.valueOf() == "undefined" ) return false;
+	if (elString == null) return false;
+	if (elString.toString().length == 0 ) return false;  
 	return true;
 }
 
@@ -137,10 +137,10 @@ function IsNull(el) {
 	if (el == "NaN") return true;
 	if (el == NaN) return true;
 	if (new String(el).valueOf() == "undefined") return true;
-	var chkStr = new String(el);
-	if( chkStr.valueOf() == "undefined" ) return true;
-	if (chkStr == null) return true;
-	if (chkStr.toString().length == 0 ) return true;  
+	var elString = new String(el);
+	if( elString.valueOf() == "undefined" ) return true;
+	if (elString == null) return true;
+	if (elString.toString().length == 0 ) return true;  
 	return false;
 }
 
@@ -149,10 +149,10 @@ function IsEmpty(el) {
 	if (el == "NaN") return "";
 	if (el == NaN) return "";
 	if (new String(el).valueOf() == "undefined") return "";
-	var chkStr = new String(el);
-	if( chkStr.valueOf() == "undefined" ) return "";
-	if (chkStr == null) return "";
-	if (chkStr.toString().length == 0 ) return "";  
+	var elString = new String(el);
+	if( elString.valueOf() == "undefined" ) return "";
+	if (elString == null) return "";
+	if (elString.toString().length == 0 ) return "";  
 	return el;
 }
 
@@ -1086,21 +1086,19 @@ function fnMoveFocus(event) {
 	var curIndex = 0;
 	var preIndex = 0;
 	var nextIndex = 0;
-	
-	if($(document).find(".rudder").length == 0) return false;
-	
+
 	$.each($(document).find(".rudder"), function(index, item) {
 		if(item == event.target) {
 			curIndex = index;
 		}
 	});
-	
+
 	// 왼쪽, 오른쪽은 제외 : input 내 커서 이동을 위해.. 중요!!
-	
-	// 위로 
+
+	// 위로
 	if (event.keyCode == 38) {
 		preIndex = curIndex - 1;
-		
+
 		if(event.target == document) {
 			$($(document).find(".rudder")[0]).select();
 		}
@@ -1116,7 +1114,7 @@ function fnMoveFocus(event) {
 	// 아래로
 	else if (event.keyCode == 40) {
 		nextIndex = curIndex + 1;
-		
+
 		if(event.target == document) {
 			$($(document).find(".rudder")[0]).select();
 		}
@@ -1132,14 +1130,15 @@ function fnMoveFocus(event) {
 	// 엔터
 	else if (event.keyCode == 13) {
 		var form = $(event.target).closest("form").prop("name");
-		if(ChkIsNotNull(form)) {
+		if(IsNotNull(form)) {
 			$("#" + form).find(".enter-data:visible").trigger("click");
 		}
 		else {
-			goCheck();
+			getData();
 		}
 	}
 }
+
 
 function getPDF(pdf_ort, pdf_id, pdf_name) {
 	var html_width = $("#" + pdf_id).width();

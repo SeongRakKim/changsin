@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class CompanyRestController {
+public class ProductRestController {
 
     @Autowired
     ProductService productService;
 
-    @PostMapping("/mes/base/company/compList")
+    @PostMapping("/mes/base/product/compList")
     public ResponseEntity<List<Map<String, Object>>> compList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
     {
         vmap.set(map);
@@ -25,7 +25,7 @@ public class CompanyRestController {
         return new ResponseEntity<>(compList, HttpStatus.OK);
     }
 
-    @GetMapping("/mes/base/company/compOne/{comp_cd}")
+    @GetMapping("/mes/base/product/compOne/{comp_cd}")
     public ResponseEntity<Map<String, Object>> compOne(VMap vmap, @PathVariable("comp_cd") String comp_cd) throws Exception
     {
         vmap.put("comp_cd", comp_cd);
@@ -34,7 +34,7 @@ public class CompanyRestController {
         return new ResponseEntity<>(compOne, HttpStatus.OK);
     }
 
-    @GetMapping("/mes/base/company/compOverlap/{comp_cd}")
+    @GetMapping("/mes/base/product/compOverlap/{comp_cd}")
     public ResponseEntity<Boolean> compOverlap(VMap vmap, @PathVariable("comp_cd") String comp_cd) throws Exception
     {
         vmap.put("comp_cd", comp_cd);
@@ -44,7 +44,7 @@ public class CompanyRestController {
         return new ResponseEntity<>(isFalg, HttpStatus.OK);
     }
 
-    @PostMapping("/mes/base/company/compRegistModify")
+    @PostMapping("/mes/base/product/compRegistModify")
     public ResponseEntity<String> compRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
     {
         vmap.set(map);
@@ -53,7 +53,7 @@ public class CompanyRestController {
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @DeleteMapping("/mes/base/company/compPackDelete")
+    @DeleteMapping("/mes/base/product/compPackDelete")
     public ResponseEntity<String> compPackDeleteDELETE(VMap vmap, @RequestBody Map<String, Object> map ) throws Exception
     {
         vmap.set(map);

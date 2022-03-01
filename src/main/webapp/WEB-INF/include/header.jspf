@@ -48,7 +48,6 @@
 
         <!-- Page Wrapper -->
         <div id="wrapper">
-
             <%@ include file="/WEB-INF/include/sidebar.jspf" %>
 
                 <!-- Content Wrapper -->

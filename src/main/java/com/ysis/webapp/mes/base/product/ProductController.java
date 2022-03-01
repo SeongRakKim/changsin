@@ -14,7 +14,7 @@ public class ProductController {
 
     @Autowired CommonService commonService;
 
-    @GetMapping("/mes/base/company/list")
+    @GetMapping("/mes/base/product/list")
     public void companyList(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
         vmap.put("requestUri", httpServletRequest.getRequestURI());
 
