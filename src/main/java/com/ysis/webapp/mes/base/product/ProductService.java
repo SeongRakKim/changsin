@@ -16,29 +16,29 @@ public class ProductService {
     @Autowired CommonDAO commonDAO;
     @Autowired ProductDAO productDAO;
 
-    public List<Map<String, Object>> compList(VMap vmap) throws Exception {
-        return productDAO.compList(vmap);
+    public List<Map<String, Object>> prodList(VMap vmap) throws Exception {
+        return productDAO.prodList(vmap);
     }
 
-    public Map<String, Object> compOne(VMap vmap) throws Exception {
-        return productDAO.compOne(vmap);
+    public Map<String, Object> prodOne(VMap vmap) throws Exception {
+        return productDAO.prodOne(vmap);
     }
 
-    public Map<String, Object> compOverlap(VMap vmap) throws Exception {
-        return productDAO.compOverlap(vmap);
+    public Map<String, Object> prodOverlap(VMap vmap) throws Exception {
+        return productDAO.prodOverlap(vmap);
     }
 
     @Transactional
-    public int compRegistModify(VMap vmap) throws Exception {
+    public int prodRegistModify(VMap vmap) throws Exception {
 
-        vmap.put("table_type", "COMP");
-        vmap.put("comp_cd", CommonUtils.isNotEmpty(vmap.getString("comp_cd")) ? vmap.getString("comp_cd") : commonDAO.getTablePrimaryCode(vmap));
+        vmap.put("table_type", "PROD");
+        vmap.put("prod_cd", CommonUtils.isNotEmpty(vmap.getString("prod_cd")) ? vmap.getString("prod_cd") : commonDAO.getTablePrimaryCode(vmap));
 
-        return productDAO.compRegistModify(vmap);
+        return productDAO.prodRegistModify(vmap);
     }
 
-    public int compPackDelete(VMap vmap) throws Exception {
-        return productDAO.compPackDelete(vmap);
+    public int prodPackDelete(VMap vmap) throws Exception {
+        return productDAO.prodPackDelete(vmap);
     }
 
 }

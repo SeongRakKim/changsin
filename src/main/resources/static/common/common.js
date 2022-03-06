@@ -95,7 +95,7 @@ function setDataOne(prefix, data) {
 		let inputType = $("input[name=" + prefix + key + "]").prop("type");
 
 		if(inputType === "text" || inputType === "hidden") {
-			if(key.indexOf("_cost") != -1 || key.indexOf("_qty") != -1 || key.indexOf("_amt") != -1) {
+			if(key.indexOf("_price") != -1 || key.indexOf("_cnt") != -1 || key.indexOf("_amt") != -1 || key.indexOf("_total") != -1) {
 				$("input[name=" + prefix + key + "]").val(IsEmpty(value).comma());
 			}else {
 				$("input[name=" + prefix + key + "]").val(IsEmpty(value));

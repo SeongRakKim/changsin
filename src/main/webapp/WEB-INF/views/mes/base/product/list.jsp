@@ -16,7 +16,7 @@
             <!-- Page Heading -->
 <%--            <span class="btn btn-pill btn-secondary">--%>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 기준정보 <i class="fas fa-chevron-right"></i> 거래처정보
+                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 기준정보 <i class="fas fa-chevron-right"></i> 제품정보
             </span>
         </div>
 
@@ -27,30 +27,38 @@
 
     <div class="main-content">
         <table class="tableSearch table table-hover table-striped table-bordered mb-5" style="margin-bottom: 0.5rem !important;">
-            <colgroup>
-                <col style="width: 10%">
-                <col style="width: 20%">
-                <col style="width: 10%">
-                <col style="width: 20%">
-                <col style="width: 10%">
-                <col style="width: 30%">
-            </colgroup>
+<%--            <colgroup>--%>
+<%--                <col style="width: 10%">--%>
+<%--                <col style="width: 20%">--%>
+<%--                <col style="width: 10%">--%>
+<%--                <col style="width: 20%">--%>
+<%--                <col style="width: 10%">--%>
+<%--                <col style="width: 30%">--%>
+<%--            </colgroup>--%>
             <thead class="thead-light">
                 <tr>
-                    <th>거래처구분</th>
+                    <th>제품종류</th>
                     <td>
-                        <select id="comp_type" name="comp_type" class="custom-select w-100" required="">
-                            <option value="">거래처구분선택</option>
-                            <c:forEach var="item" items="${vmap.compTypeList}" varStatus="status">
+                        <select id="prod_kind" name="prod_kind" class="custom-select w-100" required="">
+                            <option value="">제품종류선택</option>
+                            <option value="PA">완제품</option>
+                            <option value="PH">반제품</option>
+                        </select>
+                    </td>
+                    <th>제품분류</th>
+                    <td>
+                        <select id="prod_group" name="prod_group" class="custom-select w-100" required="">
+                            <option value="">제품분류선택</option>
+                            <c:forEach var="item" items="${vmap.prodGroupList}" varStatus="status">
                                 <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
                             </c:forEach>
                         </select>
                     </td>
-                    <th>거래처분류</th>
+                    <th>제품군</th>
                     <td>
-                        <select id="comp_group" name="comp_group" class="custom-select w-100" required="">
-                            <option value="">거래처분류선택</option>
-                            <c:forEach var="item" items="${vmap.compGroupList}" varStatus="status">
+                        <select id="prod_family" name="prod_family" class="custom-select w-100" required="">
+                            <option value="">제품군선택</option>
+                            <c:forEach var="item" items="${vmap.prodFamilyList}" varStatus="status">
                                 <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
                             </c:forEach>
                         </select>
@@ -87,17 +95,19 @@
                                                 <label class="custom-control-label" for="listAll"></label>
                                             </div>
                                         </th>
-                                        <th>거래처코드</th>
-                                        <th>거래처명</th>
-                                        <th>구분</th>
+                                        <th>제품코드</th>
+                                        <th>품번</th>
+                                        <th>품명</th>
+                                        <th>종류</th>
                                         <th>분류</th>
-                                        <th>업태</th>
-                                        <th>종목</th>
-                                        <th>전화</th>
-                                        <th>FAX</th>
-                                        <th>MAIL</th>
-                                        <th>사업자등록번호</th>
-                                        <th>대표자명</th>
+                                        <th>제품군</th>
+                                        <th>규격</th>
+                                        <th>단위</th>
+                                        <th>단가</th>
+                                        <th>주거래처</th>
+                                        <th>안전재고</th>
+                                        <th>제품재고</th>
+                                        <th>양산여부</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -123,88 +133,108 @@
                     <table id="tblPopData" class="table table-hover table-bordered mb-5 table-form">
                         <tbody>
                             <tr>
-                                <th>거래처코드</th>
+                                <th>제품코드</th>
                                 <td>
-                                    <input type="text" id="pop_comp_cd" name="pop_comp_cd" class="form-control key" placeholder="거래처코드 / 미입력 시 자동생성" title="거래처코드"
+                                    <input type="text" id="pop_prod_cd" name="pop_prod_cd" class="form-control key"
+                                           placeholder="제품코드 / 미입력 시 자동생성" title="제품코드"
                                            />
                                     <div class="invalid-feedback"></div>
                                 </td>
-                                <th>거래처명<span class="red"> (필수)</span></th>
+                                <th>제품품번<span class="red"> (필수)</span></th>
                                 <td>
-                                    <input type="text" id="pop_comp_nm" name="pop_comp_nm" class="form-control" placeholder="거래처명" title="거래처명"
+                                    <input type="text" id="pop_prod_pn" name="pop_prod_pn" class="form-control"
+                                           placeholder="제품품번" title="제품품번"
                                            required />
                                 </td>
-                                <th>사업자등록번호</th>
+                                <th>제품명<span class="red"> (필수)</span></th>
                                 <td>
-                                    <input type="text" id="pop_comp_busin_num" name="pop_comp_busin_num" class="form-control" placeholder="사업자등록번호" title="사업자등록번호" />
+                                    <input type="text" id="pop_prod_nm" name="pop_prod_nm" class="form-control"
+                                           placeholder="제품명" title="제품명"
+                                           required />
                                 </td>
                             </tr>
                             <tr>
-                                <th>거래처구분<span class="red"> (필수)</span></th>
+                                <th> 제품종류<span class="red"> (필수)</span></th>
                                 <td>
-                                    <select id="pop_comp_type" name="pop_comp_type" class="custom-select w-100" title="거래처구분" required>
-                                        <option value="">거래처구분선택</option>
-                                        <c:forEach var="item" items="${vmap.compTypeList}" varStatus="status">
+                                    <select id="pop_prod_kind" name="pop_prod_kind" class="custom-select w-100"  title="제품종류" required>
+                                        <option value="">제품종류선택</option>
+                                        <option value="PA">완제품</option>
+                                        <option value="PH">반제품</option>
+                                    </select>
+                                </td>
+                                <th>제품분류 <span class="red"> (필수)</span></th>
+                                <td>
+                                    <select id="pop_prod_group" name="pop_prod_group" class="custom-select w-100"  title="제품분류" required>
+                                        <option value="">제품분류선택</option>
+                                        <c:forEach var="item" items="${vmap.prodGroupList}" varStatus="status">
                                             <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
                                         </c:forEach>
                                     </select>
                                 </td>
-                                <th>거래처분류</th>
+                                <th>제품군</th>
                                 <td>
-                                    <select id="pop_comp_group" name="pop_comp_group" class="custom-select w-100"  title="거래처분류">
-                                        <option value="">거래처분류선택</option>
-                                        <c:forEach var="item" items="${vmap.compGroupList}" varStatus="status">
+                                    <select id="pop_prod_family" name="pop_prod_family" class="custom-select w-100"  title="제품군">
+                                        <option value="">제품군선택</option>
+                                        <c:forEach var="item" items="${vmap.prodFamilyList}" varStatus="status">
                                             <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
                                         </c:forEach>
                                     </select>
                                 </td>
-                                <th>대표자명</th>
+                            </tr>
+                            <tr>
+                                <th>단위 <span class="red"> (필수)</span></th>
                                 <td>
-                                    <input type="text" id="pop_comp_ceo" name="pop_comp_ceo" class="form-control" placeholder="대표자명" title="대표자명" />
+                                    <select id="pop_prod_unit" name="pop_prod_unit" class="custom-select w-100"  title="단위" required>
+                                        <option value="">단위선택</option>
+                                        <c:forEach var="item" items="${vmap.prodUnitList}" varStatus="status">
+                                            <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                                <th>규격</th>
+                                <td>
+                                    <input type="text" id="pop_prod_stand" name="pop_prod_stand" class="form-control"
+                                           placeholder="규격" title="규격" />
+                                </td>
+                                <th>단가</th>
+                                <td>
+                                    <input type="text" id="pop_prod_price" name="pop_prod_price" class="form-control" value="0"
+                                           placeholder="단가" title="단가" />
                                 </td>
                             </tr>
                             <tr>
-                                <th>대표전화</th>
+                                <th>주거래처</th>
                                 <td>
-                                    <input type="text" id="pop_comp_tel" name="pop_comp_tel" class="form-control" placeholder="대표전화" title="대표전화" />
+                                    <input type="text" id="pop_prod_main_comp" name="pop_prod_main_comp" class="form-control"
+                                           placeholder="주거래처" title="주거래처" />
+                                    <input type="text" id="pop_selector" name="pop_selector" class="form-control"
+                                           placeholder="주거래처" title="주거래처" />
                                 </td>
-                                <th>FAX</th>
+                                <th>안전재고</th>
                                 <td>
-                                    <input type="text" id="pop_comp_fax" name="pop_comp_fax" class="form-control" placeholder="FAX" title="FAX" />
+                                    <input type="text" id="pop_prod_keep_cnt" name="pop_prod_keep_cnt" class="form-control"
+                                           placeholder="안전재고" title="안전재고" />
                                 </td>
-                                <th>E-MAIL</th>
+                                <th>양산제품여부</th>
                                 <td>
-                                    <input type="text" id="pop_comp_email" name="pop_comp_email" class="form-control" placeholder="E-MAIL" title="E-MAIL" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>담당자</th>
-                                <td>
-                                    <input type="text" id="pop_comp_mana" name="pop_comp_mana" class="form-control" placeholder="담당자" title="담당자" />
-                                </td>
-                                <th>담당자연락처</th>
-                                <td>
-                                    <input type="text" id="pop_comp_mana_tel" name="pop_comp_mana_tel" class="form-control" placeholder="담당자연락처" title="담당자연락처" />
-                                </td>
-                                <th>업태</th>
-                                <td>
-                                    <input type="text" id="pop_comp_busin_stat" name="pop_comp_busin_stat" class="form-control" placeholder="업태" title="업태" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>종목</th>
-                                <td>
-                                    <input type="text" id="pop_comp_busin_kind" name="pop_comp_busin_kind" class="form-control" placeholder="종목" title="종목" />
-                                </td>
-                                <th>주소</th>
-                                <td colspan="3">
-                                    <input type="text" id="pop_comp_address" name="pop_comp_address" class="form-control" placeholder="주소" title="주소" />
+                                    <div style="display: flex; flex-wrap: wrap;">
+                                        <div class="custom-control custom-radio my-3">
+<%--                                            <input type="radio" id="customRadio1" name="pop_prod_mass_yn" >--%>
+                                            <input type="radio" id="customRadio1" name="pop_prod_mass_yn" class="custom-control-input" value="Y">
+                                            <label class="custom-control-label" for="customRadio1">예</label>
+                                        </div>
+                                        <div class="custom-control custom-radio my-3">
+<%--                                            <input type="radio" checked="" id="customRadio2" name="pop_prod_mass_yn" >--%>
+                                            <input type="radio" checked="" id="customRadio2" name="pop_prod_mass_yn" class="custom-control-input" value="N">
+                                            <label class="custom-control-label" for="customRadio2">아니오</label>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>비고</th>
                                 <td colspan="5">
-                                    <input type="text" id="pop_comp_notice" name="pop_comp_notice" class="form-control" placeholder="비고" title="비고" />
+                                    <input type="text" id="pop_prod_notice" name="pop_prod_notice" class="form-control" placeholder="비고" title="비고" />
                                 </td>
                             </tr>
                         </tbody>
@@ -238,23 +268,29 @@
         // DataTables setting
         setDatatable();
         getData();
-        // initAutoCompelte("#pop_comp_cd");
+        initAutoCompelte("#pop_selector");
 
-        $("#comp_type, #comp_group").on("change", () => { getData() });
+
+        $("input:radio[name=pop_prod_mass_yn]").on("change", () => {
+            $("input:radio[name=pop_prod_mass_yn]").each(function() {
+            });
+        });
+
+        $("#prod_kind, #prod_family, #prod_group").on("change", () => { getData() });
 
         // 조회
         $("#btnSearch").on("click", () => { getData() });
 
         // Add Data - Call Data Form
         $("#btnNew").on("click", () => {
-            callEditmodal("거래처 추가", "R");
+            callEditmodal("제품 추가", "R");
         });
 
         // 상세조회
         $("#tblMaster").on("dblclick", "tr", function() {
-            let comp_cd = $(this).find("input[name=comp_cd]").val();
-            callEditmodal("거래처 수정", "M");
-            getDataOne(comp_cd);
+            let prod_cd = $(this).find("input[name=prod_cd]").val();
+            callEditmodal("제품 수정", "M");
+            getDataOne(prod_cd);
         });
 
         // 저장
@@ -269,7 +305,7 @@
 
             Swal.fire({
                 title: '',
-                text: "거래처 정보를 저장하시겠습니까?",
+                text: "제품 정보를 저장하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -289,7 +325,7 @@
 
             Swal.fire({
                 title: '',
-                text: "거래처 정보를 삭제하시겠습니까?",
+                text: "제품 정보를 삭제하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -304,23 +340,23 @@
 
         });
 
-        $("#pop_comp_cd").on("keyup", () => {
-            if($("#pop_comp_cd").val().length > 3)
+        $("#pop_prod_cd").on("keyup", () => {
+            if($("#pop_prod_cd").val().length > 3)
             {
                 $.ajax({
                     type : 'get'
-                    ,url: '/mes/base/company/compOverlap/' + $("#pop_comp_cd").val()
+                    ,url: '/mes/base/product/prodOverlap/' + $("#pop_prod_cd").val()
                     ,dataType : 'json'
                 })
                     .done(function (data)
                     {
                         if(data) {
-                            $("#pop_comp_cd").removeClass("is-valid");
-                            $("#pop_comp_cd").addClass("is-invalid");
-                            $(".invalid-feedback").text("중복된 거래처 코드입니다.");
+                            $("#pop_prod_cd").removeClass("is-valid");
+                            $("#pop_prod_cd").addClass("is-invalid");
+                            $(".invalid-feedback").text("중복된 제품 코드입니다.");
                         }else {
-                            $("#pop_comp_cd").removeClass("is-invalid");
-                            $("#pop_comp_cd").addClass("is-valid");
+                            $("#pop_prod_cd").removeClass("is-invalid");
+                            $("#pop_prod_cd").addClass("is-valid");
                             $(".invalid-feedback").text("");
                         }
                     })
@@ -329,24 +365,30 @@
                     });
             }
         });
+
     });
 
     function initAutoCompelte(el)
     {
         $(el).autocomplete({
+            search: function(event, ui) {
+                if(event.keyCode == 37 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40) {
+                    event.preventDefault();
+                }
+            },
             source : function(reuqest, response) {
                 $.ajax({
                     type : 'get',
-                    url: '/json',
+                    url: '/mes/base/company/compCompletOverlap/' + $(el).val(),
                     dataType : 'json',
                     success : function(data) {
                         // 서버에서 json 데이터 response 후 목록 추가
                         response(
                             $.map(data, function(item) {
                                 return {
-                                    label : item + 'label',
-                                    value : item,
-                                    test : item + 'test'
+                                    label : "[" + item.comp_cd + "] " + item.comp_nm,
+                                    value : "[" + item.comp_cd + "] " + item.comp_nm,
+                                    comp_cd : item.comp_cd
                                 }
                             })
                         );
@@ -354,10 +396,7 @@
                 });
             },
             select : function(event, ui) {
-                console.log(ui);
-                console.log(ui.item.label);
-                console.log(ui.item.value);
-                console.log(ui.item.test);
+                $("#pop_prod_main_comp").val(ui.item.comp_cd);
             },
             focus : function(event, ui) {
                 return false;
@@ -421,12 +460,17 @@
 
     function resetForm(formId)
     {
-        $("#"+formId).find("input").val("");
+        $("#"+formId).find("input:text").val("");
+        $("#"+formId).find("input:hidden").not(":radio").val("");
         $("#"+formId).find("select").val("");
-        $("#"+formId).find("input[name$='yn']").val("Y");
+        // $("#"+formId).find("input[name$='yn']").val("Y");
         $(".key").removeClass("is-valid").removeClass("is-invalid");
         $(".invalid-feedback").text("");
         $("#"+formId).find(":disabled").prop("disabled", false);
+
+        $("#"+formId).find("input[name$='price']").val(0);
+        $("#"+formId).find("input[name$='amt']").val(0);
+        $("#"+formId).find("input[name$='cnt']").val(0);
     }
 
     function getData()
@@ -434,7 +478,7 @@
         showWait('.container-fluid');
 
         $.ajax({
-            url: "/mes/base/company/compList"
+            url: "/mes/base/product/prodList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -443,8 +487,9 @@
             ,dataType: "json"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,comp_type: $("#comp_type").val()
-                ,comp_group: $("#comp_group").val()
+                ,prod_kind: $("#prod_kind").val()
+                ,prod_family: $("#prod_family").val()
+                ,prod_group: $("#prod_group").val()
                 ,search_text: $("#search_text").val()
             })
         })
@@ -456,23 +501,25 @@
                 let node = [];
 
                 let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
-                                   "    <input type=\"hidden\" name=\"comp_cd\" value=\"" + item.comp_cd + "\">" +
+                                   "    <input type=\"hidden\" name=\"prod_cd\" value=\"" + item.prod_cd + "\">" +
                                    "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
                                    "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
                                    "</div>";
 
                 node.push(checkBoxNode);
-                node.push(IsEmpty(item.comp_cd));
-                node.push(IsEmpty(item.comp_nm));
-                node.push(IsEmpty(item.comp_type_nm));
-                node.push(IsEmpty(item.comp_group_nm));
-                node.push(IsEmpty(item.comp_busin_stat));
-                node.push(IsEmpty(item.comp_busin_kind));
-                node.push(IsEmpty(item.comp_tel));
-                node.push(IsEmpty(item.comp_fax));
-                node.push(IsEmpty(item.comp_email));
-                node.push(IsEmpty(item.comp_busin_num));
-                node.push(IsEmpty(item.comp_ceo));
+                node.push(IsEmpty(item.prod_cd));
+                node.push(IsEmpty(item.prod_pn));
+                node.push(IsEmpty(item.prod_nm));
+                node.push(IsEmpty(item.prod_kind_nm));
+                node.push(IsEmpty(item.prod_group_nm));
+                node.push(IsEmpty(item.prod_family_nm));
+                node.push(IsEmpty(item.prod_stand));
+                node.push(IsEmpty(item.prod_unit_nm));
+                node.push(IsEmpty(item.prod_price.comma('2')));
+                node.push(IsEmpty(item.prod_main_comp_nm));
+                node.push(IsEmpty(item.prod_keep_cnt.comma('2')));
+                node.push(IsEmpty(item.prod_stock_cnt.comma('2')));
+                node.push(IsEmpty(item.prod_mass_yn));
 
                 // 각 row node 추가
                 $("#tblMaster").DataTable().row.add(node).node();
@@ -489,12 +536,12 @@
         });
     }
 
-    function getDataOne(comp_cd)
+    function getDataOne(prod_cd)
     {
         showWait('.dataModal');
 
         $.ajax({
-            url: "/mes/base/company/compOne/" + comp_cd
+            url: "/mes/base/product/prodOne/" + prod_cd
             ,type: "get"
             ,dataType: "json"
             // ,data: JSON.stringify({})
@@ -503,6 +550,7 @@
         {
             setDataOne("pop_", data);
             $("#dataForm").find(".key").prop("disabled", true);
+            $("#pop_selector").val(data.prod_main_comp_nm);
         })
         .always(function (data) {
             hideWait('.dataModal');
@@ -519,7 +567,7 @@
 
         $.ajax({
             type: "post"
-            ,url: "/mes/base/company/compRegistModify"
+            ,url: "/mes/base/product/prodRegistModify"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "POST"
@@ -527,21 +575,19 @@
             ,dataType: "text"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,comp_cd: $("#pop_comp_cd").val()
-                ,comp_nm: $("#pop_comp_nm").val()
-                ,comp_busin_num: $("#pop_comp_busin_num").val()
-                ,comp_type: $("#pop_comp_type").val()
-                ,comp_group: $("#pop_comp_group").val()
-                ,comp_ceo: $("#pop_comp_ceo").val()
-                ,comp_tel: $("#pop_comp_tel").val()
-                ,comp_fax: $("#pop_comp_fax").val()
-                ,comp_email: $("#pop_comp_email").val()
-                ,comp_mana: $("#pop_comp_mana").val()
-                ,comp_mana_tel: $("#pop_comp_mana_tel").val()
-                ,comp_busin_stat: $("#pop_comp_busin_stat").val()
-                ,comp_busin_kind: $("#pop_comp_busin_kind").val()
-                ,comp_address: $("#pop_comp_address").val()
-                ,comp_notice: $("#pop_comp_notice").val()
+                ,prod_cd: $("#pop_prod_cd").val()
+                ,prod_pn: $("#pop_prod_pn").val()
+                ,prod_nm: $("#pop_prod_nm").val()
+                ,prod_kind: $("#pop_prod_kind").val()
+                ,prod_group: $("#pop_prod_group").val()
+                ,prod_family: $("#pop_prod_family").val()
+                ,prod_unit: $("#pop_prod_unit").val()
+                ,prod_stand: $("#pop_prod_stand").val()
+                ,prod_price: $("#pop_prod_price").val().replace(/,/g, "")
+                ,prod_main_comp: $("#pop_prod_main_comp").val()
+                ,prod_keep_cnt: $("#pop_prod_keep_cnt").val().replace(/,/g, "")
+                ,prod_mass_yn: $("input:radio[name=pop_prod_mass_yn]:checked").val()
+                ,prod_notice: $("#pop_prod_notice").val()
             })
         })
         .done(function (data) {
@@ -564,12 +610,12 @@
 
         let deleteItems = [];
         $.each($("input[name=listCheck]:checked"), function(item, index) {
-            deleteItems.push($(this).closest("tr").find("input[name=comp_cd]").val());
+            deleteItems.push($(this).closest("tr").find("input[name=prod_cd]").val());
         });
 
         $.ajax({
             type: "delete"
-            ,url: "/mes/base/company/compPackDelete"
+            ,url: "/mes/base/product/prodPackDelete"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "DELETE"

@@ -18,11 +18,17 @@ public class ProductController {
     public void companyList(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
         vmap.put("requestUri", httpServletRequest.getRequestURI());
 
-        vmap.put("base_cd", "comp_group");
-        vmap.put("compGroupList", commonService.baseDetailList(vmap));
+        // 분류
+        vmap.put("base_cd", "prod_group");
+        vmap.put("prodGroupList", commonService.baseDetailList(vmap));
 
-        vmap.put("base_cd", "comp_type");
-        vmap.put("compTypeList", commonService.baseDetailList(vmap));
+        // 제품군
+        vmap.put("base_cd", "prod_family");
+        vmap.put("prodFamilyList", commonService.baseDetailList(vmap));
+
+        // 단위
+        vmap.put("base_cd", "prod_unit");
+        vmap.put("prodUnitList", commonService.baseDetailList(vmap));
     }
 
 }

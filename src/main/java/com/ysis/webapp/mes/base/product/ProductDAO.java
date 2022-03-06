@@ -12,24 +12,24 @@ public class ProductDAO extends MapperDAO {
 
     private static String mapperName = "mes.base.product";
 
-    public List<Map<String, Object>> compList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".compList", vMap.getMap());
+    public List<Map<String, Object>> prodList(VMap vMap) throws Exception {
+        return selectList(mapperName + ".prodList", vMap.getMap());
     }
 
-    public Map<String, Object> compOne(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".compOne", vMap.getMap());
+    public Map<String, Object> prodOne(VMap vMap) throws Exception {
+        return selectOne(mapperName + ".prodOne", vMap.getMap());
     }
 
-    public Map<String, Object> compOverlap(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".compOverlap", vMap.getMap());
+    public Map<String, Object> prodOverlap(VMap vMap) throws Exception {
+        return selectOne(mapperName + ".prodOverlap", vMap.getMap());
     }
 
-    public int compRegistModify(VMap vmap) throws Exception {
-        return insert(mapperName + ".compRegistModify", vmap.getMap());
+    public int prodRegistModify(VMap vmap) throws Exception {
+        return insert(mapperName + ".prodRegistModify", vmap.getMap());
     }
 
-    public int compPackDelete(VMap vmap) throws Exception {
-        return delete(mapperName + ".compPackDelete", vmap.getMap());
+    public int prodPackDelete(VMap vmap) throws Exception {
+        return delete(mapperName + ".prodPackDelete", vmap.getMap());
     }
 
 }

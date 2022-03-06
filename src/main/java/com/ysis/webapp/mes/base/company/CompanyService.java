@@ -28,6 +28,10 @@ public class CompanyService {
         return companyDAO.compOverlap(vmap);
     }
 
+    public List<Map<String, Object>> compCompletOverlap(VMap vmap) throws Exception {
+        return companyDAO.compCompletOverlap(vmap);
+    }
+
     @Transactional
     public int compRegistModify(VMap vmap) throws Exception {
 

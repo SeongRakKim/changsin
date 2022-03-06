@@ -43,6 +43,15 @@ public class CompanyRestController {
         return new ResponseEntity<>(isFalg, HttpStatus.OK);
     }
 
+    @GetMapping("/mes/base/company/compCompletOverlap/{selector}")
+    public ResponseEntity<List<Map<String, Object>>> compCompletOverlap(VMap vmap, @PathVariable("selector") String selector) throws Exception
+    {
+        vmap.put("selector", selector);
+        List<Map<String, Object>> compOverlapList = companyService.compCompletOverlap(vmap);
+
+        return new ResponseEntity<>(compOverlapList, HttpStatus.OK);
+    }
+
     @PostMapping("/mes/base/company/compRegistModify")
     public ResponseEntity<String> compRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
     {

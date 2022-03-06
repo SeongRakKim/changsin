@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.base.product">
+
+    <select id="prodList" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_PRICE
+               ,PROD_MAIN_COMP
+               ,(SELECT COMP_NM
+                  FROM MES_COMPANY_INFO
+                  WHERE COMP_CD = PROD_MAIN_COMP
+                ) PROD_MAIN_COMP_NM
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_YN
+               ,PROD_MASS_YN
+               ,PROD_NOTICE
+               ,PROD_INDATE
+               ,PROD_INUSER
+               ,PROD_UPDATE
+               ,PROD_UPUSER
+          FROM MES_PRODUCT_INFO
+         WHERE PROD_YN = 'Y'
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+           AND PROD_KIND = #{prod_kind}
+       </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+           AND PROD_FAMILY = #{prod_family}
+       </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+           AND PROD_GROUP = #{prod_group}
+       </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+            AND
+            (
+                PROD_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_PN LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_GROUP) LIKE CONCAT('%', #{search_text}, '%')
+                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
+            )
+        </if>
+    </select>
+
+    <select id="prodOne" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_PRICE
+               ,PROD_MAIN_COMP
+               ,(SELECT COMP_NM
+                  FROM MES_COMPANY_INFO
+                  WHERE COMP_CD = PROD_MAIN_COMP
+                ) PROD_MAIN_COMP_NM
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_YN
+               ,PROD_MASS_YN
+               ,PROD_NOTICE
+               ,PROD_INDATE
+               ,PROD_INUSER
+               ,PROD_UPDATE
+               ,PROD_UPUSER
+          FROM MES_PRODUCT_INFO
+         WHERE PROD_YN = 'Y'
+           AND PROD_CD = #{prod_cd}
+    </select>
+
+    <select id="prodOverlap" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_PRICE
+               ,PROD_MAIN_COMP
+               ,(SELECT COMP_NM
+                  FROM MES_COMPANY_INFO
+                  WHERE COMP_CD = PROD_MAIN_COMP
+                ) PROD_MAIN_COMP_NM
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_YN
+               ,PROD_MASS_YN
+               ,PROD_NOTICE
+               ,PROD_INDATE
+               ,PROD_INUSER
+               ,PROD_UPDATE
+               ,PROD_UPUSER
+          FROM MES_PRODUCT_INFO
+         WHERE PROD_YN = 'Y'
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+            AND PROD_KIND = #{prod_kind}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+            AND PROD_GROUP = #{prod_group}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+            AND PROD_FAMILY = #{prod_family}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
+            AND PROD_CD = #{prod_cd}
+        </if>
+    </select>
+
+    <select id="prodCompletOverlap" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_PRICE
+               ,PROD_MAIN_COMP
+               ,(SELECT COMP_NM
+                  FROM MES_COMPANY_INFO
+                  WHERE COMP_CD = PROD_MAIN_COMP
+               ) PROD_MAIN_COMP_NM
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_YN
+               ,PROD_MASS_YN
+               ,PROD_NOTICE
+               ,PROD_INDATE
+               ,PROD_INUSER
+               ,PROD_UPDATE
+               ,PROD_UPUSER
+          FROM MES_PRODUCT_INFO
+         WHERE PROD_YN = 'Y'
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
+            AND
+            (
+                PROD_NM LIKE CONCAT('%', #{selector}, '%')
+            )
+        </if>
+    </select>
+
+    <insert id="prodRegistModify" parameterType="VMap">
+        INSERT INTO MES_PRODUCT_INFO
+        (
+            FACT_CD
+            ,PROD_CD
+            ,PROD_PN
+            ,PROD_NM
+            ,PROD_KIND
+            ,PROD_GROUP
+            ,PROD_FAMILY
+            ,PROD_STAND
+            ,PROD_UNIT
+            ,PROD_PRICE
+            ,PROD_MAIN_COMP
+            ,PROD_KEEP_CNT
+            ,PROD_STOCK_CNT
+            ,PROD_YN
+            ,PROD_MASS_YN
+            ,PROD_NOTICE
+            ,PROD_INDATE
+            ,PROD_INUSER
+            ,PROD_UPDATE
+            ,PROD_UPUSER
+        )VALUES
+        (
+            #{fact_cd}
+            ,#{prod_cd}
+            ,#{prod_pn}
+            ,#{prod_nm}
+            ,#{prod_kind}
+            ,#{prod_group}
+            ,#{prod_family}
+            ,#{prod_stand}
+            ,#{prod_unit}
+            ,#{prod_price}
+            ,#{prod_main_comp}
+            ,#{prod_keep_cnt}
+            ,0
+            ,'Y'
+            ,#{prod_mass_yn}
+            ,#{prod_notice}
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+        )
+        ON DUPLICATE KEY UPDATE
+             PROD_PN = #{prod_pn}
+            ,PROD_NM = #{prod_nm}
+            ,PROD_KIND = #{prod_kind}
+            ,PROD_GROUP = #{prod_group}
+            ,PROD_FAMILY = #{prod_family}
+            ,PROD_STAND = #{prod_stand}
+            ,PROD_UNIT = #{prod_unit}
+            ,PROD_PRICE = #{prod_price}
+            ,PROD_MAIN_COMP = #{prod_main_comp}
+            ,PROD_KEEP_CNT = #{prod_keep_cnt}
+            ,PROD_MASS_YN = #{prod_mass_yn}
+            ,PROD_NOTICE = #{prod_notice}
+            ,PROD_UPDATE = NOW()
+            ,PROD_UPUSER = IFNULL(#{u_cd}, 'system')
+    </insert>
+
+    <delete id="prodPackDelete" parameterType="VMap">
+        DELETE FROM MES_PRODUCT_INFO
+        WHERE PROD_CD IN
+        <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

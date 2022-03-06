@@ -69,6 +69,14 @@
             $(this).find("[name=listCheck]").prop("checked", $(this).find("[name=listCheck]").is(":checked") ? false : true);
         });
 
+        $("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total']").css("text-align", "right")
+            .on("click", () => {
+                $(this).select();
+            })
+            .on("keyup", function() {
+                $(this).val($(this).val().comma("2"));
+            });
+
         $(document)
             .on("keydown", function (event) {
                 if (event.keyCode == 13 && event.target.tagName != "TEXTAREA") {
@@ -143,7 +151,7 @@
         }
 
         let scrollY = IsNull(arguments[0].scrollY) ? "" : arguments[0].scrollY + "px";
-        let lengthMenu = IsNull(arguments[0].lengthMenu) ? [20, 50, 100, 500, 1000] : arguments[0].lengthMenu;
+        let lengthMenu = IsNull(arguments[0].lengthMenu) ? [15, 50, 100, 500, 1000] : arguments[0].lengthMenu;
 
         let $dataTable = $("#" + arguments[0].tabldID).DataTable({
             buttons: [{

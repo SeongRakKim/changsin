@@ -161,8 +161,7 @@ table.dataTable tbody > tr.selected, table.dataTable tbody > tr > .selected {bac
 table.dataTable tbody tr.selected, table.dataTable tbody th.selected, table.dataTable tbody td.selected {color: inherit;}
 div.dataTables_wrapper div.dataTables_filter {text-align: left;}
 
-/*.table>tbody>tr>td {padding:5px 8px 5px 8px !important;}*/
-.table>tbody>tr>td {padding:3px 6px 3px 6px !important;}
+.table>tbody>tr>td {padding:6px 8px 6px 8px !important;}
 
 .ellipsis {text-overflow:ellipsis;overflow:hidden;white-space:nowrap;}
 
@@ -272,9 +271,17 @@ table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sor
     }
 }
 
+.table-form tbody tr th, .table-form tbody tr td {
+    border: 1px solid gray; !important;
+    color: black !important;
+}
+
 .table-form th {
     text-align: center !important;
-    background-color: #f4f5fd!important;
+    /*background-color: #f4f5fd!important;*/
+    /*background-color: #f4f5fd!important;*/
+    /*background-image: linear-gradient(0deg,#cfd9df 0,#e2ebf0)!important;*/
+    background-color: #f5f5f7!important;
 }
 
 .table-list thead tr th {
@@ -294,6 +301,19 @@ table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sor
     color: black !important;
 }
 
-.dataTables_scrollHeadInner, .table{
-    width:100%!important
+.dataTables_scrollHeadInner, .dataTable{
+    width:100%;
+}
+
+.my-3 {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+.ui-autocomplete {
+    z-index:2147483647;
+}
+
+input[type='text'].ui-autocomplete-loading {
+    background: url('/img/gif-loading-icon-16.jpg') no-repeat right center;
 }

@@ -16,48 +16,48 @@ public class ProductRestController {
     @Autowired
     ProductService productService;
 
-    @PostMapping("/mes/base/product/compList")
-    public ResponseEntity<List<Map<String, Object>>> compList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    @PostMapping("/mes/base/product/prodList")
+    public ResponseEntity<List<Map<String, Object>>> prodList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
     {
         vmap.set(map);
-        List<Map<String, Object>> compList = productService.compList(vmap);
+        List<Map<String, Object>> prodList = productService.prodList(vmap);
 
-        return new ResponseEntity<>(compList, HttpStatus.OK);
+        return new ResponseEntity<>(prodList, HttpStatus.OK);
     }
 
-    @GetMapping("/mes/base/product/compOne/{comp_cd}")
-    public ResponseEntity<Map<String, Object>> compOne(VMap vmap, @PathVariable("comp_cd") String comp_cd) throws Exception
+    @GetMapping("/mes/base/product/prodOne/{prod_cd}")
+    public ResponseEntity<Map<String, Object>> prodOne(VMap vmap, @PathVariable("prod_cd") String prod_cd) throws Exception
     {
-        vmap.put("comp_cd", comp_cd);
-        Map<String, Object> compOne = productService.compOne(vmap);
+        vmap.put("prod_cd", prod_cd);
+        Map<String, Object> prodOne = productService.prodOne(vmap);
 
-        return new ResponseEntity<>(compOne, HttpStatus.OK);
+        return new ResponseEntity<>(prodOne, HttpStatus.OK);
     }
 
-    @GetMapping("/mes/base/product/compOverlap/{comp_cd}")
-    public ResponseEntity<Boolean> compOverlap(VMap vmap, @PathVariable("comp_cd") String comp_cd) throws Exception
+    @GetMapping("/mes/base/product/prodOverlap/{prod_cd}")
+    public ResponseEntity<Boolean> prodOverlap(VMap vmap, @PathVariable("prod_cd") String prod_cd) throws Exception
     {
-        vmap.put("comp_cd", comp_cd);
-        Map<String, Object> compOverlap = productService.compOverlap(vmap);
-        boolean isFalg = CommonUtils.isNotEmpty(compOverlap);
+        vmap.put("prod_cd", prod_cd);
+        Map<String, Object> prodOverlap = productService.prodOverlap(vmap);
+        boolean isFalg = CommonUtils.isNotEmpty(prodOverlap);
 
         return new ResponseEntity<>(isFalg, HttpStatus.OK);
     }
 
-    @PostMapping("/mes/base/product/compRegistModify")
-    public ResponseEntity<String> compRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    @PostMapping("/mes/base/product/prodRegistModify")
+    public ResponseEntity<String> prodRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
     {
         vmap.set(map);
-        productService.compRegistModify(vmap);
+        productService.prodRegistModify(vmap);
 
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
-    @DeleteMapping("/mes/base/product/compPackDelete")
-    public ResponseEntity<String> compPackDeleteDELETE(VMap vmap, @RequestBody Map<String, Object> map ) throws Exception
+    @DeleteMapping("/mes/base/product/prodPackDelete")
+    public ResponseEntity<String> prodPackDeleteDELETE(VMap vmap, @RequestBody Map<String, Object> map ) throws Exception
     {
         vmap.set(map);
-        productService.compPackDelete(vmap);
+        productService.prodPackDelete(vmap);
 
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
