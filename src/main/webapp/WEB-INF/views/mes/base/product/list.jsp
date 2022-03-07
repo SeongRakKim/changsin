@@ -270,7 +270,6 @@
         getData();
         initAutoCompelte("#pop_selector");
 
-
         $("input:radio[name=pop_prod_mass_yn]").on("change", () => {
             $("input:radio[name=pop_prod_mass_yn]").each(function() {
             });
@@ -340,6 +339,7 @@
 
         });
 
+        // 코드 중복 검사
         $("#pop_prod_cd").on("keyup", () => {
             if($("#pop_prod_cd").val().length > 3)
             {
