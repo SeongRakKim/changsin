@@ -15,7 +15,7 @@ public class ProductController {
     @Autowired CommonService commonService;
 
     @GetMapping("/mes/base/product/list")
-    public void companyList(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+    public void productList(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
         vmap.put("requestUri", httpServletRequest.getRequestURI());
 
         // 분류
@@ -27,8 +27,8 @@ public class ProductController {
         vmap.put("prodFamilyList", commonService.baseDetailList(vmap));
 
         // 단위
-        vmap.put("base_cd", "prod_unit");
-        vmap.put("prodUnitList", commonService.baseDetailList(vmap));
+        vmap.put("base_cd", "unit");
+        vmap.put("unitList", commonService.baseDetailList(vmap));
     }
 
 }

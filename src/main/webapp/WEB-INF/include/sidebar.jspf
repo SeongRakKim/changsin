@@ -50,8 +50,8 @@
 <%--                <h6 class="collapse-header">기준정보</h6>--%>
                 <a class="_isUrl collapse-item" data-url="/mes/base/company/list" href="/mes/base/company/list">거래처정보</a>
                 <a class="_isUrl collapse-item" data-url="/mes/base/product/list" href="/mes/base/product/list">제품정보</a>
-                <a class="_isUrl collapse-item" data-url="/mes/base/material/list" href="/mes/base/material/raw/list">원자재정보</a>
-                <a class="_isUrl collapse-item" data-url="/mes/base/material/list" href="/mes/base/material/sub/list">부자재정보</a>
+                <a class="_isUrl collapse-item" data-url="/mes/base/material/raw/list" href="/mes/base/material/raw/list">원자재정보</a>
+                <a class="_isUrl collapse-item" data-url="/mes/base/material/sub/list" href="/mes/base/material/sub/list">부자재정보</a>
                 <a class="_isUrl collapse-item" data-url="/mes/base/process/list" href="/mes/base/process/list">공정정보</a>
                 <a class="_isUrl collapse-item" data-url="/mes/base/notice/list" href="/mes/base/notice/list">공지정보</a>
             </div>

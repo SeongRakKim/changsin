@@ -16,7 +16,7 @@
             <!-- Page Heading -->
 <%--            <span class="btn btn-pill btn-secondary">--%>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 기준정보 <i class="fas fa-chevron-right"></i> 제품정보
+                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 기준정보 <i class="fas fa-chevron-right"></i> 부자재정보
             </span>
         </div>
 
@@ -37,28 +37,11 @@
 <%--            </colgroup>--%>
             <thead class="thead-light">
                 <tr>
-                    <th>제품종류</th>
+                    <th>자재분류</th>
                     <td>
-                        <select id="prod_kind" name="prod_kind" class="custom-select w-100" required="">
-                            <option value="">제품종류선택</option>
-                            <option value="PA">완제품</option>
-                            <option value="PH">반제품</option>
-                        </select>
-                    </td>
-                    <th>제품분류</th>
-                    <td>
-                        <select id="prod_group" name="prod_group" class="custom-select w-100" required="">
-                            <option value="">제품분류선택</option>
-                            <c:forEach var="item" items="${vmap.prodGroupList}" varStatus="status">
-                                <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
-                            </c:forEach>
-                        </select>
-                    </td>
-                    <th>제품군</th>
-                    <td>
-                        <select id="prod_family" name="prod_family" class="custom-select w-100" required="">
-                            <option value="">제품군선택</option>
-                            <c:forEach var="item" items="${vmap.prodFamilyList}" varStatus="status">
+                        <select id="mate_group" name="mate_group" class="custom-select w-100" required="">
+                            <option value="">자재분류선택</option>
+                            <c:forEach var="item" items="${vmap.mateGroupList}" varStatus="status">
                                 <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
                             </c:forEach>
                         </select>
@@ -85,6 +68,7 @@
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12">
+                            <input type="hidden" id="mate_kind" name="mate_kind" value="MS" />
 <%--                            <button type="button" class="btn btn-sm btn-success" onclick='setExcelPdfButtonEvent({tableID:"tblMaster", btn:"excel"});'><i class="fas fa-file-excel"></i> 엑셀</button>--%>
                             <table id ="tblMaster" class="table-list table table-hover table-striped table-bordered mb-5" style="width: 100%">
                                 <thead>
@@ -95,19 +79,16 @@
                                                 <label class="custom-control-label" for="listAll"></label>
                                             </div>
                                         </th>
-                                        <th>제품코드</th>
+                                        <th>자재코드</th>
                                         <th>품번</th>
                                         <th>품명</th>
-                                        <th>종류</th>
                                         <th>분류</th>
-                                        <th>제품군</th>
                                         <th>규격</th>
                                         <th>단위</th>
                                         <th>단가</th>
                                         <th>주거래처</th>
                                         <th>안전재고</th>
-                                        <th>제품재고</th>
-                                        <th>양산여부</th>
+                                        <th>자재재고</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -133,58 +114,39 @@
                     <table id="tblPopData" class="table table-hover table-bordered mb-5 table-form">
                         <tbody>
                             <tr>
-                                <th>제품코드</th>
+                                <th>자재코드</th>
                                 <td>
-                                    <input type="text" id="pop_prod_cd" name="pop_prod_cd" class="form-control key"
-                                           placeholder="제품코드 / 미입력 시 자동생성" title="제품코드"
+                                    <input type="text" id="pop_mate_cd" name="pop_mate_cd" class="form-control key"
+                                           placeholder="자재코드 / 미입력 시 자동생성" title="자재코드"
                                            />
                                     <div class="invalid-feedback"></div>
                                 </td>
-                                <th>제품품번<span class="red"> (필수)</span></th>
+                                <th>자재품번<span class="red"> (필수)</span></th>
                                 <td>
-                                    <input type="text" id="pop_prod_pn" name="pop_prod_pn" class="form-control"
-                                           placeholder="제품품번" title="제품품번"
+                                    <input type="text" id="pop_mate_pn" name="pop_mate_pn" class="form-control"
+                                           placeholder="자재품번" title="자재품번"
                                            required />
                                 </td>
-                                <th>제품명<span class="red"> (필수)</span></th>
+                                <th>자재명<span class="red"> (필수)</span></th>
                                 <td>
-                                    <input type="text" id="pop_prod_nm" name="pop_prod_nm" class="form-control"
-                                           placeholder="제품명" title="제품명"
+                                    <input type="text" id="pop_mate_nm" name="pop_mate_nm" class="form-control"
+                                           placeholder="자재명" title="자재명"
                                            required />
                                 </td>
                             </tr>
                             <tr>
-                                <th> 제품종류<span class="red"> (필수)</span></th>
+                                <th>자재분류 <span class="red"> (필수)</span></th>
                                 <td>
-                                    <select id="pop_prod_kind" name="pop_prod_kind" class="custom-select w-100"  title="제품종류" required>
-                                        <option value="">제품종류선택</option>
-                                        <option value="PA">완제품</option>
-                                        <option value="PH">반제품</option>
-                                    </select>
-                                </td>
-                                <th>제품분류 <span class="red"> (필수)</span></th>
-                                <td>
-                                    <select id="pop_prod_group" name="pop_prod_group" class="custom-select w-100"  title="제품분류" required>
-                                        <option value="">제품분류선택</option>
-                                        <c:forEach var="item" items="${vmap.prodGroupList}" varStatus="status">
+                                    <select id="pop_mate_group" name="pop_mate_group" class="custom-select w-100"  title="자재분류" required>
+                                        <option value="">자재분류선택</option>
+                                        <c:forEach var="item" items="${vmap.mateGroupList}" varStatus="status">
                                             <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
                                         </c:forEach>
                                     </select>
                                 </td>
-                                <th>제품군</th>
-                                <td>
-                                    <select id="pop_prod_family" name="pop_prod_family" class="custom-select w-100"  title="제품군">
-                                        <option value="">제품군선택</option>
-                                        <c:forEach var="item" items="${vmap.prodFamilyList}" varStatus="status">
-                                            <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
                                 <th>단위 <span class="red"> (필수)</span></th>
                                 <td>
-                                    <select id="pop_prod_unit" name="pop_prod_unit" class="custom-select w-100"  title="단위" required>
+                                    <select id="pop_mate_unit" name="pop_mate_unit" class="custom-select w-100"  title="단위" required>
                                         <option value="">단위선택</option>
                                         <c:forEach var="item" items="${vmap.unitList}" varStatus="status">
                                             <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
@@ -193,48 +155,33 @@
                                 </td>
                                 <th>규격</th>
                                 <td>
-                                    <input type="text" id="pop_prod_stand" name="pop_prod_stand" class="form-control"
+                                    <input type="text" id="pop_mate_stand" name="pop_mate_stand" class="form-control"
                                            placeholder="규격" title="규격" />
-                                </td>
-                                <th>단가</th>
-                                <td>
-                                    <input type="text" id="pop_prod_price" name="pop_prod_price" class="form-control" value="0"
-                                           placeholder="단가" title="단가" />
                                 </td>
                             </tr>
                             <tr>
+                                <th>단가</th>
+                                <td>
+                                    <input type="text" id="pop_mate_price" name="pop_mate_price" class="form-control" value="0"
+                                           placeholder="단가" title="단가" />
+                                </td>
                                 <th>주거래처</th>
                                 <td>
-                                    <input type="hidden" id="pop_prod_main_comp" name="pop_prod_main_comp" class="form-control"
+                                    <input type="hidden" id="pop_mate_main_comp" name="pop_mate_main_comp" class="form-control"
                                            placeholder="주거래처" title="주거래처" />
                                     <input type="text" id="pop_selector" name="pop_selector" class="form-control"
                                            placeholder="주거래처" title="주거래처" />
                                 </td>
                                 <th>안전재고</th>
                                 <td>
-                                    <input type="text" id="pop_prod_keep_cnt" name="pop_prod_keep_cnt" class="form-control"
+                                    <input type="text" id="pop_mate_keep_cnt" name="pop_mate_keep_cnt" class="form-control"
                                            placeholder="안전재고" title="안전재고" />
-                                </td>
-                                <th>양산제품여부</th>
-                                <td>
-                                    <div style="display: flex; flex-wrap: wrap;">
-                                        <div class="custom-control custom-radio my-3">
-<%--                                            <input type="radio" id="customRadio1" name="pop_prod_mass_yn" >--%>
-                                            <input type="radio" id="customRadio1" name="pop_prod_mass_yn" class="custom-control-input" value="Y">
-                                            <label class="custom-control-label" for="customRadio1">예</label>
-                                        </div>
-                                        <div class="custom-control custom-radio my-3">
-<%--                                            <input type="radio" checked="" id="customRadio2" name="pop_prod_mass_yn" >--%>
-                                            <input type="radio" checked="" id="customRadio2" name="pop_prod_mass_yn" class="custom-control-input" value="N">
-                                            <label class="custom-control-label" for="customRadio2">아니오</label>
-                                        </div>
-                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>비고</th>
                                 <td colspan="5">
-                                    <input type="text" id="pop_prod_notice" name="pop_prod_notice" class="form-control" placeholder="비고" title="비고" />
+                                    <input type="text" id="pop_mate_notice" name="pop_mate_notice" class="form-control" placeholder="비고" title="비고" />
                                 </td>
                             </tr>
                         </tbody>
@@ -271,26 +218,26 @@
         initAutoCompelte("#pop_selector");
 
 
-        $("input:radio[name=pop_prod_mass_yn]").on("change", () => {
-            $("input:radio[name=pop_prod_mass_yn]").each(function() {
+        $("input:radio[name=pop_mate_mass_yn]").on("change", () => {
+            $("input:radio[name=pop_mate_mass_yn]").each(function() {
             });
         });
 
-        $("#prod_kind, #prod_family, #prod_group").on("change", () => { getData() });
+        $("#mate_kind, #mate_family, #mate_group").on("change", () => { getData() });
 
         // 조회
         $("#btnSearch").on("click", () => { getData() });
 
         // Add Data - Call Data Form
         $("#btnNew").on("click", () => {
-            callEditmodal("제품 추가", "R");
+            callEditmodal("부자재 추가", "R");
         });
 
         // 상세조회
         $("#tblMaster").on("dblclick", "tr", function() {
-            let prod_cd = $(this).find("input[name=prod_cd]").val();
-            callEditmodal("제품 수정", "M");
-            getDataOne(prod_cd);
+            let mate_cd = $(this).find("input[name=mate_cd]").val();
+            callEditmodal("부자재 수정", "M");
+            getDataOne(mate_cd);
         });
 
         // 저장
@@ -305,7 +252,7 @@
 
             Swal.fire({
                 title: '',
-                text: "제품 정보를 저장하시겠습니까?",
+                text: "부자재 정보를 저장하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -325,7 +272,7 @@
 
             Swal.fire({
                 title: '',
-                text: "제품 정보를 삭제하시겠습니까?",
+                text: "부자재 정보를 삭제하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -340,23 +287,23 @@
 
         });
 
-        $("#pop_prod_cd").on("keyup", () => {
-            if($("#pop_prod_cd").val().length > 3)
+        $("#pop_mate_cd").on("keyup", () => {
+            if($("#pop_mate_cd").val().length > 3)
             {
                 $.ajax({
                     type : 'get'
-                    ,url: '/mes/base/product/prodOverlap/' + $("#pop_prod_cd").val()
+                    ,url: '/mes/base/material/mateOverlap/' + $("#pop_mate_cd").val()
                     ,dataType : 'json'
                 })
                     .done(function (data)
                     {
                         if(data) {
-                            $("#pop_prod_cd").removeClass("is-valid");
-                            $("#pop_prod_cd").addClass("is-invalid");
-                            $(".invalid-feedback").text("중복된 제품 코드입니다.");
+                            $("#pop_mate_cd").removeClass("is-valid");
+                            $("#pop_mate_cd").addClass("is-invalid");
+                            $(".invalid-feedback").text("중복된 자재 코드입니다.");
                         }else {
-                            $("#pop_prod_cd").removeClass("is-invalid");
-                            $("#pop_prod_cd").addClass("is-valid");
+                            $("#pop_mate_cd").removeClass("is-invalid");
+                            $("#pop_mate_cd").addClass("is-valid");
                             $(".invalid-feedback").text("");
                         }
                     })
@@ -396,7 +343,7 @@
                 });
             },
             select : function(event, ui) {
-                $("#pop_prod_main_comp").val(ui.item.comp_cd);
+                $("#pop_mate_main_comp").val(ui.item.comp_cd);
             },
             focus : function(event, ui) {
                 return false;
@@ -478,7 +425,7 @@
         showWait('.container-fluid');
 
         $.ajax({
-            url: "/mes/base/product/prodList"
+            url: "/mes/base/material/mateList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -487,9 +434,9 @@
             ,dataType: "json"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,prod_kind: $("#prod_kind").val()
-                ,prod_family: $("#prod_family").val()
-                ,prod_group: $("#prod_group").val()
+                ,mate_kind: $("#mate_kind").val()
+                ,mate_family: $("#mate_family").val()
+                ,mate_group: $("#mate_group").val()
                 ,search_text: $("#search_text").val()
             })
         })
@@ -501,25 +448,22 @@
                 let node = [];
 
                 let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
-                                   "    <input type=\"hidden\" name=\"prod_cd\" value=\"" + item.prod_cd + "\">" +
+                                   "    <input type=\"hidden\" name=\"mate_cd\" value=\"" + item.mate_cd + "\">" +
                                    "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
                                    "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
                                    "</div>";
 
                 node.push(checkBoxNode);
-                node.push(IsEmpty(item.prod_cd));
-                node.push(IsEmpty(item.prod_pn));
-                node.push(IsEmpty(item.prod_nm));
-                node.push(IsEmpty(item.prod_kind_nm));
-                node.push(IsEmpty(item.prod_group_nm));
-                node.push(IsEmpty(item.prod_family_nm));
-                node.push(IsEmpty(item.prod_stand));
-                node.push(IsEmpty(item.prod_unit_nm));
-                node.push(IsEmpty(item.prod_price.comma('2')));
-                node.push(IsEmpty(item.prod_main_comp_nm));
-                node.push(IsEmpty(item.prod_keep_cnt.comma('2')));
-                node.push(IsEmpty(item.prod_stock_cnt.comma('2')));
-                node.push(IsEmpty(item.prod_mass_yn));
+                node.push(IsEmpty(item.mate_cd));
+                node.push(IsEmpty(item.mate_pn));
+                node.push(IsEmpty(item.mate_nm));
+                node.push(IsEmpty(item.mate_group_nm));
+                node.push(IsEmpty(item.mate_stand));
+                node.push(IsEmpty(item.mate_unit_nm));
+                node.push(IsEmpty(item.mate_price.comma('2')));
+                node.push(IsEmpty(item.mate_main_comp_nm));
+                node.push(IsEmpty(item.mate_keep_cnt.comma('2')));
+                node.push(IsEmpty(item.mate_stock_cnt.comma('2')));
 
                 // 각 row node 추가
                 $("#tblMaster").DataTable().row.add(node).node();
@@ -536,12 +480,12 @@
         });
     }
 
-    function getDataOne(prod_cd)
+    function getDataOne(mate_cd)
     {
         showWait('.dataModal');
 
         $.ajax({
-            url: "/mes/base/product/prodOne/" + prod_cd
+            url: "/mes/base/material/mateOne/" + mate_cd
             ,type: "get"
             ,dataType: "json"
             // ,data: JSON.stringify({})
@@ -550,7 +494,7 @@
         {
             setDataOne("pop_", data);
             $("#dataForm").find(".key").prop("disabled", true);
-            $("#pop_selector").val(data.prod_main_comp_nm);
+            $("#pop_selector").val(data.mate_main_comp_nm);
         })
         .always(function (data) {
             hideWait('.dataModal');
@@ -567,7 +511,7 @@
 
         $.ajax({
             type: "post"
-            ,url: "/mes/base/product/prodRegistModify"
+            ,url: "/mes/base/material/mateRegistModify"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "POST"
@@ -575,19 +519,17 @@
             ,dataType: "text"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,prod_cd: $("#pop_prod_cd").val()
-                ,prod_pn: $("#pop_prod_pn").val()
-                ,prod_nm: $("#pop_prod_nm").val()
-                ,prod_kind: $("#pop_prod_kind").val()
-                ,prod_group: $("#pop_prod_group").val()
-                ,prod_family: $("#pop_prod_family").val()
-                ,prod_unit: $("#pop_prod_unit").val()
-                ,prod_stand: $("#pop_prod_stand").val()
-                ,prod_price: $("#pop_prod_price").val().replace(/,/g, "")
-                ,prod_main_comp: $("#pop_prod_main_comp").val()
-                ,prod_keep_cnt: $("#pop_prod_keep_cnt").val().replace(/,/g, "")
-                ,prod_mass_yn: $("input:radio[name=pop_prod_mass_yn]:checked").val()
-                ,prod_notice: $("#pop_prod_notice").val()
+                ,mate_kind: $("#mate_kind").val()
+                ,mate_cd: $("#pop_mate_cd").val()
+                ,mate_pn: $("#pop_mate_pn").val()
+                ,mate_nm: $("#pop_mate_nm").val()
+                ,mate_group: $("#pop_mate_group").val()
+                ,mate_unit: $("#pop_mate_unit").val()
+                ,mate_stand: $("#pop_mate_stand").val()
+                ,mate_price: $("#pop_mate_price").val().replace(/,/g, "")
+                ,mate_main_comp: $("#pop_mate_main_comp").val()
+                ,mate_keep_cnt: $("#pop_mate_keep_cnt").val().replace(/,/g, "")
+                ,mate_notice: $("#pop_mate_notice").val()
             })
         })
         .done(function (data) {
@@ -610,12 +552,12 @@
 
         let deleteItems = [];
         $.each($("input[name=listCheck]:checked"), function(item, index) {
-            deleteItems.push($(this).closest("tr").find("input[name=prod_cd]").val());
+            deleteItems.push($(this).closest("tr").find("input[name=mate_cd]").val());
         });
 
         $.ajax({
             type: "delete"
-            ,url: "/mes/base/product/prodPackDelete"
+            ,url: "/mes/base/material/matePackDelete"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "DELETE"
