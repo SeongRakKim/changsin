@@ -69,7 +69,7 @@
             $(this).find("[name=listCheck]").prop("checked", $(this).find("[name=listCheck]").is(":checked") ? false : true);
         });
 
-        $("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total']").css("text-align", "right")
+        $("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total'], input[name$='rate']").css("text-align", "right")
             .on("click", () => {
                 $(this).select();
             })

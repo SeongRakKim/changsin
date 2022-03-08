@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.base.equipment">
+
+    <select id="equList" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,EQU_CD
+               ,PROC_CD
+               ,(SELECT PROC_NM
+                   FROM MES_PROCESS_INFO
+                   WHERE MEI.PROC_CD = PROC_CD) PROC_NM
+               ,EQU_NM
+               ,EQU_NO
+               ,EQU_TYPE
+               ,EQU_MODEL
+               ,EQU_NATION
+               ,EQU_COMPANY
+               ,EQU_YN
+               ,EQU_NOTICE
+               ,EQU_INDATE
+               ,EQU_INUSER
+               ,EQU_UPDATE
+               ,EQU_UPUSER
+        FROM MES_EQUIPMENT_INFO MEI
+         WHERE EQU_YN = 'Y'
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(proc_cd)">
+            AND PROC_CD = #{proc_cd}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+            AND
+            (
+                EQU_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR EQU_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR EQU_NO LIKE CONCAT('%', #{search_text}, '%')
+                OR EQU_TYPE LIKE CONCAT('%', #{search_text}, '%')
+                OR EQU_MODEL LIKE CONCAT('%', #{search_text}, '%')
+                OR EQU_NATION LIKE CONCAT('%', #{search_text}, '%')
+                OR EQU_COMPANY LIKE CONCAT('%', #{search_text}, '%')
+            )
+        </if>
+    </select>
+
+    <select id="equOne" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,EQU_CD
+               ,PROC_CD
+               ,EQU_NM
+               ,EQU_NO
+               ,EQU_TYPE
+               ,EQU_MODEL
+               ,EQU_NATION
+               ,EQU_COMPANY
+               ,EQU_YN
+               ,EQU_NOTICE
+               ,EQU_INDATE
+               ,EQU_INUSER
+               ,EQU_UPDATE
+               ,EQU_UPUSER
+        FROM MES_EQUIPMENT_INFO
+         WHERE EQU_YN = 'Y'
+           AND EQU_CD = #{equ_cd}
+    </select>
+
+    <select id="equOverlap" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,EQU_CD
+               ,PROC_CD
+               ,EQU_NM
+               ,EQU_NO
+               ,EQU_TYPE
+               ,EQU_MODEL
+               ,EQU_NATION
+               ,EQU_COMPANY
+               ,EQU_YN
+               ,EQU_NOTICE
+               ,EQU_INDATE
+               ,EQU_INUSER
+               ,EQU_UPDATE
+               ,EQU_UPUSER
+        FROM MES_EQUIPMENT_INFO
+         WHERE EQU_YN = 'Y'
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(equ_cd)">
+            AND EQU_CD = #{equ_cd}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(proc_cd)">
+            AND PROC_CD = #{proc_cd}
+        </if>
+    </select>
+
+    <insert id="equRegistModify" parameterType="VMap">
+        INSERT INTO MES_EQUIPMENT_INFO
+        (
+            FACT_CD
+            ,EQU_CD
+            ,PROC_CD
+            ,EQU_NM
+            ,EQU_NO
+            ,EQU_TYPE
+            ,EQU_MODEL
+            ,EQU_NATION
+            ,EQU_COMPANY
+            ,EQU_YN
+            ,EQU_NOTICE
+            ,EQU_INDATE
+            ,EQU_INUSER
+            ,EQU_UPDATE
+            ,EQU_UPUSER
+        )VALUES
+        (
+            #{fact_cd}
+            ,#{equ_cd}
+            ,#{proc_cd}
+            ,#{equ_nm}
+            ,#{equ_no}
+            ,#{equ_type}
+            ,#{equ_model}
+            ,#{equ_nation}
+            ,#{equ_company}
+            ,'Y'
+            ,#{equ_notice}
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+        )
+        ON DUPLICATE KEY UPDATE
+            EQU_NM = #{equ_nm}
+            ,PROC_CD = #{proc_cd}
+            ,EQU_NO = #{equ_no}
+            ,EQU_TYPE = #{equ_type}
+            ,EQU_MODEL = #{equ_model}
+            ,EQU_NATION = #{equ_nation}
+            ,EQU_COMPANY = #{equ_company}
+            ,EQU_UPDATE = NOW()
+            ,EQU_UPUSER = IFNULL(#{u_cd}, 'system')
+    </insert>
+
+    <delete id="equPackDelete" parameterType="VMap">
+        DELETE FROM MES_EQUIPMENT_INFO
+        WHERE EQU_CD IN
+        <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>
