@@ -105,9 +105,10 @@
                                         <th>단위</th>
                                         <th>단가</th>
                                         <th>주거래처</th>
-                                        <th>안전재고</th>
-                                        <th>제품재고</th>
+<%--                                        <th>안전재고</th>--%>
+<%--                                        <th>제품재고</th>--%>
                                         <th>양산여부</th>
+                                        <th style="width: 11%;">관리</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -262,6 +263,101 @@
     </div>
 </div>
 
+<div class="modal fade dataModal" id="processModal" tabindex="-1" role="dialog" aria-labelledby="registModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-form-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-edit"></i><span>공정등록</span></h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="processForm" name="dataForm" class="dataForm" method="post">
+                <div class="modal-body">
+                    <table id="tblPopProduct" class="table table-hover table-bordered mb-5 table-form">
+                        <tbody>
+                            <tr>
+                                <th>제품코드</th>
+                                <td id="pop_proc_prod_cd"></td>
+                                <th>품번</th>
+                                <td id="pop_proc_prod_pn"></td>
+                                <th>품명</th>
+                                <td id="pop_proc_prod_nm"></td>
+                            </tr>
+                            <tr>
+                                <th>종류</th>
+                                <td id="pop_proc_prod_kind_nm"></td>
+                                <th>규격</th>
+                                <td id="pop_proc_prod_stand"></td>
+                                <th>단위</th>
+                                <td id="pop_proc_prod_unit_nm"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table id="tblPopProcess" class="table table-hover table-bordered mb-5 table-form">
+                        <colgroup>
+                            <col style="width: 20%" />
+                            <col style="width: 40%" />
+                            <col style="width: 30%" />
+                            <col style="width: 10%" />
+                        </colgroup>
+                        <tbody>
+                            <tr>
+                                <th>순서</th>
+                                <th>공정</th>
+                                <th>표준공수</th>
+                                <th>
+                                    <button class="btn btn-sm btn btn-warning" type="button">
+                                        <span class="btn-wrapper--icon">
+                                            <i class="fas fa-th-list"></i>
+                                        </span>
+                                        <span class="btn-wrapper--label">추가</span>
+                                    </button>
+                                </th>
+                            </tr>
+                            <tr id="1">
+                                <td></td>
+                                <td>공정1</td>
+                                <td>10</td>
+                                <td></td>
+                            </tr>
+                            <tr id="2">
+                                <td></td>
+                                <td>공정2</td>
+                                <td>20</td>
+                                <td></td>
+                            </tr>
+                            <tr id="3">
+                                <td></td>
+                                <td>공정3</td>
+                                <td>30</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" id="btnPopProcessRegist" class="btn btn-primary ">
+                    <span class="btn-wrapper--icon">
+                        <i class="fas fa-download"></i>
+                    </span>
+                    <span class="btn-wrapper--label">저장</span>
+                </button>
+
+<%--                <button type="button" id="btnPopProcessModify" class="btn btn-success ">수정</button>--%>
+
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <span class="btn-wrapper--icon">
+                        <i class="fas fa-times-circle"></i>
+                    </span>
+                    <span class="btn-wrapper--label">닫기</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 
     $(document).ready(() => {
@@ -269,6 +365,18 @@
         setDatatable();
         getData();
         initAutoCompelte("#pop_selector");
+
+        $("#tblPopProcess").tableDnD({
+            onDrop: function(table, row) {
+                console.log('오후 6:36', '371', row);
+                var rows = table.tBodies[0].rows;
+                console.log('오후 6:37', '373', rows);
+                for (var i=0; i<rows.length; i++) {
+                    console.log('오후 6:37', '375', rows[i].id);
+                }
+                // $(table).parent().find('.result').text(debugStr);
+            }
+        });
 
         $("input:radio[name=pop_prod_mass_yn]").on("change", () => {
             $("input:radio[name=pop_prod_mass_yn]").each(function() {
@@ -517,9 +625,25 @@
                 node.push(IsEmpty(item.prod_unit_nm));
                 node.push(IsEmpty(item.prod_price.comma('2')));
                 node.push(IsEmpty(item.prod_main_comp_nm));
-                node.push(IsEmpty(item.prod_keep_cnt.comma('2')));
-                node.push(IsEmpty(item.prod_stock_cnt.comma('2')));
+                // node.push(IsEmpty(item.prod_keep_cnt.comma('2')));
+                // node.push(IsEmpty(item.prod_stock_cnt.comma('2')));
                 node.push(IsEmpty(item.prod_mass_yn));
+
+                let param = "{"
+                    + "prod_cd: '" +  item.prod_cd + "'"
+                    + ",prod_pn: '" +  item.prod_pn + "'"
+                    + ",prod_nm: '" +  item.prod_nm + "'"
+                    + ",prod_kind_nm: '" +  item.prod_kind_nm + "'"
+                    + ",prod_stand: '" +  item.prod_stand + "'"
+                    + ",prod_unit_nm: '" +  item.prod_unit_nm + "'"
+                + "}";
+
+                let manageButton = "<div style='display: flex; flex-wrap: wrap; justify-content: space-around;' >" +
+                                   "    <button class=\"btn btn-sm btn btn-outline-first\" type=\"button\" onclick=\"setProductProcess(" + param + ")\">공정</button>" +
+                                   "    <button class=\"btn btn-sm btn btn-outline-first\" type=\"button\" onclick=\"setProductBom('" + item.prod_cd + "')\">BOM</button>" +
+                                   "</div>";
+
+                node.push(manageButton);
 
                 // 각 row node 추가
                 $("#tblMaster").DataTable().row.add(node).node();
@@ -639,6 +763,17 @@
     }
 
 
+    function setProductProcess()
+    {
+        $("#processModal").modal("show");
+
+        $("#pop_proc_prod_cd").html(arguments[0].prod_cd);
+        $("#pop_proc_prod_pn").html(arguments[0].prod_pn);
+        $("#pop_proc_prod_nm").html(arguments[0].prod_nm);
+        $("#pop_proc_prod_kind_nm").html(arguments[0].prod_kind_nm);
+        $("#pop_proc_prod_stand").html(arguments[0].prod_stand);
+        $("#pop_proc_prod_unit_nm").html(arguments[0].prod_unit_nm);
+    }
 
 
 </script>
