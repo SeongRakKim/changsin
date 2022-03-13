@@ -28,6 +28,10 @@ public class MaterialService {
         return materialDAO.mateOverlap(vmap);
     }
 
+    public List<Map<String, Object>> mateOverlap2(VMap vmap) throws Exception {
+        return materialDAO.mateOverlap2(vmap);
+    }
+
     @Transactional
     public int mateRegistModify(VMap vmap) throws Exception {
 

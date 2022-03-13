@@ -32,8 +32,12 @@ public class CompanyDAO extends MapperDAO {
         return insert(mapperName + ".compRegistModify", vmap.getMap());
     }
 
+//    public int compPackDelete(VMap vmap) throws Exception {
+//        return delete(mapperName + ".compPackDelete", vmap.getMap());
+//    }
+
     public int compPackDelete(VMap vmap) throws Exception {
-        return delete(mapperName + ".compPackDelete", vmap.getMap());
+        return update(mapperName + ".compPackDelete", vmap.getMap());
     }
 
 }

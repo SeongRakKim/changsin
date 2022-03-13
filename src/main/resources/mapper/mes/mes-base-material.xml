@@ -157,6 +157,64 @@
         </if>
     </select>
 
+    <select id="mateOverlap2" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,MATE_CD
+               ,MATE_PN
+               ,MATE_NM
+               ,MATE_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'MATE_KIND'
+                   AND CODE_CD = MATE_KIND
+                ) MATE_KIND_NM
+               ,MATE_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = MATE_GROUP
+                ) MATE_GROUP_NM
+               ,MATE_STAND
+               ,MATE_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = MATE_UNIT
+                ) MATE_UNIT_NM
+               ,MATE_PRICE
+               ,MATE_MAIN_COMP
+               ,(SELECT COMP_NM
+                  FROM MES_COMPANY_INFO
+                  WHERE COMP_CD = MATE_MAIN_COMP
+                ) MATE_MAIN_COMP_NM
+               ,MATE_KEEP_CNT
+               ,MATE_STOCK_CNT
+               ,MATE_YN
+               ,MATE_NOTICE
+               ,MATE_INDATE
+               ,MATE_INUSER
+               ,MATE_UPDATE
+               ,MATE_UPUSER
+          FROM MES_MATERIAL_INFO
+         WHERE MATE_YN = 'Y'
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(mate_kind)">
+            AND MATE_KIND = #{mate_kind}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(mate_group)">
+            AND MATE_GROUP = #{mate_group}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(mate_family)">
+            AND MATE_FAMILY = #{mate_family}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(mate_cd)">
+            AND MATE_CD = #{mate_cd}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
+            AND
+            (
+                MATE_NM LIKE CONCAT('%', #{selector}, '%')
+            )
+        </if>
+    </select>
+
     <select id="mateCompletOverlap" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
                ,MATE_CD
@@ -260,12 +318,13 @@
             ,MATE_UPUSER = IFNULL(#{u_cd}, 'system')
     </insert>
 
-    <delete id="matePackDelete" parameterType="VMap">
-        DELETE FROM MES_MATERIAL_INFO
+    <update id="matePackDelete" parameterType="VMap">
+        UPDATE MES_MATERIAL_INFO
+        SET MATE_YN = 'N'
         WHERE MATE_CD IN
         <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
-    </delete>
+    </update>
 
 </mapper>

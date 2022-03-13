@@ -29,7 +29,39 @@ public class ProductDAO extends MapperDAO {
     }
 
     public int prodPackDelete(VMap vmap) throws Exception {
-        return delete(mapperName + ".prodPackDelete", vmap.getMap());
+        return update(mapperName + ".prodPackDelete", vmap.getMap());
+    }
+
+    public int prodProcPackDelete(VMap vmap) throws Exception {
+        return delete(mapperName + ".prodProcPackDelete", vmap.getMap());
+    }
+
+    public int prodBomPackDelete(VMap vmap) throws Exception {
+        return delete(mapperName + ".prodBomPackDelete", vmap.getMap());
+    }
+
+    public List<Map<String, Object>> prodProcList(VMap vMap) throws Exception {
+        return selectList(mapperName + ".prodProcList", vMap.getMap());
+    }
+
+    public int prodProcRegistModify(VMap vmap) throws Exception {
+        return insert(mapperName + ".prodProcRegistModify", vmap.getMap());
+    }
+
+    public int prodProcDelete(VMap vmap) throws Exception {
+        return delete(mapperName + ".prodProcDelete", vmap.getMap());
+    }
+
+    public List<Map<String, Object>> prodBomList(VMap vMap) throws Exception {
+        return selectList(mapperName + ".prodBomList", vMap.getMap());
+    }
+
+    public int prodBomRegistModify(VMap vmap) throws Exception {
+        return insert(mapperName + ".prodBomRegistModify", vmap.getMap());
+    }
+
+    public int prodBomDelete(VMap vmap) throws Exception {
+        return delete(mapperName + ".prodBomDelete", vmap.getMap());
     }
 
 }

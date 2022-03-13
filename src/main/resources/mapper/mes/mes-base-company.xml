@@ -239,12 +239,21 @@
             ,COMP_UPUSER = #{u_cd}
     </insert>
 
-    <delete id="compPackDelete" parameterType="VMap">
+    <!--<delete id="compPackDelete" parameterType="VMap">
         DELETE FROM MES_COMPANY_INFO
         WHERE COMP_CD IN
         <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
-    </delete>
+    </delete>-->
+
+    <update id="compPackDelete" parameterType="VMap">
+        UPDATE MES_COMPANY_INFO
+        SET COMP_YN = 'N'
+        WHERE COMP_CD IN
+        <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
 
 </mapper>

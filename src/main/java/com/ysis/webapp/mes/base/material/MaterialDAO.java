@@ -24,12 +24,16 @@ public class MaterialDAO extends MapperDAO {
         return selectOne(mapperName + ".mateOverlap", vMap.getMap());
     }
 
+    public List<Map<String, Object>> mateOverlap2(VMap vMap) throws Exception {
+        return selectList(mapperName + ".mateOverlap2", vMap.getMap());
+    }
+
     public int mateRegistModify(VMap vmap) throws Exception {
         return insert(mapperName + ".mateRegistModify", vmap.getMap());
     }
 
     public int matePackDelete(VMap vmap) throws Exception {
-        return delete(mapperName + ".matePackDelete", vmap.getMap());
+        return update(mapperName + ".matePackDelete", vmap.getMap());
     }
 
 }

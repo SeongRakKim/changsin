@@ -271,6 +271,12 @@ table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sor
     }
 }
 
+.table-form thead tr th, .table-form thead tr td {
+    border: 1px solid gray; !important;
+    color: black !important;
+    vertical-align: middle;
+}
+
 .table-form tbody tr th, .table-form tbody tr td {
     border: 1px solid gray; !important;
     color: black !important;
@@ -316,4 +322,12 @@ table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sor
 
 input[type='text'].ui-autocomplete-loading {
     background: url('/img/gif-loading-icon-16.jpg') no-repeat right center;
+}
+
+.form-group {
+    margin: 0 5px 10px 5px !important;
+}
+
+.datepicker {
+    padding-left: 10px !important;
 }

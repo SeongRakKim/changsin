@@ -138,12 +138,13 @@
             ,EQU_UPUSER = IFNULL(#{u_cd}, 'system')
     </insert>
 
-    <delete id="equPackDelete" parameterType="VMap">
-        DELETE FROM MES_EQUIPMENT_INFO
+    <update id="equPackDelete" parameterType="VMap">
+        UPDATE MES_EQUIPMENT_INFO
+        SET EQU_YN = 'N'
         WHERE EQU_CD IN
         <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
-    </delete>
+    </update>
 
 </mapper>

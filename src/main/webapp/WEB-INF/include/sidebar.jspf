@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: Mi Ra
+  User: outsourcing
   Date: 2022-02-10
   Time: 오후 6:02
   To change this template use File | Settings | File Templates.
@@ -47,7 +47,7 @@
         </a>
         <div id="collapseBase" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-<%--                <h6 class="collapse-header">기준정보</h6>--%>
+<%--                <h4 class="collapse-header">기준정보</h4>--%>
                 <a class="_isUrl collapse-item" data-url="/mes/base/company/list" href="/mes/base/company/list">거래처정보</a>
                 <a class="_isUrl collapse-item" data-url="/mes/base/product/list" href="/mes/base/product/list">제품정보</a>
                 <a class="_isUrl collapse-item" data-url="/mes/base/material/raw/list" href="/mes/base/material/raw/list">원자재정보</a>
@@ -55,6 +55,19 @@
                 <a class="_isUrl collapse-item" data-url="/mes/base/process/list" href="/mes/base/process/list">공정정보</a>
                 <a class="_isUrl collapse-item" data-url="/mes/base/equipment/list" href="/mes/base/equipment/list">설비정보</a>
                 <a class="_isUrl collapse-item" data-url="/mes/base/notice/list" href="/mes/base/notice/list">공지정보</a>
+            </div>
+        </div>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrder"
+           aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-shopping-basket"></i>
+            <span>영업관리</span>
+        </a>
+        <div id="collapseOrder" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+<%--                <h6 class="collapse-header">영업관리</h6>--%>
+                <a class="_isUrl collapse-item" data-url="/mes/sales/order/list" href="/mes/sales/order/list">수주관리</a>
+                <a class="_isUrl collapse-item" data-url="/mes/sales/shipment/list" href="/mes/sales/shipment/list">납품관리</a>
+                <a class="_isUrl collapse-item" data-url="/mes/sales/shipment/state" href="/mes/sales/shipment/raw/state">납품현황</a>
             </div>
         </div>
     </li>

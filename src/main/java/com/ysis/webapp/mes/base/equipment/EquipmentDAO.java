@@ -29,7 +29,7 @@ public class EquipmentDAO extends MapperDAO {
     }
 
     public int equPackDelete(VMap vmap) throws Exception {
-        return delete(mapperName + ".equPackDelete", vmap.getMap());
+        return update(mapperName + ".equPackDelete", vmap.getMap());
     }
 
 }

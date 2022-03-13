@@ -25,6 +25,7 @@
                 OR PROC_NM LIKE CONCAT('%', #{search_text}, '%')
             )
         </if>
+        ORDER BY PROC_INDATE ASC
     </select>
 
     <select id="procOne" parameterType="VMap" resultType="RowMap">
@@ -95,12 +96,13 @@
             ,PROC_UPUSER = IFNULL(#{u_cd}, 'system')
     </insert>
 
-    <delete id="procPackDelete" parameterType="VMap">
-        DELETE FROM MES_PROCESS_INFO
+    <update id="procPackDelete" parameterType="VMap">
+        UPDATE MES_PROCESS_INFO
+        SET PROC_YN = 'N'
         WHERE PROC_CD IN
         <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
-    </delete>
+    </update>
 
 </mapper>

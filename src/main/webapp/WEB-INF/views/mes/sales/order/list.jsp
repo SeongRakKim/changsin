@@ -16,7 +16,7 @@
             <!-- Page Heading -->
 <%--            <span class="btn btn-pill btn-secondary">--%>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 기준정보 <i class="fas fa-chevron-right"></i> 제품정보
+                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 영업관리 <i class="fas fa-chevron-right"></i> 수주관리
             </span>
         </div>
 
@@ -27,53 +27,57 @@
 
     <div class="main-content">
         <table class="tableSearch table table-hover table-striped table-bordered mb-5" style="margin-bottom: 0.5rem !important;">
-<%--            <colgroup>--%>
-<%--                <col style="width: 10%">--%>
-<%--                <col style="width: 20%">--%>
-<%--                <col style="width: 10%">--%>
-<%--                <col style="width: 20%">--%>
-<%--                <col style="width: 10%">--%>
-<%--                <col style="width: 30%">--%>
-<%--            </colgroup>--%>
+            <colgroup>
+                <col style="width: 10%">
+                <col style="width: 40%">
+                <col style="width: 10%">
+                <col style="width: 40%">
+            </colgroup>
             <thead class="thead-light">
                 <tr>
-                    <th>제품종류</th>
-                    <td>
-                        <select id="prod_kind" name="prod_kind" class="custom-select w-100" required="">
-                            <option value="">제품종류선택</option>
-                            <option value="PA">완제품</option>
-                            <option value="PH">반제품</option>
-                        </select>
+                    <th>검색날짜</th>
+                    <td colspan="3">
+                        <%@ include file="/WEB-INF/include/main-search-date-content.jspf"%>
                     </td>
-                    <th>제품분류</th>
-                    <td>
-                        <select id="prod_group" name="prod_group" class="custom-select w-100" required="">
-                            <option value="">제품분류선택</option>
-                            <c:forEach var="item" items="${vmap.prodGroupList}" varStatus="status">
-                                <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
-                            </c:forEach>
-                        </select>
-                    </td>
-                    <th>제품군</th>
-                    <td>
-                        <select id="prod_family" name="prod_family" class="custom-select w-100" required="">
-                            <option value="">제품군선택</option>
-                            <c:forEach var="item" items="${vmap.prodFamilyList}" varStatus="status">
-                                <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
-                            </c:forEach>
-                        </select>
-                    </td>
-                    <th>검색어</th>
-                    <td>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                            </div>
-                            <input id="search_text" name="search_text" class="form-control" placeholder="검색어" type="text">
-                        </div>
-                    </td>
+                </tr>
+                <tr>
+<%--                    <th>수주종류</th>--%>
+<%--                    <td>--%>
+<%--                        <select id="prod_kind" name="prod_kind" class="custom-select w-100" required="">--%>
+<%--                            <option value="">수주종류선택</option>--%>
+<%--                            <option value="PA">완수주</option>--%>
+<%--                            <option value="PH">반수주</option>--%>
+<%--                        </select>--%>
+<%--                    </td>--%>
+<%--                    <th>수주분류</th>--%>
+<%--                    <td>--%>
+<%--                        <select id="prod_group" name="prod_group" class="custom-select w-100" required="">--%>
+<%--                            <option value="">수주분류선택</option>--%>
+<%--                            <c:forEach var="item" items="${vmap.prodGroupList}" varStatus="status">--%>
+<%--                                <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>--%>
+<%--                            </c:forEach>--%>
+<%--                        </select>--%>
+<%--                    </td>--%>
+<%--                    <th>수주군</th>--%>
+<%--                    <td>--%>
+<%--                        <select id="prod_family" name="prod_family" class="custom-select w-100" required="">--%>
+<%--                            <option value="">수주군선택</option>--%>
+<%--                            <c:forEach var="item" items="${vmap.prodFamilyList}" varStatus="status">--%>
+<%--                                <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>--%>
+<%--                            </c:forEach>--%>
+<%--                        </select>--%>
+<%--                    </td>--%>
+<%--                    <th>검색어</th>--%>
+<%--                    <td>--%>
+<%--                        <div class="input-group">--%>
+<%--                            <div class="input-group-prepend">--%>
+<%--                                <span class="input-group-text">--%>
+<%--                                    <i class="fas fa-search"></i>--%>
+<%--                                </span>--%>
+<%--                            </div>--%>
+<%--                            <input id="search_text" name="search_text" class="form-control" placeholder="검색어" type="text">--%>
+<%--                        </div>--%>
+<%--                    </td>--%>
                 </tr>
             </thead>
         </table>
@@ -95,18 +99,18 @@
                                                 <label class="custom-control-label" for="listAll"></label>
                                             </div>
                                         </th>
-                                        <th>제품코드</th>
+                                        <th>수주코드</th>
                                         <th>품번</th>
                                         <th>품명</th>
                                         <th>종류</th>
                                         <th>분류</th>
-                                        <th>제품군</th>
+                                        <th>수주군</th>
                                         <th>규격</th>
                                         <th>단위</th>
                                         <th>단가</th>
                                         <th>주거래처</th>
 <%--                                        <th>안전재고</th>--%>
-<%--                                        <th>제품재고</th>--%>
+<%--                                        <th>수주재고</th>--%>
                                         <th>양산여부</th>
                                         <th style="width: 11%;">관리</th>
                                     </tr>
@@ -134,48 +138,48 @@
                     <table id="tblPopData" class="table table-hover table-bordered mb-5 table-form">
                         <tbody>
                             <tr>
-                                <th>제품코드</th>
+                                <th>수주코드</th>
                                 <td>
                                     <input type="text" id="pop_prod_cd" name="pop_prod_cd" class="form-control key"
-                                           placeholder="제품코드 / 미입력 시 자동생성" title="제품코드"
+                                           placeholder="수주코드 / 미입력 시 자동생성" title="수주코드"
                                            />
                                     <div class="invalid-feedback"></div>
                                 </td>
-                                <th>제품품번<span class="red"> (필수)</span></th>
+                                <th>수주품번<span class="red"> (필수)</span></th>
                                 <td>
                                     <input type="text" id="pop_prod_pn" name="pop_prod_pn" class="form-control"
-                                           placeholder="제품품번" title="제품품번"
+                                           placeholder="수주품번" title="수주품번"
                                            required />
                                 </td>
-                                <th>제품명<span class="red"> (필수)</span></th>
+                                <th>수주명<span class="red"> (필수)</span></th>
                                 <td>
                                     <input type="text" id="pop_prod_nm" name="pop_prod_nm" class="form-control"
-                                           placeholder="제품명" title="제품명"
+                                           placeholder="수주명" title="수주명"
                                            required />
                                 </td>
                             </tr>
                             <tr>
-                                <th> 제품종류<span class="red"> (필수)</span></th>
+                                <th> 수주종류<span class="red"> (필수)</span></th>
                                 <td>
-                                    <select id="pop_prod_kind" name="pop_prod_kind" class="custom-select w-100"  title="제품종류" required>
-                                        <option value="">제품종류선택</option>
-                                        <option value="PA">완제품</option>
-                                        <option value="PH">반제품</option>
+                                    <select id="pop_prod_kind" name="pop_prod_kind" class="custom-select w-100"  title="수주종류" required>
+                                        <option value="">수주종류선택</option>
+                                        <option value="PA">완수주</option>
+                                        <option value="PH">반수주</option>
                                     </select>
                                 </td>
-                                <th>제품분류 <span class="red"> (필수)</span></th>
+                                <th>수주분류 <span class="red"> (필수)</span></th>
                                 <td>
-                                    <select id="pop_prod_group" name="pop_prod_group" class="custom-select w-100"  title="제품분류" required>
-                                        <option value="">제품분류선택</option>
+                                    <select id="pop_prod_group" name="pop_prod_group" class="custom-select w-100"  title="수주분류" required>
+                                        <option value="">수주분류선택</option>
                                         <c:forEach var="item" items="${vmap.prodGroupList}" varStatus="status">
                                             <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
                                         </c:forEach>
                                     </select>
                                 </td>
-                                <th>제품군</th>
+                                <th>수주군</th>
                                 <td>
-                                    <select id="pop_prod_family" name="pop_prod_family" class="custom-select w-100"  title="제품군">
-                                        <option value="">제품군선택</option>
+                                    <select id="pop_prod_family" name="pop_prod_family" class="custom-select w-100"  title="수주군">
+                                        <option value="">수주군선택</option>
                                         <c:forEach var="item" items="${vmap.prodFamilyList}" varStatus="status">
                                             <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
                                         </c:forEach>
@@ -216,7 +220,7 @@
                                     <input type="text" id="pop_prod_keep_cnt" name="pop_prod_keep_cnt" class="form-control"
                                            placeholder="안전재고" title="안전재고" />
                                 </td>
-                                <th>양산제품여부</th>
+                                <th>양산수주여부</th>
                                 <td>
                                     <div style="display: flex; flex-wrap: wrap;">
                                         <div class="custom-control custom-radio my-3">
@@ -263,7 +267,7 @@
     </div>
 </div>
 
-<%-- 제품 공정 팝업 --%>
+<%-- 수주 공정 팝업 --%>
 <div class="modal fade dataModal" id="processModal" tabindex="-1" role="dialog" aria-labelledby="registModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl modal-form-xl" role="document">
         <div class="modal-content">
@@ -278,7 +282,7 @@
                     <table id="tblPopProduct" class="table table-hover table-bordered mb-5 table-form">
                         <tbody>
                             <tr>
-                                <th>제품코드</th>
+                                <th>수주코드</th>
                                 <td id="pop_proc_prod_cd"></td>
                                 <th>품번</th>
                                 <td id="pop_proc_prod_pn"></td>
@@ -341,13 +345,13 @@
     </div>
 </div>
 
-<%-- 제품 공정 Templete / Handlbars --%>
+<%-- 수주 공정 Templete / Handlbars --%>
 <script id="popProcessTemplete" type="text/x-handlebars-template">
     <tr class="sortable list_tr{{cnt}}">
         <td class="handle" style="text-align: center;">
             <span class="ui-icon ui-icon-arrowthick-2-n-s"></span> <span class="order">{{cnt}}</span>
             <input type="hidden" name="pop_prod_proc_cd" class="form-control" value="{{prod_proc_cd}}"
-                   placeholder="제품공정코드" title="제품공정코드" />
+                   placeholder="수주공정코드" title="수주공정코드" />
         </td>
         <td>
             <select name="pop_proc_cd" class="custom-select w-100"  title="공정" required>
@@ -376,7 +380,7 @@
     </tr>
 </script>
 
-<%-- 제품 BOM 팝업 --%>
+<%-- 수주 BOM 팝업 --%>
 <div class="modal fade dataModal" id="bomModal" tabindex="-1" role="dialog" aria-labelledby="registModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl modal-form-xl" role="document">
         <div class="modal-content">
@@ -391,7 +395,7 @@
                     <table id="tblPopProduct2" class="table table-hover table-bordered mb-5 table-form">
                         <tbody>
                             <tr>
-                                <th>제품코드</th>
+                                <th>수주코드</th>
                                 <td id="pop_bom_prod_cd"></td>
                                 <th>품번</th>
                                 <td id="pop_bom_prod_pn"></td>
@@ -454,12 +458,12 @@
     </div>
 </div>
 
-<%-- 제품 BOM Templete / Handlbars --%>
+<%-- 수주 BOM Templete / Handlbars --%>
 <script id="popBomTemplete" type="text/x-handlebars-template">
     <tr class="sortable list_tr{{cnt}}">
         <td>
             <input type="hidden" name="pop_prod_bom_cd" class="form-control" value="{{prod_bom_cd}}"
-                   placeholder="제품공정코드" title="제품공정코드" />
+                   placeholder="수주공정코드" title="수주공정코드" />
             <select name="pop_proc_cd" class="custom-select w-100"  title="공정" required>
                 <option value="">공정선택</option>
                 <c:forEach var="item" items="${vmap.procList}" varStatus="status">
@@ -492,14 +496,42 @@
     </tr>
 </script>
 
+<script>
+    $.datepicker.setDefaults({
+        closeText: "닫기",
+        prevText: "이전달",
+        nextText: "다음달",
+        currentText: "오늘",
+        monthNames: ["1월", "2월", "3월", "4월", "5월", "6월",
+            "7월", "8월", "9월", "10월", "11월", "12월"
+        ],
+        monthNamesShort: ["1월", "2월", "3월", "4월", "5월", "6월",
+            "7월", "8월", "9월", "10월", "11월", "12월"
+        ],
+        dayNames: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"],
+        dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
+        dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"],
+        weekHeader: "주",
+        dateFormat: "yy-mm-dd", // 날짜형태 예)yy년 m월 d일
+        firstDay: 0,
+        isRTL: false,
+        showMonthAfterYear: true,
+        yearSuffix: "년"
+    });
+
+    $(".datepicker").datepicker({
+        // minDate: 0
+    });
+</script>
 
 <script>
 
     $(document).ready(() => {
         // DataTables setting
         setDatatable();
-        getData();
+        // getData();
         initAutoComplete("#pop_selector");
+        $(".datepicker").datepicker();
 
         setSortable("tblPopProcess");
 
@@ -515,13 +547,13 @@
 
         // Add Data - Call Data Form
         $("#btnNew").on("click", () => {
-            callEditmodal("제품 추가", "R");
+            callEditmodal("수주 추가", "R");
         });
 
         // 상세조회
         $("#tblMaster").on("dblclick", "tr", function() {
             let prod_cd = $(this).find("input[name=prod_cd]").val();
-            callEditmodal("제품 수정", "M");
+            callEditmodal("수주 수정", "M");
             getDataOne(prod_cd);
         });
 
@@ -536,7 +568,7 @@
 
             Swal.fire({
                 title: '',
-                text: "제품 정보를 저장하시겠습니까?",
+                text: "수주 정보를 저장하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -555,7 +587,7 @@
 
             Swal.fire({
                 title: '',
-                text: "제품 정보를 삭제하시겠습니까?",
+                text: "수주 정보를 삭제하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -576,7 +608,7 @@
 
             Swal.fire({
                 title: '',
-                text: "제품-공정 정보를 저장하시겠습니까?",
+                text: "수주-공정 정보를 저장하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -597,7 +629,7 @@
 
             Swal.fire({
                 title: '',
-                text: "제품-BOM 정보를 저장하시겠습니까?",
+                text: "수주-BOM 정보를 저장하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -617,7 +649,7 @@
             {
                 $.ajax({
                     type : 'get'
-                    ,url: '/mes/base/product/prodOverlap/' + $("#pop_prod_cd").val()
+                    ,url: '/mes/sales/order/orderOverlap/' + $("#pop_prod_cd").val()
                     ,dataType : 'json'
                 })
                     .done(function (data)
@@ -625,7 +657,7 @@
                         if(data) {
                             $("#pop_prod_cd").removeClass("is-valid");
                             $("#pop_prod_cd").addClass("is-invalid");
-                            $(".invalid-feedback").text("중복된 제품 코드입니다.");
+                            $(".invalid-feedback").text("중복된 수주 코드입니다.");
                         }else {
                             $("#pop_prod_cd").removeClass("is-invalid");
                             $("#pop_prod_cd").addClass("is-valid");
@@ -798,7 +830,7 @@
         showWait('.container-fluid');
 
         $.ajax({
-            url: "/mes/base/product/prodList"
+            url: "/mes/sales/order/orderList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -877,7 +909,7 @@
         showWait('.dataModal');
 
         $.ajax({
-            url: "/mes/base/product/prodOne/" + prod_cd
+            url: "/mes/sales/order/orderOne/" + prod_cd
             ,type: "get"
             ,dataType: "json"
             // ,data: JSON.stringify({})
@@ -903,7 +935,7 @@
 
         $.ajax({
             type: "post"
-            ,url: "/mes/base/product/prodRegistModify"
+            ,url: "/mes/sales/order/orderRegistModify"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "POST"
@@ -951,7 +983,7 @@
 
         $.ajax({
             type: "delete"
-            ,url: "/mes/base/product/prodPackDelete"
+            ,url: "/mes/sales/order/orderPackDelete"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "DELETE"
@@ -992,7 +1024,7 @@
         showWait('.dataModal');
 
         $.ajax({
-            url: "/mes/base/product/process/prodProcList"
+            url: "/mes/sales/order/process/orderProcList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -1058,7 +1090,7 @@
             });
     }
 
-    // 제품 공정정보 data regist
+    // 수주 공정정보 data regist
     function prodProcRegistModifyData()
     {
         showWait('.dataModal');
@@ -1081,7 +1113,7 @@
 
         $.ajax({
             type: "post"
-            ,url: "/mes/base/product/process/prodProcRegistModify"
+            ,url: "/mes/sales/order/process/orderProcRegistModify"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "POST"
@@ -1123,7 +1155,7 @@
         {
             Swal.fire({
             title: '',
-            text: "제품-공정 정보를 삭제하시겠습니까?",
+            text: "수주-공정 정보를 삭제하시겠습니까?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -1137,7 +1169,7 @@
 
                     $.ajax({
                         type: "delete"
-                        ,url: "/mes/base/product/process/prodProcDelete"
+                        ,url: "/mes/sales/order/process/orderProcDelete"
                         ,headers: {
                             "Content-Type": "application/json"
                             ,"X-HTTP-Method-Override": "DELETE"
@@ -1181,7 +1213,7 @@
         showWait('.dataModal');
 
         $.ajax({
-            url: "/mes/base/product/bom/prodBomList"
+            url: "/mes/sales/order/bom/orderBomList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -1252,7 +1284,7 @@
             });
     }
 
-    // 제품 BOM정보 data regist
+    // 수주 BOM정보 data regist
     function prodBomRegistModifyData()
     {
         showWait('.dataModal');
@@ -1275,7 +1307,7 @@
 
         $.ajax({
             type: "post"
-            ,url: "/mes/base/product/bom/prodBomRegistModify"
+            ,url: "/mes/sales/order/bom/orderBomRegistModify"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "POST"
@@ -1317,7 +1349,7 @@
         {
             Swal.fire({
             title: '',
-            text: "제품-BOM 정보를 삭제하시겠습니까?",
+            text: "수주-BOM 정보를 삭제하시겠습니까?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -1331,7 +1363,7 @@
 
                     $.ajax({
                         type: "delete"
-                        ,url: "/mes/base/product/bom/prodBomDelete"
+                        ,url: "/mes/sales/order/bom/orderBomDelete"
                         ,headers: {
                             "Content-Type": "application/json"
                             ,"X-HTTP-Method-Override": "DELETE"

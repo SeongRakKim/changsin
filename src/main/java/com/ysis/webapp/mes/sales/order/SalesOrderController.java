@@ -1,4 +1,4 @@
-package com.ysis.webapp.mes.base.product;
+package com.ysis.webapp.mes.sales.order;
 
 import com.ysis.webapp.common.vo.VMap;
 import com.ysis.webapp.mes.base.material.MaterialService;
@@ -10,11 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Map;
 
 @Controller
-public class ProductController {
+public class SalesOrderController {
 
     @Autowired
     CommonService commonService;
@@ -26,8 +24,8 @@ public class ProductController {
     MaterialService materialService;
 
 
-    @GetMapping("/mes/base/product/list")
-    public void productList(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+    @GetMapping("/mes/sales/order/list")
+    public void orderList(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
         vmap.put("requestUri", httpServletRequest.getRequestURI());
 
         // 분류

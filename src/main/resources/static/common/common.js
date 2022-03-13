@@ -2,14 +2,36 @@ function setTreeMenuActive(el) {
 	$.each($("a._isUrl"), function(index, item) {
 		let nav_root = $(item).closest("li");
 		if($(item).data("url") === el) {
-			nav_root.find(".nav-link").removeClass("collapsed");
-			nav_root.find(".collapse").addClass("show");
+			$(item).closest("a").removeClass("collapsed");
+			$(item).parent().parent().addClass("show");
 			$(item).addClass("active");
 			return false;
 		}else {
-			nav_root.find(".nav-link").addClass("collapsed");
-			nav_root.find(".collapse").removeClass("show");
+			$(item).closest("a").addClass("collapsed");
+			$(item).parent().parent().removeClass("show");
 			$(item).removeClass("active");
+		}
+	});
+}
+
+function setSortable(id)
+{
+	$("#" + id).sortable({
+		handle: "td.handle"
+		,items: "tr.sortable"
+		,opacity: 0.8
+		,helper: function (e, ui) {
+			ui.children().each(function () {
+				$(this).width($(this).width());
+			});
+			return ui;
+		}
+		,update: function (event, ui) {
+			var rows = $(".sortable");
+			$.each(rows, function(index, item) {
+				var $item = $(item);
+				$item.find(".order").html(index + 1);
+			})
 		}
 	});
 }

@@ -29,7 +29,7 @@ public class ProcessDAO extends MapperDAO {
     }
 
     public int procPackDelete(VMap vmap) throws Exception {
-        return delete(mapperName + ".procPackDelete", vmap.getMap());
+        return update(mapperName + ".procPackDelete", vmap.getMap());
     }
 
 }

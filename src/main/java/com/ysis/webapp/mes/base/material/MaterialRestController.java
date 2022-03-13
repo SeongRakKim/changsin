@@ -44,6 +44,16 @@ public class MaterialRestController {
         return new ResponseEntity<>(isFalg, HttpStatus.OK);
     }
 
+
+    @GetMapping("/mes/base/material/mateOverlap2/{selector}")
+    public ResponseEntity<List<Map<String, Object>>> mateOverlap2(VMap vmap, @PathVariable("selector") String selector) throws Exception
+    {
+        vmap.put("selector", selector);
+        List<Map<String, Object>> mateOverlapList = materialService.mateOverlap2(vmap);
+
+        return new ResponseEntity<>(mateOverlapList, HttpStatus.OK);
+    }
+
     @PostMapping("/mes/base/material/mateRegistModify")
     public ResponseEntity<String> mateRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
     {

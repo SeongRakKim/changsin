@@ -62,4 +62,58 @@ public class ProductRestController {
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
 
+    @PostMapping("/mes/base/product/process/prodProcList")
+    public ResponseEntity<List<Map<String, Object>>> prodProcList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    {
+        vmap.set(map);
+        List<Map<String, Object>> prodList = productService.prodProcList(vmap);
+
+        return new ResponseEntity<>(prodList, HttpStatus.OK);
+    }
+
+    @PostMapping("/mes/base/product/process/prodProcRegistModify")
+    public ResponseEntity<String> prodProcRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    {
+        vmap.set(map);
+        productService.prodProcRegistModify(vmap);
+
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/mes/base/product/process/prodProcDelete")
+    public ResponseEntity<String> prodProcDeleteDELETE(VMap vmap, @RequestBody Map<String, Object> map ) throws Exception
+    {
+        vmap.set(map);
+        productService.prodProcDelete(vmap);
+
+        return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+    }
+
+    @PostMapping("/mes/base/product/bom/prodBomList")
+    public ResponseEntity<List<Map<String, Object>>> prodBomList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    {
+        vmap.set(map);
+        List<Map<String, Object>> prodList = productService.prodBomList(vmap);
+
+        return new ResponseEntity<>(prodList, HttpStatus.OK);
+    }
+
+    @PostMapping("/mes/base/product/bom/prodBomRegistModify")
+    public ResponseEntity<String> prodBomRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    {
+        vmap.set(map);
+        productService.prodBomRegistModify(vmap);
+
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/mes/base/product/bom/prodBomDelete")
+    public ResponseEntity<String> prodBomDelete(VMap vmap, @RequestBody Map<String, Object> map ) throws Exception
+    {
+        vmap.set(map);
+        productService.prodBomDelete(vmap);
+
+        return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+    }
+
 }
