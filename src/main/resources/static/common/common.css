@@ -224,7 +224,6 @@ table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sor
 
 .sch_br_bt {border-bottom:1px solid #d1d1d1 !important;}
 .sch_br_rt {border-right:1px solid #d1d1d1 !important;}
-.txt-center {text-align: center !important;}
 .br-th {border-bottom:1px solid #d1d1d1 !important;}
 
 .menu-nav {
@@ -331,4 +330,16 @@ input[type='text'].ui-autocomplete-loading {
 
 .datepicker {
     padding-left: 10px !important;
+}
+
+.dataList td {
+    text-align: center;
+}
+
+.txt-right {
+    text-align: right !important;
+}
+
+.txt-center {
+    text-align: center !important;
 }

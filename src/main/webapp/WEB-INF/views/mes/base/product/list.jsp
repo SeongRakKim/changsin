@@ -365,14 +365,14 @@
             <input type="text" name="pop_prod_proc_notice" class="form-control" value="{{prod_proc_notice}}"
                    placeholder="비고" title="비고" />
         </td>
-        <th>
+        <td style="text-align: center;">
             <button class="btn btn-sm btn-danger" type="button" onclick="prodProcDelete({{cnt}})">
-                                        <span class="btn-wrapper--icon">
-                                            <i class="fas fa-minus-circle"></i>
-                                        </span>
+                <span class="btn-wrapper--icon">
+                    <i class="fas fa-minus-circle"></i>
+                </span>
                 <span class="btn-wrapper--label">행삭제</span>
             </button>
-        </th>
+        </td>
     </tr>
 </script>
 
@@ -481,14 +481,14 @@
             <input type="text" name="pop_prod_bom_notice" class="form-control" value="{{prod_bom_notice}}"
                    placeholder="비고" title="비고" />
         </td>
-        <th>
+        <td style="text-align: center;">
             <button class="btn btn-sm btn-danger" type="button" onclick="prodBomDelete({{cnt}})">
                                         <span class="btn-wrapper--icon">
                                             <i class="fas fa-minus-circle"></i>
                                         </span>
                 <span class="btn-wrapper--label">행삭제</span>
             </button>
-        </th>
+        </td>
     </tr>
 </script>
 

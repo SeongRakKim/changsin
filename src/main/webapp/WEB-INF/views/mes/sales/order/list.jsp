@@ -89,7 +89,6 @@
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12">
-<%--                            <button type="button" class="btn btn-sm btn-success" onclick='setExcelPdfButtonEvent({tableID:"tblMaster", btn:"excel"});'><i class="fas fa-file-excel"></i> 엑셀</button>--%>
                             <table id ="tblMaster" class="table-list table table-hover table-striped table-bordered mb-5" style="width: 100%">
                                 <thead>
                                     <tr role="row">
@@ -109,15 +108,14 @@
                                         <th>단위</th>
                                         <th>단가</th>
                                         <th>주거래처</th>
-<%--                                        <th>안전재고</th>--%>
-<%--                                        <th>수주재고</th>--%>
                                         <th>양산여부</th>
                                         <th style="width: 11%;">관리</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
-                        </table>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -126,142 +124,195 @@
 
 <div class="modal fade dataModal" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="registModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl modal-form-xl" role="document">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 110%;">
             <div class="modal-header">
                 <h2 class="modal-title"><i id="form-modal-icon"></i> <span id="form-modal-title"></span></h2>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form id="dataForm" name="dataForm" class="dataForm" method="post">
                 <div class="modal-body">
-                    <table id="tblPopData" class="table table-hover table-bordered mb-5 table-form">
-                        <tbody>
-                            <tr>
-                                <th>거래처<span class="red"> (필수)</span></th>
-                                <td>
-                                    <input type="hidden" id="pop_comp_cd" name="pop_comp_cd" class="form-control"
-                                           placeholder="거래처" title="거래처" required />
-                                    <input type="text" id="pop_selector" name="pop_selector" class="form-control"
-                                           placeholder="거래처" title="거래처" />
-                                </td>
-                                <th>수주일<span class="red"> (필수)</span></th>
-                                <td>
-                                    <div class="input-group input-group-seamless">
-                                        <input id="pop_odr_dt" name="pop_odr_dt" class="form-control datepicker"
-                                               placeholder="수주일" type="text" required />
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                    <form id="dataForm" name="dataForm" class="dataForm" method="post">
+                        <table id="tblPopData" class="table table-hover table-bordered mb-3 table-form">
+                            <tbody>
+                                <tr>
+                                    <th>거래처<span class="red"> (필수)</span></th>
+                                    <td>
+                                        <input type="hidden" id="pop_comp_cd" name="pop_comp_cd" class="form-control no-reset"
+                                               placeholder="거래처" title="거래처" />
+                                        <input type="hidden" id="pop_comp_nm" name="pop_comp_nm" class="form-control no-reset"
+                                               placeholder="거래처" title="거래처" />
+                                        <input type="text" id="pop_selector" name="pop_selector" class="form-control no-reset"
+                                               placeholder="거래처명" title="거래처명" required />
+                                    </td>
+                                    <th>수주일<span class="red"> (필수)</span></th>
+                                    <td>
+                                        <div class="input-group input-group-seamless">
+                                            <input id="pop_odr_dt" name="pop_odr_dt" class="form-control datepicker no-reset" title="수주일"
+                                                   placeholder="수주일" type="text" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <th>납기요청일<span class="red"> (필수)</span></th>
-                                <td>
-                                    <div class="input-group input-group-seamless">
-                                        <input id="pop_odr_ship_dt" name="pop_odr_ship_dt" class="form-control datepicker"
-                                               placeholder="납기요청일" type="text" required />
-                                        <div class="input-group-append">
-                                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                    </td>
+                                    <th>납기요청일<span class="red"> (필수)</span></th>
+                                    <td>
+                                        <div class="input-group input-group-seamless">
+                                            <input id="pop_odr_ship_dt" name="pop_odr_ship_dt" class="form-control datepicker no-reset" title="납기요청일"
+                                                   placeholder="납기요청일" type="text" />
+                                            <div class="input-group-append">
+                                                <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>품번 or 품명 <span class="red"> (필수)</span></th>
-                                <td>
-                                    <input type="text" id="pop_prod_cd" name="pop_prod_cd" class="form-control"
-                                           placeholder="제품코드" title="제품코드" required />
-                                    <input type="text" id="pop_selector2" name="pop_selector2" class="form-control"
-                                           placeholder="품번 or 품명" title="품번 or 품명" />
-                                </td>
-                                <th>제품종류</th>
-                                <td>
-                                    <input type="text" id="pop_prod_kind_nm" name="pop_prod_kind_nm" class="form-control"
-                                           placeholder="제품종류" title="제품종류" readonly="readonly" />
-                                </td>
-                                <th>제품분류</th>
-                                <td>
-                                    <input type="text" id="pop_prod_group_nm" name="pop_prod_group_nm" class="form-control"
-                                           placeholder="제품분류" title="제품분류" readonly="readonly" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>제품군</th>
-                                <td>
-                                    <input type="text" id="pop_prod_family_nm" name="pop_prod_family_nm" class="form-control"
-                                           placeholder="제품군" title="제품군" readonly="readonly" />
-                                </td>
-                                <th>규격</th>
-                                <td>
-                                    <input type="text" id="pop_prod_stand" name="pop_prod_stand" class="form-control"
-                                           placeholder="규격" title="규격" readonly="readonly" />
-                                </td>
-                                <th>단위</th>
-                                <td>
-                                    <input type="text" id="pop_prod_unit_nm" name="pop_prod_unit_nm" class="form-control"
-                                           placeholder="단위" title="단위" readonly="readonly" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>기본단가</th>
-                                <td>
-                                    <input type="text" id="pop_prod_price" name="pop_prod_price" class="form-control"
-                                           placeholder="기본단가" title="기본단가" readonly="readonly" />
-                                </td>
-                                <th>수량 <span class="red"> (필수)</span></th>
-                                <td>
-                                    <input type="text" id="pop_odr_cnt" name="pop_odr_cnt" class="form-control"
-                                           placeholder="수주단가" title="수주단가" required />
-                                </td>
-                                <th>단가 <span class="red"> (필수)</span></th>
-                                <td>
-                                    <input type="text" id="pop_odr_price" name="pop_odr_price" class="form-control"
-                                           placeholder="수주단가" title="수주단가" required />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>VAT 여부</th>
-                                <td>
-                                    <div style="display: flex; flex-wrap: wrap;">
-                                        <div class="custom-control custom-radio my-3">
-                                            <input type="radio" id="customRadio1" name="pop_odr_vat_yn" class="custom-control-input" value="Y">
-                                            <label class="custom-control-label" for="customRadio1">포함</label>
+                                    </td>
+                                    <th>프로젝트</th>
+                                    <td>
+                                        <input type="text" id="pop_odr_project" name="pop_odr_project" class="form-control" placeholder="프로젝트" title="프로젝트" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>품번 or 품명 <span class="red"> (필수)</span></th>
+                                    <td>
+                                        <input type="hidden" id="pop_prod_cd" name="pop_prod_cd" class="form-control"
+                                               placeholder="제품코드" title="제품코드" />
+                                        <input type="hidden" id="pop_prod_nm" name="pop_prod_nm" class="form-control"
+                                               placeholder="제품명" title="제품명" />
+                                        <input type="hidden" id="pop_prod_pn" name="pop_prod_pn" class="form-control"
+                                               placeholder="제품품번" title="제품코드" />
+                                        <input type="text" id="pop_selector2" name="pop_selector2" class="form-control"
+                                               placeholder="품번 or 품명" title="품번 or 품명" required />
+                                    </td>
+                                    <th>제품종류</th>
+                                    <td>
+                                        <input type="text" id="pop_prod_kind_nm" name="pop_prod_kind_nm" class="form-control"
+                                               placeholder="제품종류" title="제품종류" readonly="readonly" />
+                                    </td>
+                                    <th>제품분류</th>
+                                    <td>
+                                        <input type="text" id="pop_prod_group_nm" name="pop_prod_group_nm" class="form-control"
+                                               placeholder="제품분류" title="제품분류" readonly="readonly" />
+                                    </td>
+                                    <th>제품군</th>
+                                    <td>
+                                        <input type="text" id="pop_prod_family_nm" name="pop_prod_family_nm" class="form-control"
+                                               placeholder="제품군" title="제품군" readonly="readonly" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>규격</th>
+                                    <td>
+                                        <input type="text" id="pop_prod_stand" name="pop_prod_stand" class="form-control"
+                                               placeholder="규격" title="규격" readonly="readonly" />
+                                    </td>
+                                    <th>단위</th>
+                                    <td>
+                                        <input type="text" id="pop_prod_unit_nm" name="pop_prod_unit_nm" class="form-control"
+                                               placeholder="단위" title="단위" readonly="readonly" />
+                                    </td>
+                                    <th>기본단가</th>
+                                    <td>
+                                        <input type="text" id="pop_prod_price" name="pop_prod_price" class="form-control"
+                                               placeholder="기본단가" title="기본단가" readonly="readonly" />
+                                    </td>
+                                    <th>VAT 여부</th>
+                                    <td>
+                                        <div style="display: flex; flex-wrap: wrap;">
+                                            <div class="custom-control custom-radio my-3">
+                                                <input type="radio" checked="" id="customRadio1" name="pop_odr_vat_yn" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label" for="customRadio1">포함</label>
+                                            </div>
+                                            <div class="custom-control custom-radio my-3">
+                                                <input type="radio" id="customRadio2" name="pop_odr_vat_yn" class="custom-control-input" value="N">
+                                                <label class="custom-control-label" for="customRadio2">별도</label>
+                                            </div>
                                         </div>
-                                        <div class="custom-control custom-radio my-3">
-                                            <input type="radio" checked="" id="customRadio2" name="pop_odr_vat_yn" class="custom-control-input" value="N">
-                                            <label class="custom-control-label" for="customRadio2">별도</label>
-                                        </div>
-                                    </div>
-                                </td>
-                                <th>금액</th>
-                                <td>
-                                    <input type="text" id="pop_odr_amt" name="pop_odr_amt" class="form-control"
-                                           placeholder="금액" title="금액" required />
-                                </td>
-                                <th>VAT</th>
-                                <td>
-                                    <input type="text" id="pop_odr_vat" name="pop_odr_vat" class="form-control"
-                                           placeholder="VAT" title="VAT" required />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>비고</th>
-                                <td colspan="5">
-                                    <input type="text" id="pop_odr_notice" name="pop_odr_notice" class="form-control" placeholder="비고" title="비고" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>수량 <span class="red"> (필수)</span></th>
+                                    <td>
+                                        <input type="text" id="pop_odr_cnt" name="pop_odr_cnt" class="form-control"
+                                               placeholder="수주단가" title="수주단가" required />
+                                    </td>
+                                    <th>단가 <span class="red"> (필수)</span></th>
+                                    <td>
+                                        <input type="text" id="pop_odr_price" name="pop_odr_price" class="form-control"
+                                               placeholder="수주단가" title="수주단가" required />
+                                    </td>
+                                    <th>금액 <span class="red"> (필수)</span></th>
+                                    <td>
+                                        <input type="text" id="pop_odr_amt" name="pop_odr_amt" class="form-control"
+                                               placeholder="금액" title="금액" required />
+                                    </td>
+                                    <th>VAT <span class="red"> (필수)</span></th>
+                                    <td>
+                                        <input type="text" id="pop_odr_vat" name="pop_odr_vat" class="form-control"
+                                               placeholder="VAT" title="VAT" required />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>주문자</th>
+                                    <td>
+                                        <input type="text" id="pop_odr_nm" name="pop_odr_nm" class="form-control" placeholder="주문자" title="주문자" />
+                                    </td>
+                                    <th>주문자연락처</th>
+                                    <td>
+                                        <input type="text" id="pop_odr_tel" name="pop_odr_tel" class="form-control" placeholder="주문자연락처" title="주문자연락처" />
+                                    </td>
+                                    <th>비고</th>
+                                    <td colspan="3">
+                                        <input type="text" id="pop_odr_notice" name="pop_odr_notice" class="form-control" placeholder="비고" title="비고" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+
+
+                    <div class="mb-3 isNew" style="display: flex; justify-content: center;">
                         <button type="button" id="btnSetSubList" class="btn btn-primary ">
                             <span class="btn-wrapper--icon">
-                                <i class="fas fa-download"></i>
+                                <i class="fas fa-angle-double-down"></i>
                             </span>
                             <span class="btn-wrapper--label">추가</span>
                         </button>
                     </div>
+
+                    <div class="isNew" style="height: 400px; overflow: auto;">
+                        <table id="tblPopSubData" class="table table-hover table-bordered mb-3 table-form">
+                            <colgroup>
+                                <col style="width: 12%" />
+                                <col style="width: 10%" />
+                                <col style="width: 12%" />
+                                <col style="width: 8%" />
+                                <col style="width: 8%" />
+                                <col style="width: 8%" />
+                                <col style="width: 7%" />
+                                <col style="width: 7%" />
+                                <col style="width: 9%" />
+                                <col style="width: 9%" />
+                                <col style="width: 10%" />
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>거래처</th>
+                                    <th>품번</th>
+                                    <th>품명</th>
+                                    <th>규격</th>
+                                    <th>수주일</th>
+                                    <th>납기요청일</th>
+                                    <th>수량</th>
+                                    <th>단가</th>
+                                    <th>금액</th>
+                                    <th>VAT</th>
+                                    <th>관리</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
-            </form>
+
             <div class="modal-footer">
                 <button type="button" id="btnPopRegist" class="btn btn-primary ">
                     <span class="btn-wrapper--icon">
@@ -283,198 +334,52 @@
     </div>
 </div>
 
-<%-- 수주 공정 팝업 --%>
-<div class="modal fade dataModal" id="processModal" tabindex="-1" role="dialog" aria-labelledby="registModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-form-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title"><i class="fas fa-edit"></i><span>공정등록</span></h2>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <form id="processForm" name="dataForm" class="dataForm" method="post">
-                <div class="modal-body">
-                    <table id="tblPopProduct" class="table table-hover table-bordered mb-5 table-form">
-                        <tbody>
-                            <tr>
-                                <th>수주코드</th>
-                                <td id="pop_proc_prod_cd"></td>
-                                <th>품번</th>
-                                <td id="pop_proc_prod_pn"></td>
-                                <th>품명</th>
-                                <td id="pop_proc_prod_nm"></td>
-                            </tr>
-                            <tr>
-                                <th>종류</th>
-                                <td id="pop_proc_prod_kind_nm"></td>
-                                <th>규격</th>
-                                <td id="pop_proc_prod_stand"></td>
-                                <th>단위</th>
-                                <td id="pop_proc_prod_unit_nm"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table id="tblPopProcess" class="table table-hover table-bordered mb-5 table-form">
-                        <colgroup>
-                            <col style="width: 10%" />
-                            <col style="width: 30%" />
-                            <col style="width: 20%" />
-                            <col style="width: 30%" />
-                            <col style="width: 10%" />
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>순서</th>
-                                <th>공정</th>
-                                <th>표준공수(분)</th>
-                                <th>비고</th>
-                                <th>
-                                    <button class="btn btn-sm btn btn-warning" type="button" id="procBtnNew" onclick="addPopProcRow()">
-                                        <span class="btn-wrapper--icon">
-                                            <i class="fas fa-th-list"></i>
-                                        </span>
-                                        <span class="btn-wrapper--label">행추가</span>
-                                    </button>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </form>
-            <div class="modal-footer">
-                <button type="button" id="btnPopProcessRegist" class="btn btn-primary ">
-                    <span class="btn-wrapper--icon">
-                        <i class="fas fa-download"></i>
-                    </span>
-                    <span class="btn-wrapper--label">저장</span>
-                </button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    <span class="btn-wrapper--icon">
-                        <i class="fas fa-times-circle"></i>
-                    </span>
-                    <span class="btn-wrapper--label">닫기</span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<%-- 수주 공정 Templete / Handlbars --%>
-<script id="popProcessTemplete" type="text/x-handlebars-template">
-    <tr class="sortable list_tr{{cnt}}">
-        <td class="handle" style="text-align: center;">
-            <span class="ui-icon ui-icon-arrowthick-2-n-s"></span> <span class="order">{{cnt}}</span>
-            <input type="hidden" name="pop_prod_proc_cd" class="form-control" value="{{prod_proc_cd}}"
-                   placeholder="수주공정코드" title="수주공정코드" />
+<script id="popOrderTemplete" type="text/x-handlebars-template">
+    <tr class="dataList list_tr{{cnt}}">
+        <td>
+            <input type="hidden" name="pop_sub_odr_cd" class="form-control" value="{{odr_cd}}" />
+            <input type="hidden" name="pop_sub_comp_cd" class="form-control" value="{{comp_cd}}" />
+            <input type="hidden" name="pop_sub_comp_nm" class="form-control" value="{{comp_nm}}" />
+            <input type="hidden" name="pop_sub_prod_cd" class="form-control" value="{{prod_cd}}" />
+            <input type="hidden" name="pop_sub_odr_dt" class="form-control" value="{{odr_dt}}" />
+            <input type="hidden" name="pop_sub_odr_ship_dt" class="form-control" value="{{odr_ship_dt}}" />
+            <input type="hidden" name="pop_sub_odr_vat_yn" class="form-control" value="{{odr_vat_yn}}" />
+            <input type="hidden" name="pop_sub_odr_cnt" class="form-control" value="{{odr_cnt}}" />
+            <input type="hidden" name="pop_sub_odr_price" class="form-control" value="{{odr_price}}" />
+            <input type="hidden" name="pop_sub_odr_amt" class="form-control" value="{{odr_amt}}" />
+            <input type="hidden" name="pop_sub_odr_vat" class="form-control" value="{{odr_vat}}" />
+            <input type="hidden" name="pop_sub_odr_notice" class="form-control" value="{{odr_notice}}" />
+            <input type="hidden" name="pop_sub_odr_nm" class="form-control" value="{{odr_nm}}" />
+            <input type="hidden" name="pop_sub_odr_tel" class="form-control" value="{{odr_tel}}" />
+            <input type="hidden" name="pop_sub_odr_project" class="form-control" value="{{odr_project}}" />
+            {{comp_nm}}
         </td>
         <td>
-            <select name="pop_proc_cd" class="custom-select w-100"  title="공정" required>
-                <option value="">공정선택</option>
-                <c:forEach var="item" items="${vmap.procList}" varStatus="status">
-                    <option value="${item.proc_cd}">${item.proc_nm}</option>
-                </c:forEach>
-            </select>
+            <input type="hidden" name="pop_sub_prod_pn" class="form-control" value="{{prod_pn}}" />
+            <input type="hidden" name="pop_sub_prod_nm" class="form-control" value="{{prod_nm}}" />
+            <input type="hidden" name="pop_sub_prod_kind_nm" class="form-control" value="{{prod_kind_nm}}" />
+            <input type="hidden" name="pop_sub_prod_group_nm" class="form-control" value="{{prod_group_nm}}" />
+            <input type="hidden" name="pop_sub_prod_family_nm" class="form-control" value="{{prod_family_nm}}" />
+            <input type="hidden" name="pop_sub_prod_stand" class="form-control" value="{{prod_stand}}" />
+            <input type="hidden" name="pop_sub_prod_unit_nm" class="form-control" value="{{prod_unit_nm}}" />
+            <input type="hidden" name="pop_sub_prod_price" class="form-control" value="{{prod_price}}" />
+            {{prod_pn}}
         </td>
+        <td>{{prod_nm}}</td>
+        <td>{{prod_stand}}</td>
+        <td>{{odr_dt}}</td>
+        <td>{{odr_ship_dt}}</td>
+        <td class="txt-right">{{odr_cnt}}</td>
+        <td class="txt-right">{{odr_price}}</td>
+        <td class="txt-right">{{odr_amt}}</td>
+        <td class="txt-right">{{odr_vat}}</td>
         <td>
-            <input type="text" name="pop_prod_proc_min" class="form-control" value="{{prod_proc_min}}"
-                   placeholder="표준공수" title="표준공수" />
+            <button class="btn btn-sm btn-success" type="button" onclick="orderModifyRow({{cnt}})">수정</button>
+            <button class="btn btn-sm btn-danger" type="button" onclick="orderDelete({{cnt}})">행삭제</button>
         </td>
-        <td>
-            <input type="text" name="pop_prod_proc_notice" class="form-control" value="{{prod_proc_notice}}"
-                   placeholder="비고" title="비고" />
-        </td>
-        <th>
-            <button class="btn btn-sm btn-danger" type="button" onclick="prodProcDelete({{cnt}})">
-                                        <span class="btn-wrapper--icon">
-                                            <i class="fas fa-minus-circle"></i>
-                                        </span>
-                <span class="btn-wrapper--label">행삭제</span>
-            </button>
-        </th>
     </tr>
 </script>
 
-<%-- 수주 BOM 팝업 --%>
-<div class="modal fade dataModal" id="bomModal" tabindex="-1" role="dialog" aria-labelledby="registModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-form-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title"><i class="fas fa-edit"></i><span>BOM등록</span></h2>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <form id="bomForm" name="dataForm" class="dataForm" method="post">
-                <div class="modal-body">
-                    <table id="tblPopProduct2" class="table table-hover table-bordered mb-5 table-form">
-                        <tbody>
-                            <tr>
-                                <th>수주코드</th>
-                                <td id="pop_bom_prod_cd"></td>
-                                <th>품번</th>
-                                <td id="pop_bom_prod_pn"></td>
-                                <th>품명</th>
-                                <td id="pop_bom_prod_nm"></td>
-                            </tr>
-                            <tr>
-                                <th>종류</th>
-                                <td id="pop_bom_prod_kind_nm"></td>
-                                <th>규격</th>
-                                <td id="pop_bom_prod_stand"></td>
-                                <th>단위</th>
-                                <td id="pop_bom_prod_unit_nm"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table id="tblPopBom" class="table table-hover table-bordered mb-5 table-form">
-                        <colgroup>
-                            <col style="width: 20%" />
-                            <col style="width: 25%" />
-                            <col style="width: 20%" />
-                            <col style="width: 25%" />
-                            <col style="width: 10%" />
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>공정</th>
-                                <th>소요자재</th>
-                                <th>소요량</th>
-                                <th>비고</th>
-                                <th>
-                                    <button class="btn btn-sm btn btn-warning" type="button" id="bomBtnNew" onclick="addPopBomRow()">
-                                        <span class="btn-wrapper--icon">
-                                            <i class="fas fa-th-list"></i>
-                                        </span>
-                                        <span class="btn-wrapper--label">행추가</span>
-                                    </button>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </form>
-            <div class="modal-footer">
-                <button type="button" id="btnPopBomRegist" class="btn btn-primary ">
-                    <span class="btn-wrapper--icon">
-                        <i class="fas fa-download"></i>
-                    </span>
-                    <span class="btn-wrapper--label">저장</span>
-                </button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    <span class="btn-wrapper--icon">
-                        <i class="fas fa-times-circle"></i>
-                    </span>
-                    <span class="btn-wrapper--label">닫기</span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<%-- 수주 BOM Templete / Handlbars --%>
 <script id="popBomTemplete" type="text/x-handlebars-template">
     <tr class="sortable list_tr{{cnt}}">
         <td>
@@ -521,7 +426,6 @@
         // getData();
         initAutoComplete("#pop_selector");
         initAutoComplete2("#pop_selector2");
-        setSortable("tblPopProcess");
 
         $("input:radio[name=pop_prod_mass_yn]").on("change", () => {
             $("input:radio[name=pop_prod_mass_yn]").each(function() {
@@ -529,6 +433,10 @@
         });
 
         $("#prod_kind, #prod_family, #prod_group").on("change", () => { getData() });
+
+        $("#pop_odr_cnt, #pop_odr_price").on("keyup", () => { calcOrderAmtVat() });
+
+        $("input:radio[name=pop_odr_vat_yn]").on("change", () => { calcOrderAmtVat() });
 
         // 조회
         $("#btnSearch").on("click", () => { getData() });
@@ -548,8 +456,6 @@
         // 저장
         $("#btnPopRegist").on("click", () => {
 
-            if(!parsleyIsValidate("dataForm")) return false;
-
             Swal.fire({
                 title: '',
                 text: "수주 정보를 저장하시겠습니까?",
@@ -561,7 +467,7 @@
                 cancelButtonText: '취소'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    registModifyData();
+                    registData();
                 }
             });
         });
@@ -585,73 +491,9 @@
             });
         });
 
-        // 공정저장
-        $("#btnPopProcessRegist").on("click", () => {
-
-            if(!parsleyIsValidate("processForm")) return false;
-
-            Swal.fire({
-                title: '',
-                text: "수주-공정 정보를 저장하시겠습니까?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '확인',
-                cancelButtonText: '취소'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    prodProcRegistModifyData();
-                }
-            });
-        });
-
-        // bom저장
-        $("#btnPopBomRegist").on("click", () => {
-
-            if(!parsleyIsValidate("bomForm")) return false;
-
-            Swal.fire({
-                title: '',
-                text: "수주-BOM 정보를 저장하시겠습니까?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '확인',
-                cancelButtonText: '취소'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    prodBomRegistModifyData();
-                }
-            });
-        });
-
-        // 코드 중복 검사
-        $("#pop_prod_cd").on("keyup", () => {
-            if($("#pop_prod_cd").val().length > 3)
-            {
-                $.ajax({
-                    type : 'get'
-                    ,url: '/mes/sales/order/orderOverlap/' + $("#pop_prod_cd").val()
-                    ,dataType : 'json'
-                })
-                    .done(function (data)
-                    {
-                        if(data) {
-                            $("#pop_prod_cd").removeClass("is-valid");
-                            $("#pop_prod_cd").addClass("is-invalid");
-                            $(".invalid-feedback").text("중복된 수주 코드입니다.");
-                        }else {
-                            $("#pop_prod_cd").removeClass("is-invalid");
-                            $("#pop_prod_cd").addClass("is-valid");
-                            $(".invalid-feedback").text("");
-                        }
-                    })
-                    .always(function (data) {
-
-                    });
-            }
+        $("#btnSetSubList").on("click", () => {
+            if(!parsleyIsValidate("dataForm")) return false;
+            addPopOrderRow();
         });
 
     });
@@ -676,7 +518,8 @@
                                 return {
                                     label : "[" + item.comp_cd + "] " + item.comp_nm,
                                     value : "[" + item.comp_cd + "] " + item.comp_nm,
-                                    comp_cd : item.comp_cd
+                                    comp_cd : item.comp_cd,
+                                    comp_nm : item.comp_nm
                                 }
                             })
                         );
@@ -684,7 +527,8 @@
                 });
             },
             select : function(event, ui) {
-                $("#pop_prod_main_comp").val(ui.item.comp_cd);
+                $("#pop_comp_cd").val(ui.item.comp_cd);
+                $("#pop_comp_nm").val(ui.item.comp_nm);
             },
             focus : function(event, ui) {
                 return false;
@@ -701,7 +545,7 @@
             }
         });
     }
-    
+
     function initAutoComplete2(el)
     {
         $(el).autocomplete({
@@ -739,12 +583,15 @@
             },
             select : function(event, ui) {
                 $("#pop_prod_cd").val(ui.item.prod_cd);
+                $("#pop_prod_nm").val(ui.item.prod_nm);
+                $("#pop_prod_pn").val(ui.item.prod_pn);
                 $("#pop_prod_kind_nm").val(ui.item.prod_kind_nm);
                 $("#pop_prod_group_nm").val(ui.item.prod_group_nm);
                 $("#pop_prod_family_nm").val(ui.item.prod_family_nm);
                 $("#pop_prod_stand").val(ui.item.prod_stand);
                 $("#pop_prod_unit_nm").val(ui.item.prod_unit_nm);
                 $("#pop_prod_price").val(ui.item.prod_price.comma());
+                $("#pop_odr_price").val(ui.item.prod_price.comma());
             },
             focus : function(event, ui) {
                 return false;
@@ -823,7 +670,19 @@
 
         $("#pop_odr_dt").val(moment().format('YYYY-MM-DD'));
         $("#pop_odr_ship_dt").val(moment().add(7, 'days').format('YYYY-MM-DD'));
+    }
 
+    function resetForm2(formId)
+    {
+        $("#"+formId).find("input:text").not(".no-reset").val("");
+        $("#"+formId).find("input:hidden").not(".no-reset").val("");
+        $("#"+formId).find("select").val("");
+        $("#"+formId).find(":disabled").prop("disabled", false);
+
+        $("#"+formId).find("input[name$='price']").val(0);
+        $("#"+formId).find("input[name$='amt']").val(0);
+        $("#"+formId).find("input[name$='cnt']").val(0);
+        $("#"+formId).find("input[name$='vat']").val(0);
     }
 
     function getData()
@@ -929,14 +788,202 @@
         });
     }
 
+    let orderRowCnt = 0;
+    function addPopOrderRow()
+    {
+        let template_html = $("#popOrderTemplete").html();
+        let template = Handlebars.compile(template_html);
+        // let rowCnt = $("#tblPopSubData > tbody > tr").length + 1;
+
+        let templateData = {
+            // cnt : rowCnt
+            cnt: ++orderRowCnt
+            ,comp_cd: $("#pop_comp_cd").val()
+            ,comp_nm: $("#pop_comp_nm").val()
+            ,prod_cd: $("#pop_prod_cd").val()
+            ,prod_pn: $("#pop_prod_pn").val()
+            ,prod_nm: $("#pop_prod_nm").val()
+            ,prod_kind_nm: $("#pop_prod_kind_nm").val()
+            ,prod_group_nm: $("#pop_prod_group_nm").val()
+            ,prod_family_nm: $("#pop_prod_family_nm").val()
+            ,prod_stand: $("#pop_prod_stand").val()
+            ,prod_unit_nm: $("#pop_prod_unit_nm").val()
+            ,prod_price: $("#pop_prod_price").val()
+            ,odr_dt: $("#pop_odr_dt").val()
+            ,odr_ship_dt: $("#pop_odr_ship_dt").val()
+            ,odr_vat_yn: $("input:radio[name=pop_odr_vat_yn]:checked").val()
+            ,odr_cnt: $("#pop_odr_cnt").val()
+            ,odr_price: $("#pop_odr_price").val()
+            ,odr_amt: $("#pop_odr_amt").val()
+            ,odr_vat: $("#pop_odr_vat").val()
+            ,odr_notice: $("#pop_odr_notice").val()
+            ,odr_project: $("#pop_odr_project").val()
+            ,odr_nm: $("#pop_odr_nm").val()
+            ,odr_tel: $("#pop_odr_tel").val()
+        }
+
+        $("#tblPopSubData > tbody").append(template(templateData));
+
+        $("#tblPopSubData .list_tr" + orderRowCnt)
+            .find("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total'], input[name$='rate'], input[name$='min'], input[name$='vat']")
+            .css("text-align", "right")
+            .on("click", function() {
+                $(this).select();
+            })
+            .on("keyup", function() {
+                $(this).val($(this).val().comma("2"));
+            });
+
+        resetForm2("dataForm");
+    }
+
+    function orderModifyRow(cnt)
+    {
+        let comp_cd = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_comp_cd]").val();
+        let comp_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_comp_nm]").val();
+        let prod_cd = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_cd]").val();
+        let odr_dt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_dt]").val();
+        let odr_ship_dt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_ship_dt]").val();
+        let odr_vat_yn = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_vat_yn]").val();
+        let odr_cnt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_cnt]").val();
+        let odr_price = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_price]").val();
+        let odr_amt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_amt]").val();
+        let odr_vat = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_vat]").val();
+        let odr_notice = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_notice]").val();
+        let odr_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_nm]").val();
+        let odr_tel = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_tel]").val();
+        let odr_project = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_project]").val();
+
+        let prod_pn = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_pn]").val();
+        let prod_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_nm]").val();
+        let prod_kind_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_kind_nm]").val();
+        let prod_group_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_group_nm]").val();
+        let prod_family_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_family_nm]").val();
+        let prod_stand = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_stand]").val();
+        let prod_unit_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_unit_nm]").val();
+        let prod_price = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_price]").val();
+
+        $("input[name=pop_odr_vat_yn]").val([odr_vat_yn]);
+        $("#pop_comp_cd").val(comp_cd);
+        $("#pop_comp_nm").val(comp_nm);
+        $("#pop_selector").val('['+comp_cd+']'+comp_nm);
+        $("#pop_prod_cd").val(prod_cd);
+        $("#pop_selector2").val('['+prod_pn+']'+prod_nm);
+        $("#pop_odr_dt").val(odr_dt);
+        $("#pop_odr_ship_dt").val(odr_ship_dt);
+        $("#pop_odr_cnt").val(odr_cnt);
+        $("#pop_odr_price").val(odr_price);
+        $("#pop_odr_amt").val(odr_amt);
+        $("#pop_odr_vat").val(odr_vat);
+        $("#pop_odr_notice").val(odr_notice);
+        $("#pop_odr_nm").val(odr_nm);
+        $("#pop_odr_tel").val(odr_tel);
+        $("#pop_odr_project").val(odr_project);
+        $("#pop_prod_pn").val(prod_pn);
+        $("#pop_prod_nm").val(prod_nm);
+        $("#pop_prod_kind_nm").val(prod_kind_nm);
+        $("#pop_prod_group_nm").val(prod_group_nm);
+        $("#pop_prod_family_nm").val(prod_family_nm);
+        $("#pop_prod_stand").val(prod_stand);
+        $("#pop_prod_unit_nm").val(prod_unit_nm);
+        $("#pop_prod_price").val(prod_price);
+
+        $("#tblPopSubData .list_tr" + cnt).remove();
+    }
+
+    function orderDelete(cnt)
+    {
+        let odr_cd = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_cd]").val();
+
+        if(IsNull(odr_cd))
+        {
+            $("#tblPopSubData .list_tr" + cnt).remove();
+        }
+        else
+        {
+            // Swal.fire({
+            // title: '',
+            // text: "수주-BOM 정보를 삭제하시겠습니까?",
+            // icon: 'warning',
+            // showCancelButton: true,
+            // confirmButtonColor: '#3085d6',
+            // cancelButtonColor: '#d33',
+            // confirmButtonText: '확인',
+            // cancelButtonText: '취소'
+            // }).then((result) => {
+            //     if (result.isConfirmed)
+            //     {
+            //         showWait('.dataModal');
+            //
+            //         $.ajax({
+            //             type: "delete"
+            //             ,url: "/mes/sales/order/bom/orderBomDelete"
+            //             ,headers: {
+            //                 "Content-Type": "application/json"
+            //                 ,"X-HTTP-Method-Override": "DELETE"
+            //             }
+            //             ,dataType: "text"
+            //             ,data: JSON.stringify({
+            //                 prod_bom_cd: prod_bom_cd
+            //             })
+            //         })
+            //         .done(function (data) {
+            //             getProductBomData();
+            //             hideWait('.dataModal');
+            //         })
+            //         .always(function (data) {
+            //
+            //         })
+            //         .fail(function (jqHXR, textStatus, errorThrown) {
+            //             ajaxErrorAlert(jqHXR);
+            //         });
+            //     }
+            // });
+        }
+    }
+
     // Add Data - ajax regist
-    function registModifyData()
+    function registData()
     {
         showWait('.dataModal');
 
+        //. Data List
+        let ary_odr_cd = [];
+        let ary_comp_cd = [];
+        let ary_prod_cd = [];
+        let ary_odr_dt = [];
+        let ary_odr_ship_dt = [];
+        let ary_odr_vat_yn = [];
+        let ary_odr_cnt = [];
+        let ary_odr_price = [];
+        let ary_odr_amt = [];
+        let ary_odr_vat = [];
+        let ary_odr_notice = [];
+        let ary_odr_project = [];
+        let ary_odr_nm = [];
+        let ary_odr_tel = [];
+
+        $.each($("#tblPopSubData > tbody > tr"), function(index, item)
+        {
+            ary_odr_cd.push($(item).find("input[name=pop_sub_odr_cd]").val());
+            ary_comp_cd.push($(item).find("input[name=pop_sub_comp_cd]").val());
+            ary_prod_cd.push($(item).find("input[name=pop_sub_prod_cd]").val());
+            ary_odr_dt.push($(item).find("input[name=pop_sub_odr_dt]").val());
+            ary_odr_ship_dt.push($(item).find("input[name=pop_sub_odr_ship_dt]").val());
+            ary_odr_vat_yn.push($(item).find("input[name=pop_sub_odr_vat_yn]").val());
+            ary_odr_cnt.push($(item).find("input[name=pop_sub_odr_cnt]").val().replace(/,/g, ""));
+            ary_odr_price.push($(item).find("input[name=pop_sub_odr_price]").val().replace(/,/g, ""));
+            ary_odr_amt.push($(item).find("input[name=pop_sub_odr_amt]").val().replace(/,/g, ""));
+            ary_odr_vat.push($(item).find("input[name=pop_sub_odr_vat]").val().replace(/,/g, ""));
+            ary_odr_notice.push($(item).find("input[name=pop_sub_odr_notice]").val());
+            ary_odr_project.push($(item).find("input[name=pop_sub_odr_project]").val());
+            ary_odr_nm.push($(item).find("input[name=pop_sub_odr_nm]").val());
+            ary_odr_tel.push($(item).find("input[name=pop_sub_odr_tel]").val());
+        });
+
         $.ajax({
             type: "post"
-            ,url: "/mes/sales/order/orderRegistModify"
+            ,url: "/mes/sales/order/orderRegist"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "POST"
@@ -944,19 +991,20 @@
             ,dataType: "text"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,prod_cd: $("#pop_prod_cd").val()
-                ,prod_pn: $("#pop_prod_pn").val()
-                ,prod_nm: $("#pop_prod_nm").val()
-                ,prod_kind: $("#pop_prod_kind").val()
-                ,prod_group: $("#pop_prod_group").val()
-                ,prod_family: $("#pop_prod_family").val()
-                ,prod_unit: $("#pop_prod_unit").val()
-                ,prod_stand: $("#pop_prod_stand").val()
-                ,prod_price: $("#pop_prod_price").val().replace(/,/g, "")
-                ,prod_main_comp: $("#pop_prod_main_comp").val()
-                ,prod_keep_cnt: $("#pop_prod_keep_cnt").val().replace(/,/g, "")
-                ,prod_mass_yn: $("input:radio[name=pop_prod_mass_yn]:checked").val()
-                ,prod_notice: $("#pop_prod_notice").val()
+                ,ary_odr_cd: ary_odr_cd
+                ,ary_comp_cd: ary_comp_cd
+                ,ary_prod_cd: ary_prod_cd
+                ,ary_odr_dt: ary_odr_dt
+                ,ary_odr_ship_dt: ary_odr_ship_dt
+                ,ary_odr_vat_yn: ary_odr_vat_yn
+                ,ary_odr_cnt: ary_odr_cnt
+                ,ary_odr_price: ary_odr_price
+                ,ary_odr_amt: ary_odr_amt
+                ,ary_odr_vat: ary_odr_vat
+                ,ary_odr_notice: ary_odr_notice
+                ,ary_odr_project: ary_odr_project
+                ,ary_odr_nm: ary_odr_nm
+                ,ary_odr_tel: ary_odr_tel
             })
         })
         .done(function (data) {
@@ -1006,387 +1054,25 @@
         });
     }
 
-    function setProductProcess()
+    function calcOrderAmtVat()
     {
-        $("#processModal").modal("show");
+        let odrCnt = $("#pop_odr_cnt").val().replace(/,/g, "");
+        let odrPrice = $("#pop_odr_price").val().replace(/,/g, "");
+        let odrVatYn = $("input:radio[name=pop_odr_vat_yn]:checked").val();
+        let odrTempAmt = parseFloat(odrCnt) * parseFloat(odrPrice);
+        let odrAmt;
+        let odrVat;
 
-        $("#pop_proc_prod_cd").html(arguments[0].prod_cd);
-        $("#pop_proc_prod_pn").html(arguments[0].prod_pn);
-        $("#pop_proc_prod_nm").html(arguments[0].prod_nm);
-        $("#pop_proc_prod_kind_nm").html(arguments[0].prod_kind_nm);
-        $("#pop_proc_prod_stand").html(arguments[0].prod_stand);
-        $("#pop_proc_prod_unit_nm").html(arguments[0].prod_unit_nm);
-
-        getProductProcessData();
-    }
-
-    function getProductProcessData()
-    {
-        showWait('.dataModal');
-
-        $.ajax({
-            url: "/mes/sales/order/process/orderProcList"
-            ,type: "post"
-            ,headers: {
-                "Content-Type": "application/json"
-                ,"X-HTTP-Method-Override": "POST"
-            }
-            ,dataType: "json"
-            ,data: JSON.stringify({
-                fact_cd: "${vmap.fact_cd}"
-                ,prod_cd: $("#pop_proc_prod_cd").val()
-            })
-        })
-        .done(function (data)
-        {
-            $("#tblPopProcess > tbody").empty();
-
-            data.forEach((item, index) => {
-                addPopProcRow(item);
-            });
-
-        })
-        .always(function (data) {
-            hideWait('.dataModal');
-        })
-        .fail(function (jqHXR, textStatus, errorThrown) {
-            ajaxErrorAlert(jqHXR);
-        });
-    }
-
-    function addPopProcRow(data)
-    {
-        let template_html = $("#popProcessTemplete").html();
-        let template = Handlebars.compile(template_html);
-        let rowCnt = $("#tblPopProcess > tbody > tr").length + 1;
-        let templateData;
-
-        if(IsNotNull(data)) {
-            templateData = {
-                cnt : rowCnt
-                ,prod_proc_cd: data.prod_proc_cd
-                ,prod_proc_min: data.prod_proc_min
-                ,prod_proc_notice: data.prod_proc_notice
-            }
-
-            $("#tblPopProcess > tbody").append(template(templateData));
-            $("#tblPopProcess .list_tr" + rowCnt).find("[name=pop_proc_cd]").val(data.proc_cd);
-
+        if(odrVatYn === "Y") {
+            odrAmt = Math.round(odrTempAmt / 1.1);
+            odrVat = odrTempAmt - odrAmt;
         }else {
-            templateData = {
-                cnt : rowCnt
-            }
-
-            $("#tblPopProcess > tbody").append(template(templateData));
+            odrVat = Math.round(odrTempAmt / 10);
+            odrAmt = odrTempAmt;
         }
 
-        $("#tblPopProcess .list_tr" + rowCnt)
-            .find("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total'], input[name$='rate'], input[name$='min']")
-            .css("text-align", "right")
-            .on("click", function() {
-                $(this).select();
-            })
-            .on("keyup", function() {
-                $(this).val($(this).val().comma("2"));
-            });
-    }
-
-    // 수주 공정정보 data regist
-    function prodProcRegistModifyData()
-    {
-        showWait('.dataModal');
-
-        //. Data List
-        let ary_prod_proc_seq = [];
-        let ary_prod_proc_cd = [];
-        let ary_proc_cd = [];
-        let ary_prod_proc_min = [];
-        let ary_prod_proc_notice = [];
-
-        $.each($("#tblPopProcess > tbody > tr"), function(index, item)
-        {
-            ary_prod_proc_seq.push($(item).find(".order").text());
-            ary_prod_proc_cd.push($(item).find("input[name=pop_prod_proc_cd]").val());
-            ary_proc_cd.push($(item).find("select[name=pop_proc_cd]").val());
-            ary_prod_proc_min.push($(item).find("input[name=pop_prod_proc_min]").val());
-            ary_prod_proc_notice.push($(item).find("input[name=pop_prod_proc_notice]").val());
-        });
-
-        $.ajax({
-            type: "post"
-            ,url: "/mes/sales/order/process/orderProcRegistModify"
-            ,headers: {
-                "Content-Type": "application/json"
-                ,"X-HTTP-Method-Override": "POST"
-            }
-            ,dataType: "text"
-            ,data: JSON.stringify({
-                fact_cd: "${vmap.fact_cd}"
-                ,prod_cd: $("#pop_proc_prod_cd").text()
-                ,ary_prod_proc_seq: ary_prod_proc_seq
-                ,ary_prod_proc_cd: ary_prod_proc_cd
-                ,ary_proc_cd: ary_proc_cd
-                ,ary_prod_proc_min: ary_prod_proc_min
-                ,ary_prod_proc_notice: ary_prod_proc_notice
-            })
-        })
-        .done(function (data) {
-            hideWait('.dataModal');
-            $("#dataModal").modal("hide");
-            getProductProcessData();
-        })
-        .always(function (data) {
-
-        })
-        .fail(function (jqHXR, textStatus, errorThrown) {
-            ajaxErrorAlert(jqHXR);
-            hideWait('.dataModal');
-        });
-    }
-
-    function prodProcDelete(cnt)
-    {
-        let prod_proc_cd = $("#tblPopProcess .list_tr" + cnt).find("[name=pop_prod_proc_cd]").val();
-
-        if(IsNull(prod_proc_cd))
-        {
-            $("#tblPopProcess .list_tr" + cnt).remove();
-        }
-        else
-        {
-            Swal.fire({
-            title: '',
-            text: "수주-공정 정보를 삭제하시겠습니까?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '확인',
-            cancelButtonText: '취소'
-            }).then((result) => {
-                if (result.isConfirmed)
-                {
-                    showWait('.dataModal');
-
-                    $.ajax({
-                        type: "delete"
-                        ,url: "/mes/sales/order/process/orderProcDelete"
-                        ,headers: {
-                            "Content-Type": "application/json"
-                            ,"X-HTTP-Method-Override": "DELETE"
-                        }
-                        ,dataType: "text"
-                        ,data: JSON.stringify({
-                            prod_proc_cd: prod_proc_cd
-                        })
-                    })
-                    .done(function (data) {
-                        getProductProcessData();
-                        hideWait('.dataModal');
-                    })
-                    .always(function (data) {
-
-                    })
-                    .fail(function (jqHXR, textStatus, errorThrown) {
-                        ajaxErrorAlert(jqHXR);
-                    });
-                }
-            });
-        }
-    }
-
-    function setProductBom()
-    {
-        $("#bomModal").modal("show");
-
-        $("#pop_bom_prod_cd").html(arguments[0].prod_cd);
-        $("#pop_bom_prod_pn").html(arguments[0].prod_pn);
-        $("#pop_bom_prod_nm").html(arguments[0].prod_nm);
-        $("#pop_bom_prod_kind_nm").html(arguments[0].prod_kind_nm);
-        $("#pop_bom_prod_stand").html(arguments[0].prod_stand);
-        $("#pop_bom_prod_unit_nm").html(arguments[0].prod_unit_nm);
-
-        getProductBomData();
-    }
-
-    function getProductBomData()
-    {
-        showWait('.dataModal');
-
-        $.ajax({
-            url: "/mes/sales/order/bom/orderBomList"
-            ,type: "post"
-            ,headers: {
-                "Content-Type": "application/json"
-                ,"X-HTTP-Method-Override": "POST"
-            }
-            ,dataType: "json"
-            ,data: JSON.stringify({
-                fact_cd: "${vmap.fact_cd}"
-                ,prod_cd: $("#pop_proc_prod_cd").val()
-            })
-        })
-        .done(function (data)
-        {
-            $("#tblPopBom > tbody").empty();
-
-            data.forEach((item, index) => {
-                addPopBomRow(item);
-            });
-
-        })
-        .always(function (data) {
-            hideWait('.dataModal');
-        })
-        .fail(function (jqHXR, textStatus, errorThrown) {
-            ajaxErrorAlert(jqHXR);
-        });
-    }
-
-    function addPopBomRow(data)
-    {
-        let template_html = $("#popBomTemplete").html();
-        let template = Handlebars.compile(template_html);
-        let rowCnt = $("#tblPopBom > tbody > tr").length + 1;
-        let templateData;
-
-        if(IsNotNull(data)) {
-            templateData = {
-                cnt : rowCnt
-                ,prod_bom_cd: data.prod_bom_cd
-                ,prod_ja_cd: data.prod_ja_cd
-                ,prod_ja_nm: data.prod_ja_nm
-                ,prod_bom_cnt: data.prod_bom_cnt.comma('6')
-                ,prod_bom_notice: data.prod_bom_notice
-                ,selector: "[" + data.prod_ja_cd + "] " + data.prod_ja_nm
-            }
-
-            $("#tblPopBom > tbody").append(template(templateData));
-            $("#tblPopBom .list_tr" + rowCnt).find("[name=pop_proc_cd]").val(data.proc_cd);
-
-        }else {
-            templateData = {
-                cnt : rowCnt
-            }
-
-            $("#tblPopBom > tbody").append(template(templateData));
-        }
-
-        initAutoComplete2($("#tblPopBom .list_tr" + rowCnt).find("[name=pop_selector2]"));
-
-        $("#tblPopBom .list_tr" + rowCnt)
-            .find("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total'], input[name$='rate'], input[name$='min']")
-            .css("text-align", "right")
-            .on("click", function() {
-                $(this).select();
-            })
-            .on("keyup", function() {
-                $(this).val($(this).val().comma("2"));
-            });
-    }
-
-    // 수주 BOM정보 data regist
-    function prodBomRegistModifyData()
-    {
-        showWait('.dataModal');
-
-        //. Data List
-        let ary_prod_bom_cd = [];
-        let ary_proc_cd = [];
-        let ary_prod_ja_cd = [];
-        let ary_prod_bom_cnt = [];
-        let ary_prod_bom_notice = [];
-
-        $.each($("#tblPopBom > tbody > tr"), function(index, item)
-        {
-            ary_prod_bom_cd.push($(item).find("input[name=pop_prod_bom_cd]").val());
-            ary_proc_cd.push($(item).find("select[name=pop_proc_cd]").val());
-            ary_prod_ja_cd.push($(item).find("input[name=pop_prod_ja_cd]").val());
-            ary_prod_bom_cnt.push($(item).find("input[name=pop_prod_bom_cnt]").val().replace(/,/g, ""));
-            ary_prod_bom_notice.push($(item).find("input[name=pop_prod_bom_notice]").val());
-        });
-
-        $.ajax({
-            type: "post"
-            ,url: "/mes/sales/order/bom/orderBomRegistModify"
-            ,headers: {
-                "Content-Type": "application/json"
-                ,"X-HTTP-Method-Override": "POST"
-            }
-            ,dataType: "text"
-            ,data: JSON.stringify({
-                fact_cd: "${vmap.fact_cd}"
-                ,prod_cd: $("#pop_bom_prod_cd").text()
-                ,ary_prod_bom_cd: ary_prod_bom_cd
-                ,ary_proc_cd: ary_proc_cd
-                ,ary_prod_ja_cd: ary_prod_ja_cd
-                ,ary_prod_bom_cnt: ary_prod_bom_cnt
-                ,ary_prod_bom_notice: ary_prod_bom_notice
-            })
-        })
-        .done(function (data) {
-            hideWait('.dataModal');
-            $("#dataModal").modal("hide");
-            getProductBomData();
-        })
-        .always(function (data) {
-
-        })
-        .fail(function (jqHXR, textStatus, errorThrown) {
-            ajaxErrorAlert(jqHXR);
-            hideWait('.dataModal');
-        });
-    }
-
-    function prodBomDelete(cnt)
-    {
-        let prod_bom_cd = $("#tblPopBom .list_tr" + cnt).find("[name=pop_prod_bom_cd]").val();
-
-        if(IsNull(prod_bom_cd))
-        {
-            $("#tblPopBom .list_tr" + cnt).remove();
-        }
-        else
-        {
-            Swal.fire({
-            title: '',
-            text: "수주-BOM 정보를 삭제하시겠습니까?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '확인',
-            cancelButtonText: '취소'
-            }).then((result) => {
-                if (result.isConfirmed)
-                {
-                    showWait('.dataModal');
-
-                    $.ajax({
-                        type: "delete"
-                        ,url: "/mes/sales/order/bom/orderBomDelete"
-                        ,headers: {
-                            "Content-Type": "application/json"
-                            ,"X-HTTP-Method-Override": "DELETE"
-                        }
-                        ,dataType: "text"
-                        ,data: JSON.stringify({
-                            prod_bom_cd: prod_bom_cd
-                        })
-                    })
-                    .done(function (data) {
-                        getProductBomData();
-                        hideWait('.dataModal');
-                    })
-                    .always(function (data) {
-
-                    })
-                    .fail(function (jqHXR, textStatus, errorThrown) {
-                        ajaxErrorAlert(jqHXR);
-                    });
-                }
-            });
-        }
+        $("#pop_odr_amt").val(odrAmt.comma());
+        $("#pop_odr_vat").val(odrVat.comma());
     }
 
 

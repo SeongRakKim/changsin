@@ -44,11 +44,11 @@ public class SalesOrderRestController {
         return new ResponseEntity<>(isFalg, HttpStatus.OK);
     }
 
-    @PostMapping("/mes/sales/order/orderRegistModify")
-    public ResponseEntity<String> orderRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    @PostMapping("/mes/sales/order/orderRegist")
+    public ResponseEntity<String> orderRegist(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
     {
         vmap.set(map);
-        salesOrderService.orderRegistModify(vmap);
+        salesOrderService.orderRegist(vmap);
 
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }

@@ -39,7 +39,7 @@
                 <tr>
                     <th>공정</th>
                     <td>
-                        <select id="proc_cd" name="proc_cd" class="custom-select w-100" required="">
+                        <select id="proc_cd" name="proc_cd" class="custom-select w-100" required="" title="공정">
                             <option value="">공정선택</option>
                             <c:forEach var="item" items="${vmap.processList}" varStatus="status">
                                 <option value="${item.proc_cd}">${item.proc_nm}</option>
@@ -92,7 +92,9 @@
                                 </thead>
                                 <tbody>
                                 </tbody>
-                        </table>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -128,7 +130,7 @@
                                 </td>
                                 <th>공정<span class="red"> (필수)</span></th>
                                 <td>
-                                    <select id="pop_proc_cd" name="pop_proc_cd" class="custom-select w-100" required>
+                                    <select id="pop_proc_cd" name="pop_proc_cd" class="custom-select w-100" required title="공정">
                                         <option value="">공정선택</option>
                                         <c:forEach var="item" items="${vmap.processList}" varStatus="status">
                                             <option value="${item.proc_cd}">${item.proc_nm}</option>

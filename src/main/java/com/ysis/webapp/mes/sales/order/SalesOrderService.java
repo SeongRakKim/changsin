@@ -29,12 +29,52 @@ public class SalesOrderService {
     }
 
     @Transactional
-    public int orderRegistModify(VMap vmap) throws Exception {
+    public int orderRegist(VMap vmap) throws Exception {
 
-        vmap.put("table_type", "PROD");
-        vmap.put("order_cd", CommonUtils.isNotEmpty(vmap.getString("order_cd")) ? vmap.getString("order_cd") : commonDAO.getTablePrimaryCode(vmap));
+        int returnCnt = 0;
+        List<String> odr_cd =  (List<String>)vmap.get("ary_odr_cd");
+        List<String> comp_cd = (List<String>)vmap.get("ary_comp_cd");
+        List<String> prod_cd = (List<String>)vmap.get("ary_prod_cd");
+        List<String> odr_dt = (List<String>)vmap.get("ary_odr_dt");
+        List<String> odr_ship_dt = (List<String>)vmap.get("ary_odr_ship_dt");
+        List<String> odr_vat_yn = (List<String>)vmap.get("ary_odr_vat_yn");
+        List<String> odr_cnt = (List<String>)vmap.get("ary_odr_cnt");
+        List<String> odr_price = (List<String>)vmap.get("ary_odr_price");
+        List<String> odr_amt = (List<String>)vmap.get("ary_odr_amt");
+        List<String> odr_vat = (List<String>)vmap.get("ary_odr_vat");
+        List<String> odr_notice = (List<String>)vmap.get("ary_odr_notice");
+        List<String> odr_project = (List<String>)vmap.get("ary_odr_project");
+        List<String> odr_nm = (List<String>)vmap.get("ary_odr_nm");
+        List<String> odr_tel = (List<String>)vmap.get("ary_odr_tel");
 
-        return salesOrderDAO.orderRegistModify(vmap);
+        vmap.put("table_type", "ODR");
+
+        for(int i=0; i<odr_cd.size(); i++) {
+            VMap orderMap = new VMap();
+
+            orderMap.put("fact_cd", vmap.getString("fact_cd"));
+            orderMap.put("odr_cd", CommonUtils.isNotEmpty(odr_cd.get(i)) ? odr_cd.get(i) : commonDAO.getTablePrimaryCode(vmap));
+            orderMap.put("comp_cd", comp_cd.get(i));
+            orderMap.put("prod_cd", prod_cd.get(i));
+            orderMap.put("odr_dt", odr_dt.get(i));
+            orderMap.put("odr_ship_dt", odr_ship_dt.get(i));
+            orderMap.put("odr_vat_yn", odr_vat_yn.get(i));
+            orderMap.put("odr_cnt", odr_cnt.get(i));
+            orderMap.put("odr_price", odr_price.get(i));
+            orderMap.put("odr_amt", odr_amt.get(i));
+            orderMap.put("odr_vat", odr_vat.get(i));
+            orderMap.put("odr_notice", odr_notice.get(i));
+            orderMap.put("odr_project", odr_project.get(i));
+            orderMap.put("odr_nm", odr_nm.get(i));
+            orderMap.put("odr_tel", odr_tel.get(i));
+            orderMap.put("u_cd", vmap.getString("u_cd"));
+
+            salesOrderDAO.orderRegist(orderMap);
+
+            returnCnt++;
+        }
+
+        return returnCnt;
     }
 
     public int orderPackDelete(VMap vmap) throws Exception {

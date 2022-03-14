@@ -24,8 +24,8 @@ public class SalesOrderDAO extends MapperDAO {
         return selectOne(mapperName + ".orderOverlap", vMap.getMap());
     }
 
-    public int orderRegistModify(VMap vmap) throws Exception {
-        return insert(mapperName + ".orderRegistModify", vmap.getMap());
+    public int orderRegist(VMap vmap) throws Exception {
+        return insert(mapperName + ".orderRegist", vmap.getMap());
     }
 
     public int orderPackDelete(VMap vmap) throws Exception {

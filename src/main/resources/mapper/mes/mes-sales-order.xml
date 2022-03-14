@@ -235,67 +235,49 @@
         </if>
     </select>
 
-    <insert id="prodRegistModify" parameterType="VMap">
-        INSERT INTO MES_PRODUCT_INFO
+    <insert id="orderRegist" parameterType="VMap">
+        INSERT INTO MES_ORDER_INFO
         (
-            FACT_CD
-            ,PROD_CD
-            ,PROD_PN
-            ,PROD_NM
-            ,PROD_KIND
-            ,PROD_GROUP
-            ,PROD_FAMILY
-            ,PROD_STAND
-            ,PROD_UNIT
-            ,PROD_PRICE
-            ,PROD_MAIN_COMP
-            ,PROD_KEEP_CNT
-            ,PROD_STOCK_CNT
-            ,PROD_YN
-            ,PROD_MASS_YN
-            ,PROD_NOTICE
-            ,PROD_INDATE
-            ,PROD_INUSER
-            ,PROD_UPDATE
-            ,PROD_UPUSER
-        )VALUES
-        (
+             FACT_CD
+             ,ODR_CD
+             ,COMP_CD
+             ,PROD_CD
+             ,ODR_DT
+             ,ODR_SHIP_DT
+             ,ODR_CNT
+             ,ODR_PRICE
+             ,ODR_AMT
+             ,ODR_VAT
+             ,ODR_VAT_YN
+             ,ODR_NM
+             ,ODR_TEL
+             ,ODR_PROJECT
+             ,ODR_NOTICE
+             ,ODR_INDATE
+             ,ODR_INUSER
+             ,ODR_UPDATE
+             ,ODR_UPUSER
+        ) VALUES (
             #{fact_cd}
-            ,#{prod_cd}
-            ,#{prod_pn}
-            ,#{prod_nm}
-            ,#{prod_kind}
-            ,#{prod_group}
-            ,#{prod_family}
-            ,#{prod_stand}
-            ,#{prod_unit}
-            ,#{prod_price}
-            ,#{prod_main_comp}
-            ,#{prod_keep_cnt}
-            ,0
-            ,'Y'
-            ,#{prod_mass_yn}
-            ,#{prod_notice}
-            ,NOW()
-            ,IFNULL(#{u_cd}, 'system')
-            ,NOW()
-            ,IFNULL(#{u_cd}, 'system')
+             ,#{odr_cd}
+             ,#{comp_cd}
+             ,#{prod_cd}
+             ,#{odr_dt}
+             ,#{odr_ship_dt}
+             ,#{odr_cnt}
+             ,#{odr_price}
+             ,#{odr_amt}
+             ,#{odr_vat}
+             ,#{odr_vat_yn}
+             ,#{odr_nm}
+             ,#{odr_tel}
+             ,#{odr_project}
+             ,#{odr_notice}
+             ,NOW()
+             ,IFNULL(#{u_cd}, 'system')
+             ,NOW()
+             ,IFNULL(#{u_cd}, 'system')
         )
-        ON DUPLICATE KEY UPDATE
-             PROD_PN = #{prod_pn}
-            ,PROD_NM = #{prod_nm}
-            ,PROD_KIND = #{prod_kind}
-            ,PROD_GROUP = #{prod_group}
-            ,PROD_FAMILY = #{prod_family}
-            ,PROD_STAND = #{prod_stand}
-            ,PROD_UNIT = #{prod_unit}
-            ,PROD_PRICE = #{prod_price}
-            ,PROD_MAIN_COMP = #{prod_main_comp}
-            ,PROD_KEEP_CNT = #{prod_keep_cnt}
-            ,PROD_MASS_YN = #{prod_mass_yn}
-            ,PROD_NOTICE = #{prod_notice}
-            ,PROD_UPDATE = NOW()
-            ,PROD_UPUSER = IFNULL(#{u_cd}, 'system')
     </insert>
 
     <update id="prodPackDelete" parameterType="VMap">
