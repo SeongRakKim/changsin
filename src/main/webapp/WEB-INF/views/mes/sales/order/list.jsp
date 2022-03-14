@@ -138,112 +138,128 @@
                     <table id="tblPopData" class="table table-hover table-bordered mb-5 table-form">
                         <tbody>
                             <tr>
-                                <th>수주코드</th>
+                                <th>거래처<span class="red"> (필수)</span></th>
                                 <td>
-                                    <input type="text" id="pop_prod_cd" name="pop_prod_cd" class="form-control key"
-                                           placeholder="수주코드 / 미입력 시 자동생성" title="수주코드"
-                                           />
-                                    <div class="invalid-feedback"></div>
-                                </td>
-                                <th>수주품번<span class="red"> (필수)</span></th>
-                                <td>
-                                    <input type="text" id="pop_prod_pn" name="pop_prod_pn" class="form-control"
-                                           placeholder="수주품번" title="수주품번"
-                                           required />
-                                </td>
-                                <th>수주명<span class="red"> (필수)</span></th>
-                                <td>
-                                    <input type="text" id="pop_prod_nm" name="pop_prod_nm" class="form-control"
-                                           placeholder="수주명" title="수주명"
-                                           required />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th> 수주종류<span class="red"> (필수)</span></th>
-                                <td>
-                                    <select id="pop_prod_kind" name="pop_prod_kind" class="custom-select w-100"  title="수주종류" required>
-                                        <option value="">수주종류선택</option>
-                                        <option value="PA">완수주</option>
-                                        <option value="PH">반수주</option>
-                                    </select>
-                                </td>
-                                <th>수주분류 <span class="red"> (필수)</span></th>
-                                <td>
-                                    <select id="pop_prod_group" name="pop_prod_group" class="custom-select w-100"  title="수주분류" required>
-                                        <option value="">수주분류선택</option>
-                                        <c:forEach var="item" items="${vmap.prodGroupList}" varStatus="status">
-                                            <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                                <th>수주군</th>
-                                <td>
-                                    <select id="pop_prod_family" name="pop_prod_family" class="custom-select w-100"  title="수주군">
-                                        <option value="">수주군선택</option>
-                                        <c:forEach var="item" items="${vmap.prodFamilyList}" varStatus="status">
-                                            <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>단위 <span class="red"> (필수)</span></th>
-                                <td>
-                                    <select id="pop_prod_unit" name="pop_prod_unit" class="custom-select w-100"  title="단위" required>
-                                        <option value="">단위선택</option>
-                                        <c:forEach var="item" items="${vmap.unitList}" varStatus="status">
-                                            <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                                <th>규격</th>
-                                <td>
-                                    <input type="text" id="pop_prod_stand" name="pop_prod_stand" class="form-control"
-                                           placeholder="규격" title="규격" />
-                                </td>
-                                <th>단가</th>
-                                <td>
-                                    <input type="text" id="pop_prod_price" name="pop_prod_price" class="form-control" value="0"
-                                           placeholder="단가" title="단가" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>주거래처</th>
-                                <td>
-                                    <input type="hidden" id="pop_prod_main_comp" name="pop_prod_main_comp" class="form-control"
-                                           placeholder="주거래처" title="주거래처" />
+                                    <input type="hidden" id="pop_comp_cd" name="pop_comp_cd" class="form-control"
+                                           placeholder="거래처" title="거래처" required />
                                     <input type="text" id="pop_selector" name="pop_selector" class="form-control"
-                                           placeholder="주거래처" title="주거래처" />
+                                           placeholder="거래처" title="거래처" />
                                 </td>
-                                <th>안전재고</th>
+                                <th>수주일<span class="red"> (필수)</span></th>
                                 <td>
-                                    <input type="text" id="pop_prod_keep_cnt" name="pop_prod_keep_cnt" class="form-control"
-                                           placeholder="안전재고" title="안전재고" />
-                                </td>
-                                <th>양산수주여부</th>
-                                <td>
-                                    <div style="display: flex; flex-wrap: wrap;">
-                                        <div class="custom-control custom-radio my-3">
-<%--                                            <input type="radio" id="customRadio1" name="pop_prod_mass_yn" >--%>
-                                            <input type="radio" id="customRadio1" name="pop_prod_mass_yn" class="custom-control-input" value="Y">
-                                            <label class="custom-control-label" for="customRadio1">예</label>
+                                    <div class="input-group input-group-seamless">
+                                        <input id="pop_odr_dt" name="pop_odr_dt" class="form-control datepicker"
+                                               placeholder="수주일" type="text" required />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                         </div>
-                                        <div class="custom-control custom-radio my-3">
-<%--                                            <input type="radio" checked="" id="customRadio2" name="pop_prod_mass_yn" >--%>
-                                            <input type="radio" checked="" id="customRadio2" name="pop_prod_mass_yn" class="custom-control-input" value="N">
-                                            <label class="custom-control-label" for="customRadio2">아니오</label>
+                                    </div>
+                                </td>
+                                <th>납기요청일<span class="red"> (필수)</span></th>
+                                <td>
+                                    <div class="input-group input-group-seamless">
+                                        <input id="pop_odr_ship_dt" name="pop_odr_ship_dt" class="form-control datepicker"
+                                               placeholder="납기요청일" type="text" required />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
+                                <th>품번 or 품명 <span class="red"> (필수)</span></th>
+                                <td>
+                                    <input type="text" id="pop_prod_cd" name="pop_prod_cd" class="form-control"
+                                           placeholder="제품코드" title="제품코드" required />
+                                    <input type="text" id="pop_selector2" name="pop_selector2" class="form-control"
+                                           placeholder="품번 or 품명" title="품번 or 품명" />
+                                </td>
+                                <th>제품종류</th>
+                                <td>
+                                    <input type="text" id="pop_prod_kind_nm" name="pop_prod_kind_nm" class="form-control"
+                                           placeholder="제품종류" title="제품종류" readonly="readonly" />
+                                </td>
+                                <th>제품분류</th>
+                                <td>
+                                    <input type="text" id="pop_prod_group_nm" name="pop_prod_group_nm" class="form-control"
+                                           placeholder="제품분류" title="제품분류" readonly="readonly" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>제품군</th>
+                                <td>
+                                    <input type="text" id="pop_prod_family_nm" name="pop_prod_family_nm" class="form-control"
+                                           placeholder="제품군" title="제품군" readonly="readonly" />
+                                </td>
+                                <th>규격</th>
+                                <td>
+                                    <input type="text" id="pop_prod_stand" name="pop_prod_stand" class="form-control"
+                                           placeholder="규격" title="규격" readonly="readonly" />
+                                </td>
+                                <th>단위</th>
+                                <td>
+                                    <input type="text" id="pop_prod_unit_nm" name="pop_prod_unit_nm" class="form-control"
+                                           placeholder="단위" title="단위" readonly="readonly" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>기본단가</th>
+                                <td>
+                                    <input type="text" id="pop_prod_price" name="pop_prod_price" class="form-control"
+                                           placeholder="기본단가" title="기본단가" readonly="readonly" />
+                                </td>
+                                <th>수량 <span class="red"> (필수)</span></th>
+                                <td>
+                                    <input type="text" id="pop_odr_cnt" name="pop_odr_cnt" class="form-control"
+                                           placeholder="수주단가" title="수주단가" required />
+                                </td>
+                                <th>단가 <span class="red"> (필수)</span></th>
+                                <td>
+                                    <input type="text" id="pop_odr_price" name="pop_odr_price" class="form-control"
+                                           placeholder="수주단가" title="수주단가" required />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>VAT 여부</th>
+                                <td>
+                                    <div style="display: flex; flex-wrap: wrap;">
+                                        <div class="custom-control custom-radio my-3">
+                                            <input type="radio" id="customRadio1" name="pop_odr_vat_yn" class="custom-control-input" value="Y">
+                                            <label class="custom-control-label" for="customRadio1">포함</label>
+                                        </div>
+                                        <div class="custom-control custom-radio my-3">
+                                            <input type="radio" checked="" id="customRadio2" name="pop_odr_vat_yn" class="custom-control-input" value="N">
+                                            <label class="custom-control-label" for="customRadio2">별도</label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <th>금액</th>
+                                <td>
+                                    <input type="text" id="pop_odr_amt" name="pop_odr_amt" class="form-control"
+                                           placeholder="금액" title="금액" required />
+                                </td>
+                                <th>VAT</th>
+                                <td>
+                                    <input type="text" id="pop_odr_vat" name="pop_odr_vat" class="form-control"
+                                           placeholder="VAT" title="VAT" required />
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>비고</th>
                                 <td colspan="5">
-                                    <input type="text" id="pop_prod_notice" name="pop_prod_notice" class="form-control" placeholder="비고" title="비고" />
+                                    <input type="text" id="pop_odr_notice" name="pop_odr_notice" class="form-control" placeholder="비고" title="비고" />
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                    <div>
+                        <button type="button" id="btnSetSubList" class="btn btn-primary ">
+                            <span class="btn-wrapper--icon">
+                                <i class="fas fa-download"></i>
+                            </span>
+                            <span class="btn-wrapper--label">추가</span>
+                        </button>
+                    </div>
                 </div>
             </form>
             <div class="modal-footer">
@@ -496,33 +512,6 @@
     </tr>
 </script>
 
-<script>
-    $.datepicker.setDefaults({
-        closeText: "닫기",
-        prevText: "이전달",
-        nextText: "다음달",
-        currentText: "오늘",
-        monthNames: ["1월", "2월", "3월", "4월", "5월", "6월",
-            "7월", "8월", "9월", "10월", "11월", "12월"
-        ],
-        monthNamesShort: ["1월", "2월", "3월", "4월", "5월", "6월",
-            "7월", "8월", "9월", "10월", "11월", "12월"
-        ],
-        dayNames: ["일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일"],
-        dayNamesShort: ["일", "월", "화", "수", "목", "금", "토"],
-        dayNamesMin: ["일", "월", "화", "수", "목", "금", "토"],
-        weekHeader: "주",
-        dateFormat: "yy-mm-dd", // 날짜형태 예)yy년 m월 d일
-        firstDay: 0,
-        isRTL: false,
-        showMonthAfterYear: true,
-        yearSuffix: "년"
-    });
-
-    $(".datepicker").datepicker({
-        // minDate: 0
-    });
-</script>
 
 <script>
 
@@ -531,8 +520,7 @@
         setDatatable();
         // getData();
         initAutoComplete("#pop_selector");
-        $(".datepicker").datepicker();
-
+        initAutoComplete2("#pop_selector2");
         setSortable("tblPopProcess");
 
         $("input:radio[name=pop_prod_mass_yn]").on("change", () => {
@@ -547,7 +535,7 @@
 
         // Add Data - Call Data Form
         $("#btnNew").on("click", () => {
-            callEditmodal("수주 추가", "R");
+            callEditmodal("수주 등록", "R");
         });
 
         // 상세조회
@@ -559,10 +547,6 @@
 
         // 저장
         $("#btnPopRegist").on("click", () => {
-            if(IsNotNull($(".invalid-feedback").text())) {
-                eAlert("중복된 코드값이 존재합니다.");
-                return;
-            }
 
             if(!parsleyIsValidate("dataForm")) return false;
 
@@ -720,8 +704,6 @@
     
     function initAutoComplete2(el)
     {
-        let $tr = $(el).closest("tr");
-
         $(el).autocomplete({
             search: function(event, ui) {
                 if(event.keyCode == 37 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40) {
@@ -731,16 +713,24 @@
             source : function(reuqest, response) {
                 $.ajax({
                     type : 'get',
-                    url: '/mes/base/material/mateOverlap2/' + $(el).val(),
+                    url: '/mes/base/product/prodOverlap2/' + $(el).val(),
                     dataType : 'json',
                     success : function(data) {
                         // 서버에서 json 데이터 response 후 목록 추가
                         response(
                             $.map(data, function(item) {
                                 return {
-                                    label : "[" + item.mate_cd + "] " + item.mate_nm,
-                                    value : "[" + item.mate_cd + "] " + item.mate_nm,
-                                    mate_cd : item.mate_cd
+                                    label : "[" + item.prod_pn + "] " + item.prod_nm,
+                                    value : "[" + item.prod_pn + "] " + item.prod_nm,
+                                    prod_cd : item.prod_cd,
+                                    prod_pn : item.prod_pn,
+                                    prod_nm : item.prod_nm,
+                                    prod_kind_nm : item.prod_kind_nm,
+                                    prod_group_nm : item.prod_group_nm,
+                                    prod_family_nm : item.prod_family_nm,
+                                    prod_stand : item.prod_stand,
+                                    prod_unit_nm : item.prod_unit_nm,
+                                    prod_price : item.prod_price
                                 }
                             })
                         );
@@ -748,7 +738,13 @@
                 });
             },
             select : function(event, ui) {
-                $tr.find("[name=pop_prod_ja_cd]").val(ui.item.mate_cd);
+                $("#pop_prod_cd").val(ui.item.prod_cd);
+                $("#pop_prod_kind_nm").val(ui.item.prod_kind_nm);
+                $("#pop_prod_group_nm").val(ui.item.prod_group_nm);
+                $("#pop_prod_family_nm").val(ui.item.prod_family_nm);
+                $("#pop_prod_stand").val(ui.item.prod_stand);
+                $("#pop_prod_unit_nm").val(ui.item.prod_unit_nm);
+                $("#pop_prod_price").val(ui.item.prod_price.comma());
             },
             focus : function(event, ui) {
                 return false;
@@ -823,6 +819,11 @@
         $("#"+formId).find("input[name$='price']").val(0);
         $("#"+formId).find("input[name$='amt']").val(0);
         $("#"+formId).find("input[name$='cnt']").val(0);
+        $("#"+formId).find("input[name$='vat']").val(0);
+
+        $("#pop_odr_dt").val(moment().format('YYYY-MM-DD'));
+        $("#pop_odr_ship_dt").val(moment().add(7, 'days').format('YYYY-MM-DD'));
+
     }
 
     function getData()

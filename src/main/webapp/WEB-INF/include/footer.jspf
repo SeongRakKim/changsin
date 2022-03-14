@@ -59,6 +59,7 @@
 
         // Menu Select
         setTreeMenuActive("${vmap.requestUri}");
+        setDatePicker("datepicker");
 
         // default search date
         $("#startDate").val(moment().format('YYYY-MM-DD'));
@@ -73,7 +74,7 @@
             $(this).find("[name=listCheck]").prop("checked", $(this).find("[name=listCheck]").is(":checked") ? false : true);
         });
 
-        $("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total'], input[name$='rate'], input[name$='min']").css("text-align", "right")
+        $("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total'], input[name$='rate'], input[name$='min'], input[name$='vat']").css("text-align", "right")
             .on("click", function() {
                 $(this).select();
             })

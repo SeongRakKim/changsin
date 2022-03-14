@@ -136,7 +136,8 @@
                                 </td>
                                 <th>사업자등록번호</th>
                                 <td>
-                                    <input type="text" id="pop_comp_busin_num" name="pop_comp_busin_num" class="form-control" placeholder="사업자등록번호" title="사업자등록번호" />
+                                    <input type="text" id="pop_comp_busin_num" name="pop_comp_busin_num" class="form-control rudder"
+                                           placeholder="사업자등록번호" title="사업자등록번호" />
                                 </td>
                             </tr>
                             <tr>
@@ -255,6 +256,12 @@
             let comp_cd = $(this).find("input[name=comp_cd]").val();
             callEditmodal("거래처 수정", "M");
             getDataOne(comp_cd);
+        });
+
+        $("#pop_comp_busin_num").on("keyup", function (event) {
+            if($(this).length > 0) {
+                $(this).val(idNumFormat($(this).val()));
+            }
         });
 
         // 저장
@@ -592,7 +599,22 @@
 
     }
 
+    function idNumFormat(idNum)
+    {
+        idNum = idNum.replace(/[^0-9]/g, ''); // 숫자만남고 다지움
+        idNum = idNum.substring(0,10); // 10자리남기고 다지움
 
+        if( idNum.length >= 5 ) // 123-45-
+        {
+            idNum = idNum.substring(0,3) + '-' + idNum.substring(3,5) + '-' + idNum.substring(5);
+        }
+        else if( idNum.length >= 3 ) // 123-
+        {
+            idNum = idNum.substring(0,3) + '-' + idNum.substring(3);
+        }
+
+        return idNum;
+    }
 
 
 </script>

@@ -322,6 +322,7 @@ table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sor
 
 input[type='text'].ui-autocomplete-loading {
     background: url('/img/gif-loading-icon-16.jpg') no-repeat right center;
+    background-size: 30px 30px;
 }
 
 .form-group {

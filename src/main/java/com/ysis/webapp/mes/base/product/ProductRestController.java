@@ -44,6 +44,15 @@ public class ProductRestController {
         return new ResponseEntity<>(isFalg, HttpStatus.OK);
     }
 
+    @GetMapping("/mes/base/product/prodOverlap2/{selector}")
+    public ResponseEntity<List<Map<String, Object>>> prodOverlap2(VMap vmap, @PathVariable("selector") String selector) throws Exception
+    {
+        vmap.put("selector", selector);
+        List<Map<String, Object>> prodOverlapList = productService.prodOverlap2(vmap);
+
+        return new ResponseEntity<>(prodOverlapList, HttpStatus.OK);
+    }
+
     @PostMapping("/mes/base/product/prodRegistModify")
     public ResponseEntity<String> prodRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
     {

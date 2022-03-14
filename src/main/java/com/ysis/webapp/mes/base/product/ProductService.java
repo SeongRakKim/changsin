@@ -29,6 +29,10 @@ public class ProductService {
         return productDAO.prodOverlap(vmap);
     }
 
+    public List<Map<String, Object>> prodOverlap2(VMap vmap) throws Exception {
+        return productDAO.prodOverlap2(vmap);
+    }
+
     @Transactional
     public int prodRegistModify(VMap vmap) throws Exception {
 
