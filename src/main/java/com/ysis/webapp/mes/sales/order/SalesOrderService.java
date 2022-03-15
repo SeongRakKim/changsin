@@ -98,10 +98,6 @@ public class SalesOrderService {
     }
 
     public int orderPackDelete(VMap vmap) throws Exception {
-
-        salesOrderDAO.orderProcPackDelete(vmap);
-        salesOrderDAO.orderBomPackDelete(vmap);
-
         return salesOrderDAO.orderPackDelete(vmap);
     }
 

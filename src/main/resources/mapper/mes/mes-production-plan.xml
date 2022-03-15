@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="mes.sales.order">
+<mapper namespace="mes.production.plan">
 
-    <select id="orderList" parameterType="VMap" resultType="RowMap">
+    <select id="planList" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
                ,ODR_CD
                ,COMP_CD
@@ -89,7 +89,7 @@
         </if>
     </select>
 
-    <select id="orderOne" parameterType="VMap" resultType="RowMap">
+    <select id="planOne" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
                ,ODR_CD
                ,COMP_CD
@@ -205,7 +205,7 @@
         </if>
     </select>
 
-    <insert id="orderRegist" parameterType="VMap">
+    <insert id="planRegist" parameterType="VMap">
         INSERT INTO MES_ORDER_INFO
         (
              FACT_CD
@@ -250,7 +250,7 @@
         )
     </insert>
 
-    <update id="orderModify" parameterType="VMap">
+    <update id="planModify" parameterType="VMap">
         UPDATE MES_ORDER_INFO
         SET COMP_CD = #{comp_cd}
           ,PROD_CD = #{prod_cd}
@@ -290,7 +290,7 @@
         )
     </insert>
 
-    <update id="orderPackDelete" parameterType="VMap">
+    <update id="planPackDelete" parameterType="VMap">
         UPDATE MES_ORDER_INFO
         SET PROD_YN = 'Y'
         WHERE PROD_CD IN

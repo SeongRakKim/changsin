@@ -12,7 +12,7 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <div class="main-content">
-        <table class="tableSearch table table-hover table-striped table-bordered mb-5" style="margin-bottom: 0.5rem !important;">
+        <table class="tableSearch table table-hover table-striped table-bplaned mb-5" style="margin-bottom: 0.5rem !important;">
             <colgroup>
                 <col style="width: 10%">
                 <col style="width: 60%">
@@ -87,7 +87,7 @@
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12">
-                            <table id ="tblMaster" class="table-list table table-hover table-striped table-bordered mb-5" style="width: 100%">
+                            <table id ="tblMaster" class="table-list table table-hover table-striped table-bplaned mb-5" style="width: 100%">
                                 <thead>
                                     <tr role="row">
                                         <th class="no-sort" style="width: 3%">
@@ -134,12 +134,12 @@
             </div>
                 <div class="modal-body">
                     <form id="dataForm" name="dataForm" class="dataForm" method="post">
-                        <table id="tblPopData" class="table table-hover table-bordered mb-3 table-form">
+                        <table id="tblPopData" class="table table-hover table-bplaned mb-3 table-form">
                             <tbody>
                                 <tr>
                                     <th>거래처<span class="red"> (필수)</span></th>
                                     <td>
-                                        <input type="hidden" id="pop_odr_cd" name="pop_odr_cd" class="form-control no-reset"
+                                        <input type="hidden" id="pop_plan_cd" name="pop_plan_cd" class="form-control no-reset"
                                                placeholder="수주코드" title="수주코드" />
                                         <input type="hidden" id="pop_comp_cd" name="pop_comp_cd" class="form-control no-reset"
                                                placeholder="거래처" title="거래처" />
@@ -151,7 +151,7 @@
                                     <th>수주일<span class="red"> (필수)</span></th>
                                     <td>
                                         <div class="input-group input-group-seamless">
-                                            <input id="pop_odr_dt" name="pop_odr_dt" class="form-control datepicker no-reset" title="수주일"
+                                            <input id="pop_plan_dt" name="pop_plan_dt" class="form-control datepicker no-reset" title="수주일"
                                                    placeholder="수주일" type="text" />
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><i class="fas fa-calendar"></i></span>
@@ -161,7 +161,7 @@
                                     <th>납기요청일<span class="red"> (필수)</span></th>
                                     <td>
                                         <div class="input-group input-group-seamless">
-                                            <input id="pop_odr_ship_dt" name="pop_odr_ship_dt" class="form-control datepicker no-reset" title="납기요청일"
+                                            <input id="pop_plan_ship_dt" name="pop_plan_ship_dt" class="form-control datepicker no-reset" title="납기요청일"
                                                    placeholder="납기요청일" type="text" />
                                             <div class="input-group-append">
                                                 <span class="input-group-text"><i class="fas fa-calendar"></i></span>
@@ -170,7 +170,7 @@
                                     </td>
                                     <th>프로젝트</th>
                                     <td>
-                                        <input type="text" id="pop_odr_project" name="pop_odr_project" class="form-control" placeholder="프로젝트" title="프로젝트" />
+                                        <input type="text" id="pop_plan_project" name="pop_plan_project" class="form-control" placeholder="프로젝트" title="프로젝트" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -221,11 +221,11 @@
                                     <td>
                                         <div style="display: flex; flex-wrap: wrap;">
                                             <div class="custom-control custom-radio my-3">
-                                                <input type="radio" checked="" id="customRadio1" name="pop_odr_vat_yn" class="custom-control-input" value="Y">
+                                                <input type="radio" checked="" id="customRadio1" name="pop_plan_vat_yn" class="custom-control-input" value="Y">
                                                 <label class="custom-control-label" for="customRadio1">포함</label>
                                             </div>
                                             <div class="custom-control custom-radio my-3">
-                                                <input type="radio" id="customRadio2" name="pop_odr_vat_yn" class="custom-control-input" value="N">
+                                                <input type="radio" id="customRadio2" name="pop_plan_vat_yn" class="custom-control-input" value="N">
                                                 <label class="custom-control-label" for="customRadio2">별도</label>
                                             </div>
                                         </div>
@@ -234,37 +234,37 @@
                                 <tr>
                                     <th>수량 <span class="red"> (필수)</span></th>
                                     <td>
-                                        <input type="text" id="pop_odr_cnt" name="pop_odr_cnt" class="form-control"
+                                        <input type="text" id="pop_plan_cnt" name="pop_plan_cnt" class="form-control"
                                                placeholder="수주단가" title="수주단가" required />
                                     </td>
                                     <th>단가 <span class="red"> (필수)</span></th>
                                     <td>
-                                        <input type="text" id="pop_odr_price" name="pop_odr_price" class="form-control"
+                                        <input type="text" id="pop_plan_price" name="pop_plan_price" class="form-control"
                                                placeholder="수주단가" title="수주단가" required />
                                     </td>
                                     <th>금액 <span class="red"> (필수)</span></th>
                                     <td>
-                                        <input type="text" id="pop_odr_amt" name="pop_odr_amt" class="form-control"
+                                        <input type="text" id="pop_plan_amt" name="pop_plan_amt" class="form-control"
                                                placeholder="금액" title="금액" required />
                                     </td>
                                     <th>VAT <span class="red"> (필수)</span></th>
                                     <td>
-                                        <input type="text" id="pop_odr_vat" name="pop_odr_vat" class="form-control"
+                                        <input type="text" id="pop_plan_vat" name="pop_plan_vat" class="form-control"
                                                placeholder="VAT" title="VAT" required />
                                     </td>
                                 </tr>
                                 <tr>
                                     <th>주문자</th>
                                     <td>
-                                        <input type="text" id="pop_odr_nm" name="pop_odr_nm" class="form-control" placeholder="주문자" title="주문자" />
+                                        <input type="text" id="pop_plan_nm" name="pop_plan_nm" class="form-control" placeholder="주문자" title="주문자" />
                                     </td>
                                     <th>주문자연락처</th>
                                     <td>
-                                        <input type="text" id="pop_odr_tel" name="pop_odr_tel" class="form-control" placeholder="주문자연락처" title="주문자연락처" />
+                                        <input type="text" id="pop_plan_tel" name="pop_plan_tel" class="form-control" placeholder="주문자연락처" title="주문자연락처" />
                                     </td>
                                     <th>비고</th>
                                     <td colspan="3">
-                                        <input type="text" id="pop_odr_notice" name="pop_odr_notice" class="form-control" placeholder="비고" title="비고" />
+                                        <input type="text" id="pop_plan_notice" name="pop_plan_notice" class="form-control" placeholder="비고" title="비고" />
                                     </td>
                                 </tr>
                             </tbody>
@@ -282,7 +282,7 @@
                     </div>
 
                     <div class="isNew" style="height: 400px; overflow: auto;">
-                        <table id="tblPopSubData" class="table table-hover table-bordered mb-3 table-form">
+                        <table id="tblPopSubData" class="table table-hover table-bplaned mb-3 table-form">
                             <colgroup>
                                 <col style="width: 12%" />
                                 <col style="width: 10%" />
@@ -345,21 +345,21 @@
 <script id="popOrderTemplete" type="text/x-handlebars-template">
     <tr class="dataList list_tr{{cnt}}">
         <td>
-            <input type="hidden" name="pop_sub_odr_cd" class="form-control" value="{{odr_cd}}" />
+            <input type="hidden" name="pop_sub_plan_cd" class="form-control" value="{{plan_cd}}" />
             <input type="hidden" name="pop_sub_comp_cd" class="form-control" value="{{comp_cd}}" />
             <input type="hidden" name="pop_sub_comp_nm" class="form-control" value="{{comp_nm}}" />
             <input type="hidden" name="pop_sub_prod_cd" class="form-control" value="{{prod_cd}}" />
-            <input type="hidden" name="pop_sub_odr_dt" class="form-control" value="{{odr_dt}}" />
-            <input type="hidden" name="pop_sub_odr_ship_dt" class="form-control" value="{{odr_ship_dt}}" />
-            <input type="hidden" name="pop_sub_odr_vat_yn" class="form-control" value="{{odr_vat_yn}}" />
-            <input type="hidden" name="pop_sub_odr_cnt" class="form-control" value="{{odr_cnt}}" />
-            <input type="hidden" name="pop_sub_odr_price" class="form-control" value="{{odr_price}}" />
-            <input type="hidden" name="pop_sub_odr_amt" class="form-control" value="{{odr_amt}}" />
-            <input type="hidden" name="pop_sub_odr_vat" class="form-control" value="{{odr_vat}}" />
-            <input type="hidden" name="pop_sub_odr_notice" class="form-control" value="{{odr_notice}}" />
-            <input type="hidden" name="pop_sub_odr_nm" class="form-control" value="{{odr_nm}}" />
-            <input type="hidden" name="pop_sub_odr_tel" class="form-control" value="{{odr_tel}}" />
-            <input type="hidden" name="pop_sub_odr_project" class="form-control" value="{{odr_project}}" />
+            <input type="hidden" name="pop_sub_plan_dt" class="form-control" value="{{plan_dt}}" />
+            <input type="hidden" name="pop_sub_plan_ship_dt" class="form-control" value="{{plan_ship_dt}}" />
+            <input type="hidden" name="pop_sub_plan_vat_yn" class="form-control" value="{{plan_vat_yn}}" />
+            <input type="hidden" name="pop_sub_plan_cnt" class="form-control" value="{{plan_cnt}}" />
+            <input type="hidden" name="pop_sub_plan_price" class="form-control" value="{{plan_price}}" />
+            <input type="hidden" name="pop_sub_plan_amt" class="form-control" value="{{plan_amt}}" />
+            <input type="hidden" name="pop_sub_plan_vat" class="form-control" value="{{plan_vat}}" />
+            <input type="hidden" name="pop_sub_plan_notice" class="form-control" value="{{plan_notice}}" />
+            <input type="hidden" name="pop_sub_plan_nm" class="form-control" value="{{plan_nm}}" />
+            <input type="hidden" name="pop_sub_plan_tel" class="form-control" value="{{plan_tel}}" />
+            <input type="hidden" name="pop_sub_plan_project" class="form-control" value="{{plan_project}}" />
             {{comp_nm}}
         </td>
         <td>
@@ -375,15 +375,15 @@
         </td>
         <td>{{prod_nm}}</td>
         <td>{{prod_stand}}</td>
-        <td>{{odr_dt}}</td>
-        <td>{{odr_ship_dt}}</td>
-        <td class="txt-right">{{odr_cnt}}</td>
-        <td class="txt-right">{{odr_price}}</td>
-        <td class="txt-right">{{odr_amt}}</td>
-        <td class="txt-right">{{odr_vat}}</td>
+        <td>{{plan_dt}}</td>
+        <td>{{plan_ship_dt}}</td>
+        <td class="txt-right">{{plan_cnt}}</td>
+        <td class="txt-right">{{plan_price}}</td>
+        <td class="txt-right">{{plan_amt}}</td>
+        <td class="txt-right">{{plan_vat}}</td>
         <td>
-            <button class="btn btn-sm btn-success" type="button" onclick="orderModifyRow({{cnt}})">수정</button>
-            <button class="btn btn-sm btn-danger" type="button" onclick="orderDelete({{cnt}})">행삭제</button>
+            <button class="btn btn-sm btn-success" type="button" onclick="planModifyRow({{cnt}})">수정</button>
+            <button class="btn btn-sm btn-danger" type="button" onclick="planDelete({{cnt}})">행삭제</button>
         </td>
     </tr>
 </script>
@@ -442,9 +442,9 @@
 
         $("#prod_kind, #prod_family, #prod_group").on("change", () => { getData() });
 
-        $("#pop_odr_cnt, #pop_odr_price").on("keyup", () => { calcOrderAmtVat() });
+        $("#pop_plan_cnt, #pop_plan_price").on("keyup", () => { calcOrderAmtVat() });
 
-        $("input:radio[name=pop_odr_vat_yn]").on("change", () => { calcOrderAmtVat() });
+        $("input:radio[name=pop_plan_vat_yn]").on("change", () => { calcOrderAmtVat() });
 
         // 조회
         $("#btnSearch").on("click", () => { getData() });
@@ -456,9 +456,9 @@
 
         // 상세조회
         $("#tblMaster").on("dblclick", "tr", function() {
-            let odr_cd = $(this).find("input[name=odr_cd]").val();
+            let plan_cd = $(this).find("input[name=plan_cd]").val();
             callEditmodal("수주 수정", "M");
-            getDataOne(odr_cd);
+            getDataOne(plan_cd);
         });
 
         // 저장
@@ -618,7 +618,7 @@
                 $("#pop_prod_stand").val(ui.item.prod_stand);
                 $("#pop_prod_unit_nm").val(ui.item.prod_unit_nm);
                 $("#pop_prod_price").val(ui.item.prod_price.comma());
-                $("#pop_odr_price").val(ui.item.prod_price.comma());
+                $("#pop_plan_price").val(ui.item.prod_price.comma());
             },
             focus : function(event, ui) {
                 return false;
@@ -641,10 +641,10 @@
     {
         var arguments = {
             tabldID: "tblMaster"
-            ,ordering: true
+            ,planing: true
             // ,responsive: true
-            ,orderIdx: []
-            ,orderGubn:	[]
+            ,planIdx: []
+            ,planGubn:	[]
             ,rowspan: ""
             ,lengthMenu: [15, 50, 100, 500, 1000]
             ,paging: true
@@ -659,7 +659,7 @@
             ,columnDefs : [
                 {
                     "targets": 'no-sort',
-                    "orderable": false
+                    "planable": false
                 }
             ]
         };
@@ -696,8 +696,8 @@
         $("#"+formId).find("input[name$='cnt']").val(0);
         $("#"+formId).find("input[name$='vat']").val(0);
 
-        $("#pop_odr_dt").val(moment().format('YYYY-MM-DD'));
-        $("#pop_odr_ship_dt").val(moment().add(7, 'days').format('YYYY-MM-DD'));
+        $("#pop_plan_dt").val(moment().format('YYYY-MM-DD'));
+        $("#pop_plan_ship_dt").val(moment().add(7, 'days').format('YYYY-MM-DD'));
     }
 
     function resetForm2(formId)
@@ -718,7 +718,7 @@
         showWait('.container-fluid');
 
         $.ajax({
-            url: "/mes/sales/order/orderList"
+            url: "/mes/production/plan/planList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -742,27 +742,27 @@
                 let node = [];
 
                 let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
-                                   "    <input type=\"hidden\" name=\"odr_cd\" value=\"" + item.odr_cd + "\">" +
+                                   "    <input type=\"hidden\" name=\"plan_cd\" value=\"" + item.plan_cd + "\">" +
                                    "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
                                    "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
                                    "</div>";
 
                 node.push(checkBoxNode);
                 node.push(IsEmpty(item.comp_nm));
-                node.push(IsEmpty(item.odr_dt));
-                node.push(IsEmpty(item.odr_ship_dt));
+                node.push(IsEmpty(item.plan_dt));
+                node.push(IsEmpty(item.plan_ship_dt));
                 node.push(IsEmpty(item.prod_pn));
                 node.push(IsEmpty(item.prod_nm));
                 node.push(IsEmpty(item.prod_stand));
                 node.push(IsEmpty(item.prod_unit_nm));
-                node.push("<div class='text-right'>" + IsEmpty(item.odr_cnt.comma('2')) + "</div>");
-                node.push("<div class='text-right'>" + IsEmpty(item.odr_price.comma('2')) + "</div>");
-                // node.push(IsEmpty(item.odr_vat_yn));
-                node.push("<div class='text-right'>" + IsEmpty(item.odr_amt.comma('2')) + "</div>");
-                node.push("<div class='text-right'>" + IsEmpty(item.odr_vat.comma('2')) + "</div>");
-                node.push(IsEmpty(item.odr_nm));
-                node.push(IsEmpty(item.odr_tel));
-                node.push("<div class='red'>" + IsEmpty(item.odr_state_nm) + "</div>");
+                node.push("<div class='text-right'>" + IsEmpty(item.plan_cnt.comma('2')) + "</div>");
+                node.push("<div class='text-right'>" + IsEmpty(item.plan_price.comma('2')) + "</div>");
+                // node.push(IsEmpty(item.plan_vat_yn));
+                node.push("<div class='text-right'>" + IsEmpty(item.plan_amt.comma('2')) + "</div>");
+                node.push("<div class='text-right'>" + IsEmpty(item.plan_vat.comma('2')) + "</div>");
+                node.push(IsEmpty(item.plan_nm));
+                node.push(IsEmpty(item.plan_tel));
+                node.push("<div class='red'>" + IsEmpty(item.plan_state_nm) + "</div>");
 
                 // let param = "{"
                 //     + "prod_cd: '" +  item.prod_cd + "'"
@@ -795,12 +795,12 @@
         });
     }
 
-    function getDataOne(odr_cd)
+    function getDataOne(plan_cd)
     {
         showWait('.dataModal');
 
         $.ajax({
-            url: "/mes/sales/order/orderOne/" + odr_cd
+            url: "/mes/production/plan/planOne/" + plan_cd
             ,type: "get"
             ,dataType: "json"
             // ,data: JSON.stringify({})
@@ -824,7 +824,7 @@
         });
     }
 
-    let orderRowCnt = 0;
+    let planRowCnt = 0;
     function addPopOrderRow()
     {
         let template_html = $("#popOrderTemplete").html();
@@ -833,7 +833,7 @@
 
         let templateData = {
             // cnt : rowCnt
-            cnt: ++orderRowCnt
+            cnt: ++planRowCnt
             ,comp_cd: $("#pop_comp_cd").val()
             ,comp_nm: $("#pop_comp_nm").val()
             ,prod_cd: $("#pop_prod_cd").val()
@@ -845,22 +845,22 @@
             ,prod_stand: $("#pop_prod_stand").val()
             ,prod_unit_nm: $("#pop_prod_unit_nm").val()
             ,prod_price: $("#pop_prod_price").val()
-            ,odr_dt: $("#pop_odr_dt").val()
-            ,odr_ship_dt: $("#pop_odr_ship_dt").val()
-            ,odr_vat_yn: $("input:radio[name=pop_odr_vat_yn]:checked").val()
-            ,odr_cnt: $("#pop_odr_cnt").val()
-            ,odr_price: $("#pop_odr_price").val()
-            ,odr_amt: $("#pop_odr_amt").val()
-            ,odr_vat: $("#pop_odr_vat").val()
-            ,odr_notice: $("#pop_odr_notice").val()
-            ,odr_project: $("#pop_odr_project").val()
-            ,odr_nm: $("#pop_odr_nm").val()
-            ,odr_tel: $("#pop_odr_tel").val()
+            ,plan_dt: $("#pop_plan_dt").val()
+            ,plan_ship_dt: $("#pop_plan_ship_dt").val()
+            ,plan_vat_yn: $("input:radio[name=pop_plan_vat_yn]:checked").val()
+            ,plan_cnt: $("#pop_plan_cnt").val()
+            ,plan_price: $("#pop_plan_price").val()
+            ,plan_amt: $("#pop_plan_amt").val()
+            ,plan_vat: $("#pop_plan_vat").val()
+            ,plan_notice: $("#pop_plan_notice").val()
+            ,plan_project: $("#pop_plan_project").val()
+            ,plan_nm: $("#pop_plan_nm").val()
+            ,plan_tel: $("#pop_plan_tel").val()
         }
 
         $("#tblPopSubData > tbody").append(template(templateData));
 
-        $("#tblPopSubData .list_tr" + orderRowCnt)
+        $("#tblPopSubData .list_tr" + planRowCnt)
             .find("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total'], input[name$='rate'], input[name$='min'], input[name$='vat']")
             .css("text-align", "right")
             .on("click", function() {
@@ -873,22 +873,22 @@
         resetForm2("dataForm");
     }
 
-    function orderModifyRow(cnt)
+    function planModifyRow(cnt)
     {
         let comp_cd = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_comp_cd]").val();
         let comp_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_comp_nm]").val();
         let prod_cd = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_cd]").val();
-        let odr_dt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_dt]").val();
-        let odr_ship_dt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_ship_dt]").val();
-        let odr_vat_yn = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_vat_yn]").val();
-        let odr_cnt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_cnt]").val();
-        let odr_price = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_price]").val();
-        let odr_amt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_amt]").val();
-        let odr_vat = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_vat]").val();
-        let odr_notice = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_notice]").val();
-        let odr_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_nm]").val();
-        let odr_tel = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_tel]").val();
-        let odr_project = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_project]").val();
+        let plan_dt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_dt]").val();
+        let plan_ship_dt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_ship_dt]").val();
+        let plan_vat_yn = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_vat_yn]").val();
+        let plan_cnt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_cnt]").val();
+        let plan_price = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_price]").val();
+        let plan_amt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_amt]").val();
+        let plan_vat = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_vat]").val();
+        let plan_notice = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_notice]").val();
+        let plan_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_nm]").val();
+        let plan_tel = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_tel]").val();
+        let plan_project = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_project]").val();
 
         let prod_pn = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_pn]").val();
         let prod_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_nm]").val();
@@ -899,22 +899,22 @@
         let prod_unit_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_unit_nm]").val();
         let prod_price = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_price]").val();
 
-        $("input[name=pop_odr_vat_yn]").val([odr_vat_yn]);
+        $("input[name=pop_plan_vat_yn]").val([plan_vat_yn]);
         $("#pop_comp_cd").val(comp_cd);
         $("#pop_comp_nm").val(comp_nm);
         $("#pop_selector").val('['+comp_cd+']'+comp_nm);
         $("#pop_prod_cd").val(prod_cd);
         $("#pop_selector2").val('['+prod_pn+']'+prod_nm);
-        $("#pop_odr_dt").val(odr_dt);
-        $("#pop_odr_ship_dt").val(odr_ship_dt);
-        $("#pop_odr_cnt").val(odr_cnt);
-        $("#pop_odr_price").val(odr_price);
-        $("#pop_odr_amt").val(odr_amt);
-        $("#pop_odr_vat").val(odr_vat);
-        $("#pop_odr_notice").val(odr_notice);
-        $("#pop_odr_nm").val(odr_nm);
-        $("#pop_odr_tel").val(odr_tel);
-        $("#pop_odr_project").val(odr_project);
+        $("#pop_plan_dt").val(plan_dt);
+        $("#pop_plan_ship_dt").val(plan_ship_dt);
+        $("#pop_plan_cnt").val(plan_cnt);
+        $("#pop_plan_price").val(plan_price);
+        $("#pop_plan_amt").val(plan_amt);
+        $("#pop_plan_vat").val(plan_vat);
+        $("#pop_plan_notice").val(plan_notice);
+        $("#pop_plan_nm").val(plan_nm);
+        $("#pop_plan_tel").val(plan_tel);
+        $("#pop_plan_project").val(plan_project);
         $("#pop_prod_pn").val(prod_pn);
         $("#pop_prod_nm").val(prod_nm);
         $("#pop_prod_kind_nm").val(prod_kind_nm);
@@ -927,11 +927,11 @@
         $("#tblPopSubData .list_tr" + cnt).remove();
     }
 
-    function orderDelete(cnt)
+    function planDelete(cnt)
     {
-        let odr_cd = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_odr_cd]").val();
+        let plan_cd = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_cd]").val();
 
-        if(IsNull(odr_cd))
+        if(IsNull(plan_cd))
         {
             $("#tblPopSubData .list_tr" + cnt).remove();
         }
@@ -953,7 +953,7 @@
             //
             //         $.ajax({
             //             type: "delete"
-            //             ,url: "/mes/sales/order/bom/orderBomDelete"
+            //             ,url: "/mes/production/plan/bom/planBomDelete"
             //             ,headers: {
             //                 "Content-Type": "application/json"
             //                 ,"X-HTTP-Method-Override": "DELETE"
@@ -984,42 +984,42 @@
         showWait('.dataModal');
 
         //. Data List
-        let ary_odr_cd = [];
+        let ary_plan_cd = [];
         let ary_comp_cd = [];
         let ary_prod_cd = [];
-        let ary_odr_dt = [];
-        let ary_odr_ship_dt = [];
-        let ary_odr_vat_yn = [];
-        let ary_odr_cnt = [];
-        let ary_odr_price = [];
-        let ary_odr_amt = [];
-        let ary_odr_vat = [];
-        let ary_odr_notice = [];
-        let ary_odr_project = [];
-        let ary_odr_nm = [];
-        let ary_odr_tel = [];
+        let ary_plan_dt = [];
+        let ary_plan_ship_dt = [];
+        let ary_plan_vat_yn = [];
+        let ary_plan_cnt = [];
+        let ary_plan_price = [];
+        let ary_plan_amt = [];
+        let ary_plan_vat = [];
+        let ary_plan_notice = [];
+        let ary_plan_project = [];
+        let ary_plan_nm = [];
+        let ary_plan_tel = [];
 
         $.each($("#tblPopSubData > tbody > tr"), function(index, item)
         {
-            ary_odr_cd.push($(item).find("input[name=pop_sub_odr_cd]").val());
+            ary_plan_cd.push($(item).find("input[name=pop_sub_plan_cd]").val());
             ary_comp_cd.push($(item).find("input[name=pop_sub_comp_cd]").val());
             ary_prod_cd.push($(item).find("input[name=pop_sub_prod_cd]").val());
-            ary_odr_dt.push($(item).find("input[name=pop_sub_odr_dt]").val());
-            ary_odr_ship_dt.push($(item).find("input[name=pop_sub_odr_ship_dt]").val());
-            ary_odr_vat_yn.push($(item).find("input[name=pop_sub_odr_vat_yn]").val());
-            ary_odr_cnt.push($(item).find("input[name=pop_sub_odr_cnt]").val().replace(/,/g, ""));
-            ary_odr_price.push($(item).find("input[name=pop_sub_odr_price]").val().replace(/,/g, ""));
-            ary_odr_amt.push($(item).find("input[name=pop_sub_odr_amt]").val().replace(/,/g, ""));
-            ary_odr_vat.push($(item).find("input[name=pop_sub_odr_vat]").val().replace(/,/g, ""));
-            ary_odr_notice.push($(item).find("input[name=pop_sub_odr_notice]").val());
-            ary_odr_project.push($(item).find("input[name=pop_sub_odr_project]").val());
-            ary_odr_nm.push($(item).find("input[name=pop_sub_odr_nm]").val());
-            ary_odr_tel.push($(item).find("input[name=pop_sub_odr_tel]").val());
+            ary_plan_dt.push($(item).find("input[name=pop_sub_plan_dt]").val());
+            ary_plan_ship_dt.push($(item).find("input[name=pop_sub_plan_ship_dt]").val());
+            ary_plan_vat_yn.push($(item).find("input[name=pop_sub_plan_vat_yn]").val());
+            ary_plan_cnt.push($(item).find("input[name=pop_sub_plan_cnt]").val().replace(/,/g, ""));
+            ary_plan_price.push($(item).find("input[name=pop_sub_plan_price]").val().replace(/,/g, ""));
+            ary_plan_amt.push($(item).find("input[name=pop_sub_plan_amt]").val().replace(/,/g, ""));
+            ary_plan_vat.push($(item).find("input[name=pop_sub_plan_vat]").val().replace(/,/g, ""));
+            ary_plan_notice.push($(item).find("input[name=pop_sub_plan_notice]").val());
+            ary_plan_project.push($(item).find("input[name=pop_sub_plan_project]").val());
+            ary_plan_nm.push($(item).find("input[name=pop_sub_plan_nm]").val());
+            ary_plan_tel.push($(item).find("input[name=pop_sub_plan_tel]").val());
         });
 
         $.ajax({
             type: "post"
-            ,url: "/mes/sales/order/orderRegist"
+            ,url: "/mes/production/plan/planRegist"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "POST"
@@ -1027,20 +1027,20 @@
             ,dataType: "text"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,ary_odr_cd: ary_odr_cd
+                ,ary_plan_cd: ary_plan_cd
                 ,ary_comp_cd: ary_comp_cd
                 ,ary_prod_cd: ary_prod_cd
-                ,ary_odr_dt: ary_odr_dt
-                ,ary_odr_ship_dt: ary_odr_ship_dt
-                ,ary_odr_vat_yn: ary_odr_vat_yn
-                ,ary_odr_cnt: ary_odr_cnt
-                ,ary_odr_price: ary_odr_price
-                ,ary_odr_amt: ary_odr_amt
-                ,ary_odr_vat: ary_odr_vat
-                ,ary_odr_notice: ary_odr_notice
-                ,ary_odr_project: ary_odr_project
-                ,ary_odr_nm: ary_odr_nm
-                ,ary_odr_tel: ary_odr_tel
+                ,ary_plan_dt: ary_plan_dt
+                ,ary_plan_ship_dt: ary_plan_ship_dt
+                ,ary_plan_vat_yn: ary_plan_vat_yn
+                ,ary_plan_cnt: ary_plan_cnt
+                ,ary_plan_price: ary_plan_price
+                ,ary_plan_amt: ary_plan_amt
+                ,ary_plan_vat: ary_plan_vat
+                ,ary_plan_notice: ary_plan_notice
+                ,ary_plan_project: ary_plan_project
+                ,ary_plan_nm: ary_plan_nm
+                ,ary_plan_tel: ary_plan_tel
             })
         })
         .done(function (data) {
@@ -1064,7 +1064,7 @@
 
         $.ajax({
             type: "post"
-            ,url: "/mes/sales/order/orderModify"
+            ,url: "/mes/production/plan/planModify"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "POST"
@@ -1072,7 +1072,7 @@
             ,dataType: "text"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,odr_cd: $("#pop_odr_cd").val()
+                ,plan_cd: $("#pop_plan_cd").val()
                 ,comp_cd: $("#pop_comp_cd").val()
                 ,comp_nm: $("#pop_comp_nm").val()
                 ,prod_cd: $("#pop_prod_cd").val()
@@ -1084,17 +1084,17 @@
                 ,prod_stand: $("#pop_prod_stand").val()
                 ,prod_unit_nm: $("#pop_prod_unit_nm").val()
                 ,prod_price: $("#pop_prod_price").val()
-                ,odr_dt: $("#pop_odr_dt").val()
-                ,odr_ship_dt: $("#pop_odr_ship_dt").val()
-                ,odr_vat_yn: $("input:radio[name=pop_odr_vat_yn]:checked").val()
-                ,odr_cnt: $("#pop_odr_cnt").val().replace(/,/g, "")
-                ,odr_price: $("#pop_odr_price").val().replace(/,/g, "")
-                ,odr_amt: $("#pop_odr_amt").val().replace(/,/g, "")
-                ,odr_vat: $("#pop_odr_vat").val().replace(/,/g, "")
-                ,odr_notice: $("#pop_odr_notice").val()
-                ,odr_project: $("#pop_odr_project").val()
-                ,odr_nm: $("#pop_odr_nm").val()
-                ,odr_tel: $("#pop_odr_tel").val()
+                ,plan_dt: $("#pop_plan_dt").val()
+                ,plan_ship_dt: $("#pop_plan_ship_dt").val()
+                ,plan_vat_yn: $("input:radio[name=pop_plan_vat_yn]:checked").val()
+                ,plan_cnt: $("#pop_plan_cnt").val().replace(/,/g, "")
+                ,plan_price: $("#pop_plan_price").val().replace(/,/g, "")
+                ,plan_amt: $("#pop_plan_amt").val().replace(/,/g, "")
+                ,plan_vat: $("#pop_plan_vat").val().replace(/,/g, "")
+                ,plan_notice: $("#pop_plan_notice").val()
+                ,plan_project: $("#pop_plan_project").val()
+                ,plan_nm: $("#pop_plan_nm").val()
+                ,plan_tel: $("#pop_plan_tel").val()
             })
         })
         .done(function (data) {
@@ -1117,12 +1117,12 @@
 
         let deleteItems = [];
         $.each($("input[name=listCheck]:checked"), function(item, index) {
-            deleteItems.push($(this).closest("tr").find("input[name=odr_cd]").val());
+            deleteItems.push($(this).closest("tr").find("input[name=plan_cd]").val());
         });
 
         $.ajax({
             type: "delete"
-            ,url: "/mes/sales/order/orderPackDelete"
+            ,url: "/mes/production/plan/planPackDelete"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "DELETE"
@@ -1146,23 +1146,23 @@
 
     function calcOrderAmtVat()
     {
-        let odrCnt = $("#pop_odr_cnt").val().replace(/,/g, "");
-        let odrPrice = $("#pop_odr_price").val().replace(/,/g, "");
-        let odrVatYn = $("input:radio[name=pop_odr_vat_yn]:checked").val();
-        let odrTempAmt = parseFloat(odrCnt) * parseFloat(odrPrice);
-        let odrAmt;
-        let odrVat;
+        let planCnt = $("#pop_plan_cnt").val().replace(/,/g, "");
+        let planPrice = $("#pop_plan_price").val().replace(/,/g, "");
+        let planVatYn = $("input:radio[name=pop_plan_vat_yn]:checked").val();
+        let planTempAmt = parseFloat(planCnt) * parseFloat(planPrice);
+        let planAmt;
+        let planVat;
 
-        if(odrVatYn === "Y") {
-            odrAmt = Math.round(odrTempAmt / 1.1);
-            odrVat = odrTempAmt - odrAmt;
+        if(planVatYn === "Y") {
+            planAmt = Math.round(planTempAmt / 1.1);
+            planVat = planTempAmt - planAmt;
         }else {
-            odrVat = Math.round(odrTempAmt / 10);
-            odrAmt = odrTempAmt;
+            planVat = Math.round(planTempAmt / 10);
+            planAmt = planTempAmt;
         }
 
-        $("#pop_odr_amt").val(odrAmt.comma());
-        $("#pop_odr_vat").val(odrVat.comma());
+        $("#pop_plan_amt").val(planAmt.comma());
+        $("#pop_plan_vat").val(planVat.comma());
     }
 
 
