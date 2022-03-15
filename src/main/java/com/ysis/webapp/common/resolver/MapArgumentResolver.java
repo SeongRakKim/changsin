@@ -35,8 +35,8 @@ public class MapArgumentResolver implements HandlerMethodArgumentResolver {
             vmap.put("fact_cd", "1000");
             vmap.put("today", DateUtils.getTodayDate());
             vmap.put("todayTime", DateUtils.getTodayTime());
-            vmap.put("startDate", CommonUtils.isEmpty(vmap.getString("startDate")) ? DateUtils.getToday("yyyy-MM") + "-01" : vmap.getString("startDate"));
-            vmap.put("endDate", CommonUtils.isEmpty(vmap.getString("endDate")) ? DateUtils.getToday("yyyy-MM-dd") : vmap.getString("endDate"));
+            vmap.put("startDate", vmap.getString("startDate", DateUtils.getDate("yyyy-MM-dd", -7)));
+            vmap.put("endDate", vmap.getString("endDate", DateUtils.getToday("yyyy-MM-dd")));
             vmap.put("lastDate", DateUtils.getLastDate(Integer.parseInt(DateUtils.getToday("yyyy")), Integer.parseInt(DateUtils.getToday("MM"))));
 
             request.setAttribute("vmap", vmap.getMap());

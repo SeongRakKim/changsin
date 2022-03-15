@@ -62,8 +62,9 @@
         setDatePicker("datepicker");
 
         // default search date
-        $("#startDate").val(moment().format('YYYY-MM-DD'));
-        $("#endDate").val(moment().add(7, 'days').format('YYYY-MM-DD'));
+        $("#startDate").val(moment().add(-7, 'days').format('YYYY-MM-DD'));
+        $("#endDate").val(moment().format('YYYY-MM-DD'));
+
 
         // list check
         $("#listAll").on("click", () => {

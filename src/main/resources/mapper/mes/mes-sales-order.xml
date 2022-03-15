@@ -65,8 +65,8 @@
         FROM MES_ORDER_INFO MOI
         JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
         JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
-       WHERE DATE_FORMAT(${date_type}, '%Y-%m-%m') <![CDATA[>=]]> #{startDate}
-         AND DATE_FORMAT(${date_type}, '%Y-%m-%m') <![CDATA[<=]]> #{endDate}
+       WHERE DATE_FORMAT(${date_type}, '%Y-%m-%d') <![CDATA[>=]]> #{startDate}
+         AND DATE_FORMAT(${date_type}, '%Y-%m-%d') <![CDATA[<=]]> #{endDate}
        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
            AND PROD_KIND = #{prod_kind}
        </if>

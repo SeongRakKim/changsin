@@ -96,20 +96,21 @@
                                                 <label class="custom-control-label" for="listAll"></label>
                                             </div>
                                         </th>
+                                        <th style="width: 8%">수주번호</th>
                                         <th>거래처</th>
-                                        <th>수주일</th>
-                                        <th>요청일</th>
+                                        <th style="width: 8%">수주일</th>
+                                        <th style="width: 8%">납기요청일</th>
                                         <th>품번</th>
-                                        <th>품목명</th>
+                                        <th style="width: 13%">품목명</th>
                                         <th>규격</th>
-                                        <th>단위</th>
+<%--                                        <th>단위</th>--%>
                                         <th>수량</th>
                                         <th>단가</th>
 <%--                                        <th>VAT여부</th>--%>
                                         <th>금액</th>
                                         <th>VAT</th>
-                                        <th>주문자</th>
-                                        <th>연락처</th>
+<%--                                        <th>주문자</th>--%>
+<%--                                        <th>연락처</th>--%>
                                         <th class="red">상태</th>
                                     </tr>
                                 </thead>
@@ -431,7 +432,6 @@
     $(document).ready(() => {
         // DataTables setting
         setDatatable();
-        getData();
         initAutoComplete("#pop_selector");
         initAutoComplete2("#pop_selector2");
 
@@ -522,6 +522,8 @@
             if(!parsleyIsValidate("dataForm")) return false;
             addPopOrderRow();
         });
+
+        setTimeout(() => getData(), 50);
 
     });
 
@@ -728,6 +730,8 @@
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
                 ,date_type: $("#date_type").val()
+                ,startDate: $("#startDate").val()
+                ,endDate: $("#endDate").val()
                 ,prod_kind: $("#prod_kind").val()
                 ,prod_family: $("#prod_family").val()
                 ,prod_group: $("#prod_group").val()
@@ -748,20 +752,21 @@
                                    "</div>";
 
                 node.push(checkBoxNode);
+                node.push(IsEmpty(item.odr_cd));
                 node.push(IsEmpty(item.comp_nm));
                 node.push(IsEmpty(item.odr_dt));
                 node.push(IsEmpty(item.odr_ship_dt));
                 node.push(IsEmpty(item.prod_pn));
                 node.push(IsEmpty(item.prod_nm));
                 node.push(IsEmpty(item.prod_stand));
-                node.push(IsEmpty(item.prod_unit_nm));
-                node.push("<div class='text-right'>" + IsEmpty(item.odr_cnt.comma('2')) + "</div>");
+                // node.push(IsEmpty(item.prod_unit_nm));
+                node.push("<div class='text-right'>" + IsEmpty(item.odr_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
                 node.push("<div class='text-right'>" + IsEmpty(item.odr_price.comma('2')) + "</div>");
                 // node.push(IsEmpty(item.odr_vat_yn));
                 node.push("<div class='text-right'>" + IsEmpty(item.odr_amt.comma('2')) + "</div>");
                 node.push("<div class='text-right'>" + IsEmpty(item.odr_vat.comma('2')) + "</div>");
-                node.push(IsEmpty(item.odr_nm));
-                node.push(IsEmpty(item.odr_tel));
+                // node.push(IsEmpty(item.odr_nm));
+                // node.push(IsEmpty(item.odr_tel));
                 node.push("<div class='red'>" + IsEmpty(item.odr_state_nm) + "</div>");
 
                 // let param = "{"

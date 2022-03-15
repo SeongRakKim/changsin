@@ -25,10 +25,10 @@ public class ProductionPlanRestController {
         return new ResponseEntity<>(planList, HttpStatus.OK);
     }
 
-    @GetMapping("/mes/production/plan/planOne/{odr_cd}")
-    public ResponseEntity<Map<String, Object>> planOne(VMap vmap, @PathVariable("odr_cd") String odr_cd) throws Exception
+    @GetMapping("/mes/production/plan/planOne/{plan_cd}")
+    public ResponseEntity<Map<String, Object>> planOne(VMap vmap, @PathVariable("plan_cd") String plan_cd) throws Exception
     {
-        vmap.put("odr_cd", odr_cd);
+        vmap.put("plan_cd", plan_cd);
         Map<String, Object> planOne = productionPlanService.planOne(vmap);
 
         return new ResponseEntity<>(planOne, HttpStatus.OK);
@@ -75,52 +75,16 @@ public class ProductionPlanRestController {
     public ResponseEntity<List<Map<String, Object>>> planProcList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
     {
         vmap.set(map);
-        List<Map<String, Object>> planList = productionPlanService.planProcList(vmap);
+        List<Map<String, Object>> prodList = productionPlanService.planProcList(vmap);
 
-        return new ResponseEntity<>(planList, HttpStatus.OK);
-    }
-
-    @PostMapping("/mes/production/plan/process/planProcRegistModify")
-    public ResponseEntity<String> planProcRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
-    {
-        vmap.set(map);
-        productionPlanService.planProcRegistModify(vmap);
-
-        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+        return new ResponseEntity<>(prodList, HttpStatus.OK);
     }
 
     @DeleteMapping("/mes/production/plan/process/planProcDelete")
-    public ResponseEntity<String> planProcDeleteDELETE(VMap vmap, @RequestBody Map<String, Object> map ) throws Exception
+    public ResponseEntity<String> planProcDelete(VMap vmap, @RequestBody Map<String, Object> map ) throws Exception
     {
         vmap.set(map);
         productionPlanService.planProcDelete(vmap);
-
-        return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-    }
-
-    @PostMapping("/mes/production/plan/bom/planBomList")
-    public ResponseEntity<List<Map<String, Object>>> planBomList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
-    {
-        vmap.set(map);
-        List<Map<String, Object>> planList = productionPlanService.planBomList(vmap);
-
-        return new ResponseEntity<>(planList, HttpStatus.OK);
-    }
-
-    @PostMapping("/mes/production/plan/bom/planBomRegistModify")
-    public ResponseEntity<String> planBomRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
-    {
-        vmap.set(map);
-        productionPlanService.planBomRegistModify(vmap);
-
-        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
-    }
-
-    @DeleteMapping("/mes/production/plan/bom/planBomDelete")
-    public ResponseEntity<String> planBomDelete(VMap vmap, @RequestBody Map<String, Object> map ) throws Exception
-    {
-        vmap.set(map);
-        productionPlanService.planBomDelete(vmap);
 
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }

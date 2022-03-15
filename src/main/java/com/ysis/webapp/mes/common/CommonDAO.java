@@ -16,6 +16,10 @@ public class CommonDAO extends MapperDAO {
         return selectOneString(mapperName + ".getTablePrimaryCode", vmap.getMap());
     }
 
+    public String getTableRandomKey(VMap vmap) throws Exception {
+        return selectOneString(mapperName + ".getTableRandomKey", vmap.getMap());
+    }
+
     public List<Map<String, Object>> baseDetailList(VMap vmap) throws Exception {
         return selectList(mapperName + ".baseDetailList", vmap.getMap());
     }

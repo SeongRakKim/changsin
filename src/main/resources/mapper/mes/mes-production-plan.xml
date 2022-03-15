@@ -10,6 +10,8 @@
                ,ODR_CD
                ,COMP_CD
                ,COMP_NM
+               ,PLAN_CD
+               ,PLAN_NO
                ,PROD_CD
                ,PROD_PN
                ,PROD_NM
@@ -41,32 +43,28 @@
                   FROM MES_COMPANY_INFO
                   WHERE COMP_CD = PROD_MAIN_COMP
                 ) PROD_MAIN_COMP_NM
-               ,ODR_DT
-               ,ODR_SHIP_DT
-               ,ODR_CNT
-               ,ODR_PRICE
-               ,ODR_AMT
-               ,ODR_VAT
-               ,ODR_VAT_YN
-               ,ODR_NM
-               ,ODR_TEL
-               ,ODR_PROJECT
-               ,ODR_STATE
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_MASS_YN
+               ,PLAN_STDT
+               ,PLAN_EDDT
+               ,PLAN_CNT
+               ,PLAN_STATE
                ,(SELECT CODE_NM
                    FROM DFT_CODE_INFO
                   WHERE CODE_ID = 'MES_STATE'
-                    AND CODE_CD = ODR_STATE
-                ) ODR_STATE_NM
-               ,ODR_NOTICE
-               ,ODR_INDATE
-               ,ODR_INUSER
-               ,ODR_UPDATE
-               ,ODR_UPUSER
-        FROM MES_ORDER_INFO MOI
+                    AND CODE_CD = PLAN_STATE
+                ) PLAN_STATE_NM
+               ,PLAN_NOTICE
+               ,PLAN_INDATE
+               ,PLAN_INUSER
+               ,PLAN_UPDATE
+               ,PLAN_UPUSER
+        FROM MES_PRODUCTION_PLAN MOI
         JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
         JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
-       WHERE DATE_FORMAT(${date_type}, '%Y-%m-%m') <![CDATA[>=]]> #{startDate}
-         AND DATE_FORMAT(${date_type}, '%Y-%m-%m') <![CDATA[<=]]> #{endDate}
+       WHERE DATE_FORMAT(PLAN_STDT, '%Y-%m-%d') <![CDATA[>=]]> #{startDate}
+         AND DATE_FORMAT(PLAN_EDDT, '%Y-%m-%d') <![CDATA[<=]]> #{endDate}
        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
            AND PROD_KIND = #{prod_kind}
        </if>
@@ -83,6 +81,8 @@
                 OR PROD_PN LIKE CONCAT('%', #{search_text}, '%')
                 OR PROD_NM LIKE CONCAT('%', #{search_text}, '%')
                 OR COMP_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR ODR_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_NO LIKE CONCAT('%', #{search_text}, '%')
                 OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_GROUP) LIKE CONCAT('%', #{search_text}, '%')
                 OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
             )
@@ -94,6 +94,8 @@
                ,ODR_CD
                ,COMP_CD
                ,COMP_NM
+               ,PLAN_CD
+               ,PLAN_NO
                ,PROD_CD
                ,PROD_PN
                ,PROD_NM
@@ -125,26 +127,27 @@
                   FROM MES_COMPANY_INFO
                   WHERE COMP_CD = PROD_MAIN_COMP
                 ) PROD_MAIN_COMP_NM
-               ,ODR_DT
-               ,ODR_SHIP_DT
-               ,ODR_CNT
-               ,ODR_PRICE
-               ,ODR_AMT
-               ,ODR_VAT
-               ,ODR_VAT_YN
-               ,ODR_NM
-               ,ODR_TEL
-               ,ODR_PROJECT
-               ,ODR_STATE
-               ,ODR_NOTICE
-               ,ODR_INDATE
-               ,ODR_INUSER
-               ,ODR_UPDATE
-               ,ODR_UPUSER
-        FROM MES_ORDER_INFO MOI
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_MASS_YN
+               ,PLAN_STDT
+               ,PLAN_EDDT
+               ,PLAN_CNT
+               ,PLAN_STATE
+               ,(SELECT CODE_NM
+                   FROM DFT_CODE_INFO
+                  WHERE CODE_ID = 'MES_STATE'
+                    AND CODE_CD = PLAN_STATE
+                ) PLAN_STATE_NM
+               ,PLAN_NOTICE
+               ,PLAN_INDATE
+               ,PLAN_INUSER
+               ,PLAN_UPDATE
+               ,PLAN_UPUSER
+        FROM MES_PRODUCTION_PLAN MOI
         JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
         JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
-       WHERE ODR_CD = #{odr_cd}
+       WHERE PLAN_CD = #{plan_cd}
     </select>
 
     <select id="prodOverlap" parameterType="VMap" resultType="RowMap">
@@ -206,43 +209,33 @@
     </select>
 
     <insert id="planRegist" parameterType="VMap">
-        INSERT INTO MES_ORDER_INFO
+        INSERT INTO MES_PRODUCTION_PLAN
         (
              FACT_CD
              ,ODR_CD
+             ,PLAN_CD
+             ,PLAN_NO
              ,COMP_CD
              ,PROD_CD
-             ,ODR_DT
-             ,ODR_SHIP_DT
-             ,ODR_CNT
-             ,ODR_PRICE
-             ,ODR_AMT
-             ,ODR_VAT
-             ,ODR_VAT_YN
-             ,ODR_NM
-             ,ODR_TEL
-             ,ODR_PROJECT
-             ,ODR_NOTICE
-             ,ODR_INDATE
-             ,ODR_INUSER
-             ,ODR_UPDATE
-             ,ODR_UPUSER
-        ) VALUES (
-            #{fact_cd}
+             ,PLAN_STDT
+             ,PLAN_EDDT
+             ,PLAN_CNT
+             ,PLAN_NOTICE
+             ,PLAN_INDATE
+             ,PLAN_INUSER
+             ,PLAN_UPDATE
+             ,PLAN_UPUSER
+        )VALUES (
+             #{fact_cd}
              ,#{odr_cd}
+             ,#{plan_cd}
+             ,#{plan_no}
              ,#{comp_cd}
              ,#{prod_cd}
-             ,#{odr_dt}
-             ,#{odr_ship_dt}
-             ,#{odr_cnt}
-             ,#{odr_price}
-             ,#{odr_amt}
-             ,#{odr_vat}
-             ,#{odr_vat_yn}
-             ,#{odr_nm}
-             ,#{odr_tel}
-             ,#{odr_project}
-             ,#{odr_notice}
+             ,#{plan_stdt}
+             ,#{plan_eddt}
+             ,#{plan_cnt}
+             ,#{plan_notice}
              ,NOW()
              ,IFNULL(#{u_cd}, 'system')
              ,NOW()
@@ -251,44 +244,18 @@
     </insert>
 
     <update id="planModify" parameterType="VMap">
-        UPDATE MES_ORDER_INFO
+        UPDATE MES_PRODUCTION_PLAN
         SET COMP_CD = #{comp_cd}
           ,PROD_CD = #{prod_cd}
-          ,ODR_DT = #{odr_dt}
-          ,ODR_SHIP_DT = #{odr_ship_dt}
-          ,ODR_CNT = #{odr_cnt}
-          ,ODR_PRICE = #{odr_price}
-          ,ODR_AMT = #{odr_amt}
-          ,ODR_VAT = #{odr_vat}
-          ,ODR_VAT_YN = #{odr_vat_yn}
-          ,ODR_NM = #{odr_nm}
-          ,ODR_TEL = #{odr_tel}
-          ,ODR_PROJECT = #{odr_project}
-        WHERE ODR_CD = #{odr_cd}
+          ,PLAN_NO = #{plan_no}
+          ,PLAN_STDT = #{plan_stdt}
+          ,PLAN_EDDT = #{plan_eddt}
+          ,PLAN_CNT = #{plan_cnt}
+          ,PLAN_NOTICE = #{plan_notice}
+          ,PLAN_UPDATE = NOW()
+          ,PLAN_UPUSER = IFNULL(#{u_cd}, 'system')
+        WHERE PLAN_CD = #{plan_cd}
     </update>
-
-    <insert id="shipRegist" parameterType="VMap">
-        INSERT INTO MES_SHIP_INFO
-        (
-             FACT_CD
-             ,ODR_CD
-             ,SHIP_CD
-             ,SHIP_NOTICE
-             ,SHIP_INDATE
-             ,SHIP_INUSER
-             ,SHIP_UPDATE
-             ,SHIP_UPUSER
-        )VALUES (
-            #{fact_cd}
-            ,#{odr_cd}
-            ,#{ship_cd}
-            ,#{ship_notice}
-            ,NOW()
-            ,IFNULL(#{u_cd}, 'system')
-            ,NOW()
-            ,IFNULL(#{u_cd}, 'system')
-        )
-    </insert>
 
     <update id="planPackDelete" parameterType="VMap">
         UPDATE MES_ORDER_INFO
@@ -299,196 +266,72 @@
         </foreach>
     </update>
 
-    <delete id="prodProcPackDelete" parameterType="VMap">
-        DELETE FROM MES_PRODUCT_PROCESS
-        WHERE PROD_CD IN
-        <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
-            #{item}
-        </foreach>
-    </delete>
-
-    <delete id="prodBomPackDelete" parameterType="VMap">
-        DELETE FROM MES_PRODUCT_BOM
-        WHERE PROD_CD IN
-        <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
-            #{item}
-        </foreach>
-    </delete>
-
-    <select id="prodProcList" parameterType="VMap" resultType="RowMap">
+    <select id="planProcList" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
-            ,PROD_PROC_CD
-            ,PROD_PROC_SEQ
-            ,PROD_CD
-            ,PROC_CD
-            ,PROD_PROC_MIN
-            ,PROD_PROC_NOTICE
-            ,PROD_PROC_INDATE
-            ,PROD_PROC_INUSER
-            ,PROD_PROC_UPDATE
-            ,PROD_PROC_UPUSER
-          FROM MES_PRODUCT_PROCESS
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
-            WHERE PROD_CD = #{prod_cd}
-        </if>
-        ORDER BY PROD_PROC_SEQ ASC
+             ,PLAN_CD
+             ,PLAN_PROC_CD
+             ,PROC_CD
+             ,PROC_NM
+             ,PLAN_PROC_SEQ
+             ,PLAN_PROC_LAST_YN
+             ,PLAN_PROC_CNT
+             ,PLAN_PROC_STATE
+             ,(SELECT CODE_NM
+               FROM DFT_CODE_INFO
+               WHERE CODE_ID = 'MES_STATE'
+                 AND CODE_CD = PLAN_PROC_STATE
+        ) PLAN_PROC_STATE_NM
+             ,PLAN_PROC_NOTICE
+             ,PLAN_PROC_INDATE
+             ,PLAN_PROC_INUSER
+             ,PLAN_PROC_UPDATE
+             ,PLAN_PROC_UPUSER
+        FROM MES_PRODUCTION_PLAN_PROCESS
+                 JOIN MES_PROCESS_INFO USING (FACT_CD, PROC_CD)
+        WHERE PLAN_CD = #{plan_cd}
     </select>
 
-    <insert id="prodProcRegistModify" parameterType="VMap">
-        INSERT INTO MES_PRODUCT_PROCESS
+    <insert id="planProcRegist" parameterType="VMap">
+        INSERT INTO MES_PRODUCTION_PLAN_PROCESS
         (
-            FACT_CD
-            ,PROD_PROC_CD
-            ,PROD_PROC_SEQ
-            ,PROD_CD
-            ,PROC_CD
-            ,PROD_PROC_MIN
-            ,PROD_PROC_NOTICE
-            ,PROD_PROC_INDATE
-            ,PROD_PROC_INUSER
-            ,PROD_PROC_UPDATE
-            ,PROD_PROC_UPUSER
-        )VALUES
-        (
-            #{fact_cd}
-            ,#{prod_proc_cd}
-            ,#{prod_proc_seq}
-            ,#{prod_cd}
-            ,#{proc_cd}
-            ,#{prod_proc_min}
-            ,#{prod_proc_notice}
-            ,NOW()
-            ,IFNULL(#{u_cd}, 'system')
-            ,NOW()
-            ,IFNULL(#{u_cd}, 'system')
+             FACT_CD
+             ,PLAN_CD
+             ,PLAN_PROC_CD
+             ,PROC_CD
+             ,PLAN_PROC_SEQ
+             ,PLAN_PROC_LAST_YN
+             ,PLAN_PROC_INDATE
+             ,PLAN_PROC_INUSER
+             ,PLAN_PROC_UPDATE
+             ,PLAN_PROC_UPUSER
+        ) VALUES (
+              #{fact_cd}
+             ,#{plan_cd}
+             ,#{plan_proc_cd}
+             ,#{proc_cd}
+             ,#{plan_proc_seq}
+             ,#{plan_proc_last_yn}
+             ,NOW()
+             ,IFNULL(#{u_cd}, 'system')
+             ,NOW()
+             ,IFNULL(#{u_cd}, 'system')
         )
-        ON DUPLICATE KEY UPDATE
-             PROC_CD = #{proc_cd}
-            ,PROD_PROC_SEQ = #{prod_proc_seq}
-            ,PROD_PROC_MIN = #{prod_proc_min}
-            ,PROD_PROC_NOTICE = #{prod_proc_notice}
-            ,PROD_PROC_UPDATE = NOW()
-            ,PROD_PROC_UPUSER = IFNULL(#{u_cd}, 'system')
     </insert>
 
-     <delete id="prodProcDelete" parameterType="VMap">
-        DELETE FROM MES_PRODUCT_PROCESS
-        WHERE PROD_PROC_CD = #{prod_proc_cd}
+    <update id="planProcModify" parameterType="VMap">
+        UPDATE MES_PRODUCTION_PLAN_PROCESS
+        SET PLAN_PROC_CNT = IFNULL(#{plan_proc_cnt}, PLAN_PROC_CNT)
+          ,PLAN_PROC_STATE = IFNULL(#{plan_proc_state}, PLAN_PROC_STATE)
+          ,PLAN_PROC_NOTICE = #{plan_proc_notice}
+          ,PLAN_PROC_UPDATE = NOW()
+          ,PLAN_PROC_UPUSER = IFNULL(#{u_cd}, 'system')
+        WHERE PLAN_PROC_CD = #{plan_proc_cd}
+    </update>
+
+    <delete id="planProcDelete" parameterType="VMap">
+        DELETE FROM MES_PRODUCTION_PLAN_PROCESS
+        WHERE PLAN_PROC_CD = #{plan_proc_cd}
     </delete>
 
-    <select id="prodBomList" parameterType="VMap" resultType="RowMap">
-        SELECT MPB.FACT_CD
-               ,PROD_BOM_CD
-               ,PROD_CD
-               ,PROD_PN
-               ,PROD_NM
-               ,PROD_KIND
-               ,(SELECT CODE_NM
-                 FROM DFT_CODE_INFO
-                 WHERE CODE_ID = 'PROD_KIND'
-                   AND CODE_CD = PROD_KIND
-                ) PROD_KIND_NM
-               ,PROD_GROUP
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = PROD_GROUP
-                ) PROD_GROUP_NM
-               ,PROD_FAMILY
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = PROD_FAMILY
-                ) PROD_FAMILY_NM
-               ,PROD_STAND
-               ,PROD_UNIT
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = PROD_UNIT
-                ) PROD_UNIT_NM
-               ,PROD_PRICE
-               ,PROD_MAIN_COMP
-               ,(SELECT COMP_NM
-                  FROM MES_COMPANY_INFO
-                  WHERE COMP_CD = PROD_MAIN_COMP
-                ) PROD_MAIN_COMP_NM
-               ,PROD_KEEP_CNT
-               ,PROD_STOCK_CNT
-               ,PROC_CD
-               ,PROD_JA_CD
-               ,MATE_NM PROD_JA_NM
-               ,MATE_PN PROD_JA_PN
-               ,MATE_KIND PROD_JA_KIND
-              ,(SELECT CODE_NM
-                 FROM DFT_CODE_INFO
-                 WHERE CODE_ID = 'MATE_KIND'
-                   AND CODE_CD = MATE_KIND
-                ) PROD_JA_KIND_NM
-               ,MATE_GROUP PROD_JA_GROUP
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = MATE_GROUP
-                ) PROD_JA_GROUP_NM
-               ,MATE_STAND PROD_JA_STAND
-               ,MATE_UNIT PROD_JA_UNIT
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = MATE_UNIT
-                ) PROD_JA_UNIT_NM
-               ,MATE_PRICE PROD_JA_PRICE
-               ,PROD_BOM_CNT
-               ,PROD_BOM_NOTICE
-               ,PROD_BOM_INDATE
-               ,PROD_BOM_INUSER
-               ,PROD_BOM_UPDATE
-               ,PROD_BOM_UPUSER
-        FROM MES_PRODUCT_BOM MPB
-        JOIN MES_PRODUCT_INFO MPI USING (FACT_CD, PROD_CD)
-        JOIN MES_MATERIAL_INFO MMI ON MPB.FACT_CD = MMI.FACT_CD AND MPB.PROD_JA_CD = MMI.MATE_CD
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
-            WHERE PROD_CD = #{prod_cd}
-        </if>
-        ORDER BY MATE_KIND, PROD_BOM_CNT DESC
-    </select>
-
-    <insert id="prodBomRegistModify" parameterType="VMap">
-        INSERT INTO MES_PRODUCT_BOM
-        (
-            FACT_CD
-           ,PROD_BOM_CD
-           ,PROD_CD
-           ,PROC_CD
-           ,PROD_JA_CD
-           ,PROD_BOM_CNT
-           ,PROD_BOM_NOTICE
-           ,PROD_BOM_INDATE
-           ,PROD_BOM_INUSER
-           ,PROD_BOM_UPDATE
-           ,PROD_BOM_UPUSER
-        )VALUES
-        (
-            #{fact_cd}
-            ,#{prod_bom_cd}
-            ,#{prod_cd}
-            ,#{proc_cd}
-            ,#{prod_ja_cd}
-            ,#{prod_bom_cnt}
-            ,#{prod_bom_notice}
-            ,NOW()
-            ,IFNULL(#{u_cd}, 'system')
-            ,NOW()
-            ,IFNULL(#{u_cd}, 'system')
-        )
-        ON DUPLICATE KEY UPDATE
-             PROC_CD = #{proc_cd}
-            ,PROD_JA_CD = #{prod_ja_cd}
-            ,PROD_BOM_CNT = #{prod_bom_cnt}
-            ,PROD_BOM_NOTICE = #{prod_bom_notice}
-            ,PROD_BOM_UPDATE = NOW()
-            ,PROD_BOM_UPUSER = IFNULL(#{u_cd}, 'system')
-    </insert>
-
-     <delete id="prodBomDelete" parameterType="VMap">
-        DELETE FROM MES_PRODUCT_BOM
-        WHERE PROD_BOM_CD = #{prod_bom_cd}
-    </delete>
 
 </mapper>

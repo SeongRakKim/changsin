@@ -10,6 +10,11 @@
         FROM DUAL
     </select>
 
+    <select id="getTableRandomKey" parameterType="VMap" resultType="string">
+        SELECT CONCAT(#{column_type}, DATE_FORMAT(NOW(), '%Y%m%d%H%i%s'), FLOOR(RAND() * 10000))
+        FROM DUAL
+    </select>
+
     <select id="baseDetailList" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
                ,BASE_CD

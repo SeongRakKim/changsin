@@ -40,36 +40,20 @@ public class ProductionPlanDAO extends MapperDAO {
         return delete(mapperName + ".planPackDelete", vmap.getMap());
     }
 
-    public int planProcPackDelete(VMap vmap) throws Exception {
-        return delete(mapperName + ".planProcPackDelete", vmap.getMap());
-    }
-
-    public int planBomPackDelete(VMap vmap) throws Exception {
-        return delete(mapperName + ".planBomPackDelete", vmap.getMap());
+    public int planProcRegist(VMap vmap) throws Exception {
+        return insert(mapperName + ".planProcRegist", vmap.getMap());
     }
 
     public List<Map<String, Object>> planProcList(VMap vMap) throws Exception {
         return selectList(mapperName + ".planProcList", vMap.getMap());
     }
 
-    public int planProcRegistModify(VMap vmap) throws Exception {
-        return insert(mapperName + ".planProcRegistModify", vmap.getMap());
+    public int planProcModify(VMap vmap) throws Exception {
+        return insert(mapperName + ".planProcModify", vmap.getMap());
     }
 
     public int planProcDelete(VMap vmap) throws Exception {
         return delete(mapperName + ".planProcDelete", vmap.getMap());
-    }
-
-    public List<Map<String, Object>> planBomList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".planBomList", vMap.getMap());
-    }
-
-    public int planBomRegistModify(VMap vmap) throws Exception {
-        return insert(mapperName + ".planBomRegistModify", vmap.getMap());
-    }
-
-    public int planBomDelete(VMap vmap) throws Exception {
-        return delete(mapperName + ".planBomDelete", vmap.getMap());
     }
 
 }
