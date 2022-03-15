@@ -47,9 +47,13 @@ public class SalesOrderService {
         List<String> odr_nm = (List<String>)vmap.get("ary_odr_nm");
         List<String> odr_tel = (List<String>)vmap.get("ary_odr_tel");
 
-        vmap.put("table_type", "ODR");
 
-        for(int i=0; i<odr_cd.size(); i++) {
+
+        for(int i=0; i<odr_cd.size(); i++)
+        {
+
+            // 수주데이터
+            vmap.put("table_type", "ODR");
             VMap orderMap = new VMap();
 
             orderMap.put("fact_cd", vmap.getString("fact_cd"));
@@ -70,6 +74,17 @@ public class SalesOrderService {
             orderMap.put("u_cd", vmap.getString("u_cd"));
 
             salesOrderDAO.orderRegist(orderMap);
+
+            // 납품데이터
+            vmap.put("table_type", "SHIP");
+            VMap shipMap = new VMap();
+
+            shipMap.put("fact_cd", vmap.getString("fact_cd"));
+            shipMap.put("odr_cd", orderMap.get("odr_cd"));
+            shipMap.put("ship_cd", commonDAO.getTablePrimaryCode(vmap));
+            shipMap.put("u_cd", vmap.getString("u_cd"));
+
+            salesOrderDAO.shipRegist(shipMap);
 
             returnCnt++;
         }

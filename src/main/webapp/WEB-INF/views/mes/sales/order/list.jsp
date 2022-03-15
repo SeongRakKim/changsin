@@ -29,55 +29,55 @@
         <table class="tableSearch table table-hover table-striped table-bordered mb-5" style="margin-bottom: 0.5rem !important;">
             <colgroup>
                 <col style="width: 10%">
-                <col style="width: 40%">
+                <col style="width: 60%">
                 <col style="width: 10%">
-                <col style="width: 40%">
+                <col style="width: 20%">
             </colgroup>
             <thead class="thead-light">
                 <tr>
                     <th>검색날짜</th>
                     <td colspan="3">
-                        <%@ include file="/WEB-INF/include/main-search-date-content.jspf"%>
+                        <div style="display: flex;">
+                            <select id="date_type" name="date_type" class="custom-select w-10" style="width: 10% !important; margin-right: 5px;">
+                                <option value="odr_dt">수주일</option>
+                                <option value="odr_ship_dt">납기요청일</option>
+                            </select>
+                            <%@ include file="/WEB-INF/include/main-search-date-content.jspf"%>
+                        </div>
                     </td>
                 </tr>
                 <tr>
-<%--                    <th>수주종류</th>--%>
-<%--                    <td>--%>
-<%--                        <select id="prod_kind" name="prod_kind" class="custom-select w-100" required="">--%>
-<%--                            <option value="">수주종류선택</option>--%>
-<%--                            <option value="PA">완수주</option>--%>
-<%--                            <option value="PH">반수주</option>--%>
-<%--                        </select>--%>
-<%--                    </td>--%>
-<%--                    <th>수주분류</th>--%>
-<%--                    <td>--%>
-<%--                        <select id="prod_group" name="prod_group" class="custom-select w-100" required="">--%>
-<%--                            <option value="">수주분류선택</option>--%>
-<%--                            <c:forEach var="item" items="${vmap.prodGroupList}" varStatus="status">--%>
-<%--                                <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>--%>
-<%--                            </c:forEach>--%>
-<%--                        </select>--%>
-<%--                    </td>--%>
-<%--                    <th>수주군</th>--%>
-<%--                    <td>--%>
-<%--                        <select id="prod_family" name="prod_family" class="custom-select w-100" required="">--%>
-<%--                            <option value="">수주군선택</option>--%>
-<%--                            <c:forEach var="item" items="${vmap.prodFamilyList}" varStatus="status">--%>
-<%--                                <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>--%>
-<%--                            </c:forEach>--%>
-<%--                        </select>--%>
-<%--                    </td>--%>
-<%--                    <th>검색어</th>--%>
-<%--                    <td>--%>
-<%--                        <div class="input-group">--%>
-<%--                            <div class="input-group-prepend">--%>
-<%--                                <span class="input-group-text">--%>
-<%--                                    <i class="fas fa-search"></i>--%>
-<%--                                </span>--%>
-<%--                            </div>--%>
-<%--                            <input id="search_text" name="search_text" class="form-control" placeholder="검색어" type="text">--%>
-<%--                        </div>--%>
-<%--                    </td>--%>
+                    <th>검색조건</th>
+                    <td>
+                        <select id="prod_kind" name="prod_kind" class="custom-select w-100" style="width: 15% !important;">
+                            <option value="">제품종류선택</option>
+                            <option value="PA">완제품</option>
+                            <option value="PH">반제품</option>
+                        </select>
+                        <select id="prod_group" name="prod_group" class="custom-select w-100" style="width: 15% !important;">
+                            <option value="">제품분류선택</option>
+                            <c:forEach var="item" items="${vmap.prodGroupList}" varStatus="status">
+                                <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
+                            </c:forEach>
+                        </select>
+                        <select id="prod_family" name="prod_family" class="custom-select w-100" style="width: 15% !important;">
+                            <option value="">제품군선택</option>
+                            <c:forEach var="item" items="${vmap.prodFamilyList}" varStatus="status">
+                                <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
+                            </c:forEach>
+                        </select>
+                    </td>
+                    <th>검색어</th>
+                    <td>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </div>
+                            <input id="search_text" name="search_text" class="form-control" placeholder="검색어" type="text">
+                        </div>
+                    </td>
                 </tr>
             </thead>
         </table>

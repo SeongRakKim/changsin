@@ -5,8 +5,11 @@
 
 <mapper namespace="mes.sales.order">
 
-    <select id="prodList" parameterType="VMap" resultType="RowMap">
+    <select id="orderList" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
+               ,ODR_CD
+               ,COMP_CD
+               ,COMP_NM
                ,PROD_CD
                ,PROD_PN
                ,PROD_NM
@@ -38,25 +41,27 @@
                   FROM MES_COMPANY_INFO
                   WHERE COMP_CD = PROD_MAIN_COMP
                 ) PROD_MAIN_COMP_NM
-               ,(SELECT COUNT(*)
-                  FROM MES_PRODUCT_PROCESS
-                 WHERE FACT_CD = MPI.FACT_CD
-                   AND PROD_CD = MPI.PROD_CD) AS PROC_CNT
-               ,(SELECT COUNT(*)
-                   FROM MES_PRODUCT_BOM
-                  WHERE FACT_CD = MPI.FACT_CD
-                    AND PROD_CD = MPI.PROD_CD) AS BOM_CNT
-               ,PROD_KEEP_CNT
-               ,PROD_STOCK_CNT
-               ,PROD_YN
-               ,PROD_MASS_YN
-               ,PROD_NOTICE
-               ,PROD_INDATE
-               ,PROD_INUSER
-               ,PROD_UPDATE
-               ,PROD_UPUSER
-          FROM MES_PRODUCT_INFO MPI
-         WHERE PROD_YN = 'Y'
+               ,ODR_DT
+               ,ODR_SHIP_DT
+               ,ODR_CNT
+               ,ODR_PRICE
+               ,ODR_AMT
+               ,ODR_VAT
+               ,ODR_VAT_YN
+               ,ODR_NM
+               ,ODR_TEL
+               ,ODR_PROJECT
+               ,ODR_STATE
+               ,ODR_NOTICE
+               ,ODR_INDATE
+               ,ODR_INUSER
+               ,ODR_UPDATE
+               ,ODR_UPUSER
+        FROM MES_ORDER_INFO MOI
+        JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
+        JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
+       WHERE DATE_FORMAT('${date_type}', '%Y-%m-%m') <![CDATA[>=]]> #{startDate}
+         AND DATE_FORMAT('${date_type}', '%Y-%m-%m') <![CDATA[<=]]> #{endDate}
        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
            AND PROD_KIND = #{prod_kind}
        </if>
@@ -277,6 +282,29 @@
              ,IFNULL(#{u_cd}, 'system')
              ,NOW()
              ,IFNULL(#{u_cd}, 'system')
+        )
+    </insert>
+
+    <insert id="shipRegist" parameterType="VMap">
+        INSERT INTO MES_SHIP_INFO
+        (
+             FACT_CD
+             ,ODR_CD
+             ,SHIP_CD
+             ,SHIP_NOTICE
+             ,SHIP_INDATE
+             ,SHIP_INUSER
+             ,SHIP_UPDATE
+             ,SHIP_UPUSER
+        )VALUES (
+            #{fact_cd}
+            ,#{odr_cd}
+            ,#{ship_cd}
+            ,#{ship_notice}
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
         )
     </insert>
 
