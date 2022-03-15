@@ -25,10 +25,10 @@ public class SalesOrderRestController {
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
 
-    @GetMapping("/mes/sales/order/orderOne/{order_cd}")
-    public ResponseEntity<Map<String, Object>> orderOne(VMap vmap, @PathVariable("order_cd") String order_cd) throws Exception
+    @GetMapping("/mes/sales/order/orderOne/{odr_cd}")
+    public ResponseEntity<Map<String, Object>> orderOne(VMap vmap, @PathVariable("odr_cd") String odr_cd) throws Exception
     {
-        vmap.put("order_cd", order_cd);
+        vmap.put("odr_cd", odr_cd);
         Map<String, Object> orderOne = salesOrderService.orderOne(vmap);
 
         return new ResponseEntity<>(orderOne, HttpStatus.OK);
@@ -49,6 +49,15 @@ public class SalesOrderRestController {
     {
         vmap.set(map);
         salesOrderService.orderRegist(vmap);
+
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
+
+    @PostMapping("/mes/sales/order/orderModify")
+    public ResponseEntity<String> orderModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    {
+        vmap.set(map);
+        salesOrderService.orderModify(vmap);
 
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }

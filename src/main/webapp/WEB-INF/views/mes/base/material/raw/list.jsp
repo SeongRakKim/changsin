@@ -11,20 +11,6 @@
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
-    <div class="menu-nav">
-        <div>
-            <!-- Page Heading -->
-<%--            <span class="btn btn-pill btn-secondary">--%>
-            <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 기준정보 <i class="fas fa-chevron-right"></i> 원자재정보
-            </span>
-        </div>
-
-        <%@ include file="/WEB-INF/include/main-top-right.jspf"%>
-    </div>
-
-    <%@ include file="/WEB-INF/include/main-progress.jspf"%>
-
     <div class="main-content">
         <table class="tableSearch table table-hover table-striped table-bordered mb-5" style="margin-bottom: 0.5rem !important;">
 <%--            <colgroup>--%>
@@ -61,6 +47,17 @@
             </thead>
         </table>
     </div>
+
+    <div class="menu-nav">
+        <div>
+            <span class="btn btn-pill btn-sm btn-primary">
+                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 기준정보 <i class="fas fa-chevron-right"></i> 원자재정보
+            </span>
+        </div>
+        <%@ include file="/WEB-INF/include/main-top-right.jspf"%>
+    </div>
+
+    <%@ include file="/WEB-INF/include/main-progress.jspf"%>
 
     <div class="card shadow" style="min-height: 770px;">
         <div class="card-body">

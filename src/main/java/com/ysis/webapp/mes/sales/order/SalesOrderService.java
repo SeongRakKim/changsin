@@ -92,6 +92,11 @@ public class SalesOrderService {
         return returnCnt;
     }
 
+    @Transactional
+    public int orderModify(VMap vmap) throws Exception {
+        return salesOrderDAO.orderModify(vmap);
+    }
+
     public int orderPackDelete(VMap vmap) throws Exception {
 
         salesOrderDAO.orderProcPackDelete(vmap);

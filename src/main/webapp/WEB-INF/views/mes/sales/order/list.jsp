@@ -11,20 +11,6 @@
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
-    <div class="menu-nav">
-        <div>
-            <!-- Page Heading -->
-<%--            <span class="btn btn-pill btn-secondary">--%>
-            <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 영업관리 <i class="fas fa-chevron-right"></i> 수주관리
-            </span>
-        </div>
-
-        <%@ include file="/WEB-INF/include/main-top-right.jspf"%>
-    </div>
-
-    <%@ include file="/WEB-INF/include/main-progress.jspf"%>
-
     <div class="main-content">
         <table class="tableSearch table table-hover table-striped table-bordered mb-5" style="margin-bottom: 0.5rem !important;">
             <colgroup>
@@ -39,8 +25,8 @@
                     <td colspan="3">
                         <div style="display: flex;">
                             <select id="date_type" name="date_type" class="custom-select w-10" style="width: 10% !important; margin-right: 5px;">
-                                <option value="odr_dt">수주일</option>
-                                <option value="odr_ship_dt">납기요청일</option>
+                                <option value="ODR_DT">수주일</option>
+                                <option value="ODR_SHIP_DT">납기요청일</option>
                             </select>
                             <%@ include file="/WEB-INF/include/main-search-date-content.jspf"%>
                         </div>
@@ -83,7 +69,19 @@
         </table>
     </div>
 
-    <div class="card shadow" style="min-height: 770px;">
+    <div class="menu-nav">
+        <div>
+            <span class="btn btn-pill btn-sm btn-primary">
+                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 영업관리 <i class="fas fa-chevron-right"></i> 수주관리
+            </span>
+        </div>
+
+        <%@ include file="/WEB-INF/include/main-top-right.jspf"%>
+    </div>
+
+    <%@ include file="/WEB-INF/include/main-progress.jspf"%>
+
+    <div class="card shadow" style="min-height: 740px;">
         <div class="card-body">
             <div class="table-responsive">
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
@@ -98,18 +96,20 @@
                                                 <label class="custom-control-label" for="listAll"></label>
                                             </div>
                                         </th>
-                                        <th>수주코드</th>
+                                        <th>거래처</th>
+                                        <th>수주일</th>
+                                        <th>요청일</th>
                                         <th>품번</th>
-                                        <th>품명</th>
-                                        <th>종류</th>
-                                        <th>분류</th>
-                                        <th>수주군</th>
+                                        <th>품목명</th>
                                         <th>규격</th>
                                         <th>단위</th>
+                                        <th>수량</th>
                                         <th>단가</th>
-                                        <th>주거래처</th>
-                                        <th>양산여부</th>
-                                        <th style="width: 11%;">관리</th>
+<%--                                        <th>VAT여부</th>--%>
+                                        <th>금액</th>
+                                        <th>VAT</th>
+                                        <th>주문자</th>
+                                        <th>연락처</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -138,6 +138,8 @@
                                 <tr>
                                     <th>거래처<span class="red"> (필수)</span></th>
                                     <td>
+                                        <input type="hidden" id="pop_odr_cd" name="pop_odr_cd" class="form-control no-reset"
+                                               placeholder="수주코드" title="수주코드" />
                                         <input type="hidden" id="pop_comp_cd" name="pop_comp_cd" class="form-control no-reset"
                                                placeholder="거래처" title="거래처" />
                                         <input type="hidden" id="pop_comp_nm" name="pop_comp_nm" class="form-control no-reset"
@@ -321,7 +323,12 @@
                     <span class="btn-wrapper--label">저장</span>
                 </button>
 
-                <button type="button" id="btnPopModify" class="btn btn-success ">수정</button>
+                <button type="button" id="btnPopModify" class="btn btn-primary" style="display: none;">
+                    <span class="btn-wrapper--icon">
+                        <i class="fas fa-check"></i>
+                    </span>
+                    <span class="btn-wrapper--label">수정</span>
+                </button>
 
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">
                     <span class="btn-wrapper--icon">
@@ -423,7 +430,7 @@
     $(document).ready(() => {
         // DataTables setting
         setDatatable();
-        // getData();
+        getData();
         initAutoComplete("#pop_selector");
         initAutoComplete2("#pop_selector2");
 
@@ -448,9 +455,9 @@
 
         // 상세조회
         $("#tblMaster").on("dblclick", "tr", function() {
-            let prod_cd = $(this).find("input[name=prod_cd]").val();
+            let odr_cd = $(this).find("input[name=odr_cd]").val();
             callEditmodal("수주 수정", "M");
-            getDataOne(prod_cd);
+            getDataOne(odr_cd);
         });
 
         // 저장
@@ -468,6 +475,25 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     registData();
+                }
+            });
+        });
+
+        // 수정
+        $("#btnPopModify").on("click", () => {
+
+            Swal.fire({
+                title: '',
+                text: "수주 정보를 수정하시겠습니까?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    modifyData();
                 }
             });
         });
@@ -626,7 +652,7 @@
             ,filter: true
             ,stateSave: true
             ,collapse: false
-            ,scrollY: 570
+            ,scrollY: 540
             ,selected: true
             ,multiSelected: false
             ,columnDefs : [
@@ -647,6 +673,7 @@
         $("#dataModal").modal("show");
         $("#form-modal-title").text(title);
         $("#form-modal-icon").addClass(flag === "R" ? "fas fa-paste" : "fas fa-edit");
+        $(".isNew").show();
         $("#btnPopRegist").show();
         $("#btnPopModify").hide();
 
@@ -699,6 +726,7 @@
             ,dataType: "json"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
+                ,date_type: $("#date_type").val()
                 ,prod_kind: $("#prod_kind").val()
                 ,prod_family: $("#prod_family").val()
                 ,prod_group: $("#prod_group").val()
@@ -713,41 +741,42 @@
                 let node = [];
 
                 let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
-                                   "    <input type=\"hidden\" name=\"prod_cd\" value=\"" + item.prod_cd + "\">" +
+                                   "    <input type=\"hidden\" name=\"odr_cd\" value=\"" + item.odr_cd + "\">" +
                                    "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
                                    "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
                                    "</div>";
 
                 node.push(checkBoxNode);
-                node.push(IsEmpty(item.prod_cd));
+                node.push(IsEmpty(item.comp_nm));
+                node.push(IsEmpty(item.odr_dt));
+                node.push(IsEmpty(item.odr_ship_dt));
                 node.push(IsEmpty(item.prod_pn));
                 node.push(IsEmpty(item.prod_nm));
-                node.push(IsEmpty(item.prod_kind_nm));
-                node.push(IsEmpty(item.prod_group_nm));
-                node.push(IsEmpty(item.prod_family_nm));
                 node.push(IsEmpty(item.prod_stand));
                 node.push(IsEmpty(item.prod_unit_nm));
-                node.push(IsEmpty(item.prod_price.comma('2')));
-                node.push(IsEmpty(item.prod_main_comp_nm));
-                // node.push(IsEmpty(item.prod_keep_cnt.comma('2')));
-                // node.push(IsEmpty(item.prod_stock_cnt.comma('2')));
-                node.push(IsEmpty(item.prod_mass_yn));
+                node.push("<div class='text-right'>" + IsEmpty(item.odr_cnt.comma('2')) + "</div>");
+                node.push("<div class='text-right'>" + IsEmpty(item.odr_price.comma('2')) + "</div>");
+                // node.push(IsEmpty(item.odr_vat_yn));
+                node.push("<div class='text-right'>" + IsEmpty(item.odr_amt.comma('2')) + "</div>");
+                node.push("<div class='text-right'>" + IsEmpty(item.odr_vat.comma('2')) + "</div>");
+                node.push(IsEmpty(item.odr_nm));
+                node.push(IsEmpty(item.odr_tel));
 
-                let param = "{"
-                    + "prod_cd: '" +  item.prod_cd + "'"
-                    + ",prod_pn: '" +  item.prod_pn + "'"
-                    + ",prod_nm: '" +  item.prod_nm + "'"
-                    + ",prod_kind_nm: '" +  item.prod_kind_nm + "'"
-                    + ",prod_stand: '" +  item.prod_stand + "'"
-                    + ",prod_unit_nm: '" +  item.prod_unit_nm + "'"
-                + "}";
+                // let param = "{"
+                //     + "prod_cd: '" +  item.prod_cd + "'"
+                //     + ",prod_pn: '" +  item.prod_pn + "'"
+                //     + ",prod_nm: '" +  item.prod_nm + "'"
+                //     + ",prod_kind_nm: '" +  item.prod_kind_nm + "'"
+                //     + ",prod_stand: '" +  item.prod_stand + "'"
+                //     + ",prod_unit_nm: '" +  item.prod_unit_nm + "'"
+                // + "}";
+                //
+                // let manageButton = "<div style='display: flex; flex-wrap: wrap; justify-content: space-around;' >" +
+                //                    "    <button class=\"btn btn-sm btn " + (item.proc_cnt > 0 ? "btn-first" : "btn-outline-first" ) + "\" type=\"button\" onclick=\"setProductProcess(" + param + ")\">공정</button>" +
+                //                    "    <button class=\"btn btn-sm btn " + (item.bom_cnt > 0 ? "btn-first" : "btn-outline-first" ) + "\" type=\"button\" onclick=\"setProductBom(" + param + ")\">BOM</button>" +
+                //                    "</div>";
 
-                let manageButton = "<div style='display: flex; flex-wrap: wrap; justify-content: space-around;' >" +
-                                   "    <button class=\"btn btn-sm btn " + (item.proc_cnt > 0 ? "btn-first" : "btn-outline-first" ) + "\" type=\"button\" onclick=\"setProductProcess(" + param + ")\">공정</button>" +
-                                   "    <button class=\"btn btn-sm btn " + (item.bom_cnt > 0 ? "btn-first" : "btn-outline-first" ) + "\" type=\"button\" onclick=\"setProductBom(" + param + ")\">BOM</button>" +
-                                   "</div>";
-
-                node.push(manageButton);
+                // node.push(manageButton);
 
                 // 각 row node 추가
                 $("#tblMaster").DataTable().row.add(node).node();
@@ -764,12 +793,12 @@
         });
     }
 
-    function getDataOne(prod_cd)
+    function getDataOne(odr_cd)
     {
         showWait('.dataModal');
 
         $.ajax({
-            url: "/mes/sales/order/orderOne/" + prod_cd
+            url: "/mes/sales/order/orderOne/" + odr_cd
             ,type: "get"
             ,dataType: "json"
             // ,data: JSON.stringify({})
@@ -778,7 +807,12 @@
         {
             setDataOne("pop_", data);
             $("#dataForm").find(".key").prop("disabled", true);
-            $("#pop_selector").val(data.prod_main_comp_nm);
+            $("#pop_selector").val('[' + data.comp_cd + ']' + data.comp_nm);
+            $("#pop_selector2").val('[' + data.prod_pn + ']' + data.prod_nm);
+
+            $(".isNew").hide();
+            $("#btnPopRegist").hide();
+            $("#btnPopModify").show();
         })
         .always(function (data) {
             hideWait('.dataModal');
@@ -1005,6 +1039,60 @@
                 ,ary_odr_project: ary_odr_project
                 ,ary_odr_nm: ary_odr_nm
                 ,ary_odr_tel: ary_odr_tel
+            })
+        })
+        .done(function (data) {
+            hideWait('.dataModal');
+            $("#dataModal").modal("hide");
+            getData();
+        })
+        .always(function (data) {
+
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+            hideWait('.dataModal');
+        });
+    }
+
+    // modify Data - ajax modify
+    function modifyData()
+    {
+        showWait('.dataModal');
+
+        $.ajax({
+            type: "post"
+            ,url: "/mes/sales/order/orderModify"
+            ,headers: {
+                "Content-Type": "application/json"
+                ,"X-HTTP-Method-Override": "POST"
+            }
+            ,dataType: "text"
+            ,data: JSON.stringify({
+                fact_cd: "${vmap.fact_cd}"
+                ,odr_cd: $("#pop_odr_cd").val()
+                ,comp_cd: $("#pop_comp_cd").val()
+                ,comp_nm: $("#pop_comp_nm").val()
+                ,prod_cd: $("#pop_prod_cd").val()
+                ,prod_pn: $("#pop_prod_pn").val()
+                ,prod_nm: $("#pop_prod_nm").val()
+                ,prod_kind_nm: $("#pop_prod_kind_nm").val()
+                ,prod_group_nm: $("#pop_prod_group_nm").val()
+                ,prod_family_nm: $("#pop_prod_family_nm").val()
+                ,prod_stand: $("#pop_prod_stand").val()
+                ,prod_unit_nm: $("#pop_prod_unit_nm").val()
+                ,prod_price: $("#pop_prod_price").val()
+                ,odr_dt: $("#pop_odr_dt").val()
+                ,odr_ship_dt: $("#pop_odr_ship_dt").val()
+                ,odr_vat_yn: $("input:radio[name=pop_odr_vat_yn]:checked").val()
+                ,odr_cnt: $("#pop_odr_cnt").val().replace(/,/g, "")
+                ,odr_price: $("#pop_odr_price").val().replace(/,/g, "")
+                ,odr_amt: $("#pop_odr_amt").val().replace(/,/g, "")
+                ,odr_vat: $("#pop_odr_vat").val().replace(/,/g, "")
+                ,odr_notice: $("#pop_odr_notice").val()
+                ,odr_project: $("#pop_odr_project").val()
+                ,odr_nm: $("#pop_odr_nm").val()
+                ,odr_tel: $("#pop_odr_tel").val()
             })
         })
         .done(function (data) {

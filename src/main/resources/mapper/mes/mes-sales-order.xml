@@ -60,8 +60,8 @@
         FROM MES_ORDER_INFO MOI
         JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
         JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
-       WHERE DATE_FORMAT('${date_type}', '%Y-%m-%m') <![CDATA[>=]]> #{startDate}
-         AND DATE_FORMAT('${date_type}', '%Y-%m-%m') <![CDATA[<=]]> #{endDate}
+       WHERE DATE_FORMAT(${date_type}, '%Y-%m-%m') <![CDATA[>=]]> #{startDate}
+         AND DATE_FORMAT(${date_type}, '%Y-%m-%m') <![CDATA[<=]]> #{endDate}
        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
            AND PROD_KIND = #{prod_kind}
        </if>
@@ -77,14 +77,18 @@
                 PROD_CD LIKE CONCAT('%', #{search_text}, '%')
                 OR PROD_PN LIKE CONCAT('%', #{search_text}, '%')
                 OR PROD_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR COMP_NM LIKE CONCAT('%', #{search_text}, '%')
                 OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_GROUP) LIKE CONCAT('%', #{search_text}, '%')
                 OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
             )
         </if>
     </select>
 
-    <select id="prodOne" parameterType="VMap" resultType="RowMap">
+    <select id="orderOne" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
+               ,ODR_CD
+               ,COMP_CD
+               ,COMP_NM
                ,PROD_CD
                ,PROD_PN
                ,PROD_NM
@@ -116,18 +120,26 @@
                   FROM MES_COMPANY_INFO
                   WHERE COMP_CD = PROD_MAIN_COMP
                 ) PROD_MAIN_COMP_NM
-               ,PROD_KEEP_CNT
-               ,PROD_STOCK_CNT
-               ,PROD_YN
-               ,PROD_MASS_YN
-               ,PROD_NOTICE
-               ,PROD_INDATE
-               ,PROD_INUSER
-               ,PROD_UPDATE
-               ,PROD_UPUSER
-          FROM MES_PRODUCT_INFO
-         WHERE PROD_YN = 'Y'
-           AND PROD_CD = #{prod_cd}
+               ,ODR_DT
+               ,ODR_SHIP_DT
+               ,ODR_CNT
+               ,ODR_PRICE
+               ,ODR_AMT
+               ,ODR_VAT
+               ,ODR_VAT_YN
+               ,ODR_NM
+               ,ODR_TEL
+               ,ODR_PROJECT
+               ,ODR_STATE
+               ,ODR_NOTICE
+               ,ODR_INDATE
+               ,ODR_INUSER
+               ,ODR_UPDATE
+               ,ODR_UPUSER
+        FROM MES_ORDER_INFO MOI
+        JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
+        JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
+       WHERE ODR_CD = #{odr_cd}
     </select>
 
     <select id="prodOverlap" parameterType="VMap" resultType="RowMap">
@@ -188,58 +200,6 @@
         </if>
     </select>
 
-    <select id="prodCompletOverlap" parameterType="VMap" resultType="RowMap">
-        SELECT FACT_CD
-               ,PROD_CD
-               ,PROD_PN
-               ,PROD_NM
-               ,PROD_KIND
-               ,(SELECT CODE_NM
-                 FROM DFT_CODE_INFO
-                 WHERE CODE_ID = 'PROD_KIND'
-                   AND CODE_CD = PROD_KIND
-                ) PROD_KIND_NM
-               ,PROD_GROUP
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = PROD_GROUP
-                ) PROD_GROUP_NM
-               ,PROD_FAMILY
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = PROD_FAMILY
-                ) PROD_FAMILY_NM
-               ,PROD_STAND
-               ,PROD_UNIT
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = PROD_UNIT
-                ) PROD_UNIT_NM
-               ,PROD_PRICE
-               ,PROD_MAIN_COMP
-               ,(SELECT COMP_NM
-                  FROM MES_COMPANY_INFO
-                  WHERE COMP_CD = PROD_MAIN_COMP
-               ) PROD_MAIN_COMP_NM
-               ,PROD_KEEP_CNT
-               ,PROD_STOCK_CNT
-               ,PROD_YN
-               ,PROD_MASS_YN
-               ,PROD_NOTICE
-               ,PROD_INDATE
-               ,PROD_INUSER
-               ,PROD_UPDATE
-               ,PROD_UPUSER
-          FROM MES_PRODUCT_INFO
-         WHERE PROD_YN = 'Y'
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
-            AND
-            (
-                PROD_NM LIKE CONCAT('%', #{selector}, '%')
-            )
-        </if>
-    </select>
-
     <insert id="orderRegist" parameterType="VMap">
         INSERT INTO MES_ORDER_INFO
         (
@@ -284,6 +244,23 @@
              ,IFNULL(#{u_cd}, 'system')
         )
     </insert>
+
+    <update id="orderModify" parameterType="VMap">
+        UPDATE MES_ORDER_INFO
+        SET COMP_CD = #{comp_cd}
+          ,PROD_CD = #{prod_cd}
+          ,ODR_DT = #{odr_dt}
+          ,ODR_SHIP_DT = #{odr_ship_dt}
+          ,ODR_CNT = #{odr_cnt}
+          ,ODR_PRICE = #{odr_price}
+          ,ODR_AMT = #{odr_amt}
+          ,ODR_VAT = #{odr_vat}
+          ,ODR_VAT_YN = #{odr_vat_yn}
+          ,ODR_NM = #{odr_nm}
+          ,ODR_TEL = #{odr_tel}
+          ,ODR_PROJECT = #{odr_project}
+        WHERE ODR_CD = #{odr_cd}
+    </update>
 
     <insert id="shipRegist" parameterType="VMap">
         INSERT INTO MES_SHIP_INFO

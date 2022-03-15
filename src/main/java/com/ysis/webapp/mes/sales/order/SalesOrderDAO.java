@@ -28,6 +28,10 @@ public class SalesOrderDAO extends MapperDAO {
         return insert(mapperName + ".orderRegist", vmap.getMap());
     }
 
+    public int orderModify(VMap vmap) throws Exception {
+        return insert(mapperName + ".orderModify", vmap.getMap());
+    }
+
     public int shipRegist(VMap vmap) throws Exception {
         return insert(mapperName + ".shipRegist", vmap.getMap());
     }
