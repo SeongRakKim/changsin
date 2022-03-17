@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.base.user">
+
+    <select id="userList" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,U_CD
+               ,U_PW
+               ,U_NM
+               ,DEPT_CD
+               ,GRADE_CD
+               ,U_ADDR
+               ,U_TEL
+               ,U_MAIL
+               ,U_INDT
+               ,U_OUTDT
+               ,U_YN
+               ,U_NOTICE
+               ,U_INDATE
+               ,U_INUSER
+               ,U_UPDATE
+               ,U_UPUSER
+        FROM MES_USER_INFO
+        WHERE U_YN = 'Y'
+    </select>
+
+    <select id="compOne" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,COMP_CD
+               ,COMP_NM
+               ,COMP_TYPE
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = COMP_TYPE
+                ) COMP_TYPE_NM
+               ,COMP_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                   FROM DFT_BASE_DETAIL
+                  WHERE BASE_DETAIL_CD = COMP_GROUP
+                 ) COMP_GROUP_NM
+               ,COMP_BUSIN_NUM
+               ,COMP_CEO
+               ,COMP_BUSIN_STAT
+               ,COMP_BUSIN_KIND
+               ,COMP_TEL
+               ,COMP_FAX
+               ,COMP_ADDRESS
+               ,COMP_EMAIL
+               ,COMP_MANA
+               ,COMP_MANA_TEL
+               ,COMP_YN
+               ,COMP_NOTICE
+               ,COMP_INDATE
+               ,COMP_INUSER
+               ,COMP_UPDATE
+               ,COMP_UPUSER
+          FROM MES_COMPANY_INFO
+         WHERE COMP_YN = 'Y'
+           AND COMP_CD = #{comp_cd}
+    </select>
+
+    <select id="compOverlap" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,COMP_CD
+               ,COMP_NM
+               ,COMP_TYPE
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = COMP_TYPE
+                ) COMP_TYPE_NM
+               ,COMP_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                   FROM DFT_BASE_DETAIL
+                  WHERE BASE_DETAIL_CD = COMP_GROUP
+                 ) COMP_GROUP_NM
+               ,COMP_BUSIN_NUM
+               ,COMP_CEO
+               ,COMP_BUSIN_STAT
+               ,COMP_BUSIN_KIND
+               ,COMP_TEL
+               ,COMP_FAX
+               ,COMP_ADDRESS
+               ,COMP_EMAIL
+               ,COMP_MANA
+               ,COMP_MANA_TEL
+               ,COMP_YN
+               ,COMP_NOTICE
+               ,COMP_INDATE
+               ,COMP_INUSER
+               ,COMP_UPDATE
+               ,COMP_UPUSER
+          FROM MES_COMPANY_INFO
+         WHERE COMP_YN = 'Y'
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(comp_cd)">
+            AND COMP_CD = #{comp_cd}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(comp_type)">
+            AND COMP_TYPE = #{comp_type}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(comp_group)">
+            AND COMP_GROUP = #{comp_group}
+        </if>
+    </select>
+
+    <select id="compCompletOverlap" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,COMP_CD
+               ,COMP_NM
+               ,COMP_TYPE
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = COMP_TYPE
+                ) COMP_TYPE_NM
+               ,COMP_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                   FROM DFT_BASE_DETAIL
+                  WHERE BASE_DETAIL_CD = COMP_GROUP
+                 ) COMP_GROUP_NM
+               ,COMP_BUSIN_NUM
+               ,COMP_CEO
+               ,COMP_BUSIN_STAT
+               ,COMP_BUSIN_KIND
+               ,COMP_TEL
+               ,COMP_FAX
+               ,COMP_ADDRESS
+               ,COMP_EMAIL
+               ,COMP_MANA
+               ,COMP_MANA_TEL
+               ,COMP_YN
+               ,COMP_NOTICE
+               ,COMP_INDATE
+               ,COMP_INUSER
+               ,COMP_UPDATE
+               ,COMP_UPUSER
+          FROM MES_COMPANY_INFO
+         WHERE COMP_YN = 'Y'
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
+            AND
+            (
+                COMP_NM LIKE CONCAT('%', #{selector}, '%')
+            )
+        </if>
+    </select>
+
+    <insert id="compRegistModify" parameterType="VMap">
+        INSERT INTO MES_COMPANY_INFO
+        (
+            FACT_CD
+            ,COMP_CD
+            ,COMP_NM
+            ,COMP_TYPE
+            ,COMP_GROUP
+            ,COMP_BUSIN_NUM
+            ,COMP_CEO
+            ,COMP_BUSIN_STAT
+            ,COMP_BUSIN_KIND
+            ,COMP_TEL
+            ,COMP_FAX
+            ,COMP_ADDRESS
+            ,COMP_EMAIL
+            ,COMP_MANA
+            ,COMP_MANA_TEL
+            ,COMP_NOTICE
+            ,COMP_INDATE
+            ,COMP_INUSER
+            ,COMP_UPDATE
+            ,COMP_UPUSER
+        )VALUES
+        (
+            #{fact_cd}
+            ,#{comp_cd}
+            ,#{comp_nm}
+            ,#{comp_type}
+            ,#{comp_group}
+            ,#{comp_busin_num}
+            ,#{comp_ceo}
+            ,#{comp_busin_stat}
+            ,#{comp_busin_kind}
+            ,#{comp_tel}
+            ,#{comp_fax}
+            ,#{comp_address}
+            ,#{comp_email}
+            ,#{comp_mana}
+            ,#{comp_mana_tel}
+            ,#{comp_notice}
+            ,NOW()
+            ,#{u_cd}
+            ,NOW()
+            ,#{u_cd}
+        )
+        ON DUPLICATE KEY UPDATE
+            COMP_NM = #{comp_nm}
+            ,COMP_TYPE = #{comp_type}
+            ,COMP_GROUP = #{comp_group}
+            ,COMP_BUSIN_NUM = #{comp_busin_num}
+            ,COMP_CEO = #{comp_ceo}
+            ,COMP_BUSIN_STAT = #{comp_busin_stat}
+            ,COMP_BUSIN_KIND = #{comp_busin_kind}
+            ,COMP_TEL = #{comp_tel}
+            ,COMP_FAX = #{comp_fax}
+            ,COMP_ADDRESS = #{comp_address}
+            ,COMP_EMAIL = #{comp_email}
+            ,COMP_MANA = #{comp_mana}
+            ,COMP_MANA_TEL = #{comp_mana_tel}
+            ,COMP_NOTICE = #{comp_notice}
+            ,COMP_UPDATE = NOW()
+            ,COMP_UPUSER = #{u_cd}
+    </insert>
+
+    <!--<delete id="compPackDelete" parameterType="VMap">
+        DELETE FROM MES_COMPANY_INFO
+        WHERE COMP_CD IN
+        <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>-->
+
+    <update id="compPackDelete" parameterType="VMap">
+        UPDATE MES_COMPANY_INFO
+        SET COMP_YN = 'N'
+        WHERE COMP_CD IN
+        <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+</mapper>

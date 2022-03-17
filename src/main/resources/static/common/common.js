@@ -143,7 +143,9 @@ function hideWait(formId) {
 function setDataOne(prefix, data) {
 	$.each(data, function(key, value) {
 		let type = $("[name=" + prefix + key + "]").prop("type");
+		let type2 = $("[name=" + prefix + key + "]").prop('tagName');
 		let inputType = $("input[name=" + prefix + key + "]").prop("type");
+
 
 		if(inputType === "text" || inputType === "hidden") {
 			if(key.indexOf("_price") != -1 || key.indexOf("_cnt") != -1 || key.indexOf("_amt") != -1 || key.indexOf("_total") != -1 || key.indexOf("_vat") != -1) {
@@ -155,6 +157,10 @@ function setDataOne(prefix, data) {
 			$("input[name=" + prefix + key + "]").val([IsEmpty(value)]);
 		}else if (type === "textarea" || type === "select" || type === "select-one") {
 			$("[name=" + prefix + key + "]").val(IsEmpty(value));
+		}
+
+		if(type2 === "DIV") {
+			$("[name=" + prefix + key + "]").text(IsEmpty(value));
 		}
 	});
 }

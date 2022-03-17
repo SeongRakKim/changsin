@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.production.result">
+
+    <select id="planProcessList" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,PLAN_CD
+               ,PLAN_PROC_CD
+               ,ODR_CD
+               ,COMP_CD
+               ,COMP_NM
+               ,PLAN_NO
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_MASS_YN
+               ,PROC_CD
+               ,PROC_NM
+               ,PLAN_STDT
+               ,PLAN_EDDT
+               ,PLAN_CNT
+               ,PLAN_PROC_SEQ
+               ,(SELECT COUNT(*)
+                   FROM MES_PRODUCTION_PLAN_PROCESS
+                   WHERE PLAN_CD = MPPP.PLAN_CD) TOT_PROC_CNT
+               ,CONCAT(PLAN_PROC_SEQ, ' / ', (SELECT COUNT(*)
+                                              FROM MES_PRODUCTION_PLAN_PROCESS
+                                              WHERE PLAN_CD = MPPP.PLAN_CD)) TOT_PROC_CNT_NM
+               ,PLAN_PROC_LAST_YN
+               ,PLAN_PROC_CNT
+               ,IFNULL(ROUND(PLAN_CNT / MPPP.PLAN_PROC_CNT), 0) PLAN_PROGRESS
+               ,PLAN_PROC_STATE
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'MES_STATE'
+                   AND CODE_CD = PLAN_PROC_STATE
+                ) PLAN_PROC_STATE_NM
+               ,PLAN_PROC_NOTICE
+               ,PLAN_PROC_INDATE
+               ,PLAN_PROC_INUSER
+               ,PLAN_PROC_UPDATE
+               ,PLAN_PROC_UPUSER
+        FROM MES_PRODUCTION_PLAN_PROCESS MPPP
+        JOIN MES_PRODUCTION_PLAN USING (FACT_CD, PLAN_CD)
+        JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
+        LEFT JOIN MES_COMPANY_INFO USING (COMP_CD, FACT_CD)
+        JOIN MES_PROCESS_INFO USING (PROC_CD, FACT_CD)
+       WHERE DATE_FORMAT(PLAN_STDT, '%Y-%m-%d') <![CDATA[>=]]> #{startDate}
+         AND DATE_FORMAT(PLAN_EDDT, '%Y-%m-%d') <![CDATA[<=]]> #{endDate}
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+           AND PROD_KIND = #{prod_kind}
+       </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+           AND PROD_FAMILY = #{prod_family}
+       </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+           AND PROD_GROUP = #{prod_group}
+       </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+            AND
+            (
+                PROD_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_PN LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR COMP_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR ODR_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_NO LIKE CONCAT('%', #{search_text}, '%')
+                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_GROUP) LIKE CONCAT('%', #{search_text}, '%')
+                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
+            )
+        </if>
+        ORDER BY PLAN_CD , PLAN_PROC_SEQ
+    </select>
+
+    <select id="planProcessOne" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,PLAN_CD
+               ,PLAN_PROC_CD
+               ,ODR_CD
+               ,COMP_CD
+               ,COMP_NM
+               ,PLAN_NO
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_MASS_YN
+               ,PROC_CD
+               ,PROC_NM
+               ,PLAN_STDT
+               ,PLAN_EDDT
+               ,PLAN_CNT
+               ,PLAN_PROC_SEQ
+               ,(SELECT COUNT(*)
+                   FROM MES_PRODUCTION_PLAN_PROCESS
+                   WHERE PLAN_CD = MPPP.PLAN_CD) TOT_PROC_CNT
+               ,CONCAT(PLAN_PROC_SEQ, ' / ', (SELECT COUNT(*)
+                                              FROM MES_PRODUCTION_PLAN_PROCESS
+                                              WHERE PLAN_CD = MPPP.PLAN_CD)) TOT_PROC_CNT_NM
+               ,PLAN_PROC_LAST_YN
+               ,PLAN_PROC_CNT
+               ,IFNULL(ROUND(PLAN_CNT / MPPP.PLAN_PROC_CNT), 0) PLAN_PROGRESS
+               ,PLAN_PROC_STATE
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'MES_STATE'
+                   AND CODE_CD = PLAN_PROC_STATE
+                ) PLAN_PROC_STATE_NM
+               ,PLAN_PROC_NOTICE
+               ,PLAN_PROC_INDATE
+               ,PLAN_PROC_INUSER
+               ,PLAN_PROC_UPDATE
+               ,PLAN_PROC_UPUSER
+        FROM MES_PRODUCTION_PLAN_PROCESS MPPP
+        JOIN MES_PRODUCTION_PLAN USING (FACT_CD, PLAN_CD)
+        JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
+        LEFT JOIN MES_COMPANY_INFO USING (COMP_CD, FACT_CD)
+        JOIN MES_PROCESS_INFO USING (PROC_CD, FACT_CD)
+       WHERE PLAN_CD = #{plan_cd}
+         AND PLAN_PROC_CD = #{plan_proc_cd}
+    </select>
+
+    <select id="prodOverlap" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_PRICE
+               ,PROD_MAIN_COMP
+               ,(SELECT COMP_NM
+                  FROM MES_COMPANY_INFO
+                  WHERE COMP_CD = PROD_MAIN_COMP
+                ) PROD_MAIN_COMP_NM
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_YN
+               ,PROD_MASS_YN
+               ,PROD_NOTICE
+               ,PROD_INDATE
+               ,PROD_INUSER
+               ,PROD_UPDATE
+               ,PROD_UPUSER
+          FROM MES_PRODUCT_INFO
+         WHERE PROD_YN = 'Y'
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+            AND PROD_KIND = #{prod_kind}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+            AND PROD_GROUP = #{prod_group}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+            AND PROD_FAMILY = #{prod_family}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
+            AND PROD_CD = #{prod_cd}
+        </if>
+    </select>
+
+    <insert id="resultRegist" parameterType="VMap">
+        INSERT INTO MES_PRODUCTION_PLAN
+        (
+             FACT_CD
+             ,ODR_CD
+             ,PLAN_CD
+             ,PLAN_NO
+             ,COMP_CD
+             ,PROD_CD
+             ,PLAN_STDT
+             ,PLAN_EDDT
+             ,PLAN_CNT
+             ,PLAN_NOTICE
+             ,PLAN_INDATE
+             ,PLAN_INUSER
+             ,PLAN_UPDATE
+             ,PLAN_UPUSER
+        )VALUES (
+             #{fact_cd}
+             ,#{odr_cd}
+             ,#{result_cd}
+             ,#{result_no}
+             ,#{comp_cd}
+             ,#{prod_cd}
+             ,#{result_stdt}
+             ,#{result_eddt}
+             ,#{result_cnt}
+             ,#{result_notice}
+             ,NOW()
+             ,IFNULL(#{u_cd}, 'system')
+             ,NOW()
+             ,IFNULL(#{u_cd}, 'system')
+        )
+    </insert>
+
+    <update id="resultModify" parameterType="VMap">
+        UPDATE MES_PRODUCTION_PLAN
+        SET COMP_CD = #{comp_cd}
+          ,PROD_CD = #{prod_cd}
+          ,PLAN_NO = #{result_no}
+          ,PLAN_STDT = #{result_stdt}
+          ,PLAN_EDDT = #{result_eddt}
+          ,PLAN_CNT = #{result_cnt}
+          ,PLAN_NOTICE = #{result_notice}
+          ,PLAN_UPDATE = NOW()
+          ,PLAN_UPUSER = IFNULL(#{u_cd}, 'system')
+        WHERE PLAN_CD = #{result_cd}
+    </update>
+
+    <update id="resultPackDelete" parameterType="VMap">
+        UPDATE MES_ORDER_INFO
+        SET PROD_YN = 'Y'
+        WHERE PROD_CD IN
+        <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <select id="resultProcList" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+             ,PLAN_CD
+             ,PLAN_PROC_CD
+             ,PROC_CD
+             ,PROC_NM
+             ,PLAN_PROC_SEQ
+             ,PLAN_PROC_LAST_YN
+             ,PLAN_PROC_CNT
+             ,PLAN_PROC_STATE
+             ,(SELECT CODE_NM
+               FROM DFT_CODE_INFO
+               WHERE CODE_ID = 'MES_STATE'
+                 AND CODE_CD = PLAN_PROC_STATE
+        ) PLAN_PROC_STATE_NM
+             ,PLAN_PROC_NOTICE
+             ,PLAN_PROC_INDATE
+             ,PLAN_PROC_INUSER
+             ,PLAN_PROC_UPDATE
+             ,PLAN_PROC_UPUSER
+        FROM MES_PRODUCTION_PLAN_PROCESS
+                 JOIN MES_PROCESS_INFO USING (FACT_CD, PROC_CD)
+        WHERE PLAN_CD = #{result_cd}
+    </select>
+
+    <insert id="resultProcRegist" parameterType="VMap">
+        INSERT INTO MES_PRODUCTION_PLAN_PROCESS
+        (
+             FACT_CD
+             ,PLAN_CD
+             ,PLAN_PROC_CD
+             ,PROC_CD
+             ,PLAN_PROC_SEQ
+             ,PLAN_PROC_LAST_YN
+             ,PLAN_PROC_INDATE
+             ,PLAN_PROC_INUSER
+             ,PLAN_PROC_UPDATE
+             ,PLAN_PROC_UPUSER
+        ) VALUES (
+              #{fact_cd}
+             ,#{result_cd}
+             ,#{result_proc_cd}
+             ,#{proc_cd}
+             ,#{result_proc_seq}
+             ,#{result_proc_last_yn}
+             ,NOW()
+             ,IFNULL(#{u_cd}, 'system')
+             ,NOW()
+             ,IFNULL(#{u_cd}, 'system')
+        )
+    </insert>
+
+    <update id="resultProcModify" parameterType="VMap">
+        UPDATE MES_PRODUCTION_PLAN_PROCESS
+        SET PLAN_PROC_CNT = IFNULL(#{result_proc_cnt}, PLAN_PROC_CNT)
+          ,PLAN_PROC_STATE = IFNULL(#{result_proc_state}, PLAN_PROC_STATE)
+          ,PLAN_PROC_NOTICE = #{result_proc_notice}
+          ,PLAN_PROC_UPDATE = NOW()
+          ,PLAN_PROC_UPUSER = IFNULL(#{u_cd}, 'system')
+        WHERE PLAN_PROC_CD = #{result_proc_cd}
+    </update>
+
+    <delete id="resultProcDelete" parameterType="VMap">
+        DELETE FROM MES_PRODUCTION_PLAN_PROCESS
+        WHERE PLAN_PROC_CD = #{result_proc_cd}
+    </delete>
+
+
+</mapper>
