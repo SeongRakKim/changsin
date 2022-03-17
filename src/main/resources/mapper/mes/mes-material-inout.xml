@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.material.inout">
+
+    <select id="materialInoutList" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,ODR_CD
+               ,COMP_CD
+               ,COMP_NM
+               ,PLAN_CD
+               ,PLAN_NO
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_PRICE
+               ,PROD_MAIN_COMP
+               ,(SELECT COMP_NM
+                  FROM MES_COMPANY_INFO
+                  WHERE COMP_CD = PROD_MAIN_COMP
+                ) PROD_MAIN_COMP_NM
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_MASS_YN
+               ,PLAN_STDT
+               ,PLAN_EDDT
+               ,PLAN_CNT
+               ,PLAN_STATE
+               ,(SELECT CODE_NM
+                   FROM DFT_CODE_INFO
+                  WHERE CODE_ID = 'MES_STATE'
+                    AND CODE_CD = PLAN_STATE
+                ) PLAN_STATE_NM
+               ,PLAN_NOTICE
+               ,PLAN_INDATE
+               ,PLAN_INUSER
+               ,PLAN_UPDATE
+               ,PLAN_UPUSER
+        FROM MES_PRODUCTION_PLAN MOI
+        JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
+        JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
+       WHERE DATE_FORMAT(PLAN_STDT, '%Y-%m-%d') <![CDATA[>=]]> #{startDate}
+         AND DATE_FORMAT(PLAN_EDDT, '%Y-%m-%d') <![CDATA[<=]]> #{endDate}
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+           AND PROD_KIND = #{prod_kind}
+       </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+           AND PROD_FAMILY = #{prod_family}
+       </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+           AND PROD_GROUP = #{prod_group}
+       </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+            AND
+            (
+                PROD_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_PN LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR COMP_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR ODR_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_NO LIKE CONCAT('%', #{search_text}, '%')
+                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_GROUP) LIKE CONCAT('%', #{search_text}, '%')
+                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
+            )
+        </if>
+    </select>
+
+    <select id="materialInoutOne" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,ODR_CD
+               ,COMP_CD
+               ,COMP_NM
+               ,PLAN_CD
+               ,PLAN_NO
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_PRICE
+               ,PROD_MAIN_COMP
+               ,(SELECT COMP_NM
+                  FROM MES_COMPANY_INFO
+                  WHERE COMP_CD = PROD_MAIN_COMP
+                ) PROD_MAIN_COMP_NM
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_MASS_YN
+               ,PLAN_STDT
+               ,PLAN_EDDT
+               ,PLAN_CNT
+               ,PLAN_STATE
+               ,(SELECT CODE_NM
+                   FROM DFT_CODE_INFO
+                  WHERE CODE_ID = 'MES_STATE'
+                    AND CODE_CD = PLAN_STATE
+                ) PLAN_STATE_NM
+               ,PLAN_NOTICE
+               ,PLAN_INDATE
+               ,PLAN_INUSER
+               ,PLAN_UPDATE
+               ,PLAN_UPUSER
+        FROM MES_PRODUCTION_PLAN MOI
+        JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
+        JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
+       WHERE PLAN_CD = #{plan_cd}
+    </select>
+
+    <insert id="materialInoutRegist" parameterType="VMap">
+        INSERT INTO MES_PRODUCT_INOUT
+        (
+             FACT_CD
+             ,INOUT_CD
+             ,INOUT_TYPE
+             ,INOUT_ITEM
+             ,MATE_CD
+             ,INOUT_CNT
+             ,INOUT_CRCD
+             ,INOUT_DT
+             ,INOUT_DT_TIME
+             ,MATE_STOCK_CNT
+             ,CUR_MATE_STOCK_CNT
+             ,INOUT_MSG
+             ,INOUT_NOTICE
+             ,INOUT_INDATE
+             ,INOUT_INUSER
+             ,INOUT_UPDATE
+             ,INOUT_UPUSER
+        ) VALUES (
+              #{fact_cd}
+             ,#{inout_cd}
+             ,#{inout_type}
+             ,#{inout_item}
+             ,#{mate_cd}
+             ,#{inout_cnt}
+             ,#{inout_crcd}
+             ,IFNULL(#{inout_dt}, CURDATE())
+             ,NOW()
+             ,#{mate_stock_cnt}
+             ,ROUND(#{mate_stock_cnt} + #{inout_cnt}, 3)
+             ,#{inout_msg}
+             ,#{inout_notice}
+             ,NOW()
+             ,IFNULL(#{u_cd}, 'system')
+             ,NOW()
+             ,IFNULL(#{u_cd}, 'system')
+        )
+    </insert>
+
+</mapper>

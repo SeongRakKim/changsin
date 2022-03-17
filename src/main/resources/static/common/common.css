@@ -333,7 +333,7 @@ input[type='text'].ui-autocomplete-loading {
 }
 
 .dataList td {
-    text-align: center;
+    text-align: center !important;
 }
 
 .txt-right {

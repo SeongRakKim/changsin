@@ -130,4 +130,8 @@ public class ProductService {
         return productDAO.prodBomDelete(vmap);
     }
 
+    public int prodStockCntModify(VMap vmap) throws Exception {
+        return productDAO.prodStockCntModify(vmap);
+    }
+
 }

@@ -68,4 +68,8 @@ public class ProductDAO extends MapperDAO {
         return delete(mapperName + ".prodBomDelete", vmap.getMap());
     }
 
+    public int prodStockCntModify(VMap vmap) throws Exception {
+        return update(mapperName + ".prodStockCntModify", vmap.getMap());
+    }
+
 }

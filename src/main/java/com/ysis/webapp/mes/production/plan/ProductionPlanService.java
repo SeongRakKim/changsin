@@ -16,8 +16,10 @@ import java.util.Map;
 public class ProductionPlanService {
 
     @Autowired CommonDAO commonDAO;
+
     @Autowired
     ProductionPlanDAO productionPlanDAO;
+
     @Autowired
     ProductDAO productDAO;
 
@@ -109,6 +111,14 @@ public class ProductionPlanService {
         }
 
         return productionPlanDAO.planModify(vmap);
+    }
+
+    public void planStateModify(VMap vmap) throws Exception {
+        productionPlanDAO.planStateModify(vmap);
+    }
+
+    public void planProcessStateModify(VMap vmap) throws Exception {
+        productionPlanDAO.planProcessStateModify(vmap);
     }
 
     public int planPackDelete(VMap vmap) throws Exception {

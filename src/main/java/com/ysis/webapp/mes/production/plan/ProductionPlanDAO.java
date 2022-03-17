@@ -32,8 +32,12 @@ public class ProductionPlanDAO extends MapperDAO {
         return insert(mapperName + ".planModify", vmap.getMap());
     }
 
-    public int shipRegist(VMap vmap) throws Exception {
-        return insert(mapperName + ".shipRegist", vmap.getMap());
+    public int planStateModify(VMap vmap) throws Exception {
+        return update(mapperName + ".planStateModify", vmap.getMap());
+    }
+
+    public int planProcessStateModify(VMap vmap) throws Exception {
+        return update(mapperName + ".planProcessStateModify", vmap.getMap());
     }
 
     public int planPackDelete(VMap vmap) throws Exception {

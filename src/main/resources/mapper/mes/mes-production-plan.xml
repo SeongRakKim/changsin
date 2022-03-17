@@ -333,5 +333,18 @@
         WHERE PLAN_PROC_CD = #{plan_proc_cd}
     </delete>
 
+    <update id="planStateModify" parameterType="VMap">
+        UPDATE MES_PRODUCTION_PLAN
+        SET PLAN_STATE = #{plan_state}
+        WHERE PLAN_CD = #{plan_cd}
+    </update>
+
+    <update id="planProcessStateModify" parameterType="VMap">
+        UPDATE MES_PRODUCTION_PLAN_PROCESS
+        SET PLAN_PROC_STATE = #{plan_proc_state}
+        WHERE PLAN_CD = #{plan_cd}
+        AND PLAN_PROC_CD = #{plan_proc_cd}
+    </update>
+
 
 </mapper>

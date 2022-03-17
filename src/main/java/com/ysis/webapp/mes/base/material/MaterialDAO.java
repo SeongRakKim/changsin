@@ -36,4 +36,8 @@ public class MaterialDAO extends MapperDAO {
         return update(mapperName + ".matePackDelete", vmap.getMap());
     }
 
+    public int mateStockCntModify(VMap vmap) throws Exception {
+        return update(mapperName + ".mateStockCntModify", vmap.getMap());
+    }
+
 }

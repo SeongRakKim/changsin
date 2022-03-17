@@ -129,13 +129,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="dataForm" name="dataForm" class="dataForm" method="post">
                     <table id="tblPopData" class="table table-hover table-bordered mb-3 table-form">
                         <colgroup>
                             <col style="width: 10%" />
-                            <col style="width: 20%" />
+                            <col style="width: 15%" />
                             <col style="width: 10%" />
-                            <col style="width: 10%" />
+                            <col style="width: 15%" />
                             <col style="width: 10%" />
                             <col style="width: 15%" />
                             <col style="width: 10%" />
@@ -149,6 +148,10 @@
                                        placeholder="계획코드" title="계획코드" />
                                 <input type="hidden" id="pop_plan_proc_cd" name="pop_plan_proc_cd" class="form-control"
                                        placeholder="계획공정코드" title="계획공정코드" />
+                                <input type="hidden" id="pop_proc_cd" name="pop_proc_cd" class="form-control"
+                                       placeholder="공정코드" title="공정코드" />
+                                <input type="hidden" id="pop_odr_cd" name="pop_odr_cd" class="form-control"
+                                       placeholder="수주코드" title="수주코드" />
                                 <input type="hidden" id="pop_comp_cd" name="pop_comp_cd" class="form-control"
                                        placeholder="거래처" title="거래처" />
                                 <input type="hidden" id="pop_comp_nm" name="pop_comp_nm" class="form-control"
@@ -212,42 +215,44 @@
                         </tr>
                         </tbody>
                     </table>
-                </form>
 
-                <div style="height: 500px; overflow: auto;">
-                    <table id="tblPopResultData" class="table table-hover table-bordered mb-3 table-form">
-                        <colgroup>
-                            <col style="width: 6%" />
-                            <col style="width: 10%" />
-                            <col style="width: 10%" />
-                            <col style="width: 18%" />
-                            <col style="width: 18%" />
-                            <col style="width: 8%" />
-                            <col style="width: 10%" />
-                            <col style="width: 10%" />
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>순서</th>
-                            <th>설비 <span class="red"> (필수)</span></th>
-                            <th>작업자 <span class="red"> (필수)</span></th>
-                            <th>작업시작일 <span class="red"> (필수)</span></th>
-                            <th>작업종료일 <span class="red"> (필수)</span></th>
-                            <th>생산량 <span class="red"> (필수)</span></th>
-                            <th>비고</th>
-                            <th>
-                                <button type="button" id="btnSetSubList" class="btn btn-primary btn-sm">
-                                    <span class="btn-wrapper--icon">
-                                        <i class="fas fa-angle-double-down"></i>
-                                    </span>
-                                    <span class="btn-wrapper--label">추가</span>
-                                </button>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
+
+                <form id="dataForm" name="dataForm" class="dataForm" method="post">
+                    <div style="height: 500px; overflow: auto;">
+                        <table id="tblPopResultData" class="table table-hover table-bordered mb-3 table-form">
+                            <colgroup>
+                                <col style="width: 6%" />
+                                <col style="width: 10%" />
+                                <col style="width: 10%" />
+                                <col style="width: 10%" />
+                                <col style="width: 10%" />
+                                <col style="width: 8%" />
+                                <col style="width: 12%" />
+                                <col style="width: 24%" />
+                            </colgroup>
+                            <thead>
+                            <tr>
+                                <th>순서</th>
+                                <th>설비 <span class="red"> (필수)</span></th>
+                                <th>작업자 <span class="red"> (필수)</span></th>
+                                <th>작업시작일 <span class="red"> (필수)</span></th>
+                                <th>작업종료일 <span class="red"> (필수)</span></th>
+                                <th>생산량 <span class="red"> (필수)</span></th>
+                                <th>비고</th>
+                                <th>
+                                    <button type="button" id="btnSetSubList" class="btn btn-primary btn-sm">
+                                        <span class="btn-wrapper--icon">
+                                            <i class="fas fa-angle-double-down"></i>
+                                        </span>
+                                        <span class="btn-wrapper--label">추가</span>
+                                    </button>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </form>
             </div>
 
             <div class="modal-footer">
@@ -283,7 +288,7 @@
             {{cnt}}
         </td>
         <td>
-            <select name="pop_equ_cd" class="custom-select w-100" style="width: 15% !important;">
+            <select name="pop_equ_cd" class="custom-select w-100" style="width: 100% !important;" required>
                 <option value="">설비선택</option>
                 <c:forEach var="item" items="${vmap.equList}" varStatus="status">
                     <option value="${item.equ_cd}">${item.equ_nm}</option>
@@ -291,66 +296,104 @@
             </select>
         </td>
         <td>
-            <select name="pop_u_cd" class="custom-select w-100" style="width: 15% !important;">
+            <select name="pop_plan_res_u_cd" class="custom-select w-100" style="width: 100% !important;" required>
                 <option value="">사용자선택</option>
                 <c:forEach var="item" items="${vmap.userList}" varStatus="status">
                     <option value="${item.u_cd}">${item.u_nm}</option>
                 </c:forEach>
             </select>
         </td>
+        <td style="text-align: center;">
+            <input type="text" name="pop_plan_res_stdt" class="form-control datetimepicker" value="{{plan_res_stdt}}"
+                   placeholder="생산시작일시" title="생산시작일시" required />
+        </td>
+        <td style="text-align: center;">
+            <input type="text" name="pop_plan_res_eddt" class="form-control datetimepicker" value="{{plan_res_eddt}}"
+                   placeholder="생산종료일시" title="생산종료일시" required />
+        </td>
         <td>
-            <input type="text" name="pop_plan_proc_notice" class="form-control" value="{{plan_proc_notice}}"
+            <input type="text" name="pop_old_plan_res_cnt" class="form-control" value="{{old_plan_res_cnt}}"
+                   placeholder="이전생산량" title="이전생산량" required />
+            <input type="text" name="pop_plan_res_cnt" class="form-control" value="{{plan_res_cnt}}"
+                   placeholder="생산량" title="생산량" required />
+        </td>
+        <td>
+            <input type="text" name="pop_plan_res_notice" class="form-control" value="{{plan_res_notice}}"
                    placeholder="비고" title="비고" />
         </td>
         <td style="text-align: center;">
-            <button class="btn btn-sm btn-danger" type="button" onclick="planProcDelete({{cnt}})">
-                                        <span class="btn-wrapper--icon">
-                                            <i class="fas fa-minus-circle"></i>
-                                        </span>
-                <span class="btn-wrapper--label">행삭제</span>
+            <button class="btn btn-sm btn-dark result-stop" type="button" onclick="callPlanStop({{cnt}})">
+                <span class="btn-wrapper--icon">
+                    <i class="fas fa-stop"></i>
+                </span>
+                <span class="btn-wrapper--label">비가동</span>
+            </button>
+            <button class="btn btn-sm btn-success result-input" type="button" onclick="callPlanInput({{cnt}})">
+                <span class="btn-wrapper--icon">
+                    <i class="fas fa-share"></i>
+                </span>
+                <span class="btn-wrapper--label">투입자재</span>
+            </button>
+            <button class="btn btn-sm btn-primary result-regist" type="button" onclick="planResultRegist({{cnt}})">
+                <span class="btn-wrapper--icon">
+                    <i class="fas fa-check"></i>
+                </span>
+                <span class="btn-wrapper--label">저장</span>
+            </button>
+            <button class="btn btn-sm btn-warning result-regist" type="button" onclick="planResultModify({{cnt}})">
+                <span class="btn-wrapper--icon">
+                    <i class="fas fa-check"></i>
+                </span>
+                <span class="btn-wrapper--label">수정</span>
+            </button>
+            <button class="btn btn-sm btn-danger" type="button" onclick="planResultDelete({{cnt}})">
+                <span class="btn-wrapper--icon">
+                    <i class="fas fa-minus-circle"></i>
+                </span>
+                <span class="btn-wrapper--label">삭제</span>
             </button>
         </td>
     </tr>
 </script>
 
-<script id="popPlanTemplete" type="text/x-handlebars-template">
-    <tr class="dataList list_tr{{cnt}}">
-        <td>
-            <input type="hidden" name="pop_sub_plan_cd" class="form-control" value="{{plan_cd}}" />
-            <input type="hidden" name="pop_sub_comp_cd" class="form-control" value="{{comp_cd}}" />
-            <input type="hidden" name="pop_sub_comp_nm" class="form-control" value="{{comp_nm}}" />
-            <input type="hidden" name="pop_sub_prod_cd" class="form-control" value="{{prod_cd}}" />
-            <input type="hidden" name="pop_sub_plan_stdt" class="form-control" value="{{plan_stdt}}" />
-            <input type="hidden" name="pop_sub_plan_eddt" class="form-control" value="{{plan_eddt}}" />
-            <input type="hidden" name="pop_sub_plan_no" class="form-control" value="{{plan_no}}" />
-            <input type="hidden" name="pop_sub_plan_cnt" class="form-control" value="{{plan_cnt}}" />
-            {{comp_nm}}
-        </td>
-        <td>
-            <input type="hidden" name="pop_sub_prod_pn" class="form-control" value="{{prod_pn}}" />
-            <input type="hidden" name="pop_sub_prod_nm" class="form-control" value="{{prod_nm}}" />
-            <input type="hidden" name="pop_sub_prod_kind_nm" class="form-control" value="{{prod_kind_nm}}" />
-            <input type="hidden" name="pop_sub_prod_group_nm" class="form-control" value="{{prod_group_nm}}" />
-            <input type="hidden" name="pop_sub_prod_family_nm" class="form-control" value="{{prod_family_nm}}" />
-            <input type="hidden" name="pop_sub_prod_stand" class="form-control" value="{{prod_stand}}" />
-            <input type="hidden" name="pop_sub_prod_unit_nm" class="form-control" value="{{prod_unit_nm}}" />
-            <input type="hidden" name="pop_sub_prod_keep_cn" class="form-control" value="{{prod_keep_cn}}" />
-            <input type="hidden" name="pop_sub_prod_stock_cnt" class="form-control" value="{{prod_stock_cnt}}" />
-            {{prod_pn}}
-        </td>
-        <td>{{prod_nm}}</td>
-        <td>{{prod_stand}}</td>
-        <td>{{prod_unit_nm}}</td>
-        <td>{{plan_no}}</td>
-        <td>{{plan_stdt}}</td>
-        <td>{{plan_eddt}}</td>
-        <td class="txt-right">{{plan_cnt}}</td>
-        <td>
-            <button class="btn btn-sm btn-success" type="button" onclick="planModifyRow({{cnt}})">수정</button>
-            <button class="btn btn-sm btn-danger" type="button" onclick="planDelete({{cnt}})">행삭제</button>
-        </td>
-    </tr>
-</script>
+<%--<script id="popPlanResultTemplete" type="text/x-handlebars-template">--%>
+<%--    <tr class="dataList list_tr{{cnt}}">--%>
+<%--        <td>--%>
+<%--            <input type="hidden" name="pop_sub_plan_cd" class="form-control" value="{{plan_cd}}" />--%>
+<%--            <input type="hidden" name="pop_sub_comp_cd" class="form-control" value="{{comp_cd}}" />--%>
+<%--            <input type="hidden" name="pop_sub_comp_nm" class="form-control" value="{{comp_nm}}" />--%>
+<%--            <input type="hidden" name="pop_sub_prod_cd" class="form-control" value="{{prod_cd}}" />--%>
+<%--            <input type="hidden" name="pop_sub_plan_stdt" class="form-control" value="{{plan_stdt}}" />--%>
+<%--            <input type="hidden" name="pop_sub_plan_eddt" class="form-control" value="{{plan_eddt}}" />--%>
+<%--            <input type="hidden" name="pop_sub_plan_no" class="form-control" value="{{plan_no}}" />--%>
+<%--            <input type="hidden" name="pop_sub_plan_cnt" class="form-control" value="{{plan_cnt}}" />--%>
+<%--            {{comp_nm}}--%>
+<%--        </td>--%>
+<%--        <td>--%>
+<%--            <input type="hidden" name="pop_sub_prod_pn" class="form-control" value="{{prod_pn}}" />--%>
+<%--            <input type="hidden" name="pop_sub_prod_nm" class="form-control" value="{{prod_nm}}" />--%>
+<%--            <input type="hidden" name="pop_sub_prod_kind_nm" class="form-control" value="{{prod_kind_nm}}" />--%>
+<%--            <input type="hidden" name="pop_sub_prod_group_nm" class="form-control" value="{{prod_group_nm}}" />--%>
+<%--            <input type="hidden" name="pop_sub_prod_family_nm" class="form-control" value="{{prod_family_nm}}" />--%>
+<%--            <input type="hidden" name="pop_sub_prod_stand" class="form-control" value="{{prod_stand}}" />--%>
+<%--            <input type="hidden" name="pop_sub_prod_unit_nm" class="form-control" value="{{prod_unit_nm}}" />--%>
+<%--            <input type="hidden" name="pop_sub_prod_keep_cn" class="form-control" value="{{prod_keep_cn}}" />--%>
+<%--            <input type="hidden" name="pop_sub_prod_stock_cnt" class="form-control" value="{{prod_stock_cnt}}" />--%>
+<%--            {{prod_pn}}--%>
+<%--        </td>--%>
+<%--        <td>{{prod_nm}}</td>--%>
+<%--        <td>{{prod_stand}}</td>--%>
+<%--        <td>{{prod_unit_nm}}</td>--%>
+<%--        <td>{{plan_no}}</td>--%>
+<%--        <td>{{plan_stdt}}</td>--%>
+<%--        <td>{{plan_eddt}}</td>--%>
+<%--        <td class="txt-right">{{plan_cnt}}</td>--%>
+<%--        <td>--%>
+<%--            <button class="btn btn-sm btn-success" type="button" onclick="planModifyRow({{cnt}})">수정</button>--%>
+<%--            <button class="btn btn-sm btn-danger" type="button" onclick="planDelete({{cnt}})">행삭제</button>--%>
+<%--        </td>--%>
+<%--    </tr>--%>
+<%--</script>--%>
 
 
 
@@ -444,8 +487,7 @@
         });
 
         $("#btnSetSubList").on("click", () => {
-            if(!parsleyIsValidate("dataForm")) return false;
-            addPopPlanRow();
+            addPopResultRow();
         });
 
         setTimeout(() => getData(), 30);
@@ -610,7 +652,7 @@
         $("#btnPopModify").hide();
 
         resetForm("dataForm");
-        $("#tblPopSubData tbody").empty();
+        $("#tblPopResultData tbody").empty();
     }
 
     function resetForm(formId)
@@ -727,7 +769,6 @@
                 $("#pop_selector").text('[' + data.comp_cd + ']' + data.comp_nm);
                 $("#pop_selector2").text('[' + data.prod_pn + ']' + data.prod_nm);
 
-                $(".isNew").hide();
                 $("#btnPopRegist").hide();
                 $("#btnPopModify").show();
 
@@ -741,38 +782,37 @@
             });
     }
 
-    let planRowCnt = 0;
-    function addPopPlanRow()
+    let resultRowCnt = 0;
+    function addPopResultRow(data)
     {
-        let template_html = $("#popPlanTemplete").html();
+        let template_html = $("#popPlanResultTemplete").html();
         let template = Handlebars.compile(template_html);
-        // let rowCnt = $("#tblPopSubData > tbody > tr").length + 1;
+        // let rowCnt = $("#tblPopResultData > tbody > tr").length + 1;
+        let templateData;
 
-        let templateData = {
-            // cnt : rowCnt
-            cnt: ++planRowCnt
-            ,comp_cd: $("#pop_comp_cd").val()
-            ,comp_nm: $("#pop_comp_nm").val()
-            ,prod_cd: $("#pop_prod_cd").val()
-            ,prod_pn: $("#pop_prod_pn").val()
-            ,prod_nm: $("#pop_prod_nm").val()
-            ,prod_kind_nm: $("#pop_prod_kind_nm").val()
-            ,prod_group_nm: $("#pop_prod_group_nm").val()
-            ,prod_family_nm: $("#pop_prod_family_nm").val()
-            ,prod_stand: $("#pop_prod_stand").val()
-            ,prod_unit_nm: $("#pop_prod_unit_nm").val()
-            ,prod_keep_cnt: $("#pop_prod_keep_cnt").val()
-            ,prod_stock_cnt: $("#pop_prod_stock_cnt").val()
-            ,plan_no: $("#pop_plan_no").val()
-            ,plan_stdt: $("#pop_plan_stdt").val()
-            ,plan_eddt: $("#pop_plan_eddt").val()
-            ,plan_cnt: $("#pop_plan_cnt").val()
-            ,plan_notice: $("#pop_plan_notice").val()
+        if(IsNull(data))
+        {
+            templateData = {
+                // cnt : rowCnt
+                cnt: ++resultRowCnt,
+                old_plan_res_cnt: 0
+            }
+        }
+        else
+        {
+
         }
 
-        $("#tblPopSubData > tbody").append(template(templateData));
+        $("#tblPopResultData > tbody").append(template(templateData));
+        $("#tblPopResultData .list_tr" + resultRowCnt)
+            .find(".datetimepicker").datetimepicker({
+                format:'Y-m-d H:i',
+                step:1,
+                lang:'kr'
+            });
+        $.datetimepicker.setLocale('ko');
 
-        $("#tblPopSubData .list_tr" + planRowCnt)
+        $("#tblPopResultData .list_tr" + resultRowCnt)
             .find("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total'], input[name$='rate'], input[name$='min'], input[name$='vat']")
             .css("text-align", "right")
             .on("click", function() {
@@ -781,30 +821,28 @@
             .on("keyup", function() {
                 $(this).val($(this).val().comma("2"));
             });
-
-        resetForm2("dataForm");
     }
 
     function planModifyRow(cnt)
     {
-        let comp_cd = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_comp_cd]").val();
-        let comp_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_comp_nm]").val();
-        let prod_cd = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_cd]").val();
-        let plan_stdt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_stdt]").val();
-        let plan_eddt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_eddt]").val();
-        let plan_no = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_no]").val();
-        let plan_cnt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_cnt]").val();
-        let plan_notice = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_notice]").val();
+        let comp_cd = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_comp_cd]").val();
+        let comp_nm = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_comp_nm]").val();
+        let prod_cd = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_prod_cd]").val();
+        let plan_stdt = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_plan_stdt]").val();
+        let plan_eddt = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_plan_eddt]").val();
+        let plan_no = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_plan_no]").val();
+        let plan_cnt = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_plan_cnt]").val();
+        let plan_notice = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_plan_notice]").val();
 
-        let prod_pn = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_pn]").val();
-        let prod_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_nm]").val();
-        let prod_kind_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_kind_nm]").val();
-        let prod_group_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_group_nm]").val();
-        let prod_family_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_family_nm]").val();
-        let prod_stand = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_stand]").val();
-        let prod_unit_nm = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_unit_nm]").val();
-        let prod_keep_cn = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_keep_cn]").val();
-        let prod_stock_cnt = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_prod_stock_cnt]").val();
+        let prod_pn = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_prod_pn]").val();
+        let prod_nm = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_prod_nm]").val();
+        let prod_kind_nm = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_prod_kind_nm]").val();
+        let prod_group_nm = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_prod_group_nm]").val();
+        let prod_family_nm = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_prod_family_nm]").val();
+        let prod_stand = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_prod_stand]").val();
+        let prod_unit_nm = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_prod_unit_nm]").val();
+        let prod_keep_cn = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_prod_keep_cn]").val();
+        let prod_stock_cnt = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_prod_stock_cnt]").val();
 
         $("#pop_comp_cd").val(comp_cd);
         $("#pop_comp_nm").val(comp_nm);
@@ -826,16 +864,16 @@
         $("#pop_prod_keep_cn").val(prod_keep_cn);
         $("#pop_prod_stock_cnt").val(prod_stock_cnt);
 
-        $("#tblPopSubData .list_tr" + cnt).remove();
+        $("#tblPopResultData .list_tr" + cnt).remove();
     }
 
     function planDelete(cnt)
     {
-        let plan_cd = $("#tblPopSubData .list_tr" + cnt).find("[name=pop_sub_plan_cd]").val();
+        let plan_cd = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_sub_plan_cd]").val();
 
         if(IsNull(plan_cd))
         {
-            $("#tblPopSubData .list_tr" + cnt).remove();
+            $("#tblPopResultData .list_tr" + cnt).remove();
         }
         else
         {
@@ -843,64 +881,99 @@
     }
 
     // Add Data - ajax regist
-    function registData()
+    function planResultRegist(cnt)
     {
-        showWait('.dataModal');
+        // if(!parsleyIsValidate("dataForm")) return false;
+        let $tr = $("#tblPopResultData .list_tr" + cnt);
+        let equ_cd = $tr.find("select[name=pop_equ_cd]").val();
+        let plan_res_u_cd = $tr.find("select[name=pop_plan_res_u_cd]").val();
+        let plan_res_stdt = $tr.find("input[name=pop_plan_res_stdt]").val();
+        let plan_res_eddt = $tr.find("input[name=pop_plan_res_eddt]").val();
+        let old_plan_res_cnt = $tr.find("input[name=pop_old_plan_res_cnt]").val();
+        let plan_res_cnt = $tr.find("input[name=pop_plan_res_cnt]").val().replace(/,/g, "");
+        let plan_res_notice = $tr.find("input[name=pop_plan_res_notice]").val();
 
-        //. Data List
-        let ary_plan_cd = [];
-        let ary_comp_cd = [];
-        let ary_prod_cd = [];
-        let ary_plan_stdt = [];
-        let ary_plan_eddt = [];
-        let ary_plan_cnt = [];
-        let ary_plan_no = [];
-        let ary_plan_notice = [];
+        if(IsNull(equ_cd)) {
+            eAlert("설비는 필수입력항목입니다.");
+            $tr.find("select[name=pop_equ_cd]").focus();
+            return false;
+        }
 
-        $.each($("#tblPopSubData > tbody > tr"), function(index, item)
-        {
-            ary_plan_cd.push($(item).find("input[name=pop_sub_plan_cd]").val());
-            ary_comp_cd.push($(item).find("input[name=pop_sub_comp_cd]").val());
-            ary_prod_cd.push($(item).find("input[name=pop_sub_prod_cd]").val());
-            ary_plan_stdt.push($(item).find("input[name=pop_sub_plan_stdt]").val());
-            ary_plan_eddt.push($(item).find("input[name=pop_sub_plan_eddt]").val());
-            ary_plan_cnt.push($(item).find("input[name=pop_sub_plan_cnt]").val().replace(/,/g, ""));
-            ary_plan_no.push($(item).find("input[name=pop_sub_plan_no]").val());
-            ary_plan_notice.push($(item).find("input[name=pop_sub_plan_notice]").val());
-        });
+        if(IsNull(plan_res_u_cd)) {
+            eAlert("사용자는 필수입력항목입니다.");
+            $tr.find("select[name=pop_u_cd]").focus();
+            return false;
+        }
 
-        $.ajax({
-            type: "post"
-            ,url: "/mes/production/result/resultRegist"
-            ,headers: {
-                "Content-Type": "application/json"
-                ,"X-HTTP-Method-Override": "POST"
+        if(IsNull(plan_res_stdt)) {
+            eAlert("생산시작일시는 필수입력항목입니다.");
+            $tr.find("input[name=pop_plan_res_stdt]").focus();
+            return false;
+        }
+
+        if(IsNull(plan_res_eddt)) {
+            eAlert("생산종료일시는 필수입력항목입니다.");
+            $tr.find("input[name=pop_plan_res_eddt]").focus();
+            return false;
+        }
+
+        if(IsNull(plan_res_cnt) || plan_res_cnt === 0) {
+            eAlert("생산량은 필수입력항목입니다.");
+            $tr.find("input[name=pop_plan_res_cnt]").focus();
+            return false;
+        }
+
+        Swal.fire({
+            title: '',
+            text: "생산실적 정보를 저장하시겠습니까?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '확인',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed)
+            {
+                showWait('.dataModal');
+
+                $.ajax({
+                    type: "post"
+                    ,url: "/mes/production/result/planResultRegist"
+                    ,headers: {
+                        "Content-Type": "application/json"
+                        ,"X-HTTP-Method-Override": "POST"
+                    }
+                    ,dataType: "text"
+                    ,data: JSON.stringify({
+                        fact_cd: "${vmap.fact_cd}"
+                        ,plan_cd: $("#pop_plan_cd").val()
+                        ,plan_proc_cd: $("#pop_plan_proc_cd").val()
+                        ,odr_cd: $("#pop_odr_cd").val()
+                        ,proc_cd: $("#pop_proc_cd").val()
+                        ,prod_cd: $("#pop_prod_cd").val()
+                        ,equ_cd: equ_cd
+                        ,plan_res_u_cd: plan_res_u_cd
+                        ,plan_res_stdt: plan_res_stdt
+                        ,plan_res_eddt: plan_res_eddt
+                        ,plan_res_cnt: plan_res_cnt
+                        ,plan_res_notice: plan_res_notice
+                    })
+                })
+                .done(function (data) {
+                    hideWait('.dataModal');
+                    $("#dataModal").modal("hide");
+                    // getData();
+                })
+                .always(function (data) {
+
+                })
+                .fail(function (jqHXR, textStatus, errorThrown) {
+                    ajaxErrorAlert(jqHXR);
+                    hideWait('.dataModal');
+                });
             }
-            ,dataType: "text"
-            ,data: JSON.stringify({
-                fact_cd: "${vmap.fact_cd}"
-                ,ary_plan_cd: ary_plan_cd
-                ,ary_comp_cd: ary_comp_cd
-                ,ary_prod_cd: ary_prod_cd
-                ,ary_plan_stdt: ary_plan_stdt
-                ,ary_plan_eddt: ary_plan_eddt
-                ,ary_plan_cnt: ary_plan_cnt
-                ,ary_plan_no: ary_plan_no
-                ,ary_plan_notice: ary_plan_notice
-            })
-        })
-            .done(function (data) {
-                hideWait('.dataModal');
-                $("#dataModal").modal("hide");
-                getData();
-            })
-            .always(function (data) {
-
-            })
-            .fail(function (jqHXR, textStatus, errorThrown) {
-                ajaxErrorAlert(jqHXR);
-                hideWait('.dataModal');
-            });
+        });
     }
 
     // modify Data - ajax modify
@@ -953,18 +1026,18 @@
                 ,ary_plan_proc_notice: ary_plan_proc_notice
             })
         })
-            .done(function (data) {
-                hideWait('.dataModal');
-                $("#dataModal").modal("hide");
-                getData();
-            })
-            .always(function (data) {
+        .done(function (data) {
+            hideWait('.dataModal');
+            $("#dataModal").modal("hide");
+            getData();
+        })
+        .always(function (data) {
 
-            })
-            .fail(function (jqHXR, textStatus, errorThrown) {
-                ajaxErrorAlert(jqHXR);
-                hideWait('.dataModal');
-            });
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+            hideWait('.dataModal');
+        });
     }
 
     function deleteData()

@@ -181,4 +181,8 @@ public class SalesOrderService {
         return salesOrderDAO.orderBomDelete(vmap);
     }
 
+    public void orderStateModify(VMap vmap) throws Exception {
+        salesOrderDAO.orderStateModify(vmap);
+    }
+
 }

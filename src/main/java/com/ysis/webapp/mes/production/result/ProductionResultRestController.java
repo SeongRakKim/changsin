@@ -35,21 +35,11 @@ public class ProductionResultRestController {
         return new ResponseEntity<>(resultOne, HttpStatus.OK);
     }
 
-    @GetMapping("/mes/production/result/resultOverlap/{result_cd}")
-    public ResponseEntity<Boolean> resultOverlap(VMap vmap, @PathVariable("result_cd") String result_cd) throws Exception
-    {
-        vmap.put("result_cd", result_cd);
-        Map<String, Object> resultOverlap = productionResultService.resultOverlap(vmap);
-        boolean isFalg = CommonUtils.isNotEmpty(resultOverlap);
-
-        return new ResponseEntity<>(isFalg, HttpStatus.OK);
-    }
-
-    @PostMapping("/mes/production/result/resultRegist")
-    public ResponseEntity<String> resultRegist(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    @PostMapping("/mes/production/result/planResultRegist")
+    public ResponseEntity<String> planResultRegist(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
     {
         vmap.set(map);
-        productionResultService.resultRegist(vmap);
+        productionResultService.planResultRegist(vmap);
 
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
@@ -61,33 +51,6 @@ public class ProductionResultRestController {
         productionResultService.resultModify(vmap);
 
         return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
-    }
-
-    @DeleteMapping("/mes/production/result/resultPackDelete")
-    public ResponseEntity<String> resultPackDeleteDELETE(VMap vmap, @RequestBody Map<String, Object> map ) throws Exception
-    {
-        vmap.set(map);
-        productionResultService.resultPackDelete(vmap);
-
-        return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-    }
-
-    @PostMapping("/mes/production/result/process/resultProcList")
-    public ResponseEntity<List<Map<String, Object>>> resultProcList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
-    {
-        vmap.set(map);
-        List<Map<String, Object>> prodList = productionResultService.resultProcList(vmap);
-
-        return new ResponseEntity<>(prodList, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/mes/production/result/process/resultProcDelete")
-    public ResponseEntity<String> resultProcDelete(VMap vmap, @RequestBody Map<String, Object> map ) throws Exception
-    {
-        vmap.set(map);
-        productionResultService.resultProcDelete(vmap);
-
-        return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
 
 }

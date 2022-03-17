@@ -45,4 +45,8 @@ public class MaterialService {
         return materialDAO.matePackDelete(vmap);
     }
 
+    public int mateStockCntModify(VMap vmap) throws Exception {
+        return materialDAO.mateStockCntModify(vmap);
+    }
+
 }

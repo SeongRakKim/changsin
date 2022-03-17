@@ -520,6 +520,9 @@
         <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
             WHERE PROD_CD = #{prod_cd}
         </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(proc_cd)">
+            WHERE PROC_CD = #{proc_cd}
+        </if>
         ORDER BY MATE_KIND, PROD_BOM_CNT DESC
     </select>
 
@@ -564,5 +567,19 @@
         DELETE FROM MES_PRODUCT_BOM
         WHERE PROD_BOM_CD = #{prod_bom_cd}
     </delete>
+
+    <update id="prodStockCntModify" parameterType="VMap">
+        UPDATE MES_PRODUCT_INFO
+        SET
+        <choose>
+            <when test='inout_type == "I"'>
+                PROD_STOCK_CNT = PROD_STOCK_CNT + IFNULL(#{prod_stock_cnt}, 0)
+            </when>
+            <when test='inout_type == "O"'>
+                PROD_STOCK_CNT = PROD_STOCK_CNT - IFNULL(#{prod_stock_cnt}, 0)
+            </when>
+        </choose>
+        WHERE PROD_CD = #{prod_cd}
+    </update>
 
 </mapper>

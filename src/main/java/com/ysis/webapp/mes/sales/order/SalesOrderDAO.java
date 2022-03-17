@@ -72,4 +72,8 @@ public class SalesOrderDAO extends MapperDAO {
         return delete(mapperName + ".orderBomDelete", vmap.getMap());
     }
 
+    public int orderStateModify(VMap vmap) throws Exception {
+        return update(mapperName + ".orderStateModify", vmap.getMap());
+    }
+
 }
