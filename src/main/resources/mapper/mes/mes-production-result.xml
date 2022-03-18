@@ -170,6 +170,93 @@
          AND PLAN_PROC_CD = #{plan_proc_cd}
     </select>
 
+    <select id="planResultList" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,PLAN_CD
+               ,PLAN_PROC_CD
+               ,ODR_CD
+               ,COMP_CD
+               ,COMP_NM
+               ,PLAN_NO
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_MASS_YN
+               ,PROC_CD
+               ,PROC_NM
+               ,PLAN_PROC_SEQ
+               ,(SELECT COUNT(*)
+                   FROM MES_PRODUCTION_PLAN_PROCESS
+                   WHERE PLAN_CD = MPPP.PLAN_CD) TOT_PROC_CNT
+               ,CONCAT(PLAN_PROC_SEQ, ' / ', (SELECT COUNT(*)
+                                              FROM MES_PRODUCTION_PLAN_PROCESS
+                                              WHERE PLAN_CD = MPPP.PLAN_CD)) TOT_PROC_CNT_NM
+               ,IFNULL(ROUND(PLAN_CNT / MPPP.PLAN_PROC_CNT), 0) PLAN_PROGRESS
+               ,PLAN_PROC_LAST_YN
+               ,PLAN_PROC_CNT
+               ,PLAN_PROC_STATE
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'MES_STATE'
+                   AND CODE_CD = PLAN_PROC_STATE
+                ) PLAN_PROC_STATE_NM
+               ,PLAN_PROC_NOTICE
+               ,PLAN_PROC_INDATE
+               ,PLAN_PROC_INUSER
+               ,PLAN_PROC_UPDATE
+               ,PLAN_PROC_UPUSER
+               ,PLAN_RES_CD
+               ,PLAN_RES_CNT
+               ,PLAN_RES_STDT
+               ,PLAN_RES_EDDT
+               ,PLAN_RES_U_CD
+               ,(SELECT U_NM
+                   FROM MES_USER_INFO
+                   WHERE U_CD = MPPR.PLAN_RES_U_CD) PLAN_RES_U_NM
+               ,EQU_CD
+               ,(SELECT EQU_NM
+                   FROM MES_EQUIPMENT_INFO
+                   WHERE EQU_CD = MPPR.EQU_CD) EQU_NM
+        FROM MES_PRODUCTION_PLAN_RESULT MPPR
+        JOIN MES_PRODUCTION_PLAN_PROCESS MPPP USING (FACT_CD, PLAN_CD, PLAN_PROC_CD)
+        JOIN MES_PRODUCTION_PLAN USING (FACT_CD, PLAN_CD)
+        JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
+        LEFT JOIN MES_COMPANY_INFO USING (COMP_CD, FACT_CD)
+        JOIN MES_PROCESS_INFO USING (PROC_CD, FACT_CD)
+        FROM MES_PRODUCTION_PLAN_PROCESS MPPP
+        JOIN MES_PRODUCTION_PLAN USING (FACT_CD, PLAN_CD)
+        JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
+        LEFT JOIN MES_COMPANY_INFO USING (COMP_CD, FACT_CD)
+        JOIN MES_PROCESS_INFO USING (PROC_CD, FACT_CD)
+       WHERE PLAN_CD = #{plan_cd}
+         AND PLAN_PROC_CD = #{plan_proc_cd}
+       ORDER BY PLAN_CD , PLAN_PROC_SEQ
+    </select>
+
     <insert id="planResultRegist" parameterType="VMap">
         INSERT INTO MES_PRODUCTION_PLAN_RESULT
         (

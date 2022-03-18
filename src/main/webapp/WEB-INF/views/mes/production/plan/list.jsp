@@ -711,12 +711,12 @@
                     node.push(IsEmpty(item.comp_nm));
                     node.push(IsEmpty(item.odr_cd));
                     node.push(IsEmpty(item.plan_no));
-                    node.push(IsEmpty(item.plan_stdt) + " ~ " + IsEmpty(item.plan_eddt));
+                    node.push("<div class='text-center'>" + IsEmpty(item.plan_stdt) + " ~ " + IsEmpty(item.plan_eddt) + "</div>");
                     node.push(IsEmpty(item.prod_pn));
                     node.push(IsEmpty(item.prod_nm));
                     node.push(IsEmpty(item.prod_stand));
                     node.push("<div class='text-right'>" + IsEmpty(item.plan_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
-                    node.push("<div class='red'>" + IsEmpty(item.plan_state_nm) + "</div>");
+                    node.push("<div class='text-center red'>" + IsEmpty(item.plan_state_nm) + "</div>");
 
                     // 각 row node 추가
                     $("#tblMaster").DataTable().row.add(node).node();
@@ -976,18 +976,18 @@
                 ,ary_plan_proc_notice: ary_plan_proc_notice
             })
         })
-            .done(function (data) {
-                hideWait('.dataModal');
-                $("#dataModal").modal("hide");
-                getData();
-            })
-            .always(function (data) {
+        .done(function (data) {
+            hideWait('.dataModal');
+            $("#dataModal").modal("hide");
+            getData();
+        })
+        .always(function (data) {
 
-            })
-            .fail(function (jqHXR, textStatus, errorThrown) {
-                ajaxErrorAlert(jqHXR);
-                hideWait('.dataModal');
-            });
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+            hideWait('.dataModal');
+        });
     }
 
     function deleteData()
@@ -1011,16 +1011,16 @@
                 deleteItems: deleteItems
             })
         })
-            .done(function (data) {
-                getData();
-                hideWait('.container-fluid');
-            })
-            .always(function (data) {
+        .done(function (data) {
+            getData();
+            hideWait('.container-fluid');
+        })
+        .always(function (data) {
 
-            })
-            .fail(function (jqHXR, textStatus, errorThrown) {
-                ajaxErrorAlert(jqHXR);
-            });
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+        });
     }
 
     function getPlanProcData(plan_cd)

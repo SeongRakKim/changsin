@@ -296,7 +296,7 @@ table.dataTable thead > tr > th.sorting_asc, table.dataTable thead > tr > th.sor
 }
 
 .table-list tbody tr td {
-    text-align: center;
+    text-align: left;
     background-color: white;
     border-top: 1px solid #dcdef1 !important;
 }

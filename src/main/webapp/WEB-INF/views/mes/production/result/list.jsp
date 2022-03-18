@@ -725,17 +725,17 @@
                         "</div>";
 
                     node.push(checkBoxNode);
-                    node.push(IsEmpty(item.plan_stdt) + " ~ " + IsEmpty(item.plan_eddt));
+                    node.push("<div class='text-center'>" + IsEmpty(item.plan_stdt) + " ~ " + IsEmpty(item.plan_eddt) + "</div>");
                     node.push(IsEmpty(item.plan_no));
                     node.push(IsEmpty(item.prod_pn));
                     node.push(IsEmpty(item.prod_nm));
                     node.push(IsEmpty(item.prod_stand));
-                    node.push(IsEmpty(item.proc_nm));
-                    node.push(IsEmpty(item.plan_proc_seq) + " / " + IsEmpty(item.tot_proc_cnt));
+                    node.push("<div class='text-center'>" + IsEmpty(item.proc_nm) + "</div>");
+                    node.push("<div class='text-center'>" + IsEmpty(item.plan_proc_seq) + " / " + IsEmpty(item.tot_proc_cnt) + "</div>");
                     node.push("<div class='text-right'>" + IsEmpty(item.plan_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
                     node.push("<div class='text-right'>" + IsEmpty(item.plan_proc_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
-                    node.push("<div>" + IsEmpty(item.plan_progress) + "%</div>");
-                    node.push("<div class='red'>" + IsEmpty(item.plan_proc_state_nm) + "</div>");
+                    node.push("<div class='text-center'>" + IsEmpty(item.plan_progress) + "%</div>");
+                    node.push("<div class='text-center red'>" + IsEmpty(item.plan_proc_state_nm) + "</div>");
 
                     // 각 row node 추가
                     $("#tblMaster").DataTable().row.add(node).node();
@@ -796,20 +796,33 @@
                 // cnt : rowCnt
                 cnt: ++resultRowCnt,
                 old_plan_res_cnt: 0
-            }
+            };
         }
         else
         {
-
+            templateData = {
+                cnt: ++resultRowCnt
+                ,plan_result_cd: data.plan_result_cd
+                ,plan_res_stdt: data.plan_res_stdt
+                ,plan_res_eddt: data.plan_res_eddt
+                ,old_plan_res_cnt: plan_res_cnt
+                ,plan_res_cnt: data.plan_res_cnt.comma('3')
+                ,plan_res_notice: plan_res_notice
+            };
         }
 
         $("#tblPopResultData > tbody").append(template(templateData));
+
+        $("#tblPopResultData .list_tr" + resultRowCnt).find("select[name=pop_equ_cd]").val(data.equ_cd);
+        $("#tblPopResultData .list_tr" + resultRowCnt).find("select[name=pop_plan_res_u_cd]").val(data.plan_res_u_cd);
+
         $("#tblPopResultData .list_tr" + resultRowCnt)
             .find(".datetimepicker").datetimepicker({
                 format:'Y-m-d H:i',
                 step:1,
                 lang:'kr'
             });
+
         $.datetimepicker.setLocale('ko');
 
         $("#tblPopResultData .list_tr" + resultRowCnt)
@@ -1097,7 +1110,7 @@
             $("#tblPopProcData > tbody").empty();
 
             data.forEach((item, index) => {
-                addPopPlanProcRow(item);
+                addPopResultRow(item);
             });
 
         })
