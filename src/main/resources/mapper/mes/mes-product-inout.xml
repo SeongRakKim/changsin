@@ -181,7 +181,14 @@
              ,IFNULL(#{inout_dt}, CURDATE())
              ,NOW()
              ,#{prod_stock_cnt}
-             ,ROUND(#{prod_stock_cnt} + #{inout_cnt}, 3)
+        <choose>
+            <when test='inout_type == "I"'>
+                ,ROUND(#{prod_stock_cnt} + #{inout_cnt}, 3)
+            </when>
+            <when test='inout_type == "O"'>
+                ,ROUND(#{prod_stock_cnt} - #{inout_cnt}, 3)
+            </when>
+        </choose>
              ,#{inout_msg}
              ,#{inout_notice}
              ,NOW()

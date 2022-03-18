@@ -40,10 +40,10 @@
                             </c:forEach>
                         </select>
                     </td>
-                    <th>제품군</th>
+                    <th>품목군</th>
                     <td>
                         <select id="prod_family" name="prod_family" class="custom-select w-100" required="">
-                            <option value="">제품군선택</option>
+                            <option value="">품목군선택</option>
                             <c:forEach var="item" items="${vmap.prodFamilyList}" varStatus="status">
                                 <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
                             </c:forEach>
@@ -83,6 +83,7 @@
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12">
+                            <input type="hidden" id="prod_cls" name="prod_cls" value="P" />
 <%--                            <button type="button" class="btn btn-sm btn-success" onclick='setExcelPdfButtonEvent({tableID:"tblMaster", btn:"excel"});'><i class="fas fa-file-excel"></i> 엑셀</button>--%>
                             <table id ="tblMaster" class="table-list table table-hover table-striped table-bordered mb-5" style="width: 100%">
                                 <thead>
@@ -98,7 +99,7 @@
                                         <th>품명</th>
                                         <th>종류</th>
                                         <th>분류</th>
-                                        <th>제품군</th>
+                                        <th>품목군</th>
                                         <th>규격</th>
                                         <th>단위</th>
                                         <th>단가</th>
@@ -170,10 +171,10 @@
                                         </c:forEach>
                                     </select>
                                 </td>
-                                <th>제품군</th>
+                                <th>품목군</th>
                                 <td>
-                                    <select id="pop_prod_family" name="pop_prod_family" class="custom-select w-100"  title="제품군">
-                                        <option value="">제품군선택</option>
+                                    <select id="pop_prod_family" name="pop_prod_family" class="custom-select w-100"  title="품목군">
+                                        <option value="">품목군선택</option>
                                         <c:forEach var="item" items="${vmap.prodFamilyList}" varStatus="status">
                                             <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
                                         </c:forEach>
@@ -274,6 +275,14 @@
             <form id="processForm" name="dataForm" class="dataForm" method="post">
                 <div class="modal-body">
                     <table id="tblPopProduct" class="table table-hover table-bordered mb-5 table-form">
+                        <colgroup>
+                            <col style="width: 15%;" />
+                            <col style="width: 20%;" />
+                            <col style="width: 15%;" />
+                            <col style="width: 20%;" />
+                            <col style="width: 15%;" />
+                            <col style="width: 15%;" />
+                        </colgroup>
                         <tbody>
                             <tr>
                                 <th>제품코드</th>
@@ -697,16 +706,16 @@
             source : function(reuqest, response) {
                 $.ajax({
                     type : 'get',
-                    url: '/mes/base/material/mateOverlap2/' + $(el).val(),
+                    url: '/mes/base/product/prodOverlap3/' + $(el).val(),
                     dataType : 'json',
                     success : function(data) {
                         // 서버에서 json 데이터 response 후 목록 추가
                         response(
                             $.map(data, function(item) {
                                 return {
-                                    label : "[" + item.mate_cd + "] " + item.mate_nm,
-                                    value : "[" + item.mate_cd + "] " + item.mate_nm,
-                                    mate_cd : item.mate_cd
+                                    label : "[" + item.prod_cd + "] " + item.prod_nm,
+                                    value : "[" + item.prod_cd + "] " + item.prod_nm,
+                                    prod_cd : item.prod_cd
                                 }
                             })
                         );
@@ -714,7 +723,7 @@
                 });
             },
             select : function(event, ui) {
-                $tr.find("[name=pop_prod_ja_cd]").val(ui.item.mate_cd);
+                $tr.find("[name=pop_prod_ja_cd]").val(ui.item.prod_cd);
             },
             focus : function(event, ui) {
                 return false;
@@ -809,6 +818,7 @@
                 ,prod_family: $("#prod_family").val()
                 ,prod_group: $("#prod_group").val()
                 ,search_text: $("#search_text").val()
+                ,prod_cls: $("#prod_cls").val()
             })
         })
         .done(function (data)
@@ -909,6 +919,7 @@
             ,dataType: "text"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
+                ,prod_cls: $("#prod_cls").val()
                 ,prod_cd: $("#pop_prod_cd").val()
                 ,prod_pn: $("#pop_prod_pn").val()
                 ,prod_nm: $("#pop_prod_nm").val()
@@ -975,12 +986,12 @@
     {
         $("#processModal").modal("show");
 
-        $("#pop_proc_prod_cd").html(arguments[0].prod_cd);
-        $("#pop_proc_prod_pn").html(arguments[0].prod_pn);
-        $("#pop_proc_prod_nm").html(arguments[0].prod_nm);
-        $("#pop_proc_prod_kind_nm").html(arguments[0].prod_kind_nm);
-        $("#pop_proc_prod_stand").html(arguments[0].prod_stand);
-        $("#pop_proc_prod_unit_nm").html(arguments[0].prod_unit_nm);
+        $("#pop_proc_prod_cd").html(IsEmpty(arguments[0].prod_cd));
+        $("#pop_proc_prod_pn").html(IsEmpty(arguments[0].prod_pn));
+        $("#pop_proc_prod_nm").html(IsEmpty(arguments[0].prod_nm));
+        $("#pop_proc_prod_kind_nm").html(IsEmpty(arguments[0].prod_kind_nm));
+        $("#pop_proc_prod_stand").html(IsEmpty(arguments[0].prod_stand));
+        $("#pop_proc_prod_unit_nm").html(IsEmpty(arguments[0].prod_unit_nm));
 
         getProductProcessData();
     }
@@ -999,7 +1010,7 @@
             ,dataType: "json"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,prod_cd: $("#pop_proc_prod_cd").val()
+                ,prod_cd: $("#pop_proc_prod_cd").text()
             })
         })
         .done(function (data)
@@ -1164,12 +1175,12 @@
     {
         $("#bomModal").modal("show");
 
-        $("#pop_bom_prod_cd").html(arguments[0].prod_cd);
-        $("#pop_bom_prod_pn").html(arguments[0].prod_pn);
-        $("#pop_bom_prod_nm").html(arguments[0].prod_nm);
-        $("#pop_bom_prod_kind_nm").html(arguments[0].prod_kind_nm);
-        $("#pop_bom_prod_stand").html(arguments[0].prod_stand);
-        $("#pop_bom_prod_unit_nm").html(arguments[0].prod_unit_nm);
+        $("#pop_bom_prod_cd").html(IsEmpty(arguments[0].prod_cd));
+        $("#pop_bom_prod_pn").html(IsEmpty(arguments[0].prod_pn));
+        $("#pop_bom_prod_nm").html(IsEmpty(arguments[0].prod_nm));
+        $("#pop_bom_prod_kind_nm").html(IsEmpty(arguments[0].prod_kind_nm));
+        $("#pop_bom_prod_stand").html(IsEmpty(arguments[0].prod_stand));
+        $("#pop_bom_prod_unit_nm").html(IsEmpty(arguments[0].prod_unit_nm));
 
         getProductBomData();
     }
@@ -1188,7 +1199,7 @@
             ,dataType: "json"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,prod_cd: $("#pop_proc_prod_cd").val()
+                ,prod_cd: $("#pop_proc_prod_cd").text()
             })
         })
         .done(function (data)

@@ -49,6 +49,10 @@ public class ProductionResultService {
         return productionResultDAO.planProcessOne(vmap);
     }
 
+    public List<Map<String, Object>> planResultList(VMap vmap) throws Exception {
+        return productionResultDAO.planResultList(vmap);
+    }
+
     @Transactional
     public int planResultRegist(VMap vmap) throws Exception {
 
@@ -76,6 +80,7 @@ public class ProductionResultService {
                 ,BaseCodeItem.INOUT_PRODUCTION
                 ,vmap.getString("prod_cd")
                 ,Double.parseDouble(vmap.getString("plan_res_cnt"))
+                ,0
                 ,plan_res_cd
                 ,BaseCodeItem.PLAN_RESULT_REGIST);
 
@@ -91,18 +96,18 @@ public class ProductionResultService {
             input.put("plan_res_cd", plan_res_cd);
             vmap.put("table_type", "INPUT");
             input.put("plan_input_cd", commonDAO.getTablePrimaryCode(vmap));
-            input.put("mate_cd", String.valueOf(result.get("prod_ja_cd")));
+            input.put("prod_cd", String.valueOf(result.get("prod_ja_cd")));
             input.put("plan_bom_cnt", Double.parseDouble(String.valueOf(result.get("prod_bom_cnt"))));
             input.put("plan_input_cnt", Double.parseDouble(String.valueOf(result.get("prod_bom_cnt"))) * Double.parseDouble(vmap.getString("plan_res_cnt")));
 
             productionResultDAO.planInputRegist(input);
 
             // 투입자재 재고 차감 처리
-            materialInoutService.materialStockModify(vmap
+            productInoutService.productStockModify(vmap
                 ,"O"
                 ,BaseCodeItem.INOUT_INPUT
                 ,String.valueOf(result.get("prod_ja_cd"))
-                ,Double.parseDouble(vmap.getString("plan_res_cnt"))
+                ,Double.parseDouble(String.valueOf(result.get("prod_bom_cnt"))) * Double.parseDouble(vmap.getString("plan_res_cnt"))
                 ,Double.parseDouble(String.valueOf(result.get("prod_bom_cnt")))
                 ,plan_res_cd
                 ,BaseCodeItem.PLAN_INPUT_REGIST);

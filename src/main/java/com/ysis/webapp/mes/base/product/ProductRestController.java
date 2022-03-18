@@ -44,11 +44,32 @@ public class ProductRestController {
         return new ResponseEntity<>(isFalg, HttpStatus.OK);
     }
 
+    // 제품
     @GetMapping("/mes/base/product/prodOverlap2/{selector}")
     public ResponseEntity<List<Map<String, Object>>> prodOverlap2(VMap vmap, @PathVariable("selector") String selector) throws Exception
     {
         vmap.put("selector", selector);
         List<Map<String, Object>> prodOverlapList = productService.prodOverlap2(vmap);
+
+        return new ResponseEntity<>(prodOverlapList, HttpStatus.OK);
+    }
+
+    // 반제품, 자재
+    @GetMapping("/mes/base/product/prodOverlap3/{selector}")
+    public ResponseEntity<List<Map<String, Object>>> prodOverlap3(VMap vmap, @PathVariable("selector") String selector) throws Exception
+    {
+        vmap.put("selector", selector);
+        List<Map<String, Object>> prodOverlapList = productService.prodOverlap3(vmap);
+
+        return new ResponseEntity<>(prodOverlapList, HttpStatus.OK);
+    }
+
+    // 제품, 반제품
+    @GetMapping("/mes/base/product/prodOverlap4/{selector}")
+    public ResponseEntity<List<Map<String, Object>>> prodOverlap4(VMap vmap, @PathVariable("selector") String selector) throws Exception
+    {
+        vmap.put("selector", selector);
+        List<Map<String, Object>> prodOverlapList = productService.prodOverlap4(vmap);
 
         return new ResponseEntity<>(prodOverlapList, HttpStatus.OK);
     }

@@ -229,7 +229,7 @@
              ,PLAN_PROC_CD
              ,PLAN_RES_CD
              ,PLAN_INPUT_CD
-             ,MATE_CD
+             ,PROD_CD
              ,PLAN_BOM_CNT
              ,PLAN_INPUT_CNT
              ,PLAN_INPUT_NOTICE
@@ -243,7 +243,7 @@
              ,#{plan_proc_cd}
              ,#{plan_res_cd}
              ,#{plan_input_cd}
-             ,#{mate_cd}
+             ,#{prod_cd}
              ,#{plan_bom_cnt}
              ,#{plan_input_cnt}
              ,#{plan_input_notice}

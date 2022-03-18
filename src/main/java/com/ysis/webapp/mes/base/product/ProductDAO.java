@@ -28,6 +28,14 @@ public class ProductDAO extends MapperDAO {
         return selectList(mapperName + ".prodOverlap2", vMap.getMap());
     }
 
+    public List<Map<String, Object>> prodOverlap3(VMap vMap) throws Exception {
+        return selectList(mapperName + ".prodOverlap3", vMap.getMap());
+    }
+
+    public List<Map<String, Object>> prodOverlap4(VMap vMap) throws Exception {
+        return selectList(mapperName + ".prodOverlap4", vMap.getMap());
+    }
+
     public int prodRegistModify(VMap vmap) throws Exception {
         return insert(mapperName + ".prodRegistModify", vmap.getMap());
     }

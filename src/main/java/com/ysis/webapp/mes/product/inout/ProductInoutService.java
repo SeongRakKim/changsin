@@ -33,14 +33,14 @@ public class ProductInoutService {
 
     @Transactional
     public void productStockModify(VMap vmap, String inout_type, String inout_item, String prod_cd,
-                                    double inout_cnt, String inout_crcd, String inout_msg) throws Exception {
+                                    double inout_cnt, double bom_cnt, String inout_crcd, String inout_msg) throws Exception {
         // 제품 정보 가져오기
         VMap prodMap = new VMap();
         prodMap.put("prod_cd", prod_cd);
-        Map<String, Object> prod = productDAO.prodOne(vmap);
+        Map<String, Object> prod = productDAO.prodOne(prodMap);
 
         // 입출고이력 생성
-        vmap.put("table_type", "PINOUT");
+        vmap.put("table_type", "INOUT");
         String inout_cd = commonDAO.getTablePrimaryCode(vmap);
 
         VMap inout = new VMap();
@@ -58,6 +58,7 @@ public class ProductInoutService {
         productInoutDAO.productInoutRegist(inout);
 
         // 제품 재고 조정
+        vmap.put("prod_cd", prod_cd);
         vmap.put("inout_type", inout_type);
         vmap.put("prod_stock_cnt", inout_cnt);
 

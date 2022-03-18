@@ -20,6 +20,10 @@ public class ProductionResultDAO extends MapperDAO {
         return selectOne(mapperName + ".planProcessOne", vMap.getMap());
     }
 
+    public List<Map<String, Object>> planResultList(VMap vMap) throws Exception {
+        return selectList(mapperName + ".planResultList", vMap.getMap());
+    }
+
     public int planResultRegist(VMap vmap) throws Exception {
         return insert(mapperName + ".planResultRegist", vmap.getMap());
     }

@@ -33,6 +33,14 @@ public class ProductService {
         return productDAO.prodOverlap2(vmap);
     }
 
+    public List<Map<String, Object>> prodOverlap3(VMap vmap) throws Exception {
+        return productDAO.prodOverlap3(vmap);
+    }
+
+    public List<Map<String, Object>> prodOverlap4(VMap vmap) throws Exception {
+        return productDAO.prodOverlap4(vmap);
+    }
+
     @Transactional
     public int prodRegistModify(VMap vmap) throws Exception {
 

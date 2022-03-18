@@ -35,6 +35,15 @@ public class ProductionResultRestController {
         return new ResponseEntity<>(resultOne, HttpStatus.OK);
     }
 
+    @PostMapping("/mes/production/result/planResultList")
+    public ResponseEntity<List<Map<String, Object>>> planResultList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    {
+        vmap.set(map);
+        List<Map<String, Object>> resultList = productionResultService.planResultList(vmap);
+
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
+
     @PostMapping("/mes/production/result/planResultRegist")
     public ResponseEntity<String> planResultRegist(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
     {

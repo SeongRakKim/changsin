@@ -19,7 +19,7 @@ public class MaterialController {
         vmap.put("requestUri", httpServletRequest.getRequestURI());
 
         // 분류
-        vmap.put("base_cd", "mate_group");
+        vmap.put("base_cd", "prod_group");
         vmap.put("mateGroupList", commonService.baseDetailList(vmap));
 
         // 단위
@@ -32,7 +32,7 @@ public class MaterialController {
         vmap.put("requestUri", httpServletRequest.getRequestURI());
 
         // 분류
-        vmap.put("base_cd", "mate_group");
+        vmap.put("base_cd", "prod_group");
         vmap.put("mateGroupList", commonService.baseDetailList(vmap));
 
         // 단위

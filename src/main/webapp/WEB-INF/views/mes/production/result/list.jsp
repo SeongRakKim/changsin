@@ -762,24 +762,24 @@
             ,dataType: "json"
             // ,data: JSON.stringify({})
         })
-            .done(function (data)
-            {
-                setDataOne("pop_", data);
-                $("#dataForm").find(".key").prop("disabled", true);
-                $("#pop_selector").text('[' + data.comp_cd + ']' + data.comp_nm);
-                $("#pop_selector2").text('[' + data.prod_pn + ']' + data.prod_nm);
+        .done(function (data)
+        {
+            setDataOne("pop_", data);
+            $("#dataForm").find(".key").prop("disabled", true);
+            $("#pop_selector").text('[' + data.comp_cd + ']' + data.comp_nm);
+            $("#pop_selector2").text('[' + data.prod_pn + ']' + data.prod_nm);
 
-                $("#btnPopRegist").hide();
-                $("#btnPopModify").show();
+            $("#btnPopRegist").hide();
+            $("#btnPopModify").show();
 
-                getPlanProcData(plan_cd);
-            })
-            .always(function (data) {
-                hideWait('.dataModal');
-            })
-            .fail(function (jqHXR, textStatus, errorThrown) {
-                ajaxErrorAlert(jqHXR);
-            });
+            getPlanResultData(plan_cd, plan_proc_cd);
+        })
+        .always(function (data) {
+            hideWait('.dataModal');
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+        });
     }
 
     let resultRowCnt = 0;
@@ -1073,12 +1073,12 @@
             });
     }
 
-    function getPlanProcData(plan_cd)
+    function getPlanResultData(plan_cd, plan_proc_cd)
     {
         showWait('.dataModal');
 
         $.ajax({
-            url: "/mes/production/result/process/resultProcList"
+            url: "/mes/production/result/planResultList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -1088,6 +1088,7 @@
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
                 ,plan_cd: plan_cd
+                ,plan_proc_cd: plan_proc_cd
             })
         })
         .done(function (data)
