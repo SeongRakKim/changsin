@@ -10841,7 +10841,7 @@ a.card-img-wrapper:hover .img-wrapper-overlay {
 }
 .table thead th {
     text-transform: uppercase;
-    background: #eaf6ff;
+    background: #f4f5fd!important;
     /*font-size: 0.83125rem;*/
     font-size: 0.75rem;
 }

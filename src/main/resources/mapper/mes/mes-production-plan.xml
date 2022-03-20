@@ -55,6 +55,8 @@
                   WHERE CODE_ID = 'MES_STATE'
                     AND CODE_CD = PLAN_STATE
                 ) PLAN_STATE_NM
+                ,IF( (SELECT COUNT(*) FROM MES_PRODUCTION_PLAN_PROCESS WHERE PLAN_CD = MOI.PLAN_CD)
+                    = (SELECT COUNT(*) FROM MES_PRODUCTION_PLAN_PROCESS WHERE PLAN_CD = MOI.PLAN_CD AND PLAN_PROC_STATE = '12'), 'Y', 'N') AS PLAN_COMP_YN
                ,PLAN_NOTICE
                ,PLAN_INDATE
                ,PLAN_INUSER
@@ -139,6 +141,8 @@
                   WHERE CODE_ID = 'MES_STATE'
                     AND CODE_CD = PLAN_STATE
                 ) PLAN_STATE_NM
+               ,IF( (SELECT COUNT(*) FROM MES_PRODUCTION_PLAN_PROCESS WHERE PLAN_CD = MOI.PLAN_CD)
+                        = (SELECT COUNT(*) FROM MES_PRODUCTION_PLAN_PROCESS WHERE PLAN_CD = MOI.PLAN_CD AND PLAN_PROC_STATE = '12'), 'Y', 'N') AS PLAN_COMP_YN
                ,PLAN_NOTICE
                ,PLAN_INDATE
                ,PLAN_INUSER

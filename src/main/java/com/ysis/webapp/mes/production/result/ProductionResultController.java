@@ -59,6 +59,10 @@ public class ProductionResultController {
 
         // 소요자재
         vmap.put("mateList", materialService.mateList(vmap));
+
+        // 비가동구분
+        vmap.put("base_cd", "plan_stop_item");
+        vmap.put("stopList", commonService.baseDetailList(vmap));
     }
 
 }

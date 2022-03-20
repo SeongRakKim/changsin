@@ -26,6 +26,6 @@ public class BaseCodeItem
     public static final String PLAN_RESULT_DELETE = "생산실적 삭제에 의한 재고차감";
 
     public static final String PLAN_INPUT_REGIST = "생산투입에 의한 재고차감";
-    public static final String PLAN_INPUT_MODIFY = "생산투입 데이터 삭제에 의한 재고증가";
+    public static final String PLAN_INPUT_DELETE = "생산투입 데이터 삭제에 의한 재고증가";
 
 }

@@ -79,8 +79,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="_isUrl collapse-item" data-url="/mes/production/plan/list" href="/mes/production/plan/list">작업지시</a>
                 <a class="_isUrl collapse-item" data-url="/mes/production/result/list" href="/mes/production/result/list">생산실적</a>
-<%--                <a class="_isUrl collapse-item" data-url="/mes/sales/shipment/list" href="/mes/sales/shipment/list">납품관리</a>--%>
-<%--                <a class="_isUrl collapse-item" data-url="/mes/sales/shipment/state" href="/mes/sales/shipment/raw/state">납품현황</a>--%>
+                <a class="_isUrl collapse-item" data-url="/mes/production/state/list" href="/mes/production/state/list">생산현황</a>
             </div>
         </div>
     </li>

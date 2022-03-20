@@ -160,7 +160,12 @@ function setDataOne(prefix, data) {
 		}
 
 		if(type2 === "DIV") {
-			$("[name=" + prefix + key + "]").text(IsEmpty(value));
+			if(key.indexOf("_price") != -1 || key.indexOf("_cnt") != -1 || key.indexOf("_amt") != -1 || key.indexOf("_total") != -1 || key.indexOf("_vat") != -1) {
+				$("[name=" + prefix + key + "]").text(IsEmpty(value).comma());
+			}else {
+				$("[name=" + prefix + key + "]").text(IsEmpty(value));
+			}
+			// $("[name=" + prefix + key + "]").text(IsEmpty(value));
 		}
 	});
 }
