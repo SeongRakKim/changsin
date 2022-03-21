@@ -11,6 +11,7 @@
 
 <style>
     #btnNew {display: none;}
+    #btnDelete {display: none;}
 </style>
 
 <!-- Begin Page Content -->
@@ -72,7 +73,7 @@
     <div class="menu-nav">
         <div>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 생산관리 <i class="fas fa-chevron-right"></i> 생산실적
+                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 생산관리 <i class="fas fa-arrow-circle-right"></i> 생산실적
             </span>
         </div>
 
@@ -90,12 +91,12 @@
                             <table id ="tblMaster" class="table-list table table-hover table-striped table-bordered mb-5" style="width: 100%">
                                 <thead>
                                     <tr role="row">
-                                        <th class="no-sort" style="width: 3%">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="listAll">
-                                                <label class="custom-control-label" for="listAll"></label>
-                                            </div>
-                                        </th>
+<%--                                        <th class="no-sort" style="width: 3%">--%>
+<%--                                            <div class="custom-control custom-checkbox">--%>
+<%--                                                <input type="checkbox" class="custom-control-input" id="listAll">--%>
+<%--                                                <label class="custom-control-label" for="listAll"></label>--%>
+<%--                                            </div>--%>
+<%--                                        </th>--%>
                                         <th style="width: 14%">계획일</th>
                                         <th style="width: 10%">작업지시번호</th>
                                         <th style="width: 8%">품번</th>
@@ -142,83 +143,83 @@
                         <col style="width: 15%" />
                     </colgroup>
                     <tbody>
-                    <tr>
-                        <th>거래처</th>
-                        <td>
-                            <input type="hidden" id="pop_plan_cd" name="pop_plan_cd" class="form-control"
-                                   placeholder="계획코드" title="계획코드" />
-                            <input type="hidden" id="pop_plan_proc_cd" name="pop_plan_proc_cd" class="form-control"
-                                   placeholder="계획공정코드" title="계획공정코드" />
-                            <input type="hidden" id="pop_proc_cd" name="pop_proc_cd" class="form-control"
-                                   placeholder="공정코드" title="공정코드" />
-                            <input type="hidden" id="pop_odr_cd" name="pop_odr_cd" class="form-control"
-                                   placeholder="수주코드" title="수주코드" />
-                            <input type="hidden" id="pop_plan_proc_last_yn" name="pop_plan_proc_last_yn" class="form-control"
-                                   placeholder="마지막공정여부" title="마지막공정여부" />
-                            <input type="hidden" id="pop_plan_proc_state" name="pop_plan_proc_state" class="form-control"
-                                   placeholder="공정진행상태" title="공정진행상태" />
-                            <input type="hidden" id="pop_comp_cd" name="pop_comp_cd" class="form-control"
-                                   placeholder="거래처" title="거래처" />
-                            <input type="hidden" id="pop_comp_nm" name="pop_comp_nm" class="form-control"
-                                   placeholder="거래처" title="거래처" />
-                            <div id="pop_selector" name="pop_selector"></div>
-                        </td>
-                        <th>생산계획수량</th>
-                        <td class="text-right">
-                            <div id="pop_plan_cnt" name="pop_plan_cnt"></div>
-                        </td>
-                        <th>공정</th>
-                        <td>
-                            <div class="red" id="pop_proc_nm" name="pop_proc_nm"></div>
-                        </td>
-                        <th>작업지시번호</th>
-                        <td>
-                            <div id="pop_plan_no" name="pop_plan_no"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>품번 / 품명</th>
-                        <td>
-                            <input type="hidden" id="pop_prod_cd" name="pop_prod_cd" class="form-control"
-                                   placeholder="제품코드" title="제품코드" />
-                            <input type="hidden" id="pop_prod_nm" name="pop_prod_nm" class="form-control"
-                                   placeholder="제품명" title="제품명" />
-                            <input type="hidden" id="pop_prod_pn" name="pop_prod_pn" class="form-control"
-                                   placeholder="제품품번" title="제품코드" />
-                            <div id="pop_selector2" name="pop_selector2"></div>
-                        </td>
-                        <th>제품종류</th>
-                        <td>
-                            <div id="pop_prod_kind_nm" name="pop_prod_kind_nm"></div>
-                        </td>
-                        <th>제품분류</th>
-                        <td>
-                            <div id="pop_prod_group_nm" name="pop_prod_group_nm"></div>
-                        </td>
-                        <th>제품군</th>
-                        <td>
-                            <div id="pop_prod_family_nm" name="pop_prod_family_nm"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>규격</th>
-                        <td>
-                            <div id="pop_prod_stand" name="pop_prod_stand"></div>
-                        </td>
-                        <th>단위</th>
-                        <td>
-                            <div id="pop_prod_unit_nm" name="pop_prod_unit_nm"></div>
-                        </td>
-                        <th>현재고량</th>
-                        <td class="text-right">
-                            <div id="pop_prod_stock_cnt" name="pop_prod_stock_cnt"></div>
-                        </td>
-                        <th>생산량</th>
-                        <td class="text-right">
-                            <div class="red" id="pop_plan_proc_cnt" name="pop_plan_proc_cnt"></div>
-                        </td>
+                        <tr>
+                            <th>거래처</th>
+                            <td>
+                                <input type="hidden" id="pop_plan_cd" name="pop_plan_cd" class="form-control"
+                                       placeholder="계획코드" title="계획코드" />
+                                <input type="hidden" id="pop_plan_proc_cd" name="pop_plan_proc_cd" class="form-control"
+                                       placeholder="계획공정코드" title="계획공정코드" />
+                                <input type="hidden" id="pop_proc_cd" name="pop_proc_cd" class="form-control"
+                                       placeholder="공정코드" title="공정코드" />
+                                <input type="hidden" id="pop_odr_cd" name="pop_odr_cd" class="form-control"
+                                       placeholder="수주코드" title="수주코드" />
+                                <input type="hidden" id="pop_plan_proc_last_yn" name="pop_plan_proc_last_yn" class="form-control"
+                                       placeholder="마지막공정여부" title="마지막공정여부" />
+                                <input type="hidden" id="pop_plan_proc_state" name="pop_plan_proc_state" class="form-control"
+                                       placeholder="공정진행상태" title="공정진행상태" />
+                                <input type="hidden" id="pop_comp_cd" name="pop_comp_cd" class="form-control"
+                                       placeholder="거래처" title="거래처" />
+                                <input type="hidden" id="pop_comp_nm" name="pop_comp_nm" class="form-control"
+                                       placeholder="거래처" title="거래처" />
+                                <div id="pop_selector" name="pop_selector"></div>
+                            </td>
+                            <th>생산계획수량</th>
+                            <td class="text-right">
+                                <div id="pop_plan_cnt" name="pop_plan_cnt"></div>
+                            </td>
+                            <th>공정</th>
+                            <td>
+                                <div class="red" id="pop_proc_nm" name="pop_proc_nm"></div>
+                            </td>
+                            <th>작업지시번호</th>
+                            <td>
+                                <div id="pop_plan_no" name="pop_plan_no"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>품번 / 품명</th>
+                            <td>
+                                <input type="hidden" id="pop_prod_cd" name="pop_prod_cd" class="form-control"
+                                       placeholder="제품코드" title="제품코드" />
+                                <input type="hidden" id="pop_prod_nm" name="pop_prod_nm" class="form-control"
+                                       placeholder="제품명" title="제품명" />
+                                <input type="hidden" id="pop_prod_pn" name="pop_prod_pn" class="form-control"
+                                       placeholder="제품품번" title="제품코드" />
+                                <div id="pop_selector2" name="pop_selector2"></div>
+                            </td>
+                            <th>제품종류</th>
+                            <td>
+                                <div id="pop_prod_kind_nm" name="pop_prod_kind_nm"></div>
+                            </td>
+                            <th>제품분류</th>
+                            <td>
+                                <div id="pop_prod_group_nm" name="pop_prod_group_nm"></div>
+                            </td>
+                            <th>제품군</th>
+                            <td>
+                                <div id="pop_prod_family_nm" name="pop_prod_family_nm"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>규격</th>
+                            <td>
+                                <div id="pop_prod_stand" name="pop_prod_stand"></div>
+                            </td>
+                            <th>단위</th>
+                            <td>
+                                <div id="pop_prod_unit_nm" name="pop_prod_unit_nm"></div>
+                            </td>
+                            <th>현재고량</th>
+                            <td class="text-right">
+                                <div id="pop_prod_stock_cnt" name="pop_prod_stock_cnt"></div>
+                            </td>
+                            <th>생산량</th>
+                            <td class="text-right">
+                                <div class="red" id="pop_plan_proc_cnt" name="pop_plan_proc_cnt"></div>
+                            </td>
 
-                    </tr>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -1026,16 +1027,22 @@
                 data.forEach((item, index) => {
                     let node = [];
 
-                    let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
-                        "    <input type=\"hidden\" name=\"plan_cd\" value=\"" + item.plan_cd + "\">" +
-                        "    <input type=\"hidden\" name=\"plan_proc_cd\" value=\"" + item.plan_proc_cd + "\">" +
-                        "    <input type=\"hidden\" name=\"plan_state\" value=\"" + item.plan_state + "\">" +
-                        "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
-                        "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
-                        "</div>";
+                    // let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
+                    //     "    <input type=\"hidden\" name=\"plan_cd\" value=\"" + item.plan_cd + "\">" +
+                    //     "    <input type=\"hidden\" name=\"plan_proc_cd\" value=\"" + item.plan_proc_cd + "\">" +
+                    //     "    <input type=\"hidden\" name=\"plan_state\" value=\"" + item.plan_state + "\">" +
+                    //     "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
+                    //     "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
+                    //     "</div>";
 
-                    node.push(checkBoxNode);
-                    node.push("<div class='text-center'>" + IsEmpty(item.plan_stdt) + " ~ " + IsEmpty(item.plan_eddt) + "</div>");
+                    let firstNode = "<div class='text-center'>" +
+                                    "    <input type=\"hidden\" name=\"plan_cd\" value=\"" + item.plan_cd + "\">" +
+                                    "    <input type=\"hidden\" name=\"plan_proc_cd\" value=\"" + item.plan_proc_cd + "\">" +
+                                    "    <input type=\"hidden\" name=\"plan_state\" value=\"" + item.plan_state + "\">" +
+                                         IsEmpty(item.plan_stdt) + " ~ " + IsEmpty(item.plan_eddt) +
+                                    "</div>";
+
+                    node.push(firstNode);
                     node.push(IsEmpty(item.plan_no));
                     node.push(IsEmpty(item.prod_pn));
                     node.push(IsEmpty(item.prod_nm));

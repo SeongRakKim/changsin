@@ -873,7 +873,7 @@
                                     <li class="page-item"><a class="page-link" href="#">3</a></li>
                                     <li class="page-item">
                                         <a class="page-link" href="#" aria-label="Next">
-                                            <i class="fas fa-chevron-right"></i>
+                                            <i class="fas fa-arrow-circle-right"></i>
                                         </a>
                                     </li>
                                 </ul>

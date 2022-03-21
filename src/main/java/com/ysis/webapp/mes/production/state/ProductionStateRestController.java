@@ -25,5 +25,14 @@ public class ProductionStateRestController {
         return new ResponseEntity<>(planList, HttpStatus.OK);
     }
 
+    @GetMapping("/mes/production/state/stateOne/{plan_cd}")
+    public ResponseEntity<Map<String, Object>> stateOne(VMap vmap, @PathVariable("plan_cd") String plan_cd) throws Exception
+    {
+        vmap.put("plan_cd", plan_cd);
+        Map<String, Object> resultOne = productionStateService.stateOne(vmap);
+
+        return new ResponseEntity<>(resultOne, HttpStatus.OK);
+    }
+
 
 }

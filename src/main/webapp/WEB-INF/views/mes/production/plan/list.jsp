@@ -68,7 +68,7 @@
     <div class="menu-nav">
         <div>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 생산관리 <i class="fas fa-chevron-right"></i> 작업지시
+                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 생산관리 <i class="fas fa-arrow-circle-right"></i> 작업지시
             </span>
         </div>
 

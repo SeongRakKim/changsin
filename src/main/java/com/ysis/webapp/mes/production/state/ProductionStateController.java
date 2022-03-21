@@ -35,16 +35,32 @@ public class ProductionStateController {
         // 제품군
         vmap.put("base_cd", "prod_family");
         vmap.put("prodFamilyList", commonService.baseDetailList(vmap));
+    }
 
-        // 단위
-        vmap.put("base_cd", "unit");
-        vmap.put("unitList", commonService.baseDetailList(vmap));
+    @GetMapping("/mes/production/log/list")
+    public void logList(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+        vmap.put("requestUri", httpServletRequest.getRequestURI());
 
-        // 공정
-        vmap.put("procList", processService.procList(vmap));
+        // 분류
+        vmap.put("base_cd", "prod_group");
+        vmap.put("prodGroupList", commonService.baseDetailList(vmap));
 
-        // 소요자재
-        vmap.put("mateList", materialService.mateList(vmap));
+        // 제품군
+        vmap.put("base_cd", "prod_family");
+        vmap.put("prodFamilyList", commonService.baseDetailList(vmap));
+    }
+
+    @GetMapping("/mes/production/input/list")
+    public void inputList(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+        vmap.put("requestUri", httpServletRequest.getRequestURI());
+
+        // 분류
+        vmap.put("base_cd", "prod_group");
+        vmap.put("prodGroupList", commonService.baseDetailList(vmap));
+
+        // 제품군
+        vmap.put("base_cd", "prod_family");
+        vmap.put("prodFamilyList", commonService.baseDetailList(vmap));
     }
 
 }

@@ -192,7 +192,6 @@
                ,ODR_CD
                ,COMP_CD
                ,COMP_NM
-               ,PLAN_NO
                ,PROD_CD
                ,PROD_PN
                ,PROD_NM
@@ -223,6 +222,8 @@
                ,PROD_MASS_YN
                ,PROC_CD
                ,PROC_NM
+               ,PLAN_NO
+               ,CONCAT(PLAN_STDT, ' ~ ', PLAN_EDDT) PLAN_DT
                ,PLAN_PROC_SEQ
                ,(SELECT COUNT(*)
                    FROM MES_PRODUCTION_PLAN_PROCESS
@@ -262,8 +263,43 @@
         JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
         LEFT JOIN MES_COMPANY_INFO USING (COMP_CD, FACT_CD)
         JOIN MES_PROCESS_INFO USING (PROC_CD, FACT_CD)
-       WHERE PLAN_CD = #{plan_cd}
-         AND PLAN_PROC_CD = #{plan_proc_cd}
+       WHERE 1=1
+
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(startDate)">
+            AND DATE_FORMAT(PLAN_RES_STDT, '%Y-%m-%d') <![CDATA[>=]]> #{startDate}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(endDate)">
+            AND DATE_FORMAT(PLAN_RES_EDDT, '%Y-%m-%d') <![CDATA[<=]]> #{endDate}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_cd)">
+            AND PLAN_CD = #{plan_cd}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_proc_cd)">
+            AND PLAN_PROC_CD = #{plan_proc_cd}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+            AND PROD_KIND = #{prod_kind}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+            AND PROD_FAMILY = #{prod_family}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+            AND PROD_GROUP = #{prod_group}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+            AND
+            (
+                PROD_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_PN LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR COMP_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR ODR_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_NO LIKE CONCAT('%', #{search_text}, '%')
+                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_GROUP) LIKE CONCAT('%', #{search_text}, '%')
+                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
+            )
+        </if>
+
        ORDER BY PLAN_CD , PLAN_PROC_SEQ
     </select>
 
@@ -420,9 +456,12 @@
     <select id="planInputList" parameterType="VMap" resultType="RowMap">
         SELECT MPPI.FACT_CD
                ,PLAN_CD
+               ,PLAN_NO
                ,PLAN_PROC_CD
                ,PLAN_RES_CD
                ,PLAN_INPUT_CD
+               ,COMP_CD
+               ,COMP_NM
                ,PROC_CD
                ,PROC_NM
                ,MPI.PROD_CD
@@ -487,10 +526,11 @@
                   FROM MES_COMPANY_INFO
                   WHERE COMP_CD = MPI2.PROD_MAIN_COMP
                 ) PROD_JA_MAIN_COMP_NM
+               ,PLAN_RES_CNT
                ,PLAN_BOM_CNT
                ,PLAN_INPUT_CNT
                ,PLAN_INPUT_NOTICE
-               ,PLAN_INPUT_INDATE
+               ,DATE_FORMAT(PLAN_INPUT_INDATE, '%Y-%m-%d %H:%i') PLAN_INPUT_INDATE
                ,PLAN_INPUT_INUSER
                ,PLAN_INPUT_UPDATE
                ,PLAN_INPUT_UPUSER
@@ -499,12 +539,49 @@
         JOIN MES_PRODUCTION_PLAN_PROCESS USING (FACT_CD, PLAN_CD, PLAN_PROC_CD)
         JOIN MES_PROCESS_INFO USING (FACT_CD, PROC_CD)
         JOIN MES_PRODUCTION_PLAN USING (FACT_CD, PLAN_CD)
+        JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
         JOIN MES_PRODUCT_INFO MPI USING (FACT_CD, PROD_CD)
         JOIN MES_PRODUCT_INFO MPI2 ON MPI2.PROD_CD = MPPI.PROD_JA_CD
-       WHERE PLAN_CD = #{plan_cd}
-         AND PLAN_PROC_CD = #{plan_proc_cd}
-         AND PLAN_RES_CD = #{plan_res_cd}
-       ORDER BY PLAN_INPUT_CNT
+        WHERE 1=1
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(startDate)">
+            AND DATE_FORMAT(PLAN_INPUT_INDATE, '%Y-%m-%d') <![CDATA[>=]]> #{startDate}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(endDate)">
+            AND DATE_FORMAT(PLAN_INPUT_INDATE, '%Y-%m-%d') <![CDATA[<=]]> #{endDate}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_cd)">
+            AND PLAN_CD = #{plan_cd}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_proc_cd)">
+            AND PLAN_PROC_CD = #{plan_proc_cd}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_res_cd)">
+            AND PLAN_RES_CD = #{plan_res_cd}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+            AND MPI.PROD_KIND = #{prod_kind}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+            AND MPI.PROD_FAMILY = #{prod_family}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+            AND MPI.PROD_GROUP = #{prod_group}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+            AND
+            (
+                MPI.PROD_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR MPI.PROD_PN LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR COMP_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR MPI.ODR_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR MPI.PROD_NO LIKE CONCAT('%', #{search_text}, '%')
+                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = MPI.PROD_GROUP) LIKE CONCAT('%', #{search_text}, '%')
+                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = MPI.PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
+            )
+        </if>
+
+       ORDER BY PLAN_INPUT_INDATE, PLAN_INPUT_CNT
     </select>
 
     <insert id="planInputRegist" parameterType="VMap">

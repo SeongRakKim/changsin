@@ -5,7 +5,42 @@
 
 <mapper namespace="mes.production.state">
 
-    <select id="stateList" parameterType="VMap" resultType="RowMap">
+    <resultMap id="planMap" type="hashmap">
+        <id column="fact_cd" property="fact_cd"/>
+        <id column="plan_cd" property="plan_cd"/>
+        <result column="odr_cd" property="odr_cd"/>
+        <result column="comp_cd" property="comp_cd"/>
+        <result column="comp_nm" property="comp_nm"/>
+        <result column="plan_no" property="plan_no"/>
+        <result column="prod_cd" property="prod_cd"/>
+        <result column="prod_pn" property="prod_pn"/>
+        <result column="prod_nm" property="prod_nm"/>
+        <result column="prod_kind" property="prod_kind"/>
+        <result column="prod_group" property="prod_group"/>
+        <result column="prod_group_nm" property="prod_group_nm"/>
+        <result column="prod_family" property="prod_family"/>
+        <result column="prod_family_nm" property="prod_family_nm"/>
+        <result column="prod_stand" property="prod_stand"/>
+        <result column="prod_unit" property="prod_unit"/>
+        <result column="prod_unit_nm" property="prod_unit_nm"/>
+        <result column="prod_price" property="prod_price"/>
+        <result column="prod_main_comp" property="prod_main_comp"/>
+        <result column="prod_main_comp_nm" property="prod_main_comp_nm"/>
+        <result column="prod_keep_cnt" property="prod_keep_cnt"/>
+        <result column="prod_stock_cnt" property="prod_stock_cnt"/>
+        <result column="prod_mass_yn" property="prod_mass_yn"/>
+        <result column="plan_stdt" property="plan_stdt"/>
+        <result column="plan_eddt" property="plan_eddt"/>
+        <result column="plan_cnt" property="plan_cnt"/>
+        <result column="plan_state" property="plan_state"/>
+        <result column="plan_state_nm" property="plan_state_nm"/>
+        <result column="plan_comp_yn" property="plan_comp_yn"/>
+        <result column="plan_notice" property="plan_notice"/>
+        <result column="plan_proc_last_cnt" property="plan_proc_last_cnt"/>
+        <collection property="process" javaType="list" column="{plan_cd=plan_cd}" ofType="RowMap" select="planProcessList2"/>
+    </resultMap>
+
+    <select id="stateList" parameterType="VMap" resultMap="planMap">
         SELECT FACT_CD
                ,ODR_CD
                ,COMP_CD
@@ -62,6 +97,10 @@
                ,PLAN_INUSER
                ,PLAN_UPDATE
                ,PLAN_UPUSER
+               ,IFNULL((SELECT PLAN_PROC_CNT
+                        FROM MES_PRODUCTION_PLAN_PROCESS
+                        WHERE PLAN_CD = MOI.PLAN_CD
+                        AND PLAN_PROC_LAST_YN = 'Y'), 0) PLAN_PROC_LAST_CNT
         FROM MES_PRODUCTION_PLAN MOI
         JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
         JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
@@ -89,6 +128,144 @@
                 OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
             )
         </if>
+    </select>
+
+    <select id="planProcessList2" parameterType="RowMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,PLAN_CD
+               ,PLAN_PROC_CD
+               ,ODR_CD
+               ,COMP_CD
+               ,COMP_NM
+               ,PLAN_NO
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_MASS_YN
+               ,PROC_CD
+               ,PROC_NM
+               ,PLAN_STDT
+               ,PLAN_EDDT
+               ,PLAN_CNT
+               ,PLAN_PROC_SEQ
+               ,(SELECT COUNT(*)
+                   FROM MES_PRODUCTION_PLAN_PROCESS
+                   WHERE PLAN_CD = MPPP.PLAN_CD) TOT_PROC_CNT
+               ,CONCAT(PLAN_PROC_SEQ, ' / ', (SELECT COUNT(*)
+                                              FROM MES_PRODUCTION_PLAN_PROCESS
+                                              WHERE PLAN_CD = MPPP.PLAN_CD)) TOT_PROC_CNT_NM
+               ,PLAN_PROC_LAST_YN
+               ,PLAN_PROC_CNT
+               ,IFNULL(FLOOR(MPPP.PLAN_PROC_CNT / PLAN_CNT * 100), 0) PLAN_PROGRESS
+               ,PLAN_PROC_STATE
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'MES_STATE'
+                   AND CODE_CD = PLAN_PROC_STATE
+                ) PLAN_PROC_STATE_NM
+               ,PLAN_PROC_NOTICE
+               ,PLAN_PROC_INDATE
+               ,PLAN_PROC_INUSER
+               ,PLAN_PROC_UPDATE
+               ,PLAN_PROC_UPUSER
+        FROM MES_PRODUCTION_PLAN_PROCESS MPPP
+        JOIN MES_PRODUCTION_PLAN USING (FACT_CD, PLAN_CD)
+        JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
+        LEFT JOIN MES_COMPANY_INFO USING (COMP_CD, FACT_CD)
+        JOIN MES_PROCESS_INFO USING (PROC_CD, FACT_CD)
+       WHERE PLAN_CD = #{plan_cd}
+    </select>
+
+    <select id="stateOne" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,ODR_CD
+               ,COMP_CD
+               ,COMP_NM
+               ,PLAN_CD
+               ,PLAN_NO
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_PRICE
+               ,PROD_MAIN_COMP
+               ,(SELECT COMP_NM
+                  FROM MES_COMPANY_INFO
+                  WHERE COMP_CD = PROD_MAIN_COMP
+                ) PROD_MAIN_COMP_NM
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_MASS_YN
+               ,PLAN_STDT
+               ,PLAN_EDDT
+               ,CONCAT(PLAN_STDT, ' ~ ', PLAN_EDDT) PLAN_DT
+               ,PLAN_CNT
+               ,PLAN_STATE
+               ,(SELECT CODE_NM
+                   FROM DFT_CODE_INFO
+                  WHERE CODE_ID = 'MES_STATE'
+                    AND CODE_CD = PLAN_STATE
+                ) PLAN_STATE_NM
+                ,IF( (SELECT COUNT(*) FROM MES_PRODUCTION_PLAN_PROCESS WHERE PLAN_CD = MOI.PLAN_CD)
+                    = (SELECT COUNT(*) FROM MES_PRODUCTION_PLAN_PROCESS WHERE PLAN_CD = MOI.PLAN_CD AND PLAN_PROC_STATE = '12'), 'Y', 'N') AS PLAN_COMP_YN
+               ,PLAN_NOTICE
+               ,PLAN_INDATE
+               ,PLAN_INUSER
+               ,PLAN_UPDATE
+               ,PLAN_UPUSER
+               ,IFNULL((SELECT PLAN_PROC_CNT
+                        FROM MES_PRODUCTION_PLAN_PROCESS
+                        WHERE PLAN_CD = MOI.PLAN_CD
+                        AND PLAN_PROC_LAST_YN = 'Y'), 0) PLAN_PROC_LAST_CNT
+        FROM MES_PRODUCTION_PLAN MOI
+        JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
+        JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
+        WHERE PLAN_CD = #{plan_cd}
     </select>
 
 

@@ -10,20 +10,20 @@
             <PatternLayout pattern="${LOG_FORMAT}"/>
         </Console>
 
-        <RollingFile name="File"
-                     fileName="${BASE_DIR}/logfile.log"
-                     filePattern="${BASE_DIR}/logfile.%d{yyyyMMdd}.log">
-            <PatternLayout pattern="${LOG_FORMAT}"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy/>
-            </Policies>
-            <DefaultRolloverStrategy>
-                <Delete basePath="${BASE_DIR}">
-                    <IfFileName glob="*.log"/>
-                    <IfLastModified age="30d"/>
-                </Delete>
-            </DefaultRolloverStrategy>
-        </RollingFile>
+<!--        <RollingFile name="File"-->
+<!--                     fileName="${BASE_DIR}/logfile.log"-->
+<!--                     filePattern="${BASE_DIR}/logfile.%d{yyyyMMdd}.log">-->
+<!--            <PatternLayout pattern="${LOG_FORMAT}"/>-->
+<!--            <Policies>-->
+<!--                <TimeBasedTriggeringPolicy/>-->
+<!--            </Policies>-->
+<!--            <DefaultRolloverStrategy>-->
+<!--                <Delete basePath="${BASE_DIR}">-->
+<!--                    <IfFileName glob="*.log"/>-->
+<!--                    <IfLastModified age="30d"/>-->
+<!--                </Delete>-->
+<!--            </DefaultRolloverStrategy>-->
+<!--        </RollingFile>-->
     </Appenders>
 
     <Loggers>

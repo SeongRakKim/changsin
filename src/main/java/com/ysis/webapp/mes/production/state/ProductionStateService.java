@@ -27,4 +27,8 @@ public class ProductionStateService {
         return productionStateDAO.stateList(vmap);
     }
 
+    public Map<String, Object> stateOne(VMap vmap) throws Exception {
+        return productionStateDAO.stateOne(vmap);
+    }
+
 }

@@ -60,7 +60,7 @@
     <div class="menu-nav">
         <div>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 기준정보 <i class="fas fa-chevron-right"></i> 거래처정보
+                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 기준정보 <i class="fas fa-arrow-circle-right"></i> 거래처정보
             </span>
         </div>
         <%@ include file="/WEB-INF/include/main-top-right.jspf"%>
