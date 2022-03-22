@@ -91,9 +91,9 @@
         </a>
         <div id="collapseInout" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="_isUrl collapse-item" data-url="/mes/production/plan/list" href="/mes/production/plan/list">제품입출고이력</a>
-                <a class="_isUrl collapse-item" data-url="/mes/production/plan/list" href="/mes/production/plan/list">자재입출고이력</a>
-                <a class="_isUrl collapse-item" data-url="/mes/production/plan/list" href="/mes/production/plan/list">자산수불부</a>
+                <a class="_isUrl collapse-item" data-url="/mes/product/inout/list" href="/mes/product/inout/list">제품입출고이력</a>
+                <a class="_isUrl collapse-item" data-url="/mes/material/inout/list" href="/mes/material/inout/list">자재입출고이력</a>
+                <a class="_isUrl collapse-item" data-url="/mes/asset/part/list" href="/mes/asset/part/list">자산수불부</a>
             </div>
         </div>
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInventory"

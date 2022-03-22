@@ -3,9 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="mes.material.inout">
+<mapper namespace="mes.asset">
 
-    <select id="materialInoutList" parameterType="VMap" resultType="RowMap">
+    <select id="assetPartList" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
                ,INOUT_CD
                ,INOUT_TYPE
@@ -69,9 +69,9 @@
                ,INOUT_UPUSER
         FROM MES_PRODUCT_INOUT MPI
         JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
-        WHERE PROD_CLS = 'M'
-         AND DATE_FORMAT(INOUT_DT, '%Y-%m-%d') <![CDATA[>=]]> #{startDate}
+       WHERE DATE_FORMAT(INOUT_DT, '%Y-%m-%d') <![CDATA[>=]]> #{startDate}
          AND DATE_FORMAT(INOUT_DT, '%Y-%m-%d') <![CDATA[<=]]> #{endDate}
+         AND PROD_CD = #{prod_cd}
        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
            AND PROD_KIND = #{prod_kind}
        </if>

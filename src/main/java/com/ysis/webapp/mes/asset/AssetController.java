@@ -1,4 +1,4 @@
-package com.ysis.webapp.mes.product.inout;
+package com.ysis.webapp.mes.asset;
 
 import com.ysis.webapp.common.vo.VMap;
 import com.ysis.webapp.mes.base.equipment.EquipmentService;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class ProductInoutController {
+public class AssetController {
 
     @Autowired
     CommonService commonService;
@@ -32,8 +32,8 @@ public class ProductInoutController {
     UserService userService;
 
 
-    @GetMapping("/mes/product/inout/list")
-    public void productInoutList(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+    @GetMapping("/mes/asset/part/list")
+    public void assetPartList(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
         vmap.put("requestUri", httpServletRequest.getRequestURI());
 
         // 분류

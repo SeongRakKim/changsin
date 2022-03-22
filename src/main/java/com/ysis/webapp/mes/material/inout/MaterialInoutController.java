@@ -47,18 +47,6 @@ public class MaterialInoutController {
         // 단위
         vmap.put("base_cd", "unit");
         vmap.put("unitList", commonService.baseDetailList(vmap));
-
-        // 공정
-        vmap.put("procList", processService.procList(vmap));
-
-        // 설비
-        vmap.put("equList", equipmentService.equList(vmap));
-
-        // 사용자
-        vmap.put("userList", userService.userList(vmap));
-
-        // 소요자재
-        vmap.put("mateList", materialService.mateList(vmap));
     }
 
 }
