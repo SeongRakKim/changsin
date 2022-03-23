@@ -55,7 +55,7 @@
                                               WHERE PLAN_CD = MPPP.PLAN_CD)) TOT_PROC_CNT_NM
                ,PLAN_PROC_LAST_YN
                ,PLAN_PROC_CNT
-                ,IFNULL(FLOOR(MPPP.PLAN_PROC_CNT / PLAN_CNT * 100), 0) PLAN_PROGRESS
+               ,IFNULL(ROUND(PLAN_CNT / MPPP.PLAN_PROC_CNT), 0) PLAN_PROGRESS
                ,PLAN_PROC_STATE
                ,(SELECT CODE_NM
                  FROM DFT_CODE_INFO
@@ -149,7 +149,7 @@
                                               WHERE PLAN_CD = MPPP.PLAN_CD)) TOT_PROC_CNT_NM
                ,PLAN_PROC_LAST_YN
                ,PLAN_PROC_CNT
-               ,IFNULL(FLOOR(MPPP.PLAN_PROC_CNT / PLAN_CNT * 100), 0) PLAN_PROGRESS
+               ,IFNULL(ROUND(PLAN_CNT / MPPP.PLAN_PROC_CNT), 0) PLAN_PROGRESS
                ,PLAN_PROC_STATE
                ,(SELECT CODE_NM
                  FROM DFT_CODE_INFO
@@ -424,165 +424,19 @@
         )
     </insert>
 
-    <update id="planResultModify" parameterType="VMap">
-        UPDATE MES_PRODUCTION_PLAN_RESULT
-        SET EQU_CD = #{equ_cd}
-          ,PLAN_RES_U_CD = #{plan_res_u_cd}
-          ,PLAN_RES_STDT = #{plan_res_stdt}
-          ,PLAN_RES_EDDT = #{plan_res_eddt}
-          ,PLAN_RES_CNT = #{plan_res_cnt}
-          ,PLAN_RES_NOTICE = #{plan_res_notice}
-          ,PLAN_RES_UPDATE = NOW()
-          ,PLAN_RES_UPUSER = IFNULL(#{u_cd}, 'system')
-        WHERE PLAN_CD = #{plan_cd}
-          AND PLAN_PROC_CD = #{plan_proc_cd}
-          AND PLAN_RES_CD = #{plan_res_cd}
+    <update id="resultModify" parameterType="VMap">
+        UPDATE MES_PRODUCTION_PLAN
+        SET COMP_CD = #{comp_cd}
+          ,PROD_CD = #{prod_cd}
+          ,PLAN_NO = #{result_no}
+          ,PLAN_STDT = #{result_stdt}
+          ,PLAN_EDDT = #{result_eddt}
+          ,PLAN_CNT = #{result_cnt}
+          ,PLAN_NOTICE = #{result_notice}
+          ,PLAN_UPDATE = NOW()
+          ,PLAN_UPUSER = IFNULL(#{u_cd}, 'system')
+        WHERE PLAN_CD = #{result_cd}
     </update>
-
-    <delete id="planResultDelete" parameterType="VMap">
-        DELETE FROM MES_PRODUCTION_PLAN_RESULT
-        WHERE 1=1
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_cd)">
-            AND PLAN_CD = #{plan_cd}
-        </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_proc_cd)">
-            AND PLAN_PROC_CD = #{plan_proc_cd}
-        </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_res_cd)">
-            AND PLAN_RES_CD = #{plan_res_cd}
-        </if>
-    </delete>
-
-    <select id="planInputList" parameterType="VMap" resultType="RowMap">
-        SELECT MPPI.FACT_CD
-               ,PLAN_CD
-               ,PLAN_NO
-               ,PLAN_PROC_CD
-               ,PLAN_RES_CD
-               ,PLAN_INPUT_CD
-               ,COMP_CD
-               ,COMP_NM
-               ,PROC_CD
-               ,PROC_NM
-               ,MPI.PROD_CD
-               ,MPI.PROD_PN
-               ,MPI.PROD_NM
-               ,MPI.PROD_KIND
-               ,(SELECT CODE_NM
-                 FROM DFT_CODE_INFO
-                 WHERE CODE_ID = 'PROD_KIND'
-                   AND CODE_CD = MPI.PROD_KIND
-                ) PROD_KIND_NM
-               ,MPI.PROD_GROUP
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = MPI.PROD_GROUP
-                ) PROD_GROUP_NM
-               ,MPI.PROD_FAMILY
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = MPI.PROD_FAMILY
-                ) PROD_FAMILY_NM
-               ,MPI.PROD_STAND
-               ,MPI.PROD_UNIT
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = MPI.PROD_UNIT
-                ) PROD_UNIT_NM
-               ,MPI.PROD_PRICE
-               ,MPI.PROD_MAIN_COMP
-               ,(SELECT COMP_NM
-                  FROM MES_COMPANY_INFO
-                  WHERE COMP_CD = MPI.PROD_MAIN_COMP
-                ) PROD_MAIN_COMP_NM
-               ,PROD_JA_CD
-               ,MPI2.PROD_PN PROD_JA_PN
-               ,MPI2.PROD_NM PROD_JA_NM
-               ,MPI2.PROD_KIND PROD_JA_KIND
-               ,(SELECT CODE_NM
-                 FROM DFT_CODE_INFO
-                 WHERE CODE_ID = 'PROD_KIND'
-                   AND CODE_CD = MPI2.PROD_KIND
-                ) PROD_JA_KIND_NM
-               ,MPI2.PROD_GROUP PROD_JA_GROUP
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = MPI2.PROD_GROUP
-                ) PROD_JA_GROUP_NM
-               ,MPI2.PROD_FAMILY PROD_JA_FAMILY
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = MPI2.PROD_FAMILY
-                ) PROD_JA_FAMILY_NM
-               ,MPI2.PROD_STAND PROD_JA_STAND
-               ,MPI2.PROD_UNIT PROD_JA_UNIT
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = MPI2.PROD_UNIT
-                ) PROD_JA_UNIT_NM
-               ,MPI2.PROD_PRICE PROD_JA_PRICE
-               ,MPI2.PROD_MAIN_COMP PROD_JA_MAIN_COMP
-               ,(SELECT COMP_NM
-                  FROM MES_COMPANY_INFO
-                  WHERE COMP_CD = MPI2.PROD_MAIN_COMP
-                ) PROD_JA_MAIN_COMP_NM
-               ,PLAN_RES_CNT
-               ,PLAN_BOM_CNT
-               ,PLAN_INPUT_CNT
-               ,PLAN_INPUT_NOTICE
-               ,DATE_FORMAT(PLAN_INPUT_INDATE, '%Y-%m-%d %H:%i') PLAN_INPUT_INDATE
-               ,PLAN_INPUT_INUSER
-               ,PLAN_INPUT_UPDATE
-               ,PLAN_INPUT_UPUSER
-        FROM MES_PRODUCTION_PLAN_INPUT MPPI
-        JOIN MES_PRODUCTION_PLAN_RESULT USING (FACT_CD, PLAN_CD, PLAN_PROC_CD, PLAN_RES_CD)
-        JOIN MES_PRODUCTION_PLAN_PROCESS USING (FACT_CD, PLAN_CD, PLAN_PROC_CD)
-        JOIN MES_PROCESS_INFO USING (FACT_CD, PROC_CD)
-        JOIN MES_PRODUCTION_PLAN USING (FACT_CD, PLAN_CD)
-        JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
-        JOIN MES_PRODUCT_INFO MPI USING (FACT_CD, PROD_CD)
-        JOIN MES_PRODUCT_INFO MPI2 ON MPI2.PROD_CD = MPPI.PROD_JA_CD
-        WHERE 1=1
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(startDate)">
-            AND DATE_FORMAT(PLAN_INPUT_INDATE, '%Y-%m-%d') <![CDATA[>=]]> #{startDate}
-        </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(endDate)">
-            AND DATE_FORMAT(PLAN_INPUT_INDATE, '%Y-%m-%d') <![CDATA[<=]]> #{endDate}
-        </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_cd)">
-            AND PLAN_CD = #{plan_cd}
-        </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_proc_cd)">
-            AND PLAN_PROC_CD = #{plan_proc_cd}
-        </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_res_cd)">
-            AND PLAN_RES_CD = #{plan_res_cd}
-        </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
-            AND MPI.PROD_KIND = #{prod_kind}
-        </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
-            AND MPI.PROD_FAMILY = #{prod_family}
-        </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
-            AND MPI.PROD_GROUP = #{prod_group}
-        </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
-            AND
-            (
-                MPI.PROD_CD LIKE CONCAT('%', #{search_text}, '%')
-                OR MPI.PROD_PN LIKE CONCAT('%', #{search_text}, '%')
-                OR PROD_NM LIKE CONCAT('%', #{search_text}, '%')
-                OR COMP_NM LIKE CONCAT('%', #{search_text}, '%')
-                OR MPI.ODR_CD LIKE CONCAT('%', #{search_text}, '%')
-                OR MPI.PROD_NO LIKE CONCAT('%', #{search_text}, '%')
-                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = MPI.PROD_GROUP) LIKE CONCAT('%', #{search_text}, '%')
-                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = MPI.PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
-            )
-        </if>
-
-       ORDER BY PLAN_INPUT_INDATE, PLAN_INPUT_CNT
-    </select>
 
     <insert id="planInputRegist" parameterType="VMap">
         INSERT INTO MES_PRODUCTION_PLAN_INPUT
@@ -592,7 +446,7 @@
              ,PLAN_PROC_CD
              ,PLAN_RES_CD
              ,PLAN_INPUT_CD
-             ,PROD_JA_CD
+             ,PROD_CD
              ,PLAN_BOM_CNT
              ,PLAN_INPUT_CNT
              ,PLAN_INPUT_NOTICE
@@ -606,7 +460,7 @@
              ,#{plan_proc_cd}
              ,#{plan_res_cd}
              ,#{plan_input_cd}
-             ,#{prod_ja_cd}
+             ,#{prod_cd}
              ,#{plan_bom_cnt}
              ,#{plan_input_cnt}
              ,#{plan_input_notice}
@@ -617,128 +471,5 @@
          )
     </insert>
 
-    <delete id="planInputDelete" parameterType="VMap">
-       DELETE FROM MES_PRODUCTION_PLAN_INPUT
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_cd)">
-            WHERE PLAN_CD = #{plan_cd}
-        </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_proc_cd)">
-            AND PLAN_PROC_CD = #{plan_proc_cd}
-        </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_res_cd)">
-            AND PLAN_RES_CD = #{plan_res_cd}
-        </if>
-   </delete>
-
-    <select id="planStopList" parameterType="VMap" resultType="RowMap">
-        SELECT MPPI.FACT_CD
-               ,PLAN_CD
-               ,PLAN_PROC_CD
-               ,PLAN_RES_CD
-               ,PLAN_STOP_CD
-               ,PROC_CD
-               ,PROC_NM
-               ,MPI.PROD_CD
-               ,MPI.PROD_PN
-               ,MPI.PROD_NM
-               ,MPI.PROD_KIND
-               ,(SELECT CODE_NM
-                 FROM DFT_CODE_INFO
-                 WHERE CODE_ID = 'PROD_KIND'
-                   AND CODE_CD = MPI.PROD_KIND
-                ) PROD_KIND_NM
-               ,MPI.PROD_GROUP
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = MPI.PROD_GROUP
-                ) PROD_GROUP_NM
-               ,MPI.PROD_FAMILY
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = MPI.PROD_FAMILY
-                ) PROD_FAMILY_NM
-               ,MPI.PROD_STAND
-               ,MPI.PROD_UNIT
-               ,(SELECT BASE_DETAIL_NM
-                 FROM DFT_BASE_DETAIL
-                 WHERE BASE_DETAIL_CD = MPI.PROD_UNIT
-                ) PROD_UNIT_NM
-               ,MPI.PROD_PRICE
-               ,MPI.PROD_MAIN_COMP
-               ,(SELECT COMP_NM
-                  FROM MES_COMPANY_INFO
-                  WHERE COMP_CD = MPI.PROD_MAIN_COMP
-                ) PROD_MAIN_COMP_NM
-               ,DATE_FORMAT(PLAN_STOP_STDT, '%Y-%m-%d %H:%i') PLAN_STOP_STDT
-               ,DATE_FORMAT(PLAN_STOP_EDDT, '%Y-%m-%d %H:%i') PLAN_STOP_EDDT
-               ,TIMESTAMPDIFF(MINUTE, PLAN_STOP_STDT, PLAN_STOP_EDDT) PLAN_STOP_TIME
-               ,PLAN_STOP_ITEM
-               ,(SELECT BASE_DETAIL_NM
-                   FROM DFT_BASE_DETAIL
-                   WHERE BASE_CD = 'PLAN_STOP_ITEM'
-                   AND BASE_DETAIL_CD = PLAN_STOP_ITEM) PLAN_STOP_ITEM_NM
-               ,PLAN_STOP_NOTICE
-               ,PLAN_STOP_INDATE
-               ,PLAN_STOP_INUSER
-               ,PLAN_STOP_UPDATE
-               ,PLAN_STOP_UPUSER
-        FROM MES_PRODUCTION_PLAN_STOP MPPI
-        JOIN MES_PRODUCTION_PLAN_RESULT USING (FACT_CD, PLAN_CD, PLAN_PROC_CD, PLAN_RES_CD)
-        JOIN MES_PRODUCTION_PLAN_PROCESS USING (FACT_CD, PLAN_CD, PLAN_PROC_CD)
-        JOIN MES_PROCESS_INFO USING (FACT_CD, PROC_CD)
-        JOIN MES_PRODUCTION_PLAN USING (FACT_CD, PLAN_CD)
-        JOIN MES_PRODUCT_INFO MPI USING (FACT_CD, PROD_CD)
-       WHERE PLAN_CD = #{plan_cd}
-         AND PLAN_PROC_CD = #{plan_proc_cd}
-         AND PLAN_RES_CD = #{plan_res_cd}
-       ORDER BY PLAN_STOP_STDT
-    </select>
-
-    <insert id="planStopRegistModify" parameterType="VMap">
-        INSERT INTO MES_PRODUCTION_PLAN_STOP
-        (
-            FACT_CD
-           ,PLAN_CD
-           ,PLAN_PROC_CD
-           ,PLAN_RES_CD
-           ,PLAN_STOP_CD
-           ,PLAN_STOP_STDT
-           ,PLAN_STOP_EDDT
-           ,PLAN_STOP_ITEM
-           ,PLAN_STOP_NOTICE
-           ,PLAN_STOP_INDATE
-           ,PLAN_STOP_INUSER
-           ,PLAN_STOP_UPDATE
-           ,PLAN_STOP_UPUSER
-        ) VALUES (
-            #{fact_cd}
-           ,#{plan_cd}
-           ,#{plan_proc_cd}
-           ,#{plan_res_cd}
-           ,#{plan_stop_cd}
-           ,#{plan_stop_stdt}
-           ,#{plan_stop_eddt}
-           ,#{plan_stop_item}
-           ,#{plan_stop_notice}
-           ,NOW()
-           ,IFNULL(#{u_cd}, 'system')
-           ,NOW()
-           ,IFNULL(#{u_cd}, 'system')
-        )
-        ON DUPLICATE KEY UPDATE
-            PLAN_STOP_ITEM = #{plan_stop_item}
-            ,PLAN_STOP_STDT = #{plan_stop_stdt}
-            ,PLAN_STOP_EDDT = #{plan_stop_eddt}
-            ,PLAN_STOP_UPDATE = NOW()
-            ,PLAN_STOP_UPUSER = IFNULL(#{u_cd}, 'system')
-    </insert>
-
-    <delete id="planStopDelete" parameterType="VMap">
-        DELETE FROM MES_PRODUCTION_PLAN_STOP
-        WHERE PLAN_CD = #{plan_cd}
-          AND PLAN_PROC_CD = #{plan_proc_cd}
-          AND PLAN_RES_CD = #{plan_res_cd}
-          AND PLAN_STOP_CD = #{plan_stop_cd}
-    </delete>
 
 </mapper>

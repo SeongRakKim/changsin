@@ -346,7 +346,7 @@
                 node.push(checkBoxNode);
                 node.push(IsEmpty(item.proc_cd));
                 node.push(IsEmpty(item.proc_nm));
-                node.push("<div class='text-right'>" + IsEmpty(item.proc_rate.comma()) + "</div>");
+                node.push(IsEmpty(item.proc_rate.comma()));
                 node.push(IsEmpty(item.proc_notice));
 
                 // 각 row node 추가
