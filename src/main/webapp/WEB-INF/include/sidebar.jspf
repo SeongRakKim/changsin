@@ -82,6 +82,7 @@
                 <a class="_isUrl collapse-item" data-url="/mes/production/state/list" href="/mes/production/state/list">생산현황</a>
                 <a class="_isUrl collapse-item" data-url="/mes/production/log/list" href="/mes/production/log/list">생산이력</a>
                 <a class="_isUrl collapse-item" data-url="/mes/production/input/list" href="/mes/production/input/list">생산투입이력</a>
+                <a class="_isUrl collapse-item" data-url="/mes/production/stop/list" href="/mes/production/stop/list">생산비가동이력</a>
             </div>
         </div>
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInout"

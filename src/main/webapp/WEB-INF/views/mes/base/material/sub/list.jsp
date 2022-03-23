@@ -460,10 +460,10 @@
                             node.push(IsEmpty(item.prod_group_nm));
                             node.push(IsEmpty(item.prod_stand));
                             node.push(IsEmpty(item.prod_unit_nm));
-                            node.push(IsEmpty(item.prod_price.comma('2')));
+                            node.push("<div class='text-right'>" + IsEmpty(item.prod_price.comma('2')) + "</div>");
                             node.push(IsEmpty(item.prod_main_comp_nm));
-                            node.push(IsEmpty(item.prod_keep_cnt.comma('2')));
-                            node.push(IsEmpty(item.prod_stock_cnt.comma('2')));
+                            node.push("<div class='text-right'>" + IsEmpty(item.prod_keep_cnt.comma('2')) + "</div>");
+                            node.push("<div class='text-right'>" + IsEmpty(item.prod_stock_cnt.comma('2')) + "</div>");
 
                             // 각 row node 추가
                             $("#tblMaster").DataTable().row.add(node).node();
