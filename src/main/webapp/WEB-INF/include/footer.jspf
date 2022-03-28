@@ -145,26 +145,28 @@
             startDate = moment().format('YYYY-MM-DD');
             endDate = moment().format('YYYY-MM-DD');
         }else if(flag === "1week") {
-            startDate = moment().format('YYYY-MM-DD');
-            endDate = moment().add(7, 'days').format('YYYY-MM-DD');
+            startDate = moment().add(-7, 'days').format('YYYY-MM-DD');
+            endDate = moment().format('YYYY-MM-DD');
         }else if(flag === "1month") {
-            startDate = moment().format('YYYY-MM-DD');
-            endDate = moment().add(1, 'months').format('YYYY-MM-DD');
+            startDate = moment().add(-1, 'months').format('YYYY-MM-DD');
+            endDate = moment().format('YYYY-MM-DD');
         }else if(flag === "3month") {
-            startDate = moment().format('YYYY-MM-DD');
-            endDate = moment().add(3, 'months').format('YYYY-MM-DD');
+            startDate = moment().add(-3, 'months').format('YYYY-MM-DD');
+            endDate = moment().format('YYYY-MM-DD');
         }else if(flag === "6month") {
-            startDate = moment().format('YYYY-MM-DD');
-            endDate = moment().add(6, 'months').format('YYYY-MM-DD');
+            startDate = moment().add(-6, 'months').format('YYYY-MM-DD');
+            endDate = moment().format('YYYY-MM-DD');
         }else if(flag === "1year") {
-            startDate = moment().format('YYYY-MM-DD');
-            endDate = moment().add(1, 'years').format('YYYY-MM-DD');
+            startDate = moment().add(-1, 'years').format('YYYY-MM-DD');
+            endDate = moment().format('YYYY-MM-DD');
         }
 
         if(IsNotNull(startDate) && IsNotNull(endDate)) {
             $("#startDate").val(startDate);
             $("#endDate").val(endDate);
         }
+
+        getData();
     }
 
     function setDataTablesOption()

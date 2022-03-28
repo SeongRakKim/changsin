@@ -76,7 +76,38 @@
             </span>
         </div>
 
-        <%@ include file="/WEB-INF/include/main-top-right.jspf"%>
+        <div id="btnGroup">
+
+            <button class="btn btn-sm btn-primary" type="button" id="btnSearch">
+                <span class="btn-wrapper--icon">
+                    <i class="fas fa-search"></i>
+                </span>
+                <span class="btn-wrapper--label">조회</span>
+            </button>
+
+            <button class="btn btn-sm btn-warning" type="button" id="btnNew">
+                <span class="btn-wrapper--icon">
+                    <i class="fas fa-plus"></i>
+                </span>
+                <span class="btn-wrapper--label">추가</span>
+            </button>
+
+            <button class="btn btn-sm btn-danger" type="button" id="btnDelete">
+                <span class="btn-wrapper--icon">
+                    <i class="fas fa-trash-alt"></i>
+                </span>
+                <span class="btn-wrapper--label">삭제</span>
+            </button>
+
+            <button class="btn btn-sm btn-first" type="button" id="btnPlan">
+                <span class="btn-wrapper--icon">
+                    <i class="fas fa-copy"></i>
+                </span>
+                <span class="btn-wrapper--label">생산지시</span>
+            </button>
+
+        </div>
+
     </div>
 
     <%@ include file="/WEB-INF/include/main-progress.jspf"%>
@@ -389,40 +420,125 @@
     </tr>
 </script>
 
-<script id="popBomTemplete" type="text/x-handlebars-template">
-    <tr class="sortable list_tr{{cnt}}">
-        <td>
-            <input type="hidden" name="pop_prod_bom_cd" class="form-control" value="{{prod_bom_cd}}"
-                   placeholder="수주공정코드" title="수주공정코드" />
-            <select name="pop_proc_cd" class="custom-select w-100"  title="공정" required>
-                <option value="">공정선택</option>
-                <c:forEach var="item" items="${vmap.procList}" varStatus="status">
-                    <option value="${item.proc_cd}">${item.proc_nm}</option>
-                </c:forEach>
-            </select>
+<div class="modal fade dataModal" id="orderPlanModal" tabindex="-1" role="dialog" aria-labelledby="registModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl modal-form-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-edit"></i><span>생산지시</span></h2>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form id="orderPlanForm" name="orderPlanForm" class="dataForm" method="post">
+                <div class="modal-body">
+                    <table id="tblPopPlanData" class="table table-hover table-bordered mb-5 table-form">
+                        <colgroup>
+                            <col style="width: 8%" />
+                            <col style="width: 8%" />
+                            <col style="width: 8%" />
+                            <col style="width: 8%" />
+                            <col style="width: 8%" />
+                            <col style="width: 14%" />
+                            <col style="width: 8%" />
+                            <col style="width: 10%" />
+                            <col style="width: 10%" />
+                            <col style="width: 10%" />
+                            <col style="width: 8%" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>수주번호</th>
+                                <th>거래처</th>
+                                <th>수주일</th>
+                                <th>납기요청일</th>
+                                <th>품번</th>
+                                <th>품목명</th>
+                                <th>규격</th>
+                                <th>계획시작일</th>
+                                <th>계획종료일</th>
+                                <th>계획수량</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" id="btnPopPlanRegist" class="btn btn-primary ">
+                    <span class="btn-wrapper--icon">
+                        <i class="fas fa-download"></i>
+                    </span>
+                    <span class="btn-wrapper--label">저장</span>
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <span class="btn-wrapper--icon">
+                        <i class="fas fa-times-circle"></i>
+                    </span>
+                    <span class="btn-wrapper--label">닫기</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%-- 계획데이터 Templete --%>
+<script id="popOrderPlanTemplete" type="text/x-handlebars-template">
+    <tr class="dataList list_tr{{cnt}}">
+        <td style="text-align: center !important;">
+            <input type="hidden" name="pop_odr_cd" value="{{odr_cd}}"/>
+            <input type="hidden" name="pop_comp_cd" value="{{comp_cd}}"/>
+            <input type="hidden" name="pop_prod_cd" value="{{prod_cd}}"/>
+            {{odr_cd}}
         </td>
         <td>
-            <input type="hidden" name="pop_prod_ja_cd" class="form-control" value="{{prod_ja_cd}}"
-                   placeholder="소요자재" title="소요자재" />
-            <input type="text" name="pop_selector2" class="form-control" value="{{selector}}"
-                   placeholder="소요자재" title="소요자재" />
+            {{comp_nm}}
         </td>
         <td>
-            <input type="text" name="pop_prod_bom_cnt" class="form-control" value="{{prod_bom_cnt}}"
-                   placeholder="소요수량" title="소요수량" />
+            {{odr_dt}}
         </td>
         <td>
-            <input type="text" name="pop_prod_bom_notice" class="form-control" value="{{prod_bom_notice}}"
-                   placeholder="비고" title="비고" />
+            {{odr_ship_dt}}
         </td>
-        <th>
-            <button class="btn btn-sm btn-danger" type="button" onclick="prodBomDelete({{cnt}})">
-                                        <span class="btn-wrapper--icon">
-                                            <i class="fas fa-minus-circle"></i>
-                                        </span>
-                <span class="btn-wrapper--label">행삭제</span>
+        <td>
+            {{prod_pn}}
+        </td>
+        <td>
+            {{prod_nm}}
+        </td>
+        <td>
+            {{prod_stand}}
+        </td>
+        <td style="text-align: center;">
+            <div class="input-group input-group-seamless">
+                <input name="pop_plan_stdt" class="form-control datepicker no-reset" title="생산계획시작일시"
+                       placeholder="생산계획시작일시" type="text" value="{{plan_stdt}}" />
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                </div>
+            </div>
+        </td>
+        <td style="text-align: center;">
+            <div class="input-group input-group-seamless">
+                <input name="pop_plan_eddt" class="form-control datepicker no-reset" title="생산계획종료일시"
+                       placeholder="생산계획종료일시" type="text" value="{{plan_eddt}}" />
+                <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                </div>
+            </div>
+        </td>
+        <td>
+            <input type="text" name="pop_plan_cnt" class="form-control" value="{{plan_cnt}}"
+                   placeholder="생산계획량" title="생산계획량" required />
+        </td>
+        <td style="text-align: center;">
+            <button class="btn btn-sm btn-danger result-delete" type="button" onclick="planResultDelete({{cnt}})">
+                <span class="btn-wrapper--icon">
+                    <i class="fas fa-minus-circle"></i>
+                </span>
+                <span class="btn-wrapper--label">삭제</span>
             </button>
-        </th>
+        </td>
     </tr>
 </script>
 
@@ -502,6 +618,11 @@
         // 데이터 삭제
         $("#btnDelete").on("click", () => {
 
+            if($("input[name=listCheck]:checked").length === 0) {
+                alert("삭제할 데이터를 선택하세요.");
+                return false;
+            }
+
             Swal.fire({
                 title: '',
                 text: "수주 정보를 삭제하시겠습니까?",
@@ -513,7 +634,39 @@
                 cancelButtonText: '취소'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    deleteData();
+                    getOrderData();
+                }
+            });
+        });
+
+        // 생산계획
+        $("#btnPlan").on("click", () => {
+
+            if($("input[name=listCheck]:checked").length === 0) {
+                alert("생산지시를 생성할 수주정보를 선택하세요.");
+                return false;
+            }
+
+            getOrderData();
+        });
+
+        // 생산계획생성
+        $("#btnPopPlanRegist").on("click", () => {
+
+            if(!parsleyIsValidate("orderPlanForm")) return false;
+
+            Swal.fire({
+                title: '',
+                text: "생산계획을 생성하시겠습니까?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    orderPlanRegist();
                 }
             });
         });
@@ -752,7 +905,7 @@
                                    "</div>";
 
                 node.push(checkBoxNode);
-                node.push(IsEmpty(item.odr_cd));
+                node.push("<div class='text-center'>" + IsEmpty(item.odr_cd) + "</div>");
                 node.push(IsEmpty(item.comp_nm));
                 node.push(IsEmpty(item.odr_dt));
                 node.push(IsEmpty(item.odr_ship_dt));
@@ -767,7 +920,7 @@
                 node.push("<div class='text-right'>" + IsEmpty(item.odr_vat.comma('2')) + "</div>");
                 // node.push(IsEmpty(item.odr_nm));
                 // node.push(IsEmpty(item.odr_tel));
-                node.push("<div class='red'>" + IsEmpty(item.odr_state_nm) + "</div>");
+                node.push("<div class='text-center red'>" + IsEmpty(item.odr_state_nm) + "</div>");
 
                 // let param = "{"
                 //     + "prod_cd: '" +  item.prod_cd + "'"
@@ -1168,6 +1321,138 @@
 
         $("#pop_odr_amt").val(odrAmt.comma());
         $("#pop_odr_vat").val(odrVat.comma());
+    }
+
+    function getOrderData()
+    {
+        showWait('.container-fluid');
+
+        let checkItems = [];
+        $.each($("input[name=listCheck]:checked"), function(item, index) {
+            checkItems.push($(this).closest("tr").find("input[name=odr_cd]").val());
+        });
+
+        $.ajax({
+            url: "/mes/sales/order/orderList2"
+            ,type: "post"
+            ,headers: {
+                "Content-Type": "application/json"
+                ,"X-HTTP-Method-Override": "POST"
+            }
+            ,dataType: "json"
+            ,data: JSON.stringify({
+                fact_cd: "${vmap.fact_cd}"
+                ,checkItems: checkItems
+            })
+        })
+        .done(function (data)
+        {
+            $("#orderPlanModal").modal("show");
+            $("#tblPopPlanData tbody").empty();
+
+            data.forEach((item, index) => {
+                addPopOrderPlanRow(item);
+            });
+        })
+        .always(function (data) {
+            hideWait('.container-fluid');
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+        });
+    }
+
+    function addPopOrderPlanRow(data)
+    {
+        let template_html = $("#popOrderPlanTemplete").html();
+        let template = Handlebars.compile(template_html);
+        let resultRowCnt = $("#tblPopPlanData > tbody > tr").length + 1;
+        let templateData;
+
+        templateData = {
+            cnt : resultRowCnt
+            ,odr_cd: data.odr_cd
+            ,comp_cd: data.comp_cd
+            ,prod_cd: data.prod_cd
+            ,comp_nm: data.comp_nm
+            ,odr_dt: data.odr_dt
+            ,odr_ship_dt: data.odr_ship_dt
+            ,prod_pn: data.prod_pn
+            ,prod_nm: data.prod_nm
+            ,prod_stand: data.prod_stand
+            ,plan_stdt: data.odr_dt
+            ,plan_eddt: data.odr_dt
+            ,plan_cnt: data.odr_cnt.comma('3')
+        };
+
+        $("#tblPopPlanData > tbody").append(template(templateData));
+
+        setDatePicker("datepicker");
+
+        $("#tblPopPlanData .list_tr" + resultRowCnt)
+            .find("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total'], input[name$='rate'], input[name$='min'], input[name$='vat']")
+            .css("text-align", "right")
+            .on("click", function() {
+                $(this).select();
+            })
+            .on("keyup", function() {
+                $(this).val($(this).val().comma("2"));
+            });
+    }
+
+
+    function orderPlanRegist()
+    {
+        showWait('.dataModal');
+
+        //. Data List
+        let ary_odr_cd = [];
+        let ary_comp_cd = [];
+        let ary_prod_cd = [];
+        let ary_plan_stdt = [];
+        let ary_plan_eddt = [];
+        let ary_plan_cnt = [];
+
+        $.each($("#tblPopPlanData > tbody > tr"), function(index, item)
+        {
+            ary_odr_cd.push($(item).find("input[name=pop_odr_cd]").val());
+            ary_comp_cd.push($(item).find("input[name=pop_comp_cd]").val());
+            ary_prod_cd.push($(item).find("input[name=pop_prod_cd]").val());
+            ary_plan_stdt.push($(item).find("input[name=pop_plan_stdt]").val());
+            ary_plan_eddt.push($(item).find("input[name=pop_plan_eddt]").val());
+            ary_plan_cnt.push($(item).find("input[name=pop_plan_cnt]").val().replace(/,/g, ""));
+        });
+
+        $.ajax({
+            type: "post"
+            ,url: "/mes/sales/order/orderPlanRegist"
+            ,headers: {
+                "Content-Type": "application/json"
+                ,"X-HTTP-Method-Override": "POST"
+            }
+            ,dataType: "text"
+            ,data: JSON.stringify({
+                fact_cd: "${vmap.fact_cd}"
+                ,ary_odr_cd: ary_odr_cd
+                ,ary_comp_cd: ary_comp_cd
+                ,ary_prod_cd: ary_prod_cd
+                ,ary_plan_stdt: ary_plan_stdt
+                ,ary_plan_eddt: ary_plan_eddt
+                ,ary_plan_cnt: ary_plan_cnt
+            })
+        })
+        .done(function (data) {
+            hideWait('.dataModal');
+            $("#dataModal").modal("hide");
+            getData();
+        })
+        .always(function (data) {
+
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+            hideWait('.dataModal');
+        });
     }
 
 

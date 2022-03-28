@@ -358,7 +358,7 @@
 
 <script id="popPlanProcTemplete" type="text/x-handlebars-template">
     <tr class="dataList list_tr{{cnt}}">
-        <td>
+        <td style="text-align: center !important; ">
             <input type="hidden" name="pop_plan_proc_cd" class="form-control" value="{{plan_proc_cd}}" />
             <input type="hidden" name="pop_proc_cd" class="form-control" value="{{proc_cd}}" />
             {{plan_proc_seq}}
@@ -370,7 +370,7 @@
             <input type="text" name="pop_plan_proc_notice" class="form-control" value="{{plan_proc_notice}}"
                    placeholder="비고" title="비고" />
         </td>
-        <td style="text-align: center;">
+        <td style="text-align: center !important; ">
             <button class="btn btn-sm btn-danger" type="button" onclick="planProcDelete({{cnt}})">
                                         <span class="btn-wrapper--icon">
                                             <i class="fas fa-minus-circle"></i>

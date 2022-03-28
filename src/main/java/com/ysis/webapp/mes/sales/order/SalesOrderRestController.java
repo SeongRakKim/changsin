@@ -25,6 +25,15 @@ public class SalesOrderRestController {
         return new ResponseEntity<>(orderList, HttpStatus.OK);
     }
 
+    @PostMapping("/mes/sales/order/orderList2")
+    public ResponseEntity<List<Map<String, Object>>> orderList2(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    {
+        vmap.set(map);
+        List<Map<String, Object>> orderList = salesOrderService.orderList2(vmap);
+
+        return new ResponseEntity<>(orderList, HttpStatus.OK);
+    }
+
     @GetMapping("/mes/sales/order/orderOne/{odr_cd}")
     public ResponseEntity<Map<String, Object>> orderOne(VMap vmap, @PathVariable("odr_cd") String odr_cd) throws Exception
     {
@@ -67,60 +76,6 @@ public class SalesOrderRestController {
     {
         vmap.set(map);
         salesOrderService.orderPackDelete(vmap);
-
-        return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-    }
-
-    @PostMapping("/mes/sales/order/process/orderProcList")
-    public ResponseEntity<List<Map<String, Object>>> orderProcList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
-    {
-        vmap.set(map);
-        List<Map<String, Object>> orderList = salesOrderService.orderProcList(vmap);
-
-        return new ResponseEntity<>(orderList, HttpStatus.OK);
-    }
-
-    @PostMapping("/mes/sales/order/process/orderProcRegistModify")
-    public ResponseEntity<String> orderProcRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
-    {
-        vmap.set(map);
-        salesOrderService.orderProcRegistModify(vmap);
-
-        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
-    }
-
-    @DeleteMapping("/mes/sales/order/process/orderProcDelete")
-    public ResponseEntity<String> orderProcDeleteDELETE(VMap vmap, @RequestBody Map<String, Object> map ) throws Exception
-    {
-        vmap.set(map);
-        salesOrderService.orderProcDelete(vmap);
-
-        return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-    }
-
-    @PostMapping("/mes/sales/order/bom/orderBomList")
-    public ResponseEntity<List<Map<String, Object>>> orderBomList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
-    {
-        vmap.set(map);
-        List<Map<String, Object>> orderList = salesOrderService.orderBomList(vmap);
-
-        return new ResponseEntity<>(orderList, HttpStatus.OK);
-    }
-
-    @PostMapping("/mes/sales/order/bom/orderBomRegistModify")
-    public ResponseEntity<String> orderBomRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
-    {
-        vmap.set(map);
-        salesOrderService.orderBomRegistModify(vmap);
-
-        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
-    }
-
-    @DeleteMapping("/mes/sales/order/bom/orderBomDelete")
-    public ResponseEntity<String> orderBomDelete(VMap vmap, @RequestBody Map<String, Object> map ) throws Exception
-    {
-        vmap.set(map);
-        salesOrderService.orderBomDelete(vmap);
 
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }

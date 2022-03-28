@@ -268,6 +268,11 @@
                 // 데이터 삭제
                 $("#btnDelete").on("click", () => {
 
+                    if($("input[name=listCheck]:checked").length === 0) {
+                        alert("삭제할 데이터를 선택하세요.");
+                        return false;
+                    }
+
                     Swal.fire({
                         title: '',
                         text: "원자재 정보를 삭제하시겠습니까?",

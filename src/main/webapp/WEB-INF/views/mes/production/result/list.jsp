@@ -1115,6 +1115,7 @@
                 fact_cd: "${vmap.fact_cd}"
                 ,plan_cd: $("#pop_plan_cd").val()
                 ,plan_proc_cd: $("#pop_plan_proc_cd").val()
+                ,isNotDate: "Y"
             })
         })
             .done(function (data)
@@ -1501,6 +1502,7 @@
                 ,plan_cd: $("#pop_plan_cd").val()
                 ,plan_proc_cd: $("#pop_plan_proc_cd").val()
                 ,plan_res_cd: plan_res_cd
+                ,isNoDate: "Y"
             })
         })
         .done(function (data)
@@ -1608,6 +1610,7 @@
                 ,plan_cd: $("#pop_plan_cd").val()
                 ,plan_proc_cd: $("#pop_plan_proc_cd").val()
                 ,plan_res_cd: plan_res_cd
+                ,isNoDate: "Y"
             })
         })
         .done(function (data)
