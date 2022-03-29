@@ -357,14 +357,21 @@
         )
     </insert>
 
-    <update id="orderPackDelete" parameterType="VMap">
-        UPDATE MES_ORDER_INFO
-        SET PROD_YN = 'Y'
-        WHERE PROD_CD IN
-        <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
+    <delete id="orderPackDelete" parameterType="VMap">
+        DELETE FROM MES_ORDER_INFO
+        WHERE ODR_CD IN
+        <foreach collection="oderDeleteItems" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
-    </update>
+    </delete>
+
+    <delete id="shipPackDelete" parameterType="VMap">
+        DELETE FROM MES_SHIP_INFO
+        WHERE ODR_CD IN
+        <foreach collection="oderDeleteItems" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
 
     <update id="orderStateModify" parameterType="VMap">
         UPDATE MES_ORDER_INFO

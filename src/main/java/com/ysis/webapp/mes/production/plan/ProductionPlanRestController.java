@@ -89,4 +89,13 @@ public class ProductionPlanRestController {
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
 
+    @PostMapping("/mes/sales/order/orderPlanRegist")
+    public ResponseEntity<String> orderPlanRegist(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    {
+        vmap.set(map);
+        productionPlanService.orderPlanRegist(vmap);
+
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
+
 }

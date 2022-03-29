@@ -262,12 +262,21 @@
     </update>
 
     <update id="planPackDelete" parameterType="VMap">
-        UPDATE MES_ORDER_INFO
-        SET PROD_YN = 'Y'
-        WHERE PROD_CD IN
-        <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
-            #{item}
-        </foreach>
+        DELETE FROM MES_PRODUCTION_PLAN
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(deleteItems)">
+            WHERE PLAN_CD IN
+            <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(oderDeleteItems)">
+            WHERE ODR_CD IN
+            <foreach collection="oderDeleteItems" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+
     </update>
 
     <select id="planProcList" parameterType="VMap" resultType="RowMap">
@@ -293,6 +302,7 @@
         FROM MES_PRODUCTION_PLAN_PROCESS
                  JOIN MES_PROCESS_INFO USING (FACT_CD, PROC_CD)
         WHERE PLAN_CD = #{plan_cd}
+        ORDER BY PLAN_PROC_SEQ ASC
     </select>
 
     <insert id="planProcRegist" parameterType="VMap">
@@ -334,7 +344,26 @@
 
     <delete id="planProcDelete" parameterType="VMap">
         DELETE FROM MES_PRODUCTION_PLAN_PROCESS
-        WHERE PLAN_PROC_CD = #{plan_proc_cd}
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_proc_cd)">
+            WHERE PLAN_PROC_CD = #{plan_proc_cd}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(deleteItems)">
+            WHERE PLAN_CD IN
+            <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+    </delete>
+
+    <delete id="orderPlanProcDelete" parameterType="VMap">
+        DELETE FROM MES_PRODUCTION_PLAN_PROCESS
+        WHERE PLAN_CD IN (SELECT PLAN_CD
+                            FROM MES_PRODUCTION_PLAN
+                            WHERE ODR_CD IN
+                            <foreach collection="oderDeleteItems" item="item" separator="," open="(" close=")">
+                                #{item}
+                            </foreach>
+                          )
     </delete>
 
     <update id="planStateModify" parameterType="VMap">

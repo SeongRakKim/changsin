@@ -142,7 +142,7 @@
                                         <th>VAT</th>
 <%--                                        <th>주문자</th>--%>
 <%--                                        <th>연락처</th>--%>
-                                        <th class="red">상태</th>
+                                        <th>상태</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -634,7 +634,7 @@
                 cancelButtonText: '취소'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    getOrderData();
+                    deleteData();
                 }
             });
         });
@@ -900,6 +900,7 @@
 
                 let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
                                    "    <input type=\"hidden\" name=\"odr_cd\" value=\"" + item.odr_cd + "\">" +
+                                   "    <input type=\"hidden\" name=\"odr_state\" value=\"" + item.odr_state + "\">" +
                                    "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
                                    "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
                                    "</div>";
@@ -1271,12 +1272,25 @@
 
     function deleteData()
     {
-        showWait('.container-fluid');
 
-        let deleteItems = [];
+        var isFlag = false;
+        let oderDeleteItems = [];
         $.each($("input[name=listCheck]:checked"), function(item, index) {
-            deleteItems.push($(this).closest("tr").find("input[name=odr_cd]").val());
+            oderDeleteItems.push($(this).closest("tr").find("input[name=odr_cd]").val());
+            if($(this).closest("tr").find("input[name=odr_state]").val() == '11'
+                || $(this).closest("tr").find("input[name=odr_state]").val() == '12'
+                || $(this).closest("tr").find("input[name=odr_state]").val() == '13') {
+                isFlag = true;
+                return false;
+            }
         });
+
+        if(isFlag) {
+            eAlert("수주삭제는 상태가 [수주등록], [생산대기]인 항목만 가능합니다.");
+            return false;
+        }
+
+        showWait('.container-fluid');
 
         $.ajax({
             type: "delete"
@@ -1287,7 +1301,7 @@
             }
             ,dataType: "text"
             ,data: JSON.stringify({
-                deleteItems: deleteItems
+                oderDeleteItems: oderDeleteItems
             })
         })
         .done(function (data) {
@@ -1325,12 +1339,22 @@
 
     function getOrderData()
     {
-        showWait('.container-fluid');
-
+        var isFlag = false;
         let checkItems = [];
         $.each($("input[name=listCheck]:checked"), function(item, index) {
             checkItems.push($(this).closest("tr").find("input[name=odr_cd]").val());
+            if($(this).closest("tr").find("input[name=odr_state]").val() != '01') {
+                isFlag = true;
+                return false;
+            }
         });
+
+        if(isFlag) {
+            eAlert("생산지시는 상태가 [수주등록]인 항목만 가능합니다.");
+            return false;
+        }
+
+        showWait('.container-fluid');
 
         $.ajax({
             url: "/mes/sales/order/orderList2"
@@ -1443,7 +1467,7 @@
         })
         .done(function (data) {
             hideWait('.dataModal');
-            $("#dataModal").modal("hide");
+            $("#orderPlanModal").modal("hide");
             getData();
         })
         .always(function (data) {

@@ -3,6 +3,8 @@ package com.ysis.webapp.mes.sales.order;
 import com.ysis.webapp.common.util.CommonUtils;
 import com.ysis.webapp.common.vo.VMap;
 import com.ysis.webapp.mes.common.CommonDAO;
+import com.ysis.webapp.mes.production.plan.ProductionPlanDAO;
+import com.ysis.webapp.mes.production.plan.ProductionPlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,8 @@ public class SalesOrderService {
 
     @Autowired CommonDAO commonDAO;
     @Autowired SalesOrderDAO salesOrderDAO;
+    @Autowired
+    ProductionPlanDAO productionPlanDAO;
 
     public List<Map<String, Object>> orderList(VMap vmap) throws Exception {
         return salesOrderDAO.orderList(vmap);
@@ -102,6 +106,16 @@ public class SalesOrderService {
     }
 
     public int orderPackDelete(VMap vmap) throws Exception {
+
+        // 생산공정삭제
+        productionPlanDAO.orderPlanProcDelete(vmap);
+
+        // 생산계획삭제
+        productionPlanDAO.planPackDelete(vmap);
+
+        // 납품데이터삭제
+        salesOrderDAO.shipPackDelete(vmap);
+
         return salesOrderDAO.orderPackDelete(vmap);
     }
 

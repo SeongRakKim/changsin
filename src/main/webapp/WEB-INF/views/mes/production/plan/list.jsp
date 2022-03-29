@@ -992,12 +992,22 @@
 
     function deleteData()
     {
-        showWait('.container-fluid');
-
+        let isFlag = false;
         let deleteItems = [];
         $.each($("input[name=listCheck]:checked"), function(item, index) {
             deleteItems.push($(this).closest("tr").find("input[name=plan_cd]").val());
+            if($(this).closest("tr").find("input[name=plan_state]").val() != "10") {
+                isFlag = true;
+                return false;
+            }
         });
+
+        if (isFlag) {
+            eAlert("[생산대기] 상태의 계획만 삭제할 수 있습니다.");
+            return false;
+        }
+
+        showWait('.container-fluid');
 
         $.ajax({
             type: "delete"

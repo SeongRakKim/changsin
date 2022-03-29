@@ -44,6 +44,10 @@ public class SalesOrderDAO extends MapperDAO {
         return delete(mapperName + ".orderPackDelete", vmap.getMap());
     }
 
+    public int shipPackDelete(VMap vmap) throws Exception {
+        return delete(mapperName + ".shipPackDelete", vmap.getMap());
+    }
+
     public int orderStateModify(VMap vmap) throws Exception {
         return update(mapperName + ".orderStateModify", vmap.getMap());
     }

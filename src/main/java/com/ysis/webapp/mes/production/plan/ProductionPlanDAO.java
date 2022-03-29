@@ -60,4 +60,8 @@ public class ProductionPlanDAO extends MapperDAO {
         return delete(mapperName + ".planProcDelete", vmap.getMap());
     }
 
+    public int orderPlanProcDelete(VMap vmap) throws Exception {
+        return delete(mapperName + ".orderPlanProcDelete", vmap.getMap());
+    }
+
 }
