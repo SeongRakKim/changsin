@@ -437,7 +437,6 @@
                     ,dataType: "json"
                     ,data: JSON.stringify({
                         fact_cd: "${vmap.fact_cd}"
-                        ,prod_kind: $("#prod_kind").val()
                         ,prod_family: $("#prod_family").val()
                         ,prod_group: $("#prod_group").val()
                         ,search_text: $("#search_text").val()
@@ -490,7 +489,7 @@
                 showWait('.dataModal');
 
                 $.ajax({
-                    url: "/mes/base/material/mateOne/" + prod_cd
+                    url: "/mes/base/product/prodOne/" + prod_cd
                     ,type: "get"
                     ,dataType: "json"
                     // ,data: JSON.stringify({})

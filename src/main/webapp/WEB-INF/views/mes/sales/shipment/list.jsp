@@ -541,7 +541,7 @@
             $("#pop_selector").text('[' + data.comp_cd + '] ' + data.comp_nm);
             $("#pop_selector2").text('[' + data.prod_pn + '] ' + data.prod_nm);
 
-            // getPlanResultData();
+            getShipmentDetailData();
         })
         .always(function (data) {
             hideWait('.dataModal');
@@ -551,12 +551,12 @@
         });
     }
 
-    function getPlanResultData()
+    function getShipmentDetailData()
     {
         showWait('.dataModal');
 
         $.ajax({
-            url: "/mes/production/result/planResultList"
+            url: "/mes/sales/shipment/salesShipmentDetailtList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -567,7 +567,7 @@
                 fact_cd: "${vmap.fact_cd}"
                 ,odr_cd: $("#pop_odr_cd").val()
                 ,ship_cd: $("#pop_ship_cd").val()
-                ,isNotDate: "Y"
+                ,isNoDate: "Y"
             })
         })
             .done(function (data)
@@ -578,9 +578,6 @@
                 data.forEach((item, index) => {
                     addPopShipmentDetailRow(item);
                 });
-
-                setProcButton();
-
             })
             .always(function (data) {
                 hideWait('.dataModal');
@@ -650,9 +647,9 @@
         $.each($("#tblPopShipmentData > tbody > tr"), function(index, item)
         {
             ary_ship_detail_cd.push($(item).find("input[name=pop_ship_detail_cd]").val());
-            ary_ship_detail_dt.push($(item).find("select[name=pop_ship_detail_dt]").val());
-            ary_old_ship_detail_cnt.push($(item).find("input[name=pop_old_ship_detail_cnt]").val());
-            ary_ship_detail_cnt.push($(item).find("input[name=pop_ship_detail_cnt]").val());
+            ary_ship_detail_dt.push($(item).find("input[name=pop_ship_detail_dt]").val());
+            ary_old_ship_detail_cnt.push($(item).find("input[name=pop_old_ship_detail_cnt]").val().replace(/,/g, ""));
+            ary_ship_detail_cnt.push($(item).find("input[name=pop_ship_detail_cnt]").val().replace(/,/g, ""));
             ary_ship_detail_notice.push($(item).find("input[name=pop_ship_detail_notice]").val());
         });
 
@@ -668,6 +665,7 @@
                 fact_cd: "${vmap.fact_cd}"
                 ,odr_cd: $("#pop_odr_cd").val()
                 ,ship_cd: $("#pop_ship_cd").val()
+                ,prod_cd: $("#pop_prod_cd").val()
                 ,ary_ship_detail_cd: ary_ship_detail_cd
                 ,ary_ship_detail_dt: ary_ship_detail_dt
                 ,ary_old_ship_detail_cnt: ary_old_ship_detail_cnt
@@ -689,216 +687,12 @@
     }
 
 
-
-
-
-
-
-
-    // Add Data - ajax regist
-    function planResultRegist(cnt)
-    {
-        // if(!parsleyIsValidate("dataForm")) return false;
-        let $tr = $("#tblPopShipmentData .list_tr" + cnt);
-        let equ_cd = $tr.find("select[name=pop_equ_cd]").val();
-        let plan_res_cd = $tr.find("select[name=pop_plan_res_cd]").val();
-        let plan_res_u_cd = $tr.find("select[name=pop_plan_res_u_cd]").val();
-        let plan_res_stdt = $tr.find("input[name=pop_plan_res_stdt]").val();
-        let plan_res_eddt = $tr.find("input[name=pop_plan_res_eddt]").val();
-        let old_plan_res_cnt = $tr.find("input[name=pop_old_plan_res_cnt]").val();
-        let plan_res_cnt = $tr.find("input[name=pop_plan_res_cnt]").val().replace(/,/g, "");
-        let plan_res_notice = $tr.find("input[name=pop_plan_res_notice]").val();
-
-        if(IsNull(equ_cd)) {
-            eAlert("설비는 필수입력항목입니다.");
-            $tr.find("select[name=pop_equ_cd]").focus();
-            return false;
-        }
-
-        if(IsNull(plan_res_u_cd)) {
-            eAlert("사용자는 필수입력항목입니다.");
-            $tr.find("select[name=pop_u_cd]").focus();
-            return false;
-        }
-
-        if(IsNull(plan_res_stdt)) {
-            eAlert("생산시작일시는 필수입력항목입니다.");
-            $tr.find("input[name=pop_plan_res_stdt]").focus();
-            return false;
-        }
-
-        if(IsNull(plan_res_eddt)) {
-            eAlert("생산종료일시는 필수입력항목입니다.");
-            $tr.find("input[name=pop_plan_res_eddt]").focus();
-            return false;
-        }
-
-        if(IsNull(plan_res_cnt) || plan_res_cnt === 0) {
-            eAlert("생산량은 필수입력항목입니다.");
-            $tr.find("input[name=pop_plan_res_cnt]").focus();
-            return false;
-        }
-
-        Swal.fire({
-            title: '',
-            text: "생산실적 정보를 저장하시겠습니까?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '확인',
-            cancelButtonText: '취소'
-        }).then((result) => {
-            if (result.isConfirmed)
-            {
-                showWait('.dataModal');
-
-                $.ajax({
-                    type: "post"
-                    ,url: "/mes/production/result/planResultRegist"
-                    ,headers: {
-                        "Content-Type": "application/json"
-                        ,"X-HTTP-Method-Override": "POST"
-                    }
-                    ,dataType: "text"
-                    ,data: JSON.stringify({
-                        fact_cd: "${vmap.fact_cd}"
-                        ,odr_cd: $("#pop_odr_cd").val()
-                        ,ship_cd: $("#pop_ship_cd").val()
-                        ,odr_cd: $("#pop_odr_cd").val()
-                        ,proc_cd: $("#pop_proc_cd").val()
-                        ,prod_cd: $("#pop_prod_cd").val()
-                        ,plan_proc_last_yn: $("#pop_plan_proc_last_yn").val()
-                        ,equ_cd: equ_cd
-                        ,plan_res_cd: plan_res_cd
-                        ,plan_res_u_cd: plan_res_u_cd
-                        ,plan_res_stdt: plan_res_stdt
-                        ,plan_res_eddt: plan_res_eddt
-                        ,old_plan_res_cnt: old_plan_res_cnt
-                        ,plan_res_cnt: plan_res_cnt
-                        ,plan_res_notice: plan_res_notice
-                    })
-                })
-                .done(function (data) {
-                    hideWait('.dataModal');
-                    // getPlanResultData();
-                    getDataOne($("#pop_odr_cd").val(), $("#pop_ship_cd").val());
-                })
-                .always(function (data) {
-
-                })
-                .fail(function (jqHXR, textStatus, errorThrown) {
-                    ajaxErrorAlert(jqHXR);
-                    hideWait('.dataModal');
-                });
-            }
-        });
-    }
-
-    // modify Data - ajax modify
-    function planResultModify(cnt)
-    {
-        let $tr = $("#tblPopShipmentData .list_tr" + cnt);
-        let plan_res_cd = $tr.find("input[name=pop_plan_res_cd]").val();
-        let equ_cd = $tr.find("select[name=pop_equ_cd]").val();
-        let plan_res_u_cd = $tr.find("select[name=pop_plan_res_u_cd]").val();
-        let plan_res_stdt = $tr.find("input[name=pop_plan_res_stdt]").val();
-        let plan_res_eddt = $tr.find("input[name=pop_plan_res_eddt]").val();
-        let old_plan_res_cnt = $tr.find("input[name=pop_old_plan_res_cnt]").val();
-        let plan_res_cnt = $tr.find("input[name=pop_plan_res_cnt]").val().replace(/,/g, "");
-        let plan_res_notice = $tr.find("input[name=pop_plan_res_notice]").val();
-
-        if(IsNull(equ_cd)) {
-            eAlert("설비는 필수입력항목입니다.");
-            $tr.find("select[name=pop_equ_cd]").focus();
-            return false;
-        }
-
-        if(IsNull(plan_res_u_cd)) {
-            eAlert("사용자는 필수입력항목입니다.");
-            $tr.find("select[name=pop_u_cd]").focus();
-            return false;
-        }
-
-        if(IsNull(plan_res_stdt)) {
-            eAlert("생산시작일시는 필수입력항목입니다.");
-            $tr.find("input[name=pop_plan_res_stdt]").focus();
-            return false;
-        }
-
-        if(IsNull(plan_res_eddt)) {
-            eAlert("생산종료일시는 필수입력항목입니다.");
-            $tr.find("input[name=pop_plan_res_eddt]").focus();
-            return false;
-        }
-
-        if(IsNull(plan_res_cnt) || plan_res_cnt === 0) {
-            eAlert("생산량은 필수입력항목입니다.");
-            $tr.find("input[name=pop_plan_res_cnt]").focus();
-            return false;
-        }
-
-        Swal.fire({
-            title: '',
-            text: "생산실적 정보를 저장하시겠습니까?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '확인',
-            cancelButtonText: '취소'
-        }).then((result) => {
-            if (result.isConfirmed)
-            {
-                showWait('.dataModal');
-
-                $.ajax({
-                    type: "post"
-                    ,url: "/mes/production/result/planResultModify"
-                    ,headers: {
-                        "Content-Type": "application/json"
-                        ,"X-HTTP-Method-Override": "POST"
-                    }
-                    ,dataType: "text"
-                    ,data: JSON.stringify({
-                        fact_cd: "${vmap.fact_cd}"
-                        ,odr_cd: $("#pop_odr_cd").val()
-                        ,ship_cd: $("#pop_ship_cd").val()
-                        ,odr_cd: $("#pop_odr_cd").val()
-                        ,proc_cd: $("#pop_proc_cd").val()
-                        ,prod_cd: $("#pop_prod_cd").val()
-                        ,plan_proc_last_yn: $("#pop_plan_proc_last_yn").val()
-                        ,plan_res_cd: plan_res_cd
-                        ,equ_cd: equ_cd
-                        ,plan_res_u_cd: plan_res_u_cd
-                        ,plan_res_stdt: plan_res_stdt
-                        ,plan_res_eddt: plan_res_eddt
-                        ,old_plan_res_cnt: old_plan_res_cnt
-                        ,plan_res_cnt: plan_res_cnt
-                        ,plan_res_notice: plan_res_notice
-                    })
-                })
-                .done(function (data) {
-                    hideWait('.dataModal');
-                    getDataOne($("#pop_odr_cd").val(), $("#pop_ship_cd").val());
-                    // getPlanResultData();
-                })
-                .always(function (data) {
-
-                })
-                .fail(function (jqHXR, textStatus, errorThrown) {
-                    ajaxErrorAlert(jqHXR);
-                    hideWait('.dataModal');
-                });
-        }
-        });
-    }
-
     function salesShipmentDetailDelete(cnt)
     {
-        let plan_res_cd = $("#tblPopShipmentData .list_tr" + cnt).find("[name=pop_plan_res_cd]").val();
+        let ship_detail_cd = $("#tblPopShipmentData .list_tr" + cnt).find("[name=pop_ship_detail_cd]").val();
+        let ship_detail_cnt = $("#tblPopShipmentData .list_tr" + cnt).find("[name=pop_ship_detail_cnt]").val();
 
-        if(IsNull(plan_res_cd))
+        if(IsNull(ship_detail_cd))
         {
             $("#tblPopShipmentData .list_tr" + cnt).remove();
         }
@@ -906,7 +700,7 @@
         {
             Swal.fire({
                 title: '',
-                text: "생산실적정보를 삭제하시겠습니까?",
+                text: "납품내역을 삭제하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -920,7 +714,7 @@
 
                     $.ajax({
                         type: "delete"
-                        ,url: "/mes/production/result/salesShipmentDetailDelete"
+                        ,url: "/mes/sales/shipment/salesShipmentDetailDelete"
                         ,headers: {
                             "Content-Type": "application/json"
                             ,"X-HTTP-Method-Override": "DELETE"
@@ -929,14 +723,13 @@
                         ,data: JSON.stringify({
                             odr_cd: $("#pop_odr_cd").val()
                             ,ship_cd: $("#pop_ship_cd").val()
-                            ,odr_cd: $("#pop_odr_cd").val()
-                            ,plan_res_cd: plan_res_cd
-                            ,plan_proc_last_yn: $("#pop_plan_proc_last_yn").val()
+                            ,prod_cd: $("#pop_prod_cd").val()
+                            ,ship_detail_cd: ship_detail_cd
+                            ,ship_detail_cnt: ship_detail_cnt
                         })
                     })
                     .done(function (data) {
                         hideWait('.dataModal');
-                        // getPlanResultData();
                         getDataOne($("#pop_odr_cd").val(), $("#pop_ship_cd").val());
                     })
                     .always(function (data) {
@@ -949,389 +742,6 @@
             });
         }
     }
-
-    function callPlanInput(cnt)
-    {
-        let $tr = $("#tblPopShipmentData .list_tr" + cnt);
-        let plan_res_cd = $tr.find("input[name=pop_plan_res_cd]").val();
-
-        if(IsNull(plan_res_cd)) {
-            eAlert("실적등록 후 사용가능합니다.");
-            return false;
-        }
-
-        $("#inputModal").modal("show");
-        showWait('.dataModal');
-
-        $.ajax({
-            url: "/mes/production/result/planResultOne/" + $("#pop_odr_cd").val() + "/" + $("#pop_ship_cd").val() + "/" + plan_res_cd
-            ,type: "get"
-            ,dataType: "json"
-        })
-        .done(function (data)
-        {
-            setDataOne("input_pop_", data);
-            $("#input_pop_selector2").text('[' + data.prod_pn + '] ' + data.prod_nm);
-
-            getPlanInputData(plan_res_cd);
-        })
-        .always(function (data) {
-            hideWait('.dataModal');
-        })
-        .fail(function (jqHXR, textStatus, errorThrown) {
-            ajaxErrorAlert(jqHXR);
-        });
-    }
-
-
-    function getPlanInputData(plan_res_cd)
-    {
-        showWait('.inputModal');
-
-        $.ajax({
-            url: "/mes/production/result/planInputList"
-            ,type: "post"
-            ,headers: {
-                "Content-Type": "application/json"
-                ,"X-HTTP-Method-Override": "POST"
-            }
-            ,dataType: "json"
-            ,data: JSON.stringify({
-                fact_cd: "${vmap.fact_cd}"
-                ,odr_cd: $("#pop_odr_cd").val()
-                ,ship_cd: $("#pop_ship_cd").val()
-                ,plan_res_cd: plan_res_cd
-                ,isNoDate: "Y"
-            })
-        })
-        .done(function (data)
-        {
-            $("#tblPopInputData > tbody").empty();
-            inputRowCnt = 0;
-
-            data.forEach((item, index) => {
-                addPopInputRow(item);
-            });
-
-        })
-        .always(function (data) {
-            hideWait('.inputModal');
-        })
-        .fail(function (jqHXR, textStatus, errorThrown) {
-            ajaxErrorAlert(jqHXR);
-        });
-    }
-
-    // let inputRowCnt = 0;
-    function addPopInputRow(data)
-    {
-        let template_html = $("#popPlanInputTemplete").html();
-        let template = Handlebars.compile(template_html);
-        let inputRowCnt = $("#tblPopInputData > tbody > tr").length + 1;
-        let templateData;
-
-        templateData = {
-            cnt : inputRowCnt
-            ,odr_cd: data.odr_cd
-            ,ship_cd: data.ship_cd
-            ,plan_res_cd: data.plan_res_cd
-            ,plan_input_cd: data.plan_input_cd
-            ,prod_ja_cd: data.prod_ja_cd
-            ,prod_ja_pn: data.prod_ja_pn
-            ,prod_ja_nm: data.prod_ja_nm
-            ,prod_ja_group_nm: data.prod_ja_group_nm
-            ,prod_ja_stand: data.prod_ja_stand
-            ,prod_ja_unit_nm: data.prod_ja_unit_nm
-            ,plan_bom_cnt: data.plan_bom_cnt.comma('3')
-            ,plan_input_cnt: data.plan_input_cnt.comma('3')
-        };
-
-        $("#tblPopInputData > tbody").append(template(templateData));
-
-        $("#tblPopInputData .list_tr" + inputRowCnt)
-            .find("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total'], input[name$='rate'], input[name$='min'], input[name$='vat']")
-            .css("text-align", "right")
-            .on("click", function() {
-                $(this).select();
-            })
-            .on("keyup", function() {
-                $(this).val($(this).val().comma("3"));
-            });
-    }
-
-    function callPlanStop(cnt)
-    {
-        let $tr = $("#tblPopShipmentData .list_tr" + cnt);
-        let plan_res_cd = $tr.find("input[name=pop_plan_res_cd]").val();
-
-        if(IsNull(plan_res_cd)) {
-            eAlert("실적등록 후 사용가능합니다.");
-            return false;
-        }
-
-        $("#stopModal").modal("show");
-        showWait('.dataModal');
-
-        $.ajax({
-            url: "/mes/production/result/planResultOne/" + $("#pop_odr_cd").val() + "/" + $("#pop_ship_cd").val() + "/" + plan_res_cd
-            ,type: "get"
-            ,dataType: "json"
-        })
-        .done(function (data)
-        {
-            setDataOne("stop_pop_", data);
-            $("#stop_pop_selector2").text('[' + data.prod_pn + '] ' + data.prod_nm);
-
-            getPlanStopData(plan_res_cd);
-        })
-        .always(function (data) {
-            hideWait('.dataModal');
-        })
-        .fail(function (jqHXR, textStatus, errorThrown) {
-            ajaxErrorAlert(jqHXR);
-        });
-    }
-
-    function getPlanStopData(plan_res_cd)
-    {
-        showWait('.inputModal');
-
-        $.ajax({
-            url: "/mes/production/result/planStopList"
-            ,type: "post"
-            ,headers: {
-                "Content-Type": "application/json"
-                ,"X-HTTP-Method-Override": "POST"
-            }
-            ,dataType: "json"
-            ,data: JSON.stringify({
-                fact_cd: "${vmap.fact_cd}"
-                ,odr_cd: $("#pop_odr_cd").val()
-                ,ship_cd: $("#pop_ship_cd").val()
-                ,plan_res_cd: plan_res_cd
-                ,isNoDate: "Y"
-            })
-        })
-        .done(function (data)
-        {
-            $("#tblPopStopData > tbody").empty();
-
-            data.forEach((item, index) => {
-                addPopStopRow(item);
-            });
-
-        })
-        .always(function (data) {
-            hideWait('.inputModal');
-        })
-        .fail(function (jqHXR, textStatus, errorThrown) {
-            ajaxErrorAlert(jqHXR);
-        });
-    }
-
-    function addPopStopRow(data)
-    {
-        let template_html = $("#popPlanStopTemplete").html();
-        let template = Handlebars.compile(template_html);
-        let stopRowCnt = $("#tblPopStopData > tbody > tr").length + 1;
-        let templateData;
-
-        if(IsNull(data))
-        {
-            templateData = {
-                cnt : stopRowCnt
-            };
-
-            $("#tblPopStopData > tbody").append(template(templateData));
-        }
-        else
-        {
-            templateData = {
-                cnt : stopRowCnt
-                ,odr_cd: data.odr_cd
-                ,ship_cd: data.ship_cd
-                ,plan_res_cd: data.plan_res_cd
-                ,plan_stop_cd: data.plan_stop_cd
-                ,plan_stop_stdt: data.plan_stop_stdt
-                ,plan_stop_eddt: data.plan_stop_eddt
-                ,plan_stop_time: data.plan_stop_time
-                ,plan_stop_notice: data.plan_stop_notice
-            };
-
-            $("#tblPopStopData > tbody").append(template(templateData));
-
-            $("#tblPopStopData .list_tr" + stopRowCnt).find("select[name=pop_plan_stop_item]").val(data.plan_stop_item);
-        }
-
-        $("#tblPopStopData .list_tr" + stopRowCnt)
-            .find(".datetimepicker").datetimepicker({
-                format:'Y-m-d H:i',
-                step:1,
-                lang:'kr'
-            });
-
-        $.datetimepicker.setLocale('ko');
-
-        $("#tblPopStopData .list_tr" + stopRowCnt)
-            .find("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total'], input[name$='rate'], input[name$='min'], input[name$='vat']")
-            .css("text-align", "right")
-            .on("click", function() {
-                $(this).select();
-            })
-            .on("keyup", function() {
-                $(this).val($(this).val().comma("3"));
-            });
-    }
-
-    // Add Data - ajax regist
-    function shipmentDetailRegistModifyData()
-    {
-        showWait('.stopModal');
-
-        //. Data List
-        let ary_plan_stop_cd = [];
-        let ary_plan_stop_item = [];
-        let ary_plan_stop_stdt = [];
-        let ary_plan_stop_eddt = [];
-        let ary_plan_stop_notice = [];
-
-        $.each($("#tblPopStopData > tbody > tr"), function(index, item)
-        {
-            ary_plan_stop_cd.push($(item).find("input[name=pop_plan_stop_cd]").val());
-            ary_plan_stop_item.push($(item).find("select[name=pop_plan_stop_item]").val());
-            ary_plan_stop_stdt.push($(item).find("input[name=pop_plan_stop_stdt]").val());
-            ary_plan_stop_eddt.push($(item).find("input[name=pop_plan_stop_eddt]").val());
-            ary_plan_stop_notice.push($(item).find("input[name=pop_plan_stop_notice]").val());
-        });
-
-        $.ajax({
-            type: "post"
-            ,url: "/mes/production/result/planStopRegistModify"
-            ,headers: {
-                "Content-Type": "application/json"
-                ,"X-HTTP-Method-Override": "POST"
-            }
-            ,dataType: "text"
-            ,data: JSON.stringify({
-                fact_cd: "${vmap.fact_cd}"
-                ,odr_cd: $("#stop_pop_odr_cd").val()
-                ,ship_cd: $("#stop_pop_ship_cd").val()
-                ,plan_res_cd: $("#stop_pop_plan_res_cd").val()
-                ,ary_plan_stop_cd: ary_plan_stop_cd
-                ,ary_plan_stop_item: ary_plan_stop_item
-                ,ary_plan_stop_stdt: ary_plan_stop_stdt
-                ,ary_plan_stop_eddt: ary_plan_stop_eddt
-                ,ary_plan_stop_notice: ary_plan_stop_notice
-            })
-        })
-        .done(function (data) {
-            hideWait('.stopModal');
-            getPlanStopData($("#stop_pop_plan_res_cd").val());
-        })
-        .always(function (data) {
-
-        })
-        .fail(function (jqHXR, textStatus, errorThrown) {
-            ajaxErrorAlert(jqHXR);
-            hideWait('.dataModal');
-        });
-    }
-
-    function planStopDelete(cnt)
-    {
-        let plan_stop_cd = $("#tblPopStopData .list_tr" + cnt).find("[name=pop_plan_stop_cd]").val();
-
-        if(IsNull(plan_stop_cd))
-        {
-            $("#tblPopStopData .list_tr" + cnt).remove();
-        }
-        else
-        {
-            Swal.fire({
-                title: '',
-                text: "비가동 정보를 삭제하시겠습니까?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: '확인',
-                cancelButtonText: '취소'
-            }).then((result) => {
-                if (result.isConfirmed)
-                {
-                    showWait('.stopModal');
-
-                    $.ajax({
-                        type: "delete"
-                        ,url: "/mes/production/result/planStopDelete"
-                        ,headers: {
-                            "Content-Type": "application/json"
-                            ,"X-HTTP-Method-Override": "DELETE"
-                        }
-                        ,dataType: "text"
-                        ,data: JSON.stringify({
-                            plan_stop_cd: plan_stop_cd
-                        })
-                    })
-                    .done(function (data) {
-                        hideWait('.stopModal');
-                        getPlanStopData($("#stop_pop_plan_res_cd").val());
-                    })
-                    .always(function (data) {
-
-                    })
-                    .fail(function (jqHXR, textStatus, errorThrown) {
-                        ajaxErrorAlert(jqHXR);
-                    });
-                }
-            });
-        }
-    }
-
-    function planProcessComplete()
-    {
-        $.ajax({
-            type: "post"
-            ,url: "/mes/production/result/planProcessComplete"
-            ,headers: {
-                "Content-Type": "application/json"
-                ,"X-HTTP-Method-Override": "POST"
-            }
-            ,dataType: "text"
-            ,data: JSON.stringify({
-                fact_cd: "${vmap.fact_cd}"
-                ,odr_cd: $("#pop_odr_cd").val()
-                ,ship_cd: $("#pop_ship_cd").val()
-            })
-        })
-        .done(function (data) {
-            hideWait('.dataModal');
-            $("#dataModal").modal("hide");
-            getData();
-        })
-        .always(function (data) {
-
-        })
-        .fail(function (jqHXR, textStatus, errorThrown) {
-            ajaxErrorAlert(jqHXR);
-            hideWait('.dataModal');
-        });
-    }
-
-    function setProcButton()
-    {
-        let completeYn = $("#pop_plan_proc_state").val() === "12" ? true : false;
-
-        $("#btnShipmentRegist").attr("disabled", completeYn);
-
-        $.each($("#tblPopShipmentData > tbody > tr"), function(index, item)
-        {
-            $(item).find(".result-regist").attr("disabled", completeYn);
-            $(item).find(".result-modify").attr("disabled", completeYn);
-            $(item).find(".result-delete").attr("disabled", completeYn);
-        });
-    }
-
 
 </script>
 

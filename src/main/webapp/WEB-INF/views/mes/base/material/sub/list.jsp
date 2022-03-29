@@ -51,7 +51,7 @@
     <div class="menu-nav">
         <div>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 기준정보 <i class="fas fa-arrow-circle-right"></i> 원자재정보
+                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 기준정보 <i class="fas fa-arrow-circle-right"></i> 부자재정보
             </span>
         </div>
         <%@ include file="/WEB-INF/include/main-top-right.jspf"%>
@@ -228,13 +228,13 @@
 
                 // Add Data - Call Data Form
                 $("#btnNew").on("click", () => {
-                    callEditmodal("원자재 추가", "R");
+                    callEditmodal("부자재 추가", "R");
                 });
 
                 // 상세조회
                 $("#tblMaster").on("dblclick", "tr", function() {
                     let prod_cd = $(this).find("input[name=prod_cd]").val();
-                    callEditmodal("원자재 수정", "M");
+                    callEditmodal("부자재 수정", "M");
                     getDataOne(prod_cd);
                 });
 
@@ -250,7 +250,7 @@
 
                     Swal.fire({
                         title: '',
-                        text: "원자재 정보를 저장하시겠습니까?",
+                        text: "부자재 정보를 저장하시겠습니까?",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
@@ -275,7 +275,7 @@
 
                     Swal.fire({
                         title: '',
-                        text: "원자재 정보를 삭제하시겠습니까?",
+                        text: "부자재 정보를 삭제하시겠습니까?",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
@@ -437,7 +437,6 @@
                     ,dataType: "json"
                     ,data: JSON.stringify({
                         fact_cd: "${vmap.fact_cd}"
-                        ,prod_kind: $("#prod_kind").val()
                         ,prod_family: $("#prod_family").val()
                         ,prod_group: $("#prod_group").val()
                         ,search_text: $("#search_text").val()
@@ -490,7 +489,7 @@
                 showWait('.dataModal');
 
                 $.ajax({
-                    url: "/mes/base/material/mateOne/" + prod_cd
+                    url: "/mes/base/product/prodOne/" + prod_cd
                     ,type: "get"
                     ,dataType: "json"
                     // ,data: JSON.stringify({})

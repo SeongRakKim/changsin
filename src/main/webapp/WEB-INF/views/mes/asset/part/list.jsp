@@ -40,6 +40,8 @@
                         <option value="">제품종류선택</option>
                         <option value="PA">완제품</option>
                         <option value="PH">반제품</option>
+                        <option value="MO">원자재</option>
+                        <option value="MS">부자재</option>
                     </select>
                     <select id="prod_group" name="prod_group" class="custom-select w-100" style="width: 15% !important;">
                         <option value="">제품분류선택</option>

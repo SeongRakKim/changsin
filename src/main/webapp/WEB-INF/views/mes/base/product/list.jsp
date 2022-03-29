@@ -1187,7 +1187,7 @@
                 $("#pop_bom_prod_stand").html(IsEmpty(arguments[0].prod_stand));
                 $("#pop_bom_prod_unit_nm").html(IsEmpty(arguments[0].prod_unit_nm));
 
-                getProductBomData();
+                setTimeout(() => getProductBomData(), 30);
             }
 
             function getProductBomData()
@@ -1204,7 +1204,7 @@
                     ,dataType: "json"
                     ,data: JSON.stringify({
                         fact_cd: "${vmap.fact_cd}"
-                        ,prod_cd: $("#pop_proc_prod_cd").text()
+                        ,prod_cd: $("#pop_bom_prod_cd").text()
                     })
                 })
                     .done(function (data)
