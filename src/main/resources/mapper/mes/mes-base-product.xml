@@ -63,9 +63,6 @@
        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
            AND PROD_KIND = #{prod_kind}
        </if>
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
-           AND PROD_KIND = #{prod_kind}
-       </if>
        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
            AND PROD_FAMILY = #{prod_family}
        </if>
@@ -315,8 +312,7 @@
             AND
             (
                 PROD_NM LIKE CONCAT('%', #{selector}, '%') OR
-                PROD_PN LIKE CONCAT('%', #{selector}, '%') OR
-                PROD_CD LIKE CONCAT('%', #{selector}, '%')
+                PROD_PN LIKE CONCAT('%', #{selector}, '%')
             )
         </if>
     </select>
@@ -382,8 +378,73 @@
             AND
             (
                 PROD_NM LIKE CONCAT('%', #{selector}, '%') OR
-                PROD_PN LIKE CONCAT('%', #{selector}, '%') OR
-                PROD_CD LIKE CONCAT('%', #{selector}, '%')
+                PROD_PN LIKE CONCAT('%', #{selector}, '%')
+            )
+        </if>
+    </select>
+
+    <select id="prodOverlap5" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_PRICE
+               ,PROD_MAIN_COMP
+               ,(SELECT COMP_NM
+                  FROM MES_COMPANY_INFO
+                  WHERE COMP_CD = PROD_MAIN_COMP
+                ) PROD_MAIN_COMP_NM
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_YN
+               ,PROD_MASS_YN
+               ,PROD_NOTICE
+               ,PROD_INDATE
+               ,PROD_INUSER
+               ,PROD_UPDATE
+               ,PROD_UPUSER
+          FROM MES_PRODUCT_INFO
+         WHERE PROD_YN = 'Y'
+           AND PROD_KIND IN ('MO', 'MS')
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+            AND PROD_KIND = #{prod_kind}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+            AND PROD_GROUP = #{prod_group}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+            AND PROD_FAMILY = #{prod_family}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
+            AND PROD_CD = #{prod_cd}
+        </if>
+        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
+            AND
+            (
+                PROD_NM LIKE CONCAT('%', #{selector}, '%') OR
+                PROD_PN LIKE CONCAT('%', #{selector}, '%')
             )
         </if>
     </select>

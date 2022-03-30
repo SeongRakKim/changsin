@@ -41,6 +41,10 @@ public class ProductService {
         return productDAO.prodOverlap4(vmap);
     }
 
+    public List<Map<String, Object>> prodOverlap5(VMap vmap) throws Exception {
+        return productDAO.prodOverlap5(vmap);
+    }
+
     @Transactional
     public int prodRegistModify(VMap vmap) throws Exception {
 

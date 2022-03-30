@@ -18,37 +18,29 @@
 <div class="container-fluid">
     <div class="main-content">
         <table class="tableSearch table table-hover table-striped table-bordered mb-5" style="margin-bottom: 0.5rem !important;">
-            <colgroup>
-                <col style="width: 10%">
-                <col style="width: 60%">
-                <col style="width: 10%">
-                <col style="width: 20%">
-            </colgroup>
             <thead class="thead-light">
             <tr>
-                <th>검색날짜</th>
-                <td colspan="3">
-                    <div style="display: flex;">
-                        <%@ include file="/WEB-INF/include/main-search-date-content.jspf"%>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th>검색조건</th>
+                <th>제품종류</th>
                 <td>
-                    <select id="prod_kind" name="prod_kind" class="custom-select w-100" style="width: 15% !important;">
+                    <select id="prod_kind" name="prod_kind" class="custom-select w-100" required="">
                         <option value="">제품종류선택</option>
                         <option value="PA">완제품</option>
                         <option value="PH">반제품</option>
                     </select>
-                    <select id="prod_group" name="prod_group" class="custom-select w-100" style="width: 15% !important;">
+                </td>
+                <th>제품분류</th>
+                <td>
+                    <select id="prod_group" name="prod_group" class="custom-select w-100" required="">
                         <option value="">품목분류선택</option>
                         <c:forEach var="item" items="${vmap.prodGroupList}" varStatus="status">
                             <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
                         </c:forEach>
                     </select>
-                    <select id="prod_family" name="prod_family" class="custom-select w-100" style="width: 15% !important;">
-                        <option value="">제품군선택</option>
+                </td>
+                <th>품목군</th>
+                <td>
+                    <select id="prod_family" name="prod_family" class="custom-select w-100" required="">
+                        <option value="">품목군선택</option>
                         <c:forEach var="item" items="${vmap.prodFamilyList}" varStatus="status">
                             <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
                         </c:forEach>
@@ -73,7 +65,7 @@
     <div class="menu-nav">
         <div>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 입출고관리 <i class="fas fa-arrow-circle-right"></i> 제품입출고이력
+                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 재고관리 <i class="fas fa-chevron-right"></i> 제품재고현황
             </span>
         </div>
 
@@ -82,31 +74,40 @@
 
     <%@ include file="/WEB-INF/include/main-progress.jspf"%>
 
-    <div class="card shadow" style="min-height: 740px;">
+    <div class="card shadow" style="min-height: 770px;">
         <div class="card-body">
             <div class="table-responsive">
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12">
+                            <input type="hidden" id="prod_cls" name="prod_cls" value="P" />
+                            <%--                            <button type="button" class="btn btn-sm btn-success" onclick='setExcelPdfButtonEvent({tableID:"tblMaster", btn:"excel"});'><i class="fas fa-file-excel"></i> 엑셀</button>--%>
                             <table id ="tblMaster" class="table-list table table-hover table-striped table-bordered mb-5" style="width: 100%">
                                 <thead>
                                 <tr role="row">
-                                    <th>입출고일시</th>
-                                    <th>구분</th>
-                                    <th>종류</th>
-                                    <th>위치</th>
+<%--                                    <th class="no-sort" style="width: 3%">--%>
+<%--                                        <div class="custom-control custom-checkbox">--%>
+<%--                                            <input type="checkbox" class="custom-control-input" id="listAll">--%>
+<%--                                            <label class="custom-control-label" for="listAll"></label>--%>
+<%--                                        </div>--%>
+<%--                                    </th>--%>
+                                    <th>제품코드</th>
                                     <th style="width: 8%">품번</th>
-                                    <th style="width: 12%">품목명</th>
+                                    <th style="width: 16%">품명</th>
                                     <th>종류</th>
                                     <th>분류</th>
+                                    <th>품목군</th>
                                     <th>규격</th>
-                                    <th>전일재고</th>
-                                    <th>입출고량</th>
-                                    <th>현재고량</th>
-                                    <th style="width: 18%">상세구분</th>
+                                    <th>단위</th>
+                                    <th>단가</th>
+<%--                                    <th>주거래처</th>--%>
+                                    <th>안전재고</th>
+                                    <th>제품재고</th>
+<%--                                    <th>양산여부</th>--%>
                                 </tr>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -116,18 +117,18 @@
     </div>
 </div>
 
+
 <script>
 
     $(document).ready(() => {
         // DataTables setting
         setDatatable();
+        getData();
 
         $("#prod_kind, #prod_family, #prod_group").on("change", () => { getData() });
 
         // 조회
         $("#btnSearch").on("click", () => { getData() });
-
-        setTimeout(() => getData(), 30);
 
     });
 
@@ -148,7 +149,7 @@
             ,filter: true
             ,stateSave: true
             ,collapse: false
-            ,scrollY: 540
+            ,scrollY: 570
             ,selected: true
             ,multiSelected: false
             ,columnDefs : [
@@ -168,7 +169,7 @@
         showWait('.container-fluid');
 
         $.ajax({
-            url: "/mes/material/inout/materialInoutList"
+            url: "/mes/product/stock/prodStockList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -177,12 +178,11 @@
             ,dataType: "json"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,startDate: $("#startDate").val()
-                ,endDate: $("#endDate").val()
                 ,prod_kind: $("#prod_kind").val()
                 ,prod_family: $("#prod_family").val()
                 ,prod_group: $("#prod_group").val()
                 ,search_text: $("#search_text").val()
+                ,prod_cls: $("#prod_cls").val()
             })
         })
             .done(function (data)
@@ -192,27 +192,30 @@
                 data.forEach((item, index) => {
                     let node = [];
 
-                    node.push("<div class='text-center'>" + IsEmpty(item.inout_dt_time) + "</div>");
-                    node.push("<div class='text-center'>" + IsEmpty(item.inout_type_nm) + "</div>");
-                    node.push("<div class='text-center'>" + IsEmpty(item.inout_item_nm) + "</div>");
-                    node.push("<div class='text-center'>" + IsEmpty(item.inout_crcd_nm) + "</div>");
+                    let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
+                        "    <input type=\"hidden\" name=\"prod_cd\" value=\"" + item.prod_cd + "\">" +
+                        "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
+                        "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
+                        "</div>";
+
+                    // node.push(checkBoxNode);
+                    node.push(IsEmpty(item.prod_cd));
                     node.push(IsEmpty(item.prod_pn));
                     node.push(IsEmpty(item.prod_nm));
                     node.push(IsEmpty(item.prod_kind_nm));
                     node.push(IsEmpty(item.prod_group_nm));
+                    node.push(IsEmpty(item.prod_family_nm));
                     node.push(IsEmpty(item.prod_stand));
+                    node.push(IsEmpty(item.prod_unit_nm));
+                    node.push("<div class='text-right'>" + IsEmpty(item.prod_price.comma('2')) + "</div>");
+                    // node.push(IsEmpty(item.prod_main_comp_nm));
+                    node.push("<div class='text-right'>" + IsEmpty(item.prod_keep_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
                     node.push("<div class='text-right'>" + IsEmpty(item.prod_stock_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
-                    if(item.inout_type === "I") {
-                        node.push("<div class='text-right'>" + IsEmpty(item.inout_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
-                    }else {
-                        node.push("<div class='text-right'>" + "-" + IsEmpty(item.inout_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
-                    }
-                    node.push("<div class='text-right'>" + IsEmpty(item.cur_prod_stock_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
-                    node.push(IsEmpty(item.inout_msg));
+                    // node.push(IsEmpty(item.prod_mass_yn));
 
                     // 각 row node 추가
                     let row = $("#tblMaster").DataTable().row.add(node).node();
-                    if(item.inout_type == "O") {
+                    if(item.prod_keep_cnt > item.prod_stock_cnt) {
                         $(row).find("td").addClass("red");
                     }
                 });
@@ -227,7 +230,6 @@
                 ajaxErrorAlert(jqHXR);
             });
     }
-
 
 </script>
 

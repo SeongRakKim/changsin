@@ -104,10 +104,14 @@
         </a>
         <div id="collapseInventory" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="_isUrl collapse-item" data-url="/mes/production/plan/list" href="/mes/production/plan/list">제품재고관리</a>
-                <a class="_isUrl collapse-item" data-url="/mes/production/plan/list" href="/mes/production/plan/list">자재재고관리</a>
-                <a class="_isUrl collapse-item" data-url="/mes/production/plan/list" href="/mes/production/plan/list">제품수불부</a>
-                <a class="_isUrl collapse-item" data-url="/mes/production/plan/list" href="/mes/production/plan/list">자재수불부</a>
+                <h4 class="collapse-header">제품관리</h4>
+                <a class="_isUrl collapse-item" data-url="/mes/product/stock/list" href="/mes/product/stock/list">제품재고현황</a>
+                <a class="_isUrl collapse-item" data-url="/mes/product/part/list" href="/mes/product/part/list">제품수불부</a>
+                <a class="_isUrl collapse-item" data-url="/mes/product/history/list" href="/mes/product/history/list">제품이력조회</a>
+                <h4 class="collapse-header">자재관리</h4>
+                <a class="_isUrl collapse-item" data-url="/mes/material/stock/list" href="/mes/material/stock/list">자재재고현황</a>
+                <a class="_isUrl collapse-item" data-url="/mes/material/part/list" href="/mes/material/part/list">자재수불부</a>
+                <a class="_isUrl collapse-item" data-url="/mes/material/purchase/list" href="/mes/material/purchase/list">매입관리</a>
             </div>
         </div>
     </li>

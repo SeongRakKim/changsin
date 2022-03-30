@@ -46,7 +46,7 @@
                         <option value="PH">반제품</option>
                     </select>
                     <select id="prod_group" name="prod_group" class="custom-select w-100" style="width: 15% !important;">
-                        <option value="">제품분류선택</option>
+                        <option value="">품목분류선택</option>
                         <c:forEach var="item" items="${vmap.prodGroupList}" varStatus="status">
                             <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
                         </c:forEach>

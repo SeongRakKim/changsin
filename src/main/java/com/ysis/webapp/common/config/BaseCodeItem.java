@@ -15,10 +15,14 @@ public class BaseCodeItem
     public static final String SHIP_COMPLETE = "22";
     public static final String SHIP_STOP = "23";
 
+    public static final String PURCHASE_READY = "30";
+    public static final String PURCHASE_COMPELTE = "31";
+
     public static final String INOUT_PRODUCTION = "01";
     public static final String INOUT_SHIP = "02";
     public static final String INOUT_INPUT = "03";
     public static final String INOUT_DELETE = "04";
+    public static final String INOUT_PURCHASE = "05";
     public static final String INOUT_ETC = "99";
 
     public static final String SHIP_REGIST = "제품출하에 의한 재고차감";
@@ -31,5 +35,8 @@ public class BaseCodeItem
 
     public static final String PLAN_INPUT_REGIST = "생산투입에 의한 재고차감";
     public static final String PLAN_INPUT_DELETE = "생산투입 데이터 삭제에 의한 재고증가";
+
+    public static final String PURCHASE_REGIST = "자재입고에 의한 재고증가";
+    public static final String PURCHASE_DELETE = "자재입고 데이터 삭제에 의한 재고차감";
 
 }

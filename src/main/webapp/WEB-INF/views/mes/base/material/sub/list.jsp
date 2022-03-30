@@ -86,7 +86,7 @@
                                     <th>단가</th>
                                     <th>주거래처</th>
                                     <th>안전재고</th>
-                                    <th>자재재고</th>
+<%--                                    <th>자재재고</th>--%>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -295,7 +295,7 @@
                     {
                         $.ajax({
                             type : 'get'
-                            ,url: '/mes/base/material/mateOverlap/' + $("#pop_prod_cd").val()
+                            ,url: '/mes/base/product/prodOverlap/' + $("#pop_prod_cd").val()
                             ,dataType : 'json'
                         })
                             .done(function (data)
@@ -467,7 +467,7 @@
                             node.push("<div class='text-right'>" + IsEmpty(item.prod_price.comma('2')) + "</div>");
                             node.push(IsEmpty(item.prod_main_comp_nm));
                             node.push("<div class='text-right'>" + IsEmpty(item.prod_keep_cnt.comma('2')) + "</div>");
-                            node.push("<div class='text-right'>" + IsEmpty(item.prod_stock_cnt.comma('2')) + "</div>");
+                            // node.push("<div class='text-right'>" + IsEmpty(item.prod_stock_cnt.comma('2')) + "</div>");
 
                             // 각 row node 추가
                             $("#tblMaster").DataTable().row.add(node).node();

@@ -3,11 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="mes.sales.order">
+<mapper namespace="mes.material.purchase">
 
-    <select id="orderList" parameterType="VMap" resultType="RowMap">
+    <select id="purchaseList" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
-               ,ODR_CD
+               ,PUR_CD
                ,COMP_CD
                ,COMP_NM
                ,PROD_CD
@@ -41,28 +41,27 @@
                   FROM MES_COMPANY_INFO
                   WHERE COMP_CD = PROD_MAIN_COMP
                 ) PROD_MAIN_COMP_NM
-               ,ODR_DT
-               ,ODR_SHIP_DT
-               ,ODR_CNT
-               ,ODR_PRICE
-               ,ODR_AMT
-               ,ODR_VAT
-               ,ODR_VAT_YN
-               ,ODR_NM
-               ,ODR_TEL
-               ,ODR_PROJECT
-               ,ODR_STATE
+               ,PUR_DT
+               ,PUR_SHIP_DT
+               ,PUR_CNT
+               ,PUR_PRICE
+               ,PUR_AMT
+               ,PUR_VAT
+               ,PUR_VAT_YN
+               ,PUR_STATE
                ,(SELECT CODE_NM
                    FROM DFT_CODE_INFO
                   WHERE CODE_ID = 'MES_STATE'
-                    AND CODE_CD = ODR_STATE
-                ) ODR_STATE_NM
-               ,ODR_NOTICE
-               ,ODR_INDATE
-               ,ODR_INUSER
-               ,ODR_UPDATE
-               ,ODR_UPUSER
-        FROM MES_ORDER_INFO MOI
+                    AND CODE_CD = PUR_STATE
+                ) PUR_STATE_NM
+               ,PUR_IN_DT
+               ,IFNULL(PUR_IN_CNT, 0) PUR_IN_CNT
+               ,PUR_NOTICE
+               ,PUR_INDATE
+               ,PUR_INUSER
+               ,PUR_UPDATE
+               ,PUR_UPUSER
+        FROM MES_PURCHASE_INFO MOI
         JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
         JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
        WHERE DATE_FORMAT(${date_type}, '%Y-%m-%d') <![CDATA[>=]]> #{startDate}
@@ -89,9 +88,9 @@
         </if>
     </select>
 
-    <select id="orderList2" parameterType="VMap" resultType="RowMap">
+    <select id="purchaseList2" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
-               ,ODR_CD
+               ,PUR_CD
                ,COMP_CD
                ,COMP_NM
                ,PROD_CD
@@ -125,40 +124,37 @@
                   FROM MES_COMPANY_INFO
                   WHERE COMP_CD = PROD_MAIN_COMP
                 ) PROD_MAIN_COMP_NM
-               ,ODR_DT
-               ,ODR_SHIP_DT
-               ,ODR_CNT
-               ,ODR_PRICE
-               ,ODR_AMT
-               ,ODR_VAT
-               ,ODR_VAT_YN
-               ,ODR_NM
-               ,ODR_TEL
-               ,ODR_PROJECT
-               ,ODR_STATE
+               ,PUR_DT
+               ,PUR_SHIP_DT
+               ,PUR_CNT
+               ,PUR_PRICE
+               ,PUR_AMT
+               ,PUR_VAT
+               ,PUR_VAT_YN
+               ,PUR_STATE
                ,(SELECT CODE_NM
                    FROM DFT_CODE_INFO
                   WHERE CODE_ID = 'MES_STATE'
-                    AND CODE_CD = ODR_STATE
-                ) ODR_STATE_NM
-               ,ODR_NOTICE
-               ,ODR_INDATE
-               ,ODR_INUSER
-               ,ODR_UPDATE
-               ,ODR_UPUSER
-        FROM MES_ORDER_INFO MOI
+                    AND CODE_CD = PUR_STATE
+                ) PUR_STATE_NM
+               ,PUR_NOTICE
+               ,PUR_INDATE
+               ,PUR_INUSER
+               ,PUR_UPDATE
+               ,PUR_UPUSER
+        FROM MES_PURCHASE_INFO MOI
         JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
         JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
-       WHERE ODR_STATE = '01'
-         AND ODR_CD IN
+       WHERE PUR_STATE = '30'
+         AND PUR_CD IN
         <foreach collection="checkItems" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
     </select>
 
-    <select id="orderOne" parameterType="VMap" resultType="RowMap">
+    <select id="purchaseOne" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
-               ,ODR_CD
+               ,PUR_CD
                ,COMP_CD
                ,COMP_NM
                ,PROD_CD
@@ -192,134 +188,101 @@
                   FROM MES_COMPANY_INFO
                   WHERE COMP_CD = PROD_MAIN_COMP
                 ) PROD_MAIN_COMP_NM
-               ,ODR_DT
-               ,ODR_SHIP_DT
-               ,ODR_CNT
-               ,ODR_PRICE
-               ,ODR_AMT
-               ,ODR_VAT
-               ,ODR_VAT_YN
-               ,ODR_NM
-               ,ODR_TEL
-               ,ODR_PROJECT
-               ,ODR_STATE
-               ,ODR_NOTICE
-               ,ODR_INDATE
-               ,ODR_INUSER
-               ,ODR_UPDATE
-               ,ODR_UPUSER
-        FROM MES_ORDER_INFO MOI
+               ,PUR_DT
+               ,PUR_SHIP_DT
+               ,PUR_CNT
+               ,PUR_PRICE
+               ,PUR_AMT
+               ,PUR_VAT
+               ,PUR_VAT_YN
+               ,PUR_STATE
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'MES_STATE'
+                   AND CODE_CD = PUR_STATE
+                ) PUR_STATE_NM
+               ,PUR_IN_DT
+               ,IFNULL(PUR_IN_CNT, 0) PUR_IN_CNT
+               ,PUR_NOTICE
+               ,PUR_INDATE
+               ,PUR_INUSER
+               ,PUR_UPDATE
+               ,PUR_UPUSER
+        FROM MES_PURCHASE_INFO MOI
         JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
         JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
-       WHERE ODR_CD = #{odr_cd}
+       WHERE PUR_CD = #{pur_cd}
     </select>
 
-    <insert id="orderRegist" parameterType="VMap">
-        INSERT INTO MES_ORDER_INFO
+    <insert id="purchaseRegist" parameterType="VMap">
+        INSERT INTO MES_PURCHASE_INFO
         (
-             FACT_CD
-             ,ODR_CD
-             ,COMP_CD
-             ,PROD_CD
-             ,ODR_DT
-             ,ODR_SHIP_DT
-             ,ODR_CNT
-             ,ODR_PRICE
-             ,ODR_AMT
-             ,ODR_VAT
-             ,ODR_VAT_YN
-             ,ODR_NM
-             ,ODR_TEL
-             ,ODR_PROJECT
-             ,ODR_NOTICE
-             ,ODR_INDATE
-             ,ODR_INUSER
-             ,ODR_UPDATE
-             ,ODR_UPUSER
-        ) VALUES (
+            FACT_CD
+           ,PUR_CD
+           ,COMP_CD
+           ,PROD_CD
+           ,PUR_DT
+           ,PUR_SHIP_DT
+           ,PUR_CNT
+           ,PUR_PRICE
+           ,PUR_AMT
+           ,PUR_VAT
+           ,PUR_VAT_YN
+           ,PUR_NOTICE
+           ,PUR_INDATE
+           ,PUR_INUSER
+           ,PUR_UPDATE
+           ,PUR_UPUSER
+        )VALUES
+        (
             #{fact_cd}
-             ,#{odr_cd}
-             ,#{comp_cd}
-             ,#{prod_cd}
-             ,#{odr_dt}
-             ,#{odr_ship_dt}
-             ,#{odr_cnt}
-             ,#{odr_price}
-             ,#{odr_amt}
-             ,#{odr_vat}
-             ,#{odr_vat_yn}
-             ,#{odr_nm}
-             ,#{odr_tel}
-             ,#{odr_project}
-             ,#{odr_notice}
-             ,NOW()
-             ,IFNULL(#{u_cd}, 'system')
-             ,NOW()
-             ,IFNULL(#{u_cd}, 'system')
+           ,#{pur_cd}
+           ,#{comp_cd}
+           ,#{prod_cd}
+           ,#{pur_dt}
+           ,#{pur_ship_dt}
+           ,#{pur_cnt}
+           ,#{pur_price}
+           ,#{pur_amt}
+           ,#{pur_vat}
+           ,#{pur_vat_yn}
+           ,#{pur_notice}
+           ,NOW()
+           ,IFNULL(#{u_cd}, 'system')
+           ,NOW()
+           ,IFNULL(#{u_cd}, 'system')
         )
     </insert>
 
-    <update id="orderModify" parameterType="VMap">
-        UPDATE MES_ORDER_INFO
+    <update id="purchaseModify" parameterType="VMap">
+        UPDATE MES_PURCHASE_INFO
         SET COMP_CD = #{comp_cd}
           ,PROD_CD = #{prod_cd}
-          ,ODR_DT = #{odr_dt}
-          ,ODR_SHIP_DT = #{odr_ship_dt}
-          ,ODR_CNT = #{odr_cnt}
-          ,ODR_PRICE = #{odr_price}
-          ,ODR_AMT = #{odr_amt}
-          ,ODR_VAT = #{odr_vat}
-          ,ODR_VAT_YN = #{odr_vat_yn}
-          ,ODR_NM = #{odr_nm}
-          ,ODR_TEL = #{odr_tel}
-          ,ODR_PROJECT = #{odr_project}
-          ,ODR_NOTICE = #{odr_notice}
-        WHERE ODR_CD = #{odr_cd}
+          ,PUR_DT = #{pur_dt}
+          ,PUR_SHIP_DT = #{pur_ship_dt}
+          ,PUR_CNT = #{pur_cnt}
+          ,PUR_PRICE = #{pur_price}
+          ,PUR_AMT = #{pur_amt}
+          ,PUR_VAT = #{pur_vat}
+          ,PUR_VAT_YN = #{pur_vat_yn}
+          ,PUR_NOTICE = #{pur_notice}
+        WHERE PUR_CD = #{pur_cd}
     </update>
 
-    <insert id="shipRegist" parameterType="VMap">
-        INSERT INTO MES_SHIP_INFO
-        (
-             FACT_CD
-             ,ODR_CD
-             ,SHIP_CD
-             ,SHIP_NOTICE
-             ,SHIP_INDATE
-             ,SHIP_INUSER
-             ,SHIP_UPDATE
-             ,SHIP_UPUSER
-        )VALUES (
-            #{fact_cd}
-            ,#{odr_cd}
-            ,#{ship_cd}
-            ,#{ship_notice}
-            ,NOW()
-            ,IFNULL(#{u_cd}, 'system')
-            ,NOW()
-            ,IFNULL(#{u_cd}, 'system')
-        )
-    </insert>
+    <update id="purchaseInModify" parameterType="VMap">
+        UPDATE MES_PURCHASE_INFO
+        SET PUR_IN_CNT = #{pur_cnt}
+          ,PUR_IN_DT = NOW()
+          ,PUR_STATE = #{pur_state}
+        WHERE PUR_CD = #{pur_cd}
+    </update>
 
-    <delete id="orderPackDelete" parameterType="VMap">
-        DELETE FROM MES_ORDER_INFO
-        WHERE ODR_CD IN
-        <foreach collection="oderDeleteItems" item="item" separator="," open="(" close=")">
+    <delete id="purchasePackDelete" parameterType="VMap">
+        DELETE FROM MES_PURCHASE_INFO
+        WHERE PUR_CD IN
+        <foreach collection="purchaseDeleteItems" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
     </delete>
-
-    <delete id="shipPackDelete" parameterType="VMap">
-        DELETE FROM MES_SHIP_INFO
-        WHERE ODR_CD IN
-        <foreach collection="oderDeleteItems" item="item" separator="," open="(" close=")">
-            #{item}
-        </foreach>
-    </delete>
-
-    <update id="orderStateModify" parameterType="VMap">
-        UPDATE MES_ORDER_INFO
-        SET ODR_STATE = #{odr_state}
-        WHERE ODR_CD = #{odr_cd}
-    </update>
 
 </mapper>

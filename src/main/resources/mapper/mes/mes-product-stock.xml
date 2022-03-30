@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.product.stock">
+
+    <select id="prodStockList" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_PRICE
+               ,PROD_MAIN_COMP
+               ,(SELECT COMP_NM
+                  FROM MES_COMPANY_INFO
+                  WHERE COMP_CD = PROD_MAIN_COMP
+                ) PROD_MAIN_COMP_NM
+               ,(SELECT COUNT(*)
+                  FROM MES_PRODUCT_PROCESS
+                 WHERE FACT_CD = MPI.FACT_CD
+                   AND PROD_CD = MPI.PROD_CD) AS PROC_CNT
+               ,(SELECT COUNT(*)
+                   FROM MES_PRODUCT_BOM
+                  WHERE FACT_CD = MPI.FACT_CD
+                    AND PROD_CD = MPI.PROD_CD) AS BOM_CNT
+               ,PROD_KEEP_CNT
+               ,PROD_STOCK_CNT
+               ,PROD_YN
+               ,PROD_MASS_YN
+               ,PROD_NOTICE
+               ,PROD_INDATE
+               ,PROD_INUSER
+               ,PROD_UPDATE
+               ,PROD_UPUSER
+          FROM MES_PRODUCT_INFO MPI
+         WHERE PROD_YN = 'Y'
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cls)">
+           AND PROD_CLS = #{prod_cls}
+       </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+           AND PROD_KIND = #{prod_kind}
+       </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+           AND PROD_KIND = #{prod_kind}
+       </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+           AND PROD_FAMILY = #{prod_family}
+       </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+           AND PROD_GROUP = #{prod_group}
+       </if>
+       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+            AND
+            (
+                PROD_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_PN LIKE CONCAT('%', #{search_text}, '%')
+                OR PROD_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_GROUP) LIKE CONCAT('%', #{search_text}, '%')
+                OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
+            )
+        </if>
+    </select>
+
+</mapper>
