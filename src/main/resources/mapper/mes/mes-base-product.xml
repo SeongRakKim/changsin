@@ -57,19 +57,19 @@
                ,PROD_UPUSER
           FROM MES_PRODUCT_INFO MPI
          WHERE PROD_YN = 'Y'
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cls)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_cls)">
            AND PROD_CLS = #{prod_cls}
        </if>
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
            AND PROD_KIND = #{prod_kind}
        </if>
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
            AND PROD_FAMILY = #{prod_family}
        </if>
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
            AND PROD_GROUP = #{prod_group}
        </if>
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
             AND
             (
                 PROD_CD LIKE CONCAT('%', #{search_text}, '%')
@@ -172,16 +172,16 @@
                ,PROD_UPUSER
           FROM MES_PRODUCT_INFO
          WHERE PROD_YN = 'Y'
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
             AND PROD_KIND = #{prod_kind}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
             AND PROD_GROUP = #{prod_group}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
             AND PROD_FAMILY = #{prod_family}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
             AND PROD_CD = #{prod_cd}
         </if>
     </select>
@@ -232,16 +232,16 @@
          WHERE PROD_YN = 'Y'
            AND PROD_CLS = 'P'
            AND PROD_KIND = 'PA'
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
             AND PROD_GROUP = #{prod_group}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
             AND PROD_FAMILY = #{prod_family}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
             AND PROD_CD = #{prod_cd}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
             AND
             (
                 PROD_NM LIKE CONCAT('%', #{selector}, '%') OR
@@ -296,19 +296,19 @@
           FROM MES_PRODUCT_INFO
          WHERE PROD_YN = 'Y'
            AND PROD_KIND IN ('PS', 'MO', 'MS')
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
             AND PROD_KIND = #{prod_kind}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
             AND PROD_GROUP = #{prod_group}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
             AND PROD_FAMILY = #{prod_family}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
             AND PROD_CD = #{prod_cd}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
             AND
             (
                 PROD_NM LIKE CONCAT('%', #{selector}, '%') OR
@@ -362,19 +362,19 @@
           FROM MES_PRODUCT_INFO
          WHERE PROD_YN = 'Y'
            AND PROD_KIND IN ('PS', 'PA')
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
             AND PROD_KIND = #{prod_kind}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
             AND PROD_GROUP = #{prod_group}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
             AND PROD_FAMILY = #{prod_family}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
             AND PROD_CD = #{prod_cd}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
             AND
             (
                 PROD_NM LIKE CONCAT('%', #{selector}, '%') OR
@@ -428,19 +428,19 @@
           FROM MES_PRODUCT_INFO
          WHERE PROD_YN = 'Y'
            AND PROD_KIND IN ('MO', 'MS')
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
             AND PROD_KIND = #{prod_kind}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
             AND PROD_GROUP = #{prod_group}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
             AND PROD_FAMILY = #{prod_family}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
             AND PROD_CD = #{prod_cd}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
             AND
             (
                 PROD_NM LIKE CONCAT('%', #{selector}, '%') OR
@@ -493,7 +493,7 @@
                ,PROD_UPUSER
           FROM MES_PRODUCT_INFO
          WHERE PROD_YN = 'Y'
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
             AND
             (
                 PROD_NM LIKE CONCAT('%', #{selector}, '%')
@@ -604,7 +604,7 @@
             ,PROD_PROC_UPDATE
             ,PROD_PROC_UPUSER
           FROM MES_PRODUCT_PROCESS
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
             WHERE PROD_CD = #{prod_cd}
         </if>
         ORDER BY PROD_PROC_SEQ ASC
@@ -719,10 +719,10 @@
         FROM MES_PRODUCT_BOM MPB
         JOIN MES_PRODUCT_INFO MPI USING (FACT_CD, PROD_CD)
         JOIN MES_PRODUCT_INFO MPI2 ON MPB.FACT_CD = MPI2.FACT_CD AND MPB.PROD_JA_CD = MPI2.PROD_CD
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
             WHERE MPB.PROD_CD = #{prod_cd}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(proc_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(proc_cd)">
             AND PROC_CD = #{proc_cd}
         </if>
         ORDER BY MPI2.PROD_KIND, PROD_BOM_CNT DESC

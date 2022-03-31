@@ -178,37 +178,37 @@
                 ,prod_cls: $("#prod_cls").val()
             })
         })
-            .done(function (data)
-            {
-                $("#tblMaster").DataTable().clear();
+        .done(function (data)
+        {
+            $("#tblMaster").DataTable().clear();
 
-                data.forEach((item, index) => {
-                    let node = [];
+            data.forEach((item, index) => {
+                let node = [];
 
-                    let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
-                        "    <input type=\"hidden\" name=\"prod_cd\" value=\"" + item.prod_cd + "\">" +
-                        "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
-                        "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
-                        "</div>";
+                let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
+                    "    <input type=\"hidden\" name=\"prod_cd\" value=\"" + item.prod_cd + "\">" +
+                    "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
+                    "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
+                    "</div>";
 
-                    // node.push(checkBoxNode);
-                    node.push(IsEmpty(item.prod_cd));
-                    node.push(IsEmpty(item.prod_pn));
-                    node.push(IsEmpty(item.prod_nm));
-                    node.push(IsEmpty(item.prod_group_nm));
-                    node.push(IsEmpty(item.prod_stand));
-                    node.push(IsEmpty(item.prod_unit_nm));
-                    node.push("<div class='text-right'>" + IsEmpty(item.prod_price.comma('2')) + "</div>");
-                    // node.push(IsEmpty(item.prod_main_comp_nm));
-                    node.push("<div class='text-right'>" + IsEmpty(item.prod_keep_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
-                    node.push("<div class='text-right'>" + IsEmpty(item.prod_stock_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
+                // node.push(checkBoxNode);
+                node.push(IsEmpty(item.prod_cd));
+                node.push(IsEmpty(item.prod_pn));
+                node.push(IsEmpty(item.prod_nm));
+                node.push(IsEmpty(item.prod_group_nm));
+                node.push(IsEmpty(item.prod_stand));
+                node.push(IsEmpty(item.prod_unit_nm));
+                node.push("<div class='text-right'>" + IsEmpty(item.prod_price.comma('2')) + "</div>");
+                // node.push(IsEmpty(item.prod_main_comp_nm));
+                node.push("<div class='text-right'>" + IsEmpty(item.prod_keep_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
+                node.push("<div class='text-right'>" + IsEmpty(item.prod_stock_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
 
-                    // 각 row node 추가
-                    let row = $("#tblMaster").DataTable().row.add(node).node();
-                    if(item.prod_keep_cnt > item.prod_stock_cnt) {
-                        $(row).find("td").addClass("red");
-                    }
-                });
+                // 각 row node 추가
+                let row = $("#tblMaster").DataTable().row.add(node).node();
+                if(item.prod_keep_cnt > item.prod_stock_cnt) {
+                    $(row).find("td").addClass("red");
+                }
+            });
 
                 // datatables draw
                 $("#tblMaster").DataTable().draw(false);

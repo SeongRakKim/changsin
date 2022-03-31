@@ -67,16 +67,16 @@
         JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
        WHERE DATE_FORMAT(${date_type}, '%Y-%m-%d') <![CDATA[>=]]> #{startDate}
          AND DATE_FORMAT(${date_type}, '%Y-%m-%d') <![CDATA[<=]]> #{endDate}
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
            AND PROD_KIND = #{prod_kind}
        </if>
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
            AND PROD_FAMILY = #{prod_family}
        </if>
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
            AND PROD_GROUP = #{prod_group}
        </if>
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
             AND
             (
                 PROD_CD LIKE CONCAT('%', #{search_text}, '%')

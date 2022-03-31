@@ -18,7 +18,7 @@
                ,PROC_UPUSER
         FROM MES_PROCESS_INFO
          WHERE PROC_YN = 'Y'
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
             AND
             (
                 PROC_CD LIKE CONCAT('%', #{search_text}, '%')
@@ -57,7 +57,7 @@
                ,PROC_UPUSER
         FROM MES_PROCESS_INFO
          WHERE PROC_YN = 'Y'
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(proc_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(proc_cd)">
             AND PROC_CD = #{proc_cd}
         </if>
     </select>

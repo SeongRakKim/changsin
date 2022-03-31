@@ -26,10 +26,10 @@
                ,EQU_UPUSER
         FROM MES_EQUIPMENT_INFO MEI
          WHERE EQU_YN = 'Y'
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(proc_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(proc_cd)">
             AND PROC_CD = #{proc_cd}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
             AND
             (
                 EQU_CD LIKE CONCAT('%', #{search_text}, '%')
@@ -82,10 +82,10 @@
                ,EQU_UPUSER
         FROM MES_EQUIPMENT_INFO
          WHERE EQU_YN = 'Y'
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(equ_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(equ_cd)">
             AND EQU_CD = #{equ_cd}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(proc_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(proc_cd)">
             AND PROC_CD = #{proc_cd}
         </if>
     </select>

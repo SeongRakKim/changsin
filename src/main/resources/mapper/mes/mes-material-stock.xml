@@ -43,16 +43,16 @@
                ,MATE_UPUSER
           FROM MES_MATERIAL_INFO
          WHERE MATE_YN = 'Y'
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(mate_kind)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(mate_kind)">
            AND MATE_KIND = #{mate_kind}
        </if>
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(mate_family)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(mate_family)">
            AND MATE_FAMILY = #{mate_family}
        </if>
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(mate_group)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(mate_group)">
            AND MATE_GROUP = #{mate_group}
        </if>
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
             AND
             (
                 MATE_CD LIKE CONCAT('%', #{search_text}, '%')

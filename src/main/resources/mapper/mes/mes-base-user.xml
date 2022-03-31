@@ -94,13 +94,13 @@
                ,COMP_UPUSER
           FROM MES_COMPANY_INFO
          WHERE COMP_YN = 'Y'
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(comp_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(comp_cd)">
             AND COMP_CD = #{comp_cd}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(comp_type)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(comp_type)">
             AND COMP_TYPE = #{comp_type}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(comp_group)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(comp_group)">
             AND COMP_GROUP = #{comp_group}
         </if>
     </select>
@@ -137,7 +137,7 @@
                ,COMP_UPUSER
           FROM MES_COMPANY_INFO
          WHERE COMP_YN = 'Y'
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(selector)">
             AND
             (
                 COMP_NM LIKE CONCAT('%', #{selector}, '%')

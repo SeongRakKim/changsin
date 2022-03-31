@@ -67,16 +67,16 @@
         JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
        WHERE DATE_FORMAT(PLAN_STDT, '%Y-%m-%d') <![CDATA[>=]]> #{startDate}
          AND DATE_FORMAT(PLAN_EDDT, '%Y-%m-%d') <![CDATA[<=]]> #{endDate}
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
            AND PROD_KIND = #{prod_kind}
        </if>
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
            AND PROD_FAMILY = #{prod_family}
        </if>
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
            AND PROD_GROUP = #{prod_group}
        </if>
-       <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
             AND
             (
                 PROD_CD LIKE CONCAT('%', #{search_text}, '%')
@@ -198,16 +198,16 @@
                ,PROD_UPUSER
           FROM MES_PRODUCT_INFO
          WHERE PROD_YN = 'Y'
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_kind)">
             AND PROD_KIND = #{prod_kind}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
             AND PROD_GROUP = #{prod_group}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_family)">
             AND PROD_FAMILY = #{prod_family}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
             AND PROD_CD = #{prod_cd}
         </if>
     </select>
@@ -263,14 +263,14 @@
 
     <update id="planPackDelete" parameterType="VMap">
         DELETE FROM MES_PRODUCTION_PLAN
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(deleteItems)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(deleteItems)">
             WHERE PLAN_CD IN
             <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
                 #{item}
             </foreach>
         </if>
 
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(oderDeleteItems)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(oderDeleteItems)">
             WHERE ODR_CD IN
             <foreach collection="oderDeleteItems" item="item" separator="," open="(" close=")">
                 #{item}
@@ -344,10 +344,10 @@
 
     <delete id="planProcDelete" parameterType="VMap">
         DELETE FROM MES_PRODUCTION_PLAN_PROCESS
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(plan_proc_cd)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(plan_proc_cd)">
             WHERE PLAN_PROC_CD = #{plan_proc_cd}
         </if>
-        <if test="@com.ysis.webapp.common.util.MybatisUtils@isNotEmpty(deleteItems)">
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(deleteItems)">
             WHERE PLAN_CD IN
             <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
                 #{item}
