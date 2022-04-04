@@ -54,6 +54,9 @@
                 <a class="_isUrl collapse-item" data-url="/mes/base/material/sub/list" href="/mes/base/material/sub/list">부자재정보</a>
                 <a class="_isUrl collapse-item" data-url="/mes/base/process/list" href="/mes/base/process/list">공정정보</a>
                 <a class="_isUrl collapse-item" data-url="/mes/base/equipment/list" href="/mes/base/equipment/list">설비정보</a>
+                <a class="_isUrl collapse-item" data-url="/mes/base/user/list" href="/mes/base/user/list">사용자관리</a>
+                <a class="_isUrl collapse-item" data-url="/mes/base/depot/list" href="/mes/base/depot/list">부서관리</a>
+                <a class="_isUrl collapse-item" data-url="/mes/base/grade/list" href="/mes/base/grade/list">직급관리</a>
                 <a class="_isUrl collapse-item" data-url="/mes/base/notice/list" href="/mes/base/notice/list">공지정보</a>
             </div>
         </div>
@@ -114,6 +117,18 @@
                 <a class="_isUrl collapse-item" data-url="/mes/material/purchase/list" href="/mes/material/purchase/list">매입관리</a>
             </div>
         </div>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseQuality"
+           aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fab fa-digital-ocean"></i>
+            <span>품질관리</span>
+        </a>
+        <div id="collapseQuality" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="_isUrl collapse-item" data-url="/mes/quality/material/list" href="/mes/quality/material/list">수입검사</a>
+                <a class="_isUrl collapse-item" data-url="/mes/quality/process/list" href="/mes/quality/process/list">공정검사</a>
+                <a class="_isUrl collapse-item" data-url="/mes/quality/shipment/list" href="/mes/quality/shipment/list">출고검사</a>
+            </div>
+        </div>
     </li>
 
     <!-- Nav Item - Utilities Collapse Menu -->
@@ -140,8 +155,21 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        시스템관리
+        공통관리
     </div>
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDefault"
+           aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-dice-d20"></i>
+            <span>공통관리</span>
+        </a>
+        <div id="collapseDefault" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="_isUrl collapse-item" data-url="/mes/quality/material/list" href="/mes/quality/material/list">공통코드관리</a>
+            </div>
+        </div>
+    </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">

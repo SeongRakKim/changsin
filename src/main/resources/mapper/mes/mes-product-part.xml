@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.product.part">
+
+    <select id="prodPartList" parameterType="VMap" resultType="RowMap">
+        WITH RECURSIVE CTE AS (
+            SELECT FACT_CD
+                    ,#{endDate} AS START_DATE
+                    ,PROD_CD
+                    ,CAST(0 AS DECIMAL (10, 3)) PRODUCTION_CNT
+                    ,CAST(0 AS DECIMAL (10, 3)) SHIP_CNT
+                    ,SF_GET_DATE_JEGO_CNT(PROD_CD, #{endDate}, 0) PROD_STOCK_CNT
+            FROM MES_PRODUCT_INFO
+           WHERE PROD_CLS IN ('P')
+             AND PROD_YN = 'Y'
+            UNION ALL
+            SELECT CTE.FACT_CD
+                    ,START_DATE - INTERVAL 1 DAY
+                    ,CTE.PROD_CD
+                    ,IFNULL(CAST(CTE.PRODUCTION_CNT AS DECIMAL (10, 3)), 0) + IFNULL(CAST(MPI.PRODUCTION_CNT AS DECIMAL (10, 3)), 0) AS PRODUCTION_CNT
+                    ,IFNULL(CAST(CTE.SHIP_CNT AS DECIMAL (10, 3)), 0) + IFNULL(CAST(MPI.SHIP_CNT AS DECIMAL (10, 3)), 0) AS SHIP_CNT
+                    ,IFNULL(CAST(PROD_STOCK_CNT AS DECIMAL (10, 3)) + IFNULL(CAST(INOUT_CNT AS DECIMAL (10, 3)), 0), 0) PROD_STOCK_CNT
+            FROM CTE
+            LEFT JOIN
+            (
+                SELECT FACT_CD
+                   ,PROD_CD
+                   ,IFNULL(SUM(PRODUCTION_CNT), 0) PRODUCTION_CNT
+                   ,IFNULL(SUM(SHIP_CNT), 0) SHIP_CNT
+                   ,IFNULL(SUM(INOUT_CNT), 0) INOUT_CNT
+                   ,DATE_FORMAT(INOUT_DT, '%Y-%m-%d') INOUT_DT
+                FROM
+                (
+                     SELECT FACT_CD
+                         ,PROD_CD
+                         ,IFNULL(SUM(IF(INOUT_TYPE = 'I' AND INOUT_ITEM = '01', INOUT_CNT, 0)), 0) PRODUCTION_CNT
+--                          ,IFNULL(SUM(IF(INOUT_TYPE = 'O' AND INOUT_ITEM = '02', INOUT_CNT, 0)), 0) SHIP_CNT
+                         ,0 SHIP_CNT
+                         ,SUM(IF( INOUT_ITEM IN ('01', '02'), IF(INOUT_TYPE = 'I', INOUT_CNT * -1, INOUT_CNT) , 0)) INOUT_CNT
+                         ,DATE_FORMAT(INOUT_DT, '%Y-%m-%d') INOUT_DT
+                    FROM MES_PRODUCT_INOUT
+                    JOIN MES_PRODUCT_INFO USING(FACT_CD, PROD_CD)
+                    WHERE PROD_CLS IN ('P')
+                      AND DATE_FORMAT(INOUT_DT, '%Y-%m-%d')  <![CDATA[>=]]> #{startDate}
+                      AND DATE_FORMAT(INOUT_DT, '%Y-%m-%d')  <![CDATA[<=]]> #{endDate}
+                    GROUP BY PROD_CD, DATE_FORMAT(INOUT_DT, '%Y-%m-%d')
+                    UNION ALL
+                     SELECT FACT_CD
+                          ,PROD_CD
+                          ,0 PRODUCTION_CNT
+                          ,IFNULL(SUM(SHIP_DETAIL_CNT), 0) SHIP_CNT
+                          ,0 INOUT_CNT
+                          ,DATE_FORMAT(SHIP_DETAIL_DT, '%Y-%m-%d') INOUT_DT
+                     FROM MES_SHIP_DETAIL
+                     JOIN MES_SHIP_INFO USING (FACT_CD, ODR_CD, SHIP_CD)
+                     JOIN MES_ORDER_INFO USING (FACT_CD, ODR_CD)
+                    WHERE DATE_FORMAT(SHIP_DETAIL_DT, '%Y-%m-%d')  <![CDATA[>=]]> #{startDate}
+                      AND DATE_FORMAT(SHIP_DETAIL_DT, '%Y-%m-%d')  <![CDATA[<=]]> #{endDate}
+                     GROUP BY PROD_CD, DATE_FORMAT(SHIP_DETAIL_DT, '%Y-%m-%d')
+                ) AA
+                GROUP BY PROD_CD, INOUT_DT
+            ) MPI ON DATE_FORMAT(MPI.INOUT_DT, '%Y-%m-%d') = CTE.START_DATE AND MPI.PROD_CD = CTE.PROD_CD
+            WHERE START_DATE <![CDATA[>=]]> #{startDate} + INTERVAL 0 DAY
+        )
+        SELECT START_DATE
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_PRICE
+               ,PROD_MAIN_COMP
+               ,(SELECT COMP_NM
+                  FROM MES_COMPANY_INFO
+                  WHERE COMP_CD = PROD_MAIN_COMP
+                ) PROD_MAIN_COMP_NM
+               ,PROD_KEEP_CNT
+               ,A.PROD_STOCK_CNT DF_PROD_STOCK_CNT
+               ,PRODUCTION_CNT
+               ,SHIP_CNT
+               ,SF_GET_DATE_JEGO_CNT(PROD_CD, #{endDate}, 0) CUR_PROD_STOCK_CNT
+               ,RANKING
+        FROM
+        (
+            SELECT FACT_CD
+                 ,START_DATE
+                 ,PROD_CD
+                 ,PRODUCTION_CNT
+                 ,SHIP_CNT
+                 ,PROD_STOCK_CNT
+                 ,RANK () OVER (PARTITION BY PROD_CD ORDER BY START_DATE ASC) AS RANKING
+            FROM CTE
+        ) A
+        JOIN MES_PRODUCT_INFO USING(FACT_CD, PROD_CD)
+        WHERE RANKING = 1
+        ORDER BY PROD_PN, PROD_NM
+    </select>
+
+</mapper>
