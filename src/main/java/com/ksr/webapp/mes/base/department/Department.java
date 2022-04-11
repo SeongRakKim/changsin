@@ -1,6 +1,5 @@
 package com.ksr.webapp.mes.base.department;
 
-import com.ksr.webapp.common.config.KeyType;
 import com.ksr.webapp.common.config.SeqGenerator;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -10,12 +9,12 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Data
 @Table(name="mes_department_info")
-public class DepartmentVO {
+public class Department {
 
     private static final String PROCEDURE_PARAM = "DEPT";
 
