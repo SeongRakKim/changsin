@@ -12,13 +12,13 @@ public class ProductionStateDAO extends MapperDAO {
 
     private static String mapperName = "mes.production.state";
 
-    public List<Map<String, Object>> stateList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".stateList", vMap.getMap());
+    public List<Map<String, Object>> stateList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".stateList", vmap.getMap());
     }
 
 
-    public Map<String, Object> stateOne(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".stateOne", vMap.getMap());
+    public Map<String, Object> stateOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".stateOne", vmap.getMap());
     }
 
 }

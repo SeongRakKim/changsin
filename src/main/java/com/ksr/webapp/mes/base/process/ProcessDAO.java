@@ -12,16 +12,16 @@ public class ProcessDAO extends MapperDAO {
 
     private static String mapperName = "mes.base.process";
 
-    public List<Map<String, Object>> procList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".procList", vMap.getMap());
+    public List<Map<String, Object>> procList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".procList", vmap.getMap());
     }
 
-    public Map<String, Object> procOne(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".procOne", vMap.getMap());
+    public Map<String, Object> procOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".procOne", vmap.getMap());
     }
 
-    public Map<String, Object> procOverlap(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".procOverlap", vMap.getMap());
+    public Map<String, Object> procOverlap(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".procOverlap", vmap.getMap());
     }
 
     public int procRegistModify(VMap vmap) throws Exception {

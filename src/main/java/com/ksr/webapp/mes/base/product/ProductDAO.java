@@ -12,32 +12,32 @@ public class ProductDAO extends MapperDAO {
 
     private static String mapperName = "mes.base.product";
 
-    public List<Map<String, Object>> prodList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".prodList", vMap.getMap());
+    public List<Map<String, Object>> prodList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".prodList", vmap.getMap());
     }
 
-    public Map<String, Object> prodOne(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".prodOne", vMap.getMap());
+    public Map<String, Object> prodOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".prodOne", vmap.getMap());
     }
 
-    public Map<String, Object> prodOverlap(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".prodOverlap", vMap.getMap());
+    public Map<String, Object> prodOverlap(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".prodOverlap", vmap.getMap());
     }
 
-    public List<Map<String, Object>> prodOverlap2(VMap vMap) throws Exception {
-        return selectList(mapperName + ".prodOverlap2", vMap.getMap());
+    public List<Map<String, Object>> prodOverlap2(VMap vmap) throws Exception {
+        return selectList(mapperName + ".prodOverlap2", vmap.getMap());
     }
 
-    public List<Map<String, Object>> prodOverlap3(VMap vMap) throws Exception {
-        return selectList(mapperName + ".prodOverlap3", vMap.getMap());
+    public List<Map<String, Object>> prodOverlap3(VMap vmap) throws Exception {
+        return selectList(mapperName + ".prodOverlap3", vmap.getMap());
     }
 
-    public List<Map<String, Object>> prodOverlap4(VMap vMap) throws Exception {
-        return selectList(mapperName + ".prodOverlap4", vMap.getMap());
+    public List<Map<String, Object>> prodOverlap4(VMap vmap) throws Exception {
+        return selectList(mapperName + ".prodOverlap4", vmap.getMap());
     }
 
-    public List<Map<String, Object>> prodOverlap5(VMap vMap) throws Exception {
-        return selectList(mapperName + ".prodOverlap5", vMap.getMap());
+    public List<Map<String, Object>> prodOverlap5(VMap vmap) throws Exception {
+        return selectList(mapperName + ".prodOverlap5", vmap.getMap());
     }
 
     public int prodRegistModify(VMap vmap) throws Exception {
@@ -56,8 +56,8 @@ public class ProductDAO extends MapperDAO {
         return delete(mapperName + ".prodBomPackDelete", vmap.getMap());
     }
 
-    public List<Map<String, Object>> prodProcList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".prodProcList", vMap.getMap());
+    public List<Map<String, Object>> prodProcList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".prodProcList", vmap.getMap());
     }
 
     public int prodProcRegistModify(VMap vmap) throws Exception {
@@ -68,8 +68,8 @@ public class ProductDAO extends MapperDAO {
         return delete(mapperName + ".prodProcDelete", vmap.getMap());
     }
 
-    public List<Map<String, Object>> prodBomList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".prodBomList", vMap.getMap());
+    public List<Map<String, Object>> prodBomList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".prodBomList", vmap.getMap());
     }
 
     public int prodBomRegistModify(VMap vmap) throws Exception {

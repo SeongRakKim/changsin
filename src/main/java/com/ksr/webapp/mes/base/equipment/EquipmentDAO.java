@@ -12,16 +12,16 @@ public class EquipmentDAO extends MapperDAO {
 
     private static String mapperName = "mes.base.equipment";
 
-    public List<Map<String, Object>> equList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".equList", vMap.getMap());
+    public List<Map<String, Object>> equList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".equList", vmap.getMap());
     }
 
-    public Map<String, Object> equOne(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".equOne", vMap.getMap());
+    public Map<String, Object> equOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".equOne", vmap.getMap());
     }
 
-    public Map<String, Object> equOverlap(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".equOverlap", vMap.getMap());
+    public Map<String, Object> equOverlap(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".equOverlap", vmap.getMap());
     }
 
     public int equRegistModify(VMap vmap) throws Exception {

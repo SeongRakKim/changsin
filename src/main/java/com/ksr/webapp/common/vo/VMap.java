@@ -813,8 +813,8 @@ public class VMap implements Cloneable, Serializable {
         return getVMap(keys);
     }
 
-    public String getInfo(String vMapAttributeType) {
-        String strAttributeType = vMapAttributeType;
+    public String getInfo(String vmapAttributeType) {
+        String strAttributeType = vmapAttributeType;
         if (strAttributeType == null) {
             strAttributeType = "ALL";
         }
@@ -836,9 +836,9 @@ public class VMap implements Cloneable, Serializable {
             if (value == null)
                 value = "";
 
-            if (vMapAttributeType == null) {
+            if (vmapAttributeType == null) {
                 //
-            } else if (vMapAttributeType.equals("")) {
+            } else if (vmapAttributeType.equals("")) {
                 if (key.endsWith(VMap.REQUEST) || key.endsWith(VMap.SESSION) || key.endsWith(VMap.APPLICATION)
                         || key.endsWith(VMap.COOKIE) || key.endsWith(VMap.REQUESTURI) || key.endsWith(VMap.DATA)) {
                     continue;
@@ -846,27 +846,27 @@ public class VMap implements Cloneable, Serializable {
                 if (value instanceof String == false && value instanceof String[] == false) {
                     continue;
                 }
-            } else if (vMapAttributeType.equals(VMap.REQUEST)) {
+            } else if (vmapAttributeType.equals(VMap.REQUEST)) {
                 if (!key.endsWith(VMap.REQUEST)) {
                     continue;
                 }
-            } else if (vMapAttributeType.equals(VMap.SESSION)) {
+            } else if (vmapAttributeType.equals(VMap.SESSION)) {
                 if (!key.endsWith(VMap.SESSION)) {
                     continue;
                 }
-            } else if (vMapAttributeType.equals(VMap.APPLICATION)) {
+            } else if (vmapAttributeType.equals(VMap.APPLICATION)) {
                 if (!key.endsWith(VMap.APPLICATION)) {
                     continue;
                 }
-            } else if (vMapAttributeType.equals(VMap.COOKIE)) {
+            } else if (vmapAttributeType.equals(VMap.COOKIE)) {
                 if (!key.endsWith(VMap.COOKIE)) {
                     continue;
                 }
-            } else if (vMapAttributeType.equals(VMap.REQUESTURI)) {
+            } else if (vmapAttributeType.equals(VMap.REQUESTURI)) {
                 if (!key.endsWith(VMap.REQUESTURI)) {
                     continue;
                 }
-            } else if (vMapAttributeType.equals(VMap.DATA)) {
+            } else if (vmapAttributeType.equals(VMap.DATA)) {
                 if (!key.endsWith(VMap.DATA)) {
                     continue;
                 }

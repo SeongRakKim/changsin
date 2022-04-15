@@ -12,16 +12,16 @@ public class SalesShipmentDAO extends MapperDAO {
 
     private static String mapperName = "mes.sales.shipment";
 
-    public List<Map<String, Object>> shipList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".shipList", vMap.getMap());
+    public List<Map<String, Object>> shipList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".shipList", vmap.getMap());
     }
 
-    public Map<String, Object> shipOne(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".shipOne", vMap.getMap());
+    public Map<String, Object> shipOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".shipOne", vmap.getMap());
     }
 
-    public List<Map<String, Object>> salesShipmentDetailtList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".salesShipmentDetailtList", vMap.getMap());
+    public List<Map<String, Object>> salesShipmentDetailtList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".salesShipmentDetailtList", vmap.getMap());
     }
 
     public int salesShipmentDetailRegistModify(VMap vmap) throws Exception {

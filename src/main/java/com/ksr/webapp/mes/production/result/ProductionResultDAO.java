@@ -12,24 +12,24 @@ public class ProductionResultDAO extends MapperDAO {
 
     private static String mapperName = "mes.production.result";
 
-    public List<Map<String, Object>> planProcessList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".planProcessList", vMap.getMap());
+    public List<Map<String, Object>> planProcessList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".planProcessList", vmap.getMap());
     }
 
-    public Map<String, Object> planProcessOne(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".planProcessOne", vMap.getMap());
+    public Map<String, Object> planProcessOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".planProcessOne", vmap.getMap());
     }
 
     public int planProcCntModify(VMap vmap) throws Exception {
         return update(mapperName + ".planProcCntModify", vmap.getMap());
     }
 
-    public List<Map<String, Object>> planResultList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".planResultList", vMap.getMap());
+    public List<Map<String, Object>> planResultList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".planResultList", vmap.getMap());
     }
 
-    public Map<String, Object> planResultOne(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".planResultOne", vMap.getMap());
+    public Map<String, Object> planResultOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".planResultOne", vmap.getMap());
     }
 
     public int planResultRegist(VMap vmap) throws Exception {
@@ -44,8 +44,8 @@ public class ProductionResultDAO extends MapperDAO {
         return delete(mapperName + ".planResultDelete", vmap.getMap());
     }
 
-    public List<Map<String, Object>> planInputList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".planInputList", vMap.getMap());
+    public List<Map<String, Object>> planInputList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".planInputList", vmap.getMap());
     }
 
     public int planInputRegist(VMap vmap) throws Exception {
@@ -56,8 +56,8 @@ public class ProductionResultDAO extends MapperDAO {
         return delete(mapperName + ".planInputDelete", vmap.getMap());
     }
 
-    public List<Map<String, Object>> planStopList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".planStopList", vMap.getMap());
+    public List<Map<String, Object>> planStopList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".planStopList", vmap.getMap());
     }
 
     public int planStopRegistModify(VMap vmap) throws Exception {

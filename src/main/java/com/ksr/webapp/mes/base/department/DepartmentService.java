@@ -3,22 +3,31 @@ package com.ksr.webapp.mes.base.department;
 import com.ksr.webapp.common.util.CommonUtils;
 import com.ksr.webapp.common.vo.VMap;
 import com.ksr.webapp.mes.common.CommonDAO;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class DepartmentService {
 
     @Autowired CommonDAO commonDAO;
-    @Autowired
-    DepartmentDAO departmentDAO;
+    @Autowired DepartmentDAO departmentDAO;
 
-    public List<Map<String, Object>> deptList(VMap vmap) throws Exception {
-        return departmentDAO.deptList(vmap);
+    private final DepartmentQueryRepository departmentQueryRepository;
+
+
+    @Transactional
+    public List<Department> deptList(VMap vmap) throws Exception {
+        return departmentQueryRepository.findAll();
     }
 
     public Map<String, Object> deptOne(VMap vmap) throws Exception {

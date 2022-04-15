@@ -12,8 +12,8 @@ public class MaterialStockDAO extends MapperDAO {
 
     private static String mapperName = "mes.material.stock";
 
-    public List<Map<String, Object>> mateStockList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".mateStockList", vMap.getMap());
+    public List<Map<String, Object>> mateStockList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".mateStockList", vmap.getMap());
     }
 
 }

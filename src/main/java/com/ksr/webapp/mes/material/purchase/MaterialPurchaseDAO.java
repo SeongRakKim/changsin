@@ -12,20 +12,20 @@ public class MaterialPurchaseDAO extends MapperDAO {
 
     private static String mapperName = "mes.material.purchase";
 
-    public List<Map<String, Object>> purchaseList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".purchaseList", vMap.getMap());
+    public List<Map<String, Object>> purchaseList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".purchaseList", vmap.getMap());
     }
 
-    public List<Map<String, Object>> purchaseList2(VMap vMap) throws Exception {
-        return selectList(mapperName + ".purchaseList2", vMap.getMap());
+    public List<Map<String, Object>> purchaseList2(VMap vmap) throws Exception {
+        return selectList(mapperName + ".purchaseList2", vmap.getMap());
     }
 
-    public Map<String, Object> purchaseOne(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".purchaseOne", vMap.getMap());
+    public Map<String, Object> purchaseOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".purchaseOne", vmap.getMap());
     }
 
-    public Map<String, Object> purchaseOverlap(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".purchaseOverlap", vMap.getMap());
+    public Map<String, Object> purchaseOverlap(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".purchaseOverlap", vmap.getMap());
     }
 
     public int purchaseRegist(VMap vmap) throws Exception {

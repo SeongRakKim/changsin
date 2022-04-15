@@ -12,20 +12,20 @@ public class CompanyDAO extends MapperDAO {
 
     private static String mapperName = "mes.base.company";
 
-    public List<Map<String, Object>> compList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".compList", vMap.getMap());
+    public List<Map<String, Object>> compList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".compList", vmap.getMap());
     }
 
-    public Map<String, Object> compOne(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".compOne", vMap.getMap());
+    public Map<String, Object> compOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".compOne", vmap.getMap());
     }
 
-    public Map<String, Object> compOverlap(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".compOverlap", vMap.getMap());
+    public Map<String, Object> compOverlap(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".compOverlap", vmap.getMap());
     }
 
-    public List<Map<String, Object>> compCompletOverlap(VMap vMap) throws Exception {
-        return selectList(mapperName + ".compCompletOverlap", vMap.getMap());
+    public List<Map<String, Object>> compCompletOverlap(VMap vmap) throws Exception {
+        return selectList(mapperName + ".compCompletOverlap", vmap.getMap());
     }
 
     public int compRegistModify(VMap vmap) throws Exception {

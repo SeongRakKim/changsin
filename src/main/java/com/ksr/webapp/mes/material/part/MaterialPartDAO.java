@@ -12,8 +12,8 @@ public class MaterialPartDAO extends MapperDAO {
 
     private static String mapperName = "mes.material.part";
 
-    public List<Map<String, Object>> prodPartList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".prodPartList", vMap.getMap());
+    public List<Map<String, Object>> prodPartList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".prodPartList", vmap.getMap());
     }
 
 }

@@ -55,29 +55,39 @@
 
     <%@ include file="/WEB-INF/include/main-progress.jspf"%>
 
-    <div class="card shadow" style="min-height: 770px;">
+    <div class="card shadow col-6" style="min-height: 770px;">
         <div class="card-body">
             <div class="table-responsive">
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12">
-                            <table id ="tblMaster" class="table-list table table-hover table-striped table-bordered mb-5" style="width: 100%">
+                            <div style="float: right; margin: 5px 5px 5px 5px;">
+                                <button class="btn btn-sm btn-first" type="button" id="btnInsert">
+                                <span class="btn-wrapper--icon">
+                                    <i class="fas fa-save"></i>
+                                </span>
+                                    <span class="btn-wrapper--label">저장</span>
+                                </button>
+                            </div>
+                            <table id="tblDeptData" class="table table-hover table-bordered mb-5 table-form">
+                                <colgroup>
+                                    <col style="width: 80%">
+                                    <col style="width: 20%">
+                                </colgroup>
                                 <thead>
                                     <tr role="row">
-                                        <th class="no-sort" style="width: 3%">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="listAll">
-                                                <label class="custom-control-label" for="listAll"></label>
-                                            </div>
+                                        <th>부서명</th>
+                                        <th>
+                                            <button type="button" id="btnAddDeptList" class="btn btn-primary btn-sm">
+                                                <span class="btn-wrapper--icon">
+                                                    <i class="fas fa-angle-double-down"></i>
+                                                </span>
+                                                <span class="btn-wrapper--label">추가</span>
+                                            </button>
                                         </th>
-                                        <th>공정코드</th>
-                                        <th>공정명</th>
-                                        <th>임률</th>
-                                        <th>비고</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
+                                <tbody></tbody>
                         </table>
                 </div>
             </div>
@@ -85,75 +95,23 @@
     </div>
 </div>
 
-<div class="modal fade dataModal" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="registModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl modal-form-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title"><i id="form-modal-icon"></i> <span id="form-modal-title"></span></h2>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <form id="dataForm" name="dataForm" class="dataForm" method="post">
-                <div class="modal-body">
-                    <table id="tblPopData" class="table table-hover table-bordered mb-5 table-form">
-                        <tbody>
-                            <tr>
-                                <th>공정코드</th>
-                                <td>
-                                    <input type="text" id="pop_proc_cd" name="pop_proc_cd" class="form-control key"
-                                           placeholder="공정코드 / 미입력 시 자동생성" title="공정코드"
-                                           />
-                                    <div class="invalid-feedback"></div>
-                                </td>
-                                <th>공정명<span class="red"> (필수)</span></th>
-                                <td>
-                                    <input type="text" id="pop_proc_nm" name="pop_proc_nm" class="form-control"
-                                           placeholder="공정명" title="공정명"
-                                           required />
-                                </td>
-                                <th>임률(원)</th>
-                                <td>
-                                    <input type="text" id="pop_proc_rate" name="pop_proc_rate" class="form-control"
-                                           placeholder="임률(원)" title="임률(원)"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>비고</th>
-                                <td colspan="5">
-                                    <input type="text" id="pop_proc_notice" name="pop_proc_notice" class="form-control" placeholder="비고" title="비고" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </form>
-            <div class="modal-footer">
-                <button type="button" id="btnPopRegist" class="btn btn-primary ">
-                    <span class="btn-wrapper--icon">
-                        <i class="fas fa-download"></i>
-                    </span>
-                    <span class="btn-wrapper--label">저장</span>
-                </button>
-
-                <button type="button" id="btnPopModify" class="btn btn-success ">수정</button>
-
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    <span class="btn-wrapper--icon">
-                        <i class="fas fa-times-circle"></i>
-                    </span>
-                    <span class="btn-wrapper--label">닫기</span>
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+<script id="deptTemplete" type="text/x-handlebars-template">
+    <tr class="dataList list_tr{{cnt}}">
+        <td>
+            <input type="hidden" name="dept_cd" class="form-control" value="{{dept_cd}}" />
+            <input type="text" name="dept_nm" class="form-control" value="{{dept_nm}}"
+                   placeholder="부서명" title="부서명" required />
+        </td>
+        <td style="text-align: center !important;">
+            <button class="btn btn-sm btn-danger" type="button" onclick="deptDelete({{cnt}})">삭제</button>
+        </td>
+    </tr>
+</script>
 
 <script>
 
     $(document).ready(() => {
         // DataTables setting
-        setDatatable();
         getData();
 
         $("input:radio[name=pop_proc_mass_yn]").on("change", () => {
@@ -164,16 +122,8 @@
         // 조회
         $("#btnSearch").on("click", () => { getData() });
 
-        // Add Data - Call Data Form
-        $("#btnNew").on("click", () => {
-            callEditmodal("공정 추가", "R");
-        });
-
-        // 상세조회
-        $("#tblMaster").on("dblclick", "tr", function() {
-            let proc_cd = $(this).find("input[name=proc_cd]").val();
-            callEditmodal("공정 수정", "M");
-            getDataOne(proc_cd);
+        $("#btnAddDeptList").on("click", () => {
+            addDeptRow();
         });
 
         // 저장
@@ -228,99 +178,14 @@
 
         });
 
-        $("#pop_proc_cd").on("keyup", () => {
-            if($("#pop_proc_cd").val().length > 3)
-            {
-                $.ajax({
-                    type : 'get'
-                    ,url: '/mes/base/process/procOverlap/' + $("#pop_proc_cd").val()
-                    ,dataType : 'json'
-                })
-                    .done(function (data)
-                    {
-                        if(data) {
-                            $("#pop_proc_cd").removeClass("is-valid");
-                            $("#pop_proc_cd").addClass("is-invalid");
-                            $(".invalid-feedback").text("중복된 공정 코드입니다.");
-                        }else {
-                            $("#pop_proc_cd").removeClass("is-invalid");
-                            $("#pop_proc_cd").addClass("is-valid");
-                            $(".invalid-feedback").text("");
-                        }
-                    })
-                    .always(function (data) {
-
-                    });
-            }
-        });
-
     });
-
-    // set tblMaster Database
-    function setDatatable()
-    {
-        var arguments = {
-            tabldID: "tblMaster"
-            ,ordering: true
-            // ,responsive: true
-            ,orderIdx: []
-            ,orderGubn:	[]
-            ,rowspan: ""
-            ,lengthMenu: [15, 50, 100, 500, 1000]
-            ,paging: true
-            ,field: true
-            ,info: true
-            ,filter: true
-            ,stateSave: true
-            ,collapse: false
-            ,scrollY: 570
-            ,selected: true
-            ,multiSelected: false
-            ,columnDefs : [
-                {
-                    "targets": 'no-sort',
-                    "orderable": false
-                }
-            ]
-        };
-
-        setDataTablesOption(arguments);
-
-    }
-
-    function callEditmodal(title, flag)
-    {
-        $("#form-modal-icon").removeAttr("class");
-        $("#dataModal").modal("show");
-        $("#form-modal-title").text(title);
-        $("#form-modal-icon").addClass(flag === "R" ? "fas fa-paste" : "fas fa-edit");
-        $("#btnPopRegist").show();
-        $("#btnPopModify").hide();
-
-        resetForm("dataForm");
-    }
-
-    function resetForm(formId)
-    {
-        $("#"+formId).find("input:text").val("");
-        $("#"+formId).find("input:hidden").not(":radio").val("");
-        $("#"+formId).find("select").val("");
-        // $("#"+formId).find("input[name$='yn']").val("Y");
-        $(".key").removeClass("is-valid").removeClass("is-invalid");
-        $(".invalid-feedback").text("");
-        $("#"+formId).find(":disabled").prop("disabled", false);
-
-        $("#"+formId).find("input[name$='price']").val(0);
-        $("#"+formId).find("input[name$='amt']").val(0);
-        $("#"+formId).find("input[name$='cnt']").val(0);
-    }
 
     function getData()
     {
         showWait('.container-fluid');
 
         $.ajax({
-            url: "/mes/base/process/procList"
+            url: "/mes/base/department/deptList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -329,37 +194,15 @@
             ,dataType: "json"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,proc_kind: $("#proc_kind").val()
-                ,proc_family: $("#proc_family").val()
-                ,proc_group: $("#proc_group").val()
-                ,search_text: $("#search_text").val()
             })
         })
         .done(function (data)
         {
-            $("#tblMaster").DataTable().clear();
+            $("#tblDeptData tbody").empty();
 
             data.forEach((item, index) => {
-                let node = [];
-
-                let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
-                                   "    <input type=\"hidden\" name=\"proc_cd\" value=\"" + item.proc_cd + "\">" +
-                                   "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
-                                   "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
-                                   "</div>";
-
-                node.push(checkBoxNode);
-                node.push(IsEmpty(item.proc_cd));
-                node.push(IsEmpty(item.proc_nm));
-                node.push("<div class='text-right'>" + IsEmpty(item.proc_rate.comma()) + "</div>");
-                node.push(IsEmpty(item.proc_notice));
-
-                // 각 row node 추가
-                $("#tblMaster").DataTable().row.add(node).node();
+                addDeptRow(item);
             });
-
-            // datatables draw
-            $("#tblMaster").DataTable().draw(false);
         })
         .always(function (data) {
             hideWait('.container-fluid');
@@ -369,28 +212,25 @@
         });
     }
 
-    function getDataOne(proc_cd)
-    {
-        showWait('.dataModal');
+    function addDeptRow(data) {
+        let template_html = $("#deptTemplete").html();
+        let template = Handlebars.compile(template_html);
+        let resultRowCnt = $("#tblDeptData > tbody > tr").length + 1;
+        let templateData;
 
-        $.ajax({
-            url: "/mes/base/process/procOne/" + proc_cd
-            ,type: "get"
-            ,dataType: "json"
-            // ,data: JSON.stringify({})
-        })
-        .done(function (data)
-        {
-            setDataOne("pop_", data);
-            $("#dataForm").find(".key").prop("disabled", true);
-            $("#pop_selector").val(data.proc_main_comp_nm);
-        })
-        .always(function (data) {
-            hideWait('.dataModal');
-        })
-        .fail(function (jqHXR, textStatus, errorThrown) {
-            ajaxErrorAlert(jqHXR);
-        });
+        if(IsNull(data)) {
+            templateData = {
+                cnt : resultRowCnt
+            };
+        }else {
+            templateData = {
+                cnt : resultRowCnt
+                ,dept_cd: data.dept_cd
+                ,dept_nm: data.dept_nm
+            };
+        }
+
+        $("#tblDeptData > tbody").append(template(templateData));
     }
 
     // Add Data - ajax regist

@@ -17,10 +17,10 @@ public class DepartmentRestController {
     DepartmentService departmentService;
 
     @PostMapping("/mes/base/department/deptList")
-    public ResponseEntity<List<Map<String, Object>>> deptList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    public ResponseEntity<List<Department>> deptList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
     {
         vmap.set(map);
-        List<Map<String, Object>> deptList = departmentService.deptList(vmap);
+        List<Department> deptList = departmentService.deptList(vmap);
 
         return new ResponseEntity<>(deptList, HttpStatus.OK);
     }

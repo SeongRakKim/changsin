@@ -12,8 +12,8 @@ public class ProductStockDAO extends MapperDAO {
 
     private static String mapperName = "mes.product.stock";
 
-    public List<Map<String, Object>> prodStockList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".prodStockList", vMap.getMap());
+    public List<Map<String, Object>> prodStockList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".prodStockList", vmap.getMap());
     }
 
 }

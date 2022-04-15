@@ -12,16 +12,16 @@ public class DepartmentDAO extends MapperDAO {
 
     private static String mapperName = "mes.base.department";
 
-    public List<Map<String, Object>> deptList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".deptList", vMap.getMap());
+    public List<Map<String, Object>> deptList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".deptList", vmap.getMap());
     }
 
-    public Map<String, Object> deptOne(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".deptOne", vMap.getMap());
+    public Map<String, Object> deptOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".deptOne", vmap.getMap());
     }
 
-    public Map<String, Object> deptOverlap(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".deptOverlap", vMap.getMap());
+    public Map<String, Object> deptOverlap(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".deptOverlap", vmap.getMap());
     }
 
     public int deptRegistModify(VMap vmap) throws Exception {

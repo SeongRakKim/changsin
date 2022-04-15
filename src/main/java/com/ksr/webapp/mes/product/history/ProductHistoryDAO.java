@@ -12,8 +12,8 @@ public class ProductHistoryDAO extends MapperDAO {
 
     private static String mapperName = "mes.product.history";
 
-    public List<Map<String, Object>> prodHistoryList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".prodHistoryList", vMap.getMap());
+    public List<Map<String, Object>> prodHistoryList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".prodHistoryList", vmap.getMap());
     }
 
 }

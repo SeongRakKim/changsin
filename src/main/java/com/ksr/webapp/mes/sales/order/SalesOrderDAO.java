@@ -12,20 +12,20 @@ public class SalesOrderDAO extends MapperDAO {
 
     private static String mapperName = "mes.sales.order";
 
-    public List<Map<String, Object>> orderList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".orderList", vMap.getMap());
+    public List<Map<String, Object>> orderList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".orderList", vmap.getMap());
     }
 
-    public List<Map<String, Object>> orderList2(VMap vMap) throws Exception {
-        return selectList(mapperName + ".orderList2", vMap.getMap());
+    public List<Map<String, Object>> orderList2(VMap vmap) throws Exception {
+        return selectList(mapperName + ".orderList2", vmap.getMap());
     }
 
-    public Map<String, Object> orderOne(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".orderOne", vMap.getMap());
+    public Map<String, Object> orderOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".orderOne", vmap.getMap());
     }
 
-    public Map<String, Object> orderOverlap(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".orderOverlap", vMap.getMap());
+    public Map<String, Object> orderOverlap(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".orderOverlap", vmap.getMap());
     }
 
     public int orderRegist(VMap vmap) throws Exception {

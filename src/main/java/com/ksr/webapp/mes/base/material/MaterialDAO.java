@@ -12,20 +12,20 @@ public class MaterialDAO extends MapperDAO {
 
     private static String mapperName = "mes.base.material";
 
-    public List<Map<String, Object>> mateList(VMap vMap) throws Exception {
-        return selectList(mapperName + ".mateList", vMap.getMap());
+    public List<Map<String, Object>> mateList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".mateList", vmap.getMap());
     }
 
-    public Map<String, Object> mateOne(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".mateOne", vMap.getMap());
+    public Map<String, Object> mateOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".mateOne", vmap.getMap());
     }
 
-    public Map<String, Object> mateOverlap(VMap vMap) throws Exception {
-        return selectOne(mapperName + ".mateOverlap", vMap.getMap());
+    public Map<String, Object> mateOverlap(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".mateOverlap", vmap.getMap());
     }
 
-    public List<Map<String, Object>> mateOverlap2(VMap vMap) throws Exception {
-        return selectList(mapperName + ".mateOverlap2", vMap.getMap());
+    public List<Map<String, Object>> mateOverlap2(VMap vmap) throws Exception {
+        return selectList(mapperName + ".mateOverlap2", vmap.getMap());
     }
 
     public int mateRegistModify(VMap vmap) throws Exception {
