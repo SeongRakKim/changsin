@@ -54,8 +54,6 @@ public class SalesOrderService {
         List<String> odr_nm = (List<String>)vmap.get("ary_odr_nm");
         List<String> odr_tel = (List<String>)vmap.get("ary_odr_tel");
 
-
-
         for(int i=0; i<odr_cd.size(); i++)
         {
 

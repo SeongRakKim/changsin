@@ -55,8 +55,7 @@
                 <a class="_isUrl collapse-item" data-url="/mes/base/process/list" href="/mes/base/process/list">공정정보</a>
                 <a class="_isUrl collapse-item" data-url="/mes/base/equipment/list" href="/mes/base/equipment/list">설비정보</a>
                 <a class="_isUrl collapse-item" data-url="/mes/base/user/list" href="/mes/base/user/list">사용자관리</a>
-                <a class="_isUrl collapse-item" data-url="/mes/base/department/list" href="/mes/base/department/list">부서관리</a>
-                <a class="_isUrl collapse-item" data-url="/mes/base/grade/list" href="/mes/base/grade/list">직급관리</a>
+                <a class="_isUrl collapse-item" data-url="/mes/base/department/list" href="/mes/base/department/list">부서/직급관리</a>
                 <a class="_isUrl collapse-item" data-url="/mes/base/notice/list" href="/mes/base/notice/list">공지정보</a>
             </div>
         </div>

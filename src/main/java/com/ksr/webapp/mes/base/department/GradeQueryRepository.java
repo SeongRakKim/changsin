@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,35 +15,35 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Repository
-public class DepartmentQueryRepository {
+public class GradeQueryRepository {
 
     private final JPAQueryFactory queryFactory;
-    private final QDepartment qDepartment = QDepartment.department;
-    private final DepartmentRepository departmentRepository;
+    private final QGrade qGrade;
+    private final GradeRepository gradeRepository;
     private final EntityManager em;
 
     @Transactional
-    public List<Department> deptList(VMap vmap) {
-        return queryFactory.selectFrom(qDepartment)
+    public List<Grade> gradeList(VMap vmap) {
+        return queryFactory.selectFrom(qGrade)
                     .fetch();
     }
 
     @Transactional
-    public void deptRegistModify(VMap vmap) {
+    public void gradeRegistModify(VMap vmap) {
 
-        List<String> dept_cd =  (List<String>)vmap.get("ary_dept_cd");
-        List<String> dept_nm =  (List<String>)vmap.get("ary_dept_nm");
+        List<String> grade_cd =  (List<String>)vmap.get("ary_grade_cd");
+        List<String> grade_nm =  (List<String>)vmap.get("ary_grade_nm");
 
-        List<Department> registList = new ArrayList<>();
+        List<Grade> registList = new ArrayList<>();
 
-        for(int i=0; i<dept_cd.size(); i++)
+        for(int i=0; i<grade_cd.size(); i++)
         {
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
             String nowString = now.format(dateTimeFormatter);
 
-            registList.add(new Department(dept_cd.get(i)
-                                            ,dept_nm.get(i)
+            registList.add(new Grade(grade_cd.get(i)
+                                            ,grade_nm.get(i)
                                             ,CommonUtils.isEmpty(vmap.getString("u_cd")) ? "admin" : vmap.getString("u_cd")
                                             ,CommonUtils.isEmpty(vmap.getString("u_cd")) ? "admin" : vmap.getString("u_cd")
                                             ,nowString
@@ -52,14 +51,14 @@ public class DepartmentQueryRepository {
                                           ));
         }
 
-        departmentRepository.saveAll(registList);
+        gradeRepository.saveAll(registList);
     }
 
     @Transactional
-    public void deptDelete(VMap vmap) {
+    public void gradeDelete(VMap vmap) {
 
-        queryFactory.delete(qDepartment)
-                .where(qDepartment.dept_cd.eq(vmap.getString("dept_cd")))
+        queryFactory.delete(qGrade)
+                .where(qGrade.grade_cd.eq(vmap.getString("grade_cd")))
                 .execute();
 
     }

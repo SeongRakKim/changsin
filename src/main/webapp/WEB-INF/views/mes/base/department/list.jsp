@@ -55,12 +55,12 @@
 
     <%@ include file="/WEB-INF/include/main-progress.jspf"%>
 
-    <div class="card shadow col-6" style="min-height: 770px;">
+    <div class="card shadow col-12" style="min-height: 770px;">
         <div class="card-body">
             <div class="table-responsive">
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div style="float: right; margin: 5px 5px 5px 5px;">
                                 <button class="btn btn-sm btn-first" type="button" id="btnInsert">
                                 <span class="btn-wrapper--icon">
@@ -88,7 +88,39 @@
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
-                        </table>
+                            </table>
+                        </div>
+                        <div class="col-sm-6">
+                            <div style="float: right; margin: 5px 5px 5px 5px;">
+                                <button class="btn btn-sm btn-first" type="button" id="btnInsert2">
+                                <span class="btn-wrapper--icon">
+                                    <i class="fas fa-save"></i>
+                                </span>
+                                    <span class="btn-wrapper--label">저장</span>
+                                </button>
+                            </div>
+                            <table id="tblGradeData" class="table table-hover table-bordered mb-5 table-form">
+                                <colgroup>
+                                    <col style="width: 80%">
+                                    <col style="width: 20%">
+                                </colgroup>
+                                <thead>
+                                    <tr role="row">
+                                        <th>직급명</th>
+                                        <th>
+                                            <button type="button" id="btnAddGradeList" class="btn btn-primary btn-sm">
+                                                <span class="btn-wrapper--icon">
+                                                    <i class="fas fa-angle-double-down"></i>
+                                                </span>
+                                                <span class="btn-wrapper--label">추가</span>
+                                            </button>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -103,7 +135,30 @@
                    placeholder="부서명" title="부서명" required />
         </td>
         <td style="text-align: center !important;">
-            <button class="btn btn-sm btn-danger" type="button" onclick="deptDelete({{cnt}})">삭제</button>
+            <button class="btn btn-sm btn-danger result-delete" type="button" onclick="deptDelete({{cnt}})">
+            <span class="btn-wrapper--icon">
+                <i class="fas fa-minus-circle"></i>
+            </span>
+                <span class="btn-wrapper--label">삭제</span>
+            </button>
+        </td>
+    </tr>
+</script>
+
+<script id="gradeTemplete" type="text/x-handlebars-template">
+    <tr class="dataList list_tr{{cnt}}">
+        <td>
+            <input type="hidden" name="grade_cd" class="form-control" value="{{grade_cd}}" />
+            <input type="text" name="grade_nm" class="form-control" value="{{grade_nm}}"
+                   placeholder="직급명" title="직급명" required />
+        </td>
+        <td style="text-align: center !important;">
+            <button class="btn btn-sm btn-danger result-delete" type="button" onclick="gradeDelete({{cnt}})">
+            <span class="btn-wrapper--icon">
+                <i class="fas fa-minus-circle"></i>
+            </span>
+                <span class="btn-wrapper--label">삭제</span>
+            </button>
         </td>
     </tr>
 </script>
@@ -120,25 +175,22 @@
         });
 
         // 조회
-        $("#btnSearch").on("click", () => { getData() });
+        $("#btnSearch").on("click", () => { getData(), getData2() });
 
         $("#btnAddDeptList").on("click", () => {
             addDeptRow();
         });
 
+        $("#btnAddGradeList").on("click", () => {
+            addGradeRow();
+        });
+
         // 저장
-        $("#btnPopRegist").on("click", () => {
-
-            if(IsNotNull($(".invalid-feedback").text())) {
-                eAlert("중복된 코드값이 존재합니다.");
-                return;
-            }
-
-            if(!parsleyIsValidate("dataForm")) return false;
+        $("#btnInsert").on("click", () => {
 
             Swal.fire({
                 title: '',
-                text: "공정 정보를 저장하시겠습니까?",
+                text: "부서 정보를 저장하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -150,20 +202,13 @@
                     registModifyData();
                 }
             });
-
         });
 
-        // 데이터 삭제
-        $("#btnDelete").on("click", () => {
-
-            if($("input[name=listCheck]:checked").length === 0) {
-                alert("삭제할 데이터를 선택하세요.");
-                return false;
-            }
+        $("#btnInsert2").on("click", () => {
 
             Swal.fire({
                 title: '',
-                text: "공정 정보를 삭제하시겠습니까?",
+                text: "직급 정보를 저장하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -172,10 +217,9 @@
                 cancelButtonText: '취소'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    deleteData();
+                    registModifyData2();
                 }
             });
-
         });
 
     });
@@ -236,11 +280,21 @@
     // Add Data - ajax regist
     function registModifyData()
     {
+
+        let ary_dept_cd = [];
+        let ary_dept_nm = [];
+
+        $.each($("#tblDeptData > tbody > tr"), function(index, item)
+        {
+            ary_dept_cd.push($(item).find("input[name=dept_cd]").val());
+            ary_dept_nm.push($(item).find("input[name=dept_nm]").val());
+        });
+
         showWait('.dataModal');
 
         $.ajax({
             type: "post"
-            ,url: "/mes/base/process/procRegistModify"
+            ,url: "/mes/base/department/deptRegistModify"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "POST"
@@ -248,10 +302,8 @@
             ,dataType: "text"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,proc_cd: $("#pop_proc_cd").val()
-                ,proc_nm: $("#pop_proc_nm").val()
-                ,proc_rate: $("#pop_proc_rate").val().replace(/,/g, "")
-                ,proc_notice: $("#pop_proc_notice").val()
+                ,ary_dept_cd: ary_dept_cd
+                ,ary_dept_nm: ary_dept_nm
             })
         })
         .done(function (data) {
@@ -268,41 +320,203 @@
         });
     }
 
-    function deleteData()
+    function deptDelete(cnt)
+    {
+        let dept_cd = $("#tblDeptData .list_tr" + cnt).find("[name=dept_cd]").val();
+
+        if(IsNull(dept_cd))
+        {
+            $("#tblDeptData .list_tr" + cnt).remove();
+        }
+        else
+        {
+            Swal.fire({
+                title: '',
+                text: "부서정보를 삭제하시겠습니까?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed)
+                {
+                    showWait('.dataModal');
+
+                    $.ajax({
+                        type: "delete"
+                        ,url: "/mes/base/department/deptDelete"
+                        ,headers: {
+                            "Content-Type": "application/json"
+                            ,"X-HTTP-Method-Override": "DELETE"
+                        }
+                        ,dataType: "text"
+                        ,data: JSON.stringify({
+                            dept_cd: dept_cd
+                        })
+                    })
+                    .done(function (data) {
+                        hideWait('.dataModal');
+                        getData();
+                    })
+                    .always(function (data) {
+
+                    })
+                    .fail(function (jqHXR, textStatus, errorThrown) {
+                        ajaxErrorAlert(jqHXR);
+                    });
+                }
+            });
+        }
+    }
+
+    function getData2()
     {
         showWait('.container-fluid');
 
-        let deleteItems = [];
-        $.each($("input[name=listCheck]:checked"), function(item, index) {
-            deleteItems.push($(this).closest("tr").find("input[name=proc_cd]").val());
-        });
-
         $.ajax({
-            type: "delete"
-            ,url: "/mes/base/process/procPackDelete"
+            url: "/mes/base/department/gradeList"
+            ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
-                ,"X-HTTP-Method-Override": "DELETE"
+                ,"X-HTTP-Method-Override": "POST"
+            }
+            ,dataType: "json"
+            ,data: JSON.stringify({
+                fact_cd: "${vmap.fact_cd}"
+            })
+        })
+        .done(function (data)
+        {
+            $("#tblGradeData tbody").empty();
+
+            data.forEach((item, index) => {
+                addGradeRow(item);
+            });
+        })
+        .always(function (data) {
+            hideWait('.container-fluid');
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+        });
+    }
+
+    function addGradeRow(data) {
+        let template_html = $("#gradeTemplete").html();
+        let template = Handlebars.compile(template_html);
+        let resultRowCnt = $("#tblGradeData > tbody > tr").length + 1;
+        let templateData;
+
+        if(IsNull(data)) {
+            templateData = {
+                cnt : resultRowCnt
+            };
+        }else {
+            templateData = {
+                cnt : resultRowCnt
+                ,grade_cd: data.grade_cd
+                ,grade_cd: data.grade_cd
+            };
+        }
+
+        $("#tblGradeData > tbody").append(template(templateData));
+    }
+
+    // Add Data - ajax regist
+    function registModifyData2()
+    {
+
+        let ary_grade_cd = [];
+        let ary_grade_nm = [];
+
+        $.each($("#tblGradeData > tbody > tr"), function(index, item)
+        {
+            ary_grade_cd.push($(item).find("input[name=grade_cd]").val());
+            ary_grade_nm.push($(item).find("input[name=grade_nm]").val());
+        });
+
+        showWait('.dataModal');
+
+        $.ajax({
+            type: "post"
+            ,url: "/mes/base/department/gradeRegistModify"
+            ,headers: {
+                "Content-Type": "application/json"
+                ,"X-HTTP-Method-Override": "POST"
             }
             ,dataType: "text"
             ,data: JSON.stringify({
-                deleteItems: deleteItems
+                fact_cd: "${vmap.fact_cd}"
+                ,ary_dept_cd: ary_grade_cd
+                ,ary_grade_nm: ary_grade_nm
             })
         })
         .done(function (data) {
-            getData();
-            hideWait('.container-fluid');
+            hideWait('.dataModal');
+            $("#dataModal").modal("hide");
+            getData2();
         })
         .always(function (data) {
 
         })
         .fail(function (jqHXR, textStatus, errorThrown) {
             ajaxErrorAlert(jqHXR);
+            hideWait('.dataModal');
         });
-
     }
 
+    function gradeDelete(cnt)
+    {
+        let grade_cd = $("#tblGradeData .list_tr" + cnt).find("[name=grade_cd]").val();
 
+        if(IsNull(grade_cd))
+        {
+            $("#tblGradeData .list_tr" + cnt).remove();
+        }
+        else
+        {
+            Swal.fire({
+                title: '',
+                text: "직급정보를 삭제하시겠습니까?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '확인',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed)
+                {
+                    showWait('.dataModal');
+
+                    $.ajax({
+                        type: "delete"
+                        ,url: "/mes/base/department/gradeDelete"
+                        ,headers: {
+                            "Content-Type": "application/json"
+                            ,"X-HTTP-Method-Override": "DELETE"
+                        }
+                        ,dataType: "text"
+                        ,data: JSON.stringify({
+                            grade_cd: grade_cd
+                        })
+                    })
+                    .done(function (data) {
+                        hideWait('.dataModal');
+                        getData();
+                    })
+                    .always(function (data) {
+
+                    })
+                    .fail(function (jqHXR, textStatus, errorThrown) {
+                        ajaxErrorAlert(jqHXR);
+                    });
+                }
+            });
+        }
+    }
 
 
 </script>

@@ -27,7 +27,8 @@ public class DepartmentService {
 
     @Transactional
     public List<Department> deptList(VMap vmap) throws Exception {
-        return departmentQueryRepository.findAll();
+//        return departmentQueryRepository.findAll();
+        return null;
     }
 
     public Map<String, Object> deptOne(VMap vmap) throws Exception {
@@ -40,6 +41,7 @@ public class DepartmentService {
 
     @Transactional
     public int deptRegistModify(VMap vmap) throws Exception {
+
 
         vmap.put("table_type", "PROC");
         vmap.put("dept_cd", CommonUtils.isNotEmpty(vmap.getString("dept_cd")) ? vmap.getString("dept_cd") : commonDAO.getTablePrimaryCode(vmap));
