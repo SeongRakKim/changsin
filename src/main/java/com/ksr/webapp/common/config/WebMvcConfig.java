@@ -13,11 +13,6 @@ import java.util.List;
 //@ComponentScan(basePackages = {"com.changsin.webapp"})
 public class WebMvcConfig implements WebMvcConfigurer {
 
-//    @Override
-//    public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/**").setViewName("aaa");
-//    }
-
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new MapArgumentResolver());

@@ -1,4 +1,4 @@
-package com.ksr.webapp.mes.base.department;
+package com.ksr.webapp.mes.base.grade;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

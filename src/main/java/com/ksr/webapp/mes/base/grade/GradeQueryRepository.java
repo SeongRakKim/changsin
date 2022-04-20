@@ -1,4 +1,4 @@
-package com.ksr.webapp.mes.base.department;
+package com.ksr.webapp.mes.base.grade;
 
 import com.ksr.webapp.common.util.CommonUtils;
 import com.ksr.webapp.common.vo.VMap;
@@ -18,7 +18,7 @@ import java.util.List;
 public class GradeQueryRepository {
 
     private final JPAQueryFactory queryFactory;
-    private final QGrade qGrade;
+    private final QGrade qGrade = QGrade.grade;
     private final GradeRepository gradeRepository;
     private final EntityManager em;
 
@@ -43,12 +43,12 @@ public class GradeQueryRepository {
             String nowString = now.format(dateTimeFormatter);
 
             registList.add(new Grade(grade_cd.get(i)
-                                            ,grade_nm.get(i)
-                                            ,CommonUtils.isEmpty(vmap.getString("u_cd")) ? "admin" : vmap.getString("u_cd")
-                                            ,CommonUtils.isEmpty(vmap.getString("u_cd")) ? "admin" : vmap.getString("u_cd")
-                                            ,nowString
-                                            ,nowString
-                                          ));
+                    ,grade_nm.get(i)
+                    , CommonUtils.isEmpty(vmap.getString("u_cd")) ? "admin" : vmap.getString("u_cd")
+                    ,CommonUtils.isEmpty(vmap.getString("u_cd")) ? "admin" : vmap.getString("u_cd")
+                    ,nowString
+                    ,nowString
+            ));
         }
 
         gradeRepository.saveAll(registList);
@@ -62,6 +62,5 @@ public class GradeQueryRepository {
                 .execute();
 
     }
-
 
 }

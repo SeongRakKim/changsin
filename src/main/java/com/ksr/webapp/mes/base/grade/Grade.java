@@ -1,11 +1,11 @@
-package com.ksr.webapp.mes.base.department;
+package com.ksr.webapp.mes.base.grade;
 
 import lombok.*;
 
 import javax.persistence.*;
 
 //@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity

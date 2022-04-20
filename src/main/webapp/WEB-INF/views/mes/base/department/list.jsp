@@ -168,6 +168,7 @@
     $(document).ready(() => {
         // DataTables setting
         getData();
+        getData2();
 
         $("input:radio[name=pop_proc_mass_yn]").on("change", () => {
             $("input:radio[name=pop_proc_mass_yn]").each(function() {
@@ -376,7 +377,7 @@
         showWait('.container-fluid');
 
         $.ajax({
-            url: "/mes/base/department/gradeList"
+            url: "/mes/base/grade/gradeList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -417,7 +418,7 @@
             templateData = {
                 cnt : resultRowCnt
                 ,grade_cd: data.grade_cd
-                ,grade_cd: data.grade_cd
+                ,grade_nm: data.grade_nm
             };
         }
 
@@ -441,7 +442,7 @@
 
         $.ajax({
             type: "post"
-            ,url: "/mes/base/department/gradeRegistModify"
+            ,url: "/mes/base/grade/gradeRegistModify"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "POST"
@@ -449,7 +450,7 @@
             ,dataType: "text"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,ary_dept_cd: ary_grade_cd
+                ,ary_grade_cd: ary_grade_cd
                 ,ary_grade_nm: ary_grade_nm
             })
         })
@@ -493,7 +494,7 @@
 
                     $.ajax({
                         type: "delete"
-                        ,url: "/mes/base/department/gradeDelete"
+                        ,url: "/mes/base/grade/gradeDelete"
                         ,headers: {
                             "Content-Type": "application/json"
                             ,"X-HTTP-Method-Override": "DELETE"
@@ -505,7 +506,7 @@
                     })
                     .done(function (data) {
                         hideWait('.dataModal');
-                        getData();
+                        getData2();
                     })
                     .always(function (data) {
 
