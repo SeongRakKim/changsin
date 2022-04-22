@@ -44,7 +44,7 @@ public class GradeQueryRepository {
 
             registList.add(new Grade(grade_cd.get(i)
                     ,grade_nm.get(i)
-                    , CommonUtils.isEmpty(vmap.getString("u_cd")) ? "admin" : vmap.getString("u_cd")
+                    ,CommonUtils.isEmpty(vmap.getString("u_cd")) ? "admin" : vmap.getString("u_cd")
                     ,CommonUtils.isEmpty(vmap.getString("u_cd")) ? "admin" : vmap.getString("u_cd")
                     ,nowString
                     ,nowString

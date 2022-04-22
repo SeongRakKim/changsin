@@ -128,6 +128,18 @@
                 <a class="_isUrl collapse-item" data-url="/mes/quality/shipment/list" href="/mes/quality/shipment/list">출고검사</a>
             </div>
         </div>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReport"
+           aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-chart-bar"></i>
+            <span>보고서</span>
+        </a>
+        <div id="collapseReport" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="_isUrl collapse-item" data-url="/mes/quality/material/list" href="/mes/report/material/list">생산실적</a>
+                <a class="_isUrl collapse-item" data-url="/mes/quality/process/list" href="/mes/report/process/list">납품실적</a>
+                <a class="_isUrl collapse-item" data-url="/mes/quality/shipment/list" href="/mes/report/shipment/list">제품재고</a>
+            </div>
+        </div>
     </li>
 
     <!-- Nav Item - Utilities Collapse Menu -->

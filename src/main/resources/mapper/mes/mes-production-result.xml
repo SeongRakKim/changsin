@@ -273,6 +273,9 @@
                 AND DATE_FORMAT(PLAN_RES_EDDT, '%Y-%m-%d') <![CDATA[<=]]> #{endDate}
             </if>
         </if>
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
+            AND PROD_CD = #{prod_cd}
+        </if>
         <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(plan_cd)">
             AND PLAN_CD = #{plan_cd}
         </if>
