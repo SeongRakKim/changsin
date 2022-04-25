@@ -40,6 +40,10 @@ public class MaterialPurchaseDAO extends MapperDAO {
         return update(mapperName + ".purchaseInModify", vmap.getMap());
     }
 
+    public int purchaseQualityModify(VMap vmap) throws Exception {
+        return update(mapperName + ".purchaseQualityModify", vmap.getMap());
+    }
+
     public int shipRegist(VMap vmap) throws Exception {
         return insert(mapperName + ".shipRegist", vmap.getMap());
     }

@@ -30,10 +30,19 @@ public class PurchaseQualityData {
     private String pur_upuser;
     private String pur_quality_yn;
     private String pur_quality_cd;
+    private String pur_quality_nm;
     private String pur_quality_val;
 
     private String prod_pn;
     private String prod_nm;
+    private String prod_stand;
+    private String comp_nm;
+    private String code_nm;
+    private String prod_kind_nm;
+    private String prod_group_nm;
+    private String prod_family_nm;
+    private String prod_unit_nm;
+    private String pur_state_nm;
 
 
 }

@@ -24,10 +24,6 @@
                     <th>검색날짜</th>
                     <td colspan="3">
                         <div style="display: flex;">
-                            <select id="date_type" name="date_type" class="custom-select w-10" style="width: 10% !important; margin-right: 5px;">
-                                <option value="PUR_DT">발주일</option>
-                                <option value="PUR_SHIP_DT">납기요청일</option>
-                            </select>
                             <%@ include file="/WEB-INF/include/main-search-date-content.jspf"%>
                         </div>
                     </td>
@@ -61,7 +57,7 @@
     <div class="menu-nav">
         <div>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 품질관리 <i class="fas fa-arrow-circle-right"></i> 수입검사
+                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 품질관리 <i class="fas fa-arrow-circle-right"></i> 공정검사
             </span>
         </div>
 
@@ -93,14 +89,11 @@
                             <table id ="tblMaster" class="table-list table table-hover table-striped table-bordered mb-5" style="width: 100%">
                                 <thead>
                                     <tr role="row">
-                                        <th>거래처</th>
-                                        <th>매입일</th>
-<%--                                        <th style="width: 6%">납기요청일</th>--%>
+                                        <th>작업지시번호</th>
                                         <th style="width: 15%">품번</th>
                                         <th style="width: 20%">품목명</th>
-<%--                                        <th>규격</th>--%>
-<%--                                        <th>단위</th>--%>
-                                        <th>수량</th>
+                                        <th>공정</th>
+                                        <th>계획수량</th>
                                         <th style="width: 10%">검사유무</th>
                                         <th style="width: 12%">측정분류</th>
                                         <th style="width: 10%">측정값</th>
@@ -119,16 +112,23 @@
                                     </colgroup>
                                     <tbody>
                                         <tr role="row">
-                                            <th>발주일</th>
+                                            <th>계획일</th>
                                             <td>
-                                                <input type="hidden" id="frm_pur_cd" name="frm_pur_cd" value="" />
-                                                <div id="frm_pur_dt" name="frm_pur_dt"></div>
+                                                <input type="hidden" id="frm_plan_cd" name="frm_plan_cd" value="" />
+                                                <input type="hidden" id="frm_plan_proc_cd" name="frm_plan_proc_cd" value="" />
+                                                <div id="frm_plan_dt" name="frm_plan_dt"></div>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>납기요청일</th>
+                                            <th>작업지시번호</th>
                                             <td>
-                                                <div id="frm_pur_ship_dt" name="frm_pur_dt"></div>
+                                                <div id="frm_plan_no" name="frm_plan_no"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>거래처</th>
+                                            <td>
+                                                <div id="frm_comp_nm" name="frm_comp_nm"></div>
                                             </td>
                                         </tr>
                                         <tr>
@@ -156,21 +156,21 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>수량</th>
+                                            <th>계획수량</th>
                                             <td>
-                                                <div class="text-right" id="frm_pur_cnt" name="frm_pur_cnt"></div>
+                                                <div class="text-right" id="frm_plan_cnt" name="frm_plan_cnt"></div>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>입고수량</th>
+                                            <th>생산수량</th>
                                             <td>
-                                                <div class="text-right" id="frm_pur_in_cnt" name="frm_pur_in_cnt"></div>
+                                                <div class="text-right" id="frm_plan_proc_cnt" name="frm_plan_proc_cnt"></div>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>측정분류</th>
                                             <td>
-                                                <select id="frm_pur_quality_cd" name="frm_pur_quality_cd" class="custom-select w-100" style="width: 80% !important;">
+                                                <select id="frm_plan_proc_quality_cd" name="frm_plan_proc_quality_cd" class="custom-select w-100" style="width: 80% !important;">
                                                     <option value="">측정분류선택</option>
                                                     <c:forEach var="item" items="${vmap.qualityItemList}" varStatus="status">
                                                         <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
@@ -183,11 +183,11 @@
                                             <td>
                                                 <div style="display: flex; flex-wrap: wrap;">
                                                     <div class="custom-control custom-radio my-3">
-                                                        <input type="radio" checked=""  id="customRadio1" name="frm_pur_quality_val" class="custom-control-input" value="Y">
+                                                        <input type="radio" checked=""  id="customRadio1" name="frm_plan_proc_quality_val" class="custom-control-input" value="Y">
                                                         <label class="custom-control-label" for="customRadio1">양호</label>
                                                     </div>
                                                     <div class="custom-control custom-radio my-3">
-                                                        <input type="radio" id="customRadio2" name="frm_pur_quality_val" class="custom-control-input" value="N">
+                                                        <input type="radio" id="customRadio2" name="frm_plan_proc_quality_val" class="custom-control-input" value="N">
                                                         <label class="custom-control-label" for="customRadio2">불량</label>
                                                     </div>
                                                 </div>
@@ -231,23 +231,24 @@
 
         // 상세조회
         $("#tblMaster").on("click", "tr", function() {
-            let pur_cd = $(this).find("input[name=pur_cd]").val();
-            getDataOne(pur_cd);
+            let plan_cd = $(this).find("input[name=plan_cd]").val();
+            let plan_proc_cd = $(this).find("input[name=plan_proc_cd]").val();
+            getDataOne(plan_cd, plan_proc_cd);
         });
 
         $("#btnRegist").on("click", () => {
 
-            if(IsNull($("#frm_pur_cd").val())) {
+            if(IsNull($("#frm_plan_proc_cd").val())) {
                 alert("저장할 항목을 선택해주세요.");
                 return false;
             }
 
-            if(IsNull($("#frm_pur_quality_cd").val())) {
+            if(IsNull($("#frm_plan_proc_quality_cd").val())) {
                 alert("측정분류를 선택해주세요.");
                 return false;
             }
 
-            setPurchaseQualityModify();
+            setProcessQualityModify();
 
         });
 
@@ -309,7 +310,7 @@
         showWait('.container-fluid');
 
         $.ajax({
-            url: "/mes/quality/material/materialInspectList"
+            url: "/mes/quality/process/processInspectList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -321,6 +322,7 @@
                 ,date_type: $("#date_type").val()
                 ,startDate: $("#startDate").val()
                 ,endDate: $("#endDate").val()
+                ,mes_state: "12"
                 ,prod_kind: $("#prod_kind").val()
                 ,prod_family: $("#prod_family").val()
                 ,prod_group: $("#prod_group").val()
@@ -334,25 +336,23 @@
             data.forEach((item, index) => {
                 let node = [];
 
-                let firstHtml = "<div class='text-left'>" + IsEmpty(item.comp_nm) + "</div>" +
+                let firstHtml = "<div class='text-left'>" + IsEmpty(item.plan_no) + "</div>" +
                     "<input type=\"hidden\" name=\"fact_cd\" value=\"" + item.fact_cd + "\"</input>"+
-                    "<input type=\"hidden\" name=\"pur_cd\" value=\"" + item.pur_cd + "\"</input>";
+                    "<input type=\"hidden\" name=\"plan_cd\" value=\"" + item.plan_cd + "\"</input>"+
+                    "<input type=\"hidden\" name=\"plan_proc_cd\" value=\"" + item.plan_proc_cd + "\"</input>";
 
                 node.push(firstHtml);
-                node.push("<div class='text-center'>" + IsEmpty(item.pur_dt) + "</div>");
                 node.push(IsEmpty(item.prod_pn));
                 node.push(IsEmpty(item.prod_nm));
-                // node.push(IsEmpty(item.prod_stand));
-                // node.push(IsEmpty(item.prod_unit_nm));
-                node.push("<div class='text-right'>" + IsEmpty(item.pur_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
-
-                node.push("<div class='text-center'>" + IsEmpty(item.pur_quality_yn) + "</div>");
-                node.push("<div class='text-center'>" + IsEmpty(item.pur_quality_nm) + "</div>");
-                node.push("<div class='text-center'>" + IsEmpty(item.pur_quality_val) + "</div>");
+                node.push("<div class='text-center'>" + IsEmpty(item.proc_nm) + "</div>");
+                node.push("<div class='text-right'>" + IsEmpty(item.plan_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
+                node.push("<div class='text-center'>" + IsEmpty(item.plan_proc_quality_yn) + "</div>");
+                node.push("<div class='text-center'>" + IsEmpty(item.plan_proc_quality_nm) + "</div>");
+                node.push("<div class='text-center'>" + IsEmpty(item.plan_proc_quality_val) + "</div>");
 
                 // 각 row node 추가
                 let row =  $("#tblMaster").DataTable().row.add(node).node();
-                if(item.pur_quality_yn == "Y") {
+                if(item.plan_proc_quality_yn == "Y") {
                     $(row).find("td").addClass("bg-neutral-danger-custom");
                 }
             });
@@ -368,12 +368,12 @@
         });
     }
 
-    function getDataOne(pur_cd)
+    function getDataOne(plan_cd, plan_proc_cd)
     {
         showWait('.container-fluid');
 
         $.ajax({
-            url: "/mes/material/purchase/purchaseOne/" + pur_cd
+            url: "/mes/quality/process/processInspectOne/" + plan_cd + "/" + plan_proc_cd
             ,type: "get"
             ,dataType: "json"
             // ,data: JSON.stringify({})
@@ -382,6 +382,7 @@
         {
             resetForm("dataForm");
             setDataOne("frm_", data);
+            $("#frm_plan_dt").text(data.plan_stdt + " ~ " + data.plan_eddt);
 
             if(data.pur_state == "31") {
                 $("#btnPopModify").hide();
@@ -399,11 +400,11 @@
         });
     }
 
-    function setPurchaseQualityModify()
+    function setProcessQualityModify()
     {
         Swal.fire({
             title: '',
-            text: "수입검사 결과를 저장하시겠습니까?",
+            text: "공정검사 결과를 저장하시겠습니까?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -417,7 +418,7 @@
 
                 $.ajax({
                     type: "post"
-                    ,url: "/mes/quality/material/materialQualityModify"
+                    ,url: "/mes/quality/process/processQualityModify"
                     ,headers: {
                         "Content-Type": "application/json"
                         ,"X-HTTP-Method-Override": "POST"
@@ -425,10 +426,11 @@
                     ,dataType: "text"
                     ,data: JSON.stringify({
                         fact_cd: "${vmap.fact_cd}"
-                        ,pur_cd: $("#frm_pur_cd").val()
-                        ,pur_quality_yn: "Y"
-                        ,pur_quality_cd: $("#frm_pur_quality_cd").val()
-                        ,pur_quality_val: $("input:radio[name=frm_pur_quality_val]:checked").val()
+                        ,plan_cd: $("#frm_plan_cd").val()
+                        ,plan_proc_cd: $("#frm_plan_proc_cd").val()
+                        ,plan_proc_quality_yn: "Y"
+                        ,plan_proc_quality_cd: $("#frm_plan_proc_quality_cd").val()
+                        ,plan_proc_quality_val: $("input:radio[name=frm_plan_proc_quality_val]:checked").val()
                     })
                 })
                 .done(function (data) {

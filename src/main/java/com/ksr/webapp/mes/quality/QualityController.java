@@ -18,6 +18,24 @@ public class QualityController {
     public void qualityMaterialList(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
         vmap.put("requestUri", httpServletRequest.getRequestURI());
 
+        vmap.put("base_cd", "quality_item");
+        vmap.put("qualityItemList", commonService.baseDetailList(vmap));
+    }
+
+    @GetMapping("/mes/quality/process/list")
+    public void qualityProcessList(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+        vmap.put("requestUri", httpServletRequest.getRequestURI());
+
+        vmap.put("base_cd", "quality_item");
+        vmap.put("qualityItemList", commonService.baseDetailList(vmap));
+    }
+
+    @GetMapping("/mes/quality/shipment/list")
+    public void qualityShipmentList(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+        vmap.put("requestUri", httpServletRequest.getRequestURI());
+
+        vmap.put("base_cd", "quality_item");
+        vmap.put("qualityItemList", commonService.baseDetailList(vmap));
     }
 
 }

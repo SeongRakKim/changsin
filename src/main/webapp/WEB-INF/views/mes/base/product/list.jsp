@@ -942,18 +942,18 @@
                 ,prod_notice: $("#pop_prod_notice").val()
             })
         })
-            .done(function (data) {
-                hideWait('.dataModal');
-                $("#dataModal").modal("hide");
-                getData();
-            })
-            .always(function (data) {
+        .done(function (data) {
+            hideWait('.dataModal');
+            $("#dataModal").modal("hide");
+            getData();
+        })
+        .always(function (data) {
 
-            })
-            .fail(function (jqHXR, textStatus, errorThrown) {
-                ajaxErrorAlert(jqHXR);
-                hideWait('.dataModal');
-            });
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+            hideWait('.dataModal');
+        });
     }
 
     function deleteData()

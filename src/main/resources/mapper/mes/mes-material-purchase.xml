@@ -208,6 +208,9 @@
                ,PUR_INUSER
                ,PUR_UPDATE
                ,PUR_UPUSER
+               ,PUR_QUALITY_YN
+               ,PUR_QUALITY_CD
+               ,PUR_QUALITY_VAL
         FROM MES_PURCHASE_INFO MOI
         JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
         JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
