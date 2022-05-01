@@ -135,9 +135,9 @@
         </a>
         <div id="collapseReport" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="_isUrl collapse-item" data-url="/mes/quality/material/list" href="/mes/report/material/list">생산실적</a>
-                <a class="_isUrl collapse-item" data-url="/mes/quality/process/list" href="/mes/report/process/list">납품실적</a>
-                <a class="_isUrl collapse-item" data-url="/mes/quality/shipment/list" href="/mes/report/shipment/list">제품재고</a>
+                <a class="_isUrl collapse-item" data-url="/mes/report/production/list" href="/mes/report/production/list">생산실적</a>
+                <a class="_isUrl collapse-item" data-url="/mes/report/shipment/list" href="/mes/report/shipment/list">납품실적</a>
+                <a class="_isUrl collapse-item" data-url="/mes/report/product/list" href="/mes/report/product/list">제품재고</a>
             </div>
         </div>
     </li>

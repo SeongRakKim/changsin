@@ -262,6 +262,9 @@
         <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(ship_cd)">
             AND SHIP_CD = #{ship_cd}
         </if>
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(ship_state)">
+            AND SHIP_STATE = #{ship_state}
+        </if>
         <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_cd)">
             AND PROD_CD = #{prod_cd}
         </if>
