@@ -16,6 +16,10 @@ public class UserDAO extends MapperDAO {
         return selectList(mapperName + ".userList", vmap.getMap());
     }
 
+    public Map<String, Object> userOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".userOne", vmap.getMap());
+    }
+
     public Map<String, Object> userOne(String u_cd) throws Exception {
         VMap vmap = new VMap();
         vmap.put("u_cd", u_cd);

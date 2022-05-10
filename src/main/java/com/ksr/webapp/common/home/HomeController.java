@@ -36,8 +36,6 @@ public class HomeController {
     public String homeGet(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
 //        vmap.put("requestUri", httpServletRequest.getRequestURI());
 
-        System.out.println("!111111!!!!!=========================");
-
         return "index";
     }
 

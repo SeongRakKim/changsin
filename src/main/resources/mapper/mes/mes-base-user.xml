@@ -158,10 +158,10 @@
         </foreach>
     </delete>-->
 
-    <update id="compPackDelete" parameterType="VMap">
-        UPDATE MES_COMPANY_INFO
-        SET COMP_YN = 'N'
-        WHERE COMP_CD IN
+    <update id="userPackDelete" parameterType="VMap">
+        UPDATE MES_USER_INFO
+        SET U_YN = 'N'
+        WHERE U_CD IN
         <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>

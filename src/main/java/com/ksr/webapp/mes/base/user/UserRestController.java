@@ -26,14 +26,14 @@ public class UserRestController {
         return new ResponseEntity<>(userList, HttpStatus.OK);
     }
 
-//    @GetMapping("/mes/base/user/userOne/{user_cd}")
-//    public ResponseEntity<Map<String, Object>> userOne(VMap vmap, @PathVariable("user_cd") String user_cd) throws Exception
-//    {
-//        vmap.put("user_cd", user_cd);
-//        Map<String, Object> userOne = userService.userOne(vmap);
-//
-//        return new ResponseEntity<>(userOne, HttpStatus.OK);
-//    }
+    @GetMapping("/mes/base/user/userOne/{u_cd}")
+    public ResponseEntity<Map<String, Object>> userOne(VMap vmap, @PathVariable("u_cd") String u_cd) throws Exception
+    {
+        vmap.put("u_cd", u_cd);
+        Map<String, Object> userOne = userService.userOne(vmap);
+
+        return new ResponseEntity<>(userOne, HttpStatus.OK);
+    }
 
     @GetMapping("/mes/base/user/userOverlap/{u_cd}")
     public ResponseEntity<Boolean> userOverlap(VMap vmap, @PathVariable("u_cd") String u_cd) throws Exception

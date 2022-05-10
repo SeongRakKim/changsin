@@ -1,9 +1,13 @@
 package com.ksr.webapp.common.login;
 
 import com.google.gson.JsonObject;
+import com.ksr.webapp.common.config.CoTopComponent;
 import com.ksr.webapp.common.config.Url;
+import com.ksr.webapp.common.vo.VMap;
+import com.ksr.webapp.mes.base.user.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -24,7 +28,9 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class AuthSuccessHandler implements AuthenticationSuccessHandler {
+public class AuthSuccessHandler extends CoTopComponent implements AuthenticationSuccessHandler {
+
+//    @AuthenticationPrincipal CustomUserDetails customUserDetails;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response
@@ -32,7 +38,17 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 
         HttpSession session = request.getSession();
         session.setMaxInactiveInterval(60 * 60 * 3);
-        response.sendRedirect("/");
+        session.setAttribute("userInfo", authentication.getPrincipal());
+        session.setAttribute("u_cd", authentication.getName());
+
+        JsonObject loginResult = new JsonObject();
+        loginResult.addProperty("resultCode", "00");
+        loginResult.addProperty("targetUrl", request.getContextPath() + "/");
+
+        writeResponse(response, loginResult);
+
+//        HttpServletRequest request2 = (HttpServletRequest) nativeWebRequest.getNativeRequest();
+//        response.sendRedirect("/");
 
     }
 }

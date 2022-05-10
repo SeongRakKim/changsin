@@ -114,6 +114,7 @@
                 </button>
             </div>
             <form id="dataForm" name="dataForm" class="dataForm" method="post">
+                <input type="hidden" id="modal_state" name="modal_state">
                 <div class="modal-body">
                     <table id="tblPopData" class="table table-hover table-bordered mb-5 table-form">
                         <tbody>
@@ -132,7 +133,7 @@
                                 <th>비밀번호<span class="red"> (필수)</span></th>
                                 <td>
                                     <input type="password" id="pop_u_pw" name="pop_u_pw" class="form-control rudder" placeholder="비밀번호" title="비밀번호"
-                                           required />
+                                           />
                                 </td>
                             </tr>
                             <tr>
@@ -253,6 +254,27 @@
             if(IsNotNull($(".invalid-feedback").text())) {
                 eAlert("중복된 코드값이 존재합니다.");
                 return;
+            }
+
+            var password = $("#pop_u_pw").val();
+
+            if($("#modal_state").val() === "R")
+            {
+                if(IsNull(password)) {
+                    eAlert("비밀번호는 필수입력 사항입니다.");
+                    return;
+                }
+
+                if (!strCheck(password, "pwd")) {
+                    eAlert("비밀번호는 영문/숫자/특수문자를 포함하여 8~16자리로 입력해야 합니다.");
+                    return;
+                }
+            }else if($("#modal_state").val() != "R" && IsNotNull(password))
+            {
+                if (!strCheck(password, "pwd")) {
+                    eAlert("비밀번호는 영문/숫자/특수문자를 포함하여 8~16자리로 입력해야 합니다.");
+                    return;
+                }
             }
 
             if(!parsleyIsValidate("dataForm")) return false;
@@ -412,6 +434,8 @@
         $("#btnPopModify").hide();
 
         resetForm("dataForm");
+
+        $("#modal_state").val(flag);
     }
 
     function resetForm(formId)
@@ -487,7 +511,7 @@
         showWait('.dataModal');
 
         $.ajax({
-            url: "/mes/base/company/compOne/" + u_cd
+            url: "/mes/base/user/userOne/" + u_cd
             ,type: "get"
             ,dataType: "json"
             // ,data: JSON.stringify({})
@@ -558,7 +582,7 @@
 
         $.ajax({
             type: "delete"
-            ,url: "/mes/base/company/compPackDelete"
+            ,url: "/mes/base/user/userPackDelete"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "DELETE"
@@ -597,6 +621,25 @@
 
         return idNum;
     }
+
+    function strCheck(str, type) {
+        var REGEX = {
+            EMAIL: /\S+@\S+\.\S+/,
+            PWD_RULE: /^(?=.*[a-zA-Z])((?=.*\d)(?=.*\W)).{8,16}$/,
+            NAME_RULE: /^[가-힣a-zA-Z]+$/
+        };
+
+        if (type === "email") {
+            return REGEX.EMAIL.test(str);
+        } else if (type === "pwd") {
+            return REGEX.PWD_RULE.test(str);
+        } else if (type === "name") {
+            return REGEX.NAME_RULE.test(str);
+        } else {
+            return false;
+        }
+    }
+
 
 
 </script>

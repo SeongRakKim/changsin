@@ -32,39 +32,51 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     AuthFailureHandler authFailureHandler;
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf().disable()
-                .authorizeHttpRequests()
-                .antMatchers(Url.LOGIN).permitAll() //인증 예외
-//                .antMatchers("/**").permitAll() //인증 예외
-                .anyRequest().authenticated() // 모두 인증
-                .and()
-                .formLogin()
-                .loginPage(Url.LOGIN)
-                .loginProcessingUrl(Url.LOGIN_PROC)
-                .usernameParameter("id")
-                .passwordParameter("password")
-                .successHandler(authSuccessHandler)
-                .failureHandler(authFailureHandler)
-//                .defaultSuccessUrl("/", true)
-                .and()
-                .logout()
-//                .logoutUrl(Url.LOGIN)
-//                .invalidateHttpSession(true)
-//                .deleteCookies("JSESSIONID")
-                .and()
-                .sessionManagement()
-                .maximumSessions(1)
-                .expiredUrl(Url.LOGIN)
-                .sessionRegistry(sessionRegistry())
-                .maxSessionsPreventsLogin(true)
-//                .and()
-//                .and().rememberMe()
-//                .alwaysRemember(false)
-//                .tokenValiditySeconds(43200)
-//                .rememberMeParameter("remember-me")
-                ;
+    protected void configure(HttpSecurity http) throws Exception
+    {
+
+        http
+            .csrf().disable()
+        ;
+
+        http
+            .authorizeHttpRequests()
+            .antMatchers(Url.LOGIN).permitAll()
+            .anyRequest().authenticated() // 모두 인증
+        ;
+
+        http
+            .formLogin()
+            .loginPage(Url.LOGIN)
+            .loginProcessingUrl(Url.LOGIN_PROC)
+            .usernameParameter("id")
+            .passwordParameter("password")
+            .successHandler(authSuccessHandler)
+            .failureHandler(authFailureHandler)
+        ;
+
+        http
+            .logout()
+//            .logoutUrl(Url.LOGIN)
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
+        ;
+
+        http
+            .sessionManagement()
+            .maximumSessions(-1)
+            .expiredUrl(Url.LOGIN)
+            .sessionRegistry(sessionRegistry())
+            .maxSessionsPreventsLogin(true)
+        ;
+
+        http
+            .rememberMe()
+            .alwaysRemember(false)
+            .tokenValiditySeconds(43200)
+            .rememberMeParameter("remember-me")
+        ;
+
     }
 
     @Bean

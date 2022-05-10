@@ -21,12 +21,16 @@ public class UserService {
     @Autowired
     private UserDAO userDAO;
 
-    @Lazy
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
 
     public List<Map<String, Object>> userList(VMap vmap) throws Exception {
         return userDAO.userList(vmap);
+    }
+
+    public Map<String, Object> userOne(VMap vmap) throws Exception {
+        return userDAO.userOne(vmap);
     }
 
     public Map<String, Object> userOne(String u_cd) throws Exception {

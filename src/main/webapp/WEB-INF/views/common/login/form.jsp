@@ -105,7 +105,7 @@
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">Manufacturing Execution System</h1>
                                     </div>
-                                    <form id="loginForm" class="user" method="post" >
+                                    <form id="loginForm" class="user" method="post" action="/auth/login-proc">
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
                                                    id="id" aria-describedby="emailHelp"
@@ -124,6 +124,7 @@
                                         <a href="#" onclick="submitForm();" class="btn btn-primary btn-user btn-block">
                                             Login
                                         </a>
+
 <%--                                        <hr>--%>
 <%--                                        <a href="index.html" class="btn btn-google btn-user btn-block">--%>
 <%--                                            <i class="fab fa-google fa-fw"></i> Login with Google--%>
@@ -154,6 +155,8 @@
     <script>
         function submitForm() {
 
+            // document.getElementById("loginForm").submit();
+
             var params = {
                 'id' : $.trim($("#id").val())
                 ,'password' : $("#password").val()
@@ -166,7 +169,12 @@
                 ,data : params
                 ,success : function(result) {
                     console.log('오후 6:47', '168', result);
-                    alert(1111)
+                    if(result.resultCode != "00"){
+                        eAlert(result.resultMessage);
+                    }
+                    else{
+                        location.href=result.targetUrl;
+                    }
                 },
                 error: function(request, status, error) {
 
