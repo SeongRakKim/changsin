@@ -21,6 +21,7 @@ public class UserService {
     @Autowired
     private UserDAO userDAO;
 
+    @Lazy
     @Autowired
     private PasswordEncoder passwordEncoder;
 

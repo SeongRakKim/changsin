@@ -14,5 +14,11 @@ public final class Url {
     /* 로그인 url */
     public static final String MAIN = "/";
 
+    /* DID url */
+    public static final String DID_PATH = "/did/**";
+
+    /* DID url */
+    public static final String DID = "/did";
+
 }
 
