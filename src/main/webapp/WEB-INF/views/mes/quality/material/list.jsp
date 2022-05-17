@@ -9,6 +9,7 @@
 
 <%@ include file="/WEB-INF/include/header.jspf" %>
 
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <div class="main-content">
@@ -112,6 +113,7 @@
 
                         <div class="col-sm-4">
                             <form id="dataForm" name="dataForm" class="dataForm" method="post">
+<%--                                <table class="table table-hover table-striped table-bordered mb-5">--%>
                                 <table id="tblDataMaster" class="table table-hover table-bpurchaseed mb-3 table-form" style="margin-top: 35px;">
                                     <colgroup>
                                         <col style="width: 30%">
