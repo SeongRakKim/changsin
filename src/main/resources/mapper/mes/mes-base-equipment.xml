@@ -147,4 +147,32 @@
         </foreach>
     </update>
 
+    <select id="equipmentInterfaceData" parameterType="VMap" resultType="RowMap">
+        SELECT EQU_IF_STDT,
+               EQU_IF_EDDT,
+               DATE_FORMAT(EQU_IF_STDT, '%Y-%m-%d') EQU_IF_ST_DATE,
+               DATE_FORMAT(EQU_IF_EDDT, '%Y-%m-%d') EQU_IF_ED_DATE,
+               DATE_FORMAT(EQU_IF_STDT, '%H:%i') EQU_IF_ST_TIME,
+               DATE_FORMAT(EQU_IF_EDDT, '%H:%i') EQU_IF_ED_TIME,
+               EQU_IF_ONOFF,
+               EQU_IF_QTY,
+               EQU_IF_DT,
+               EQU_CD,
+               PROC_CD,
+               EQU_NM,
+               EQU_NO,
+               EQU_TYPE,
+               EQU_MODEL,
+               EQU_NATION,
+               EQU_COMPANY,
+               EQU_YN,
+               EQU_NOTICE,
+               EQU_INDATE,
+               EQU_INUSER,
+               EQU_UPDATE,
+               EQU_UPUSER
+        FROM MES_EQUIPMENT_INTERFACE_DATA
+        JOIN MES_EQUIPMENT_INFO USING (EQU_CD)
+    </select>
+
 </mapper>

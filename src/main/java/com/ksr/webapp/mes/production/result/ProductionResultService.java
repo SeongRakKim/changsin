@@ -51,6 +51,10 @@ public class ProductionResultService {
         return productionResultDAO.planResultList(vmap);
     }
 
+    public List<Map<String, Object>> planResultDidList(VMap vmap) throws Exception {
+        return productionResultDAO.planResultDidList(vmap);
+    }
+
     public Map<String, Object> planResultOne(VMap vmap) throws Exception {
         return productionResultDAO.planResultOne(vmap);
     }

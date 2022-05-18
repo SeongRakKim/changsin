@@ -42,4 +42,9 @@ public class EquipmentService {
         return equipmentDAO.equPackDelete(vmap);
     }
 
+
+    public List<Map<String, Object>> equipmentInterfaceData(VMap vmap) throws Exception {
+        return equipmentDAO.equipmentInterfaceData(vmap);
+    }
+
 }

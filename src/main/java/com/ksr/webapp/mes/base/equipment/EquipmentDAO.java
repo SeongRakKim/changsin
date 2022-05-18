@@ -32,4 +32,8 @@ public class EquipmentDAO extends MapperDAO {
         return update(mapperName + ".equPackDelete", vmap.getMap());
     }
 
+    public List<Map<String, Object>> equipmentInterfaceData(VMap vmap) throws Exception {
+        return selectList(mapperName + ".equipmentInterfaceData", vmap.getMap());
+    }
+
 }

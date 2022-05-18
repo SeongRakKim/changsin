@@ -33,6 +33,15 @@ public class NoticeQueryRepository {
     }
 
     @Transactional
+    public Notice noticeOne2(VMap vmap) {
+        return queryFactory.selectFrom(qNotice)
+                .orderBy(qNotice.notice_stdt.asc())
+                .limit(1)
+                .offset(vmap.getLong("offset"))
+                .fetchOne();
+    }
+
+    @Transactional
     public Notice noticeOne(VMap vmap) {
         return queryFactory.selectFrom(qNotice)
                     .where(qNotice.notice_cd.eq(vmap.getString("notice_cd")))

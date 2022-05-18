@@ -13649,6 +13649,15 @@ button.bg-dark:focus {
 .shadow-none {
   box-shadow: none !important; }
 
+.w-10 {
+  width: 10% !important; }
+
+.w-15 {
+  width: 15% !important; }
+
+.w-20 {
+  width: 20% !important; }
+
 .w-25 {
   width: 25% !important; }
 

@@ -41,7 +41,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
             .authorizeHttpRequests()
-            .antMatchers(Url.LOGIN).permitAll()
+            .antMatchers(Url.LOGIN, Url.DID_PATH).permitAll()
             .anyRequest().authenticated() // 모두 인증
         ;
 

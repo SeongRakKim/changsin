@@ -62,4 +62,5 @@ public class EquipmentRestController {
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
 
+
 }
