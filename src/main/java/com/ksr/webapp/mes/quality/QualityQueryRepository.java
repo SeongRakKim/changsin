@@ -243,6 +243,7 @@ public class QualityQueryRepository {
                         ,productionPlanProc.plan_proc_quality_yn.coalesce("N").as("plan_proc_quality_yn")
                         ,productionPlanProc.plan_proc_quality_cd
                         ,productionPlanProc.plan_proc_quality_val
+                        ,productionPlanProc.plan_proc_quality_cnt
                         ,productionPlan.plan_no
                         ,productionPlan.plan_stdt
                         ,productionPlan.plan_eddt
@@ -279,6 +280,7 @@ public class QualityQueryRepository {
                 .set(productionPlanProc.plan_proc_quality_yn, vmap.getString("plan_proc_quality_yn"))
                 .set(productionPlanProc.plan_proc_quality_cd, vmap.getString("plan_proc_quality_cd"))
                 .set(productionPlanProc.plan_proc_quality_val, vmap.getString("plan_proc_quality_val"))
+                .set(productionPlanProc.plan_proc_quality_cnt, vmap.getString("plan_proc_quality_cnt"))
                 .where(productionPlanProc.plan_cd.eq(vmap.getString("plan_cd")).and(productionPlanProc.plan_proc_cd.eq(vmap.getString("plan_proc_cd"))))
                 .execute();
     }

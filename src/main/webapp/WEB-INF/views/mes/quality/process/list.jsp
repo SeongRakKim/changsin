@@ -193,6 +193,13 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <th>불량수량</th>
+                                            <td>
+                                                <input type="text" id="frm_plan_proc_quality_cnt" name="frm_plan_proc_quality_cnt" class="form-control"
+                                                       placeholder="생산불량수량" title="생산불량수량" />
+                                            </td>
+                                        </tr>
                                     </tbody>
                                     <tbody></tbody>
                                 </table>
@@ -431,6 +438,7 @@
                         ,plan_proc_quality_yn: "Y"
                         ,plan_proc_quality_cd: $("#frm_plan_proc_quality_cd").val()
                         ,plan_proc_quality_val: $("input:radio[name=frm_plan_proc_quality_val]:checked").val()
+                        ,plan_proc_quality_cnt: $("#frm_plan_proc_quality_cnt").val()
                     })
                 })
                 .done(function (data) {

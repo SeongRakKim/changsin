@@ -35,6 +35,7 @@ public class ProductionPlanProc {
     private String plan_proc_quality_yn;
     private String plan_proc_quality_cd;
     private String plan_proc_quality_val;
+    private String plan_proc_quality_cnt;
     private String plan_proc_notice;
     private String plan_proc_indate;
     private String plan_proc_inuser;

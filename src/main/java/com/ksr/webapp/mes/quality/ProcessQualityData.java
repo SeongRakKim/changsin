@@ -21,6 +21,7 @@ public class ProcessQualityData {
     private String plan_proc_quality_cd;
     private String plan_proc_quality_nm;
     private String plan_proc_quality_val;
+    private String plan_proc_quality_cnt;
 
     private String comp_cd;
     private String comp_nm;
