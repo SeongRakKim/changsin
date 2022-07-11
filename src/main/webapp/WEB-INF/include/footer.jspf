@@ -167,6 +167,7 @@
         }
 
         getData();
+        getData2();
     }
 
     function setDataTablesOption()

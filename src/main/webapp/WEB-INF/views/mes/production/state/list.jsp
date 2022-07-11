@@ -511,6 +511,7 @@
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
                 ,plan_cd: plan_cd
+                ,isNotDate: "Y"
             })
         })
         .done(function (data)

@@ -82,7 +82,26 @@
 
     <%@ include file="/WEB-INF/include/main-progress.jspf"%>
 
-    <div class="card shadow" style="min-height: 740px;">
+    <div class="card shadow" style="min-height: 540px;">
+        <div class="card-body">
+            <div class="table-responsive">
+
+                <table id ="tblState" class="table table-hover table-bordered mb-3 table-form" style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>날짜(월)</th>
+                            <th>근무일수</th>
+                            <th>월생산량</th>
+                            <th>1일생산량</th>
+                            <th>시간당생산량</th>
+                            <th>불량개수</th>
+                            <th>월평균불량률</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
@@ -116,6 +135,32 @@
     </div>
 </div>
 
+<script id="popPlanStateTemplete" type="text/x-handlebars-template">
+    <tr class="dataList list_tr{{cnt}}">
+        <td style="text-align: center !important;">
+            {{ym}}
+        </td>
+        <td style="text-align: center !important;">
+            {{work_day}}
+        </td>
+        <td style="text-align: center !important;">
+            {{mon_cnt}}
+        </td>
+        <td style="text-align: center !important;">
+            {{day_cnt}}
+        </td>
+        <td style="text-align: center !important;">
+            {{hour_cnt}}
+        </td>
+        <td style="text-align: center !important;">
+            {{qual_cnt}}
+        </td>
+        <td style="text-align: center !important;">
+            {{qual_mon_cnt}}%
+        </td>
+    </tr>
+</script>
+
 <script>
 
     $(document).ready(() => {
@@ -125,9 +170,10 @@
         $("#prod_kind, #prod_family, #prod_group").on("change", () => { getData() });
 
         // 조회
-        $("#btnSearch").on("click", () => { getData() });
+        $("#btnSearch").on("click", () => { getData(), getData2() });
 
         setTimeout(() => getData(), 30);
+        setTimeout(() => getData2(), 30);
 
     });
 
@@ -148,7 +194,7 @@
             ,filter: true
             ,stateSave: true
             ,collapse: false
-            ,scrollY: 540
+            ,scrollY: 440
             ,selected: true
             ,multiSelected: false
             ,columnDefs : [
@@ -219,6 +265,66 @@
             .fail(function (jqHXR, textStatus, errorThrown) {
                 ajaxErrorAlert(jqHXR);
             });
+    }
+
+    function getData2()
+    {
+        // showWait('.inputModal');
+
+        $.ajax({
+            url: "/mes/production/result/planMonStateList"
+            ,type: "post"
+            ,headers: {
+                "Content-Type": "application/json"
+                ,"X-HTTP-Method-Override": "POST"
+            }
+            ,dataType: "json"
+            ,data: JSON.stringify({
+                fact_cd: "${vmap.fact_cd}"
+                ,startDate: $("#startDate").val()
+                ,endDate: $("#endDate").val()
+                ,prod_kind: $("#prod_kind").val()
+                ,prod_family: $("#prod_family").val()
+                ,prod_group: $("#prod_group").val()
+                ,search_text: $("#search_text").val()
+            })
+        })
+        .done(function (data)
+        {
+            $("#tblState > tbody").empty();
+            inputRowCnt = 0;
+
+            data.forEach((item, index) => {
+                addStateRow(item);
+            });
+
+        })
+        .always(function (data) {
+            // hideWait('.inputModal');
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+        });
+    }
+
+    function addStateRow(data)
+    {
+        let template_html = $("#popPlanStateTemplete").html();
+        let template = Handlebars.compile(template_html);
+        let planRowCnt = $("#tblState > tbody > tr").length + 1;
+
+        let templateData = {
+            cnt: planRowCnt
+            ,ym: data.ym
+            ,work_day: data.work_day
+            ,mon_cnt: data.mon_cnt.comma()
+            ,day_cnt: data.day_cnt.comma()
+            ,hour_cnt: data.hour_cnt.comma()
+            ,qual_cnt: data.qual_cnt
+            ,qual_mon_cnt: data.qual_mon_cnt
+        }
+
+        $("#tblState > tbody").append(template(templateData));
     }
 
 

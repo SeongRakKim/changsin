@@ -308,6 +308,26 @@
        ORDER BY PLAN_CD , PLAN_PROC_SEQ
     </select>
 
+    <select id="planMonStateList" parameterType="VMap" resultType="RowMap">
+        SELECT SUM(PLAN_RES_CNT)                                                 AS MON_CNT
+             , COUNT(*) / 2                                                      AS WORK_DAY
+             , DATE_FORMAT(PLAN_RES_STDT, '%Y-%m')                               AS YM
+             , SUM(PLAN_RES_CNT) / (COUNT(*) / 2)                                AS DAY_CNT
+             , (SUM(PLAN_RES_CNT) / (COUNT(*) / 2)) / 8                          AS HOUR_CNT
+             , SUM(PLAN_PROC_QUALITY_CNT)                                        AS QUAL_CNT
+             , TRUNCATE(SUM(PLAN_PROC_QUALITY_CNT) / SUM(PLAN_RES_CNT) * 100, 2) AS QUAL_MON_CNT
+        FROM MES_PRODUCTION_PLAN_RESULT
+        JOIN MES_PRODUCTION_PLAN_PROCESS USING (FACT_CD, PLAN_CD, PLAN_PROC_CD)
+        WHERE PLAN_PROC_LAST_YN = 'Y'
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(startDate)">
+            AND DATE_FORMAT(PLAN_RES_STDT, '%Y-%m-%d') <![CDATA[>=]]> #{startDate}
+        </if>
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(endDate)">
+            AND DATE_FORMAT(PLAN_RES_EDDT, '%Y-%m-%d') <![CDATA[<=]]> #{endDate}
+        </if>
+        GROUP BY DATE_FORMAT(PLAN_RES_STDT, '%Y-%m')
+    </select>
+
     <select id="planResultDidList" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
                ,PLAN_CD

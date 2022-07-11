@@ -28,6 +28,10 @@ public class ProductionResultDAO extends MapperDAO {
         return selectList(mapperName + ".planResultList", vmap.getMap());
     }
 
+    public List<Map<String, Object>> planMonStateList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".planMonStateList", vmap.getMap());
+    }
+
     public List<Map<String, Object>> planResultDidList(VMap vmap) throws Exception {
         return selectList(mapperName + ".planResultDidList", vmap.getMap());
     }

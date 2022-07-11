@@ -47,7 +47,7 @@
         setInterval(() => getTimeStamp(), 1000);
         getNoticeSize();
         setTimeout(() => setContent(), 300);
-        setInterval(() => setContent(), 5000);
+        setInterval(() => setContent(), 30000);
 
         setTimeout(() => $(".nav-link:eq(1)").closest("li").removeClass("active"), 10);
         setTimeout(() => $(".nav-link:eq(2)").closest("li").removeClass("active"), 10);

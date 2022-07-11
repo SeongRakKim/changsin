@@ -59,11 +59,13 @@
         getTimeStamp();
         setInterval(() => getTimeStamp(), 1000);
 
-        getData();
-        setTimeout(() => nextPage(), 10000);
+        setInterval(() => getData(), 3000);
+        setTimeout(() => nextPage(), 30000);
 
         setTimeout(() => $(".nav-link:eq(0)").closest("li").removeClass("active"), 10);
         setTimeout(() => $(".nav-link:eq(2)").closest("li").removeClass("active"), 10);
+
+
     });
 
 
@@ -101,8 +103,6 @@
 
                 $(".table > tbody").append(html);
             });
-
-            console.log('오후 3:17', '82', data);
         })
         .always(function (data) {
 

@@ -68,10 +68,11 @@
     $(document).ready(() => {
 
         getTimeStamp();
-        setInterval(() => getTimeStamp(), 1000);
-
         getData();
-        setTimeout(() => nextPage(), 3000);
+
+        setInterval(() => getTimeStamp(), 1000);
+        setInterval(() => getData(), 3000);
+        setTimeout(() => nextPage(), 300000);
 
         setTimeout(() => $(".nav-link:eq(0)").closest("li").removeClass("active"), 10);
         setTimeout(() => $(".nav-link:eq(1)").closest("li").removeClass("active"), 10);

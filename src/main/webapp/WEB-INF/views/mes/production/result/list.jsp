@@ -239,7 +239,7 @@
                             <thead>
                             <tr>
                                 <th>순서</th>
-                                <th>설비 <span class="red"> (필수)</span></th>
+                                <th>설비</th>
                                 <th>작업자 <span class="red"> (필수)</span></th>
                                 <th>작업시작일 <span class="red"> (필수)</span></th>
                                 <th>작업종료일 <span class="red"> (필수)</span></th>
@@ -288,7 +288,7 @@
             {{cnt}}
         </td>
         <td>
-            <select name="pop_equ_cd" class="custom-select w-100" style="width: 100% !important;" required>
+            <select name="pop_equ_cd" class="custom-select w-100" style="width: 100% !important;">
                 <option value="">설비선택</option>
                 <c:forEach var="item" items="${vmap.equList}" varStatus="status">
                     <option value="${item.equ_cd}">${item.equ_nm}</option>
