@@ -58,6 +58,15 @@
         text-align: center !important;
     }
 
+    .brand-logo {
+        background: url("/img/changsin_logo.png");
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 10vh;
+    }
+
 </style>
 
 <script>
@@ -157,7 +166,7 @@
     <!-- partial:partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top" style="text-align: center;">
-            <a class="sidebar-brand brand-logo" href="/did">LOGO</a>
+            <div class="brand-logo"></div>
         </div>
         <ul class="nav" style="margin-top: 100px;">
             <li class="nav-item menu-items">
@@ -191,7 +200,7 @@
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar p-0 fixed-top d-flex flex-row" >
             <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo-mini" href="/did"><img src="/did/images/logo-mini.svg" alt="logo" /></a>
+<%--                <a class="navbar-brand brand-logo-mini" href="/did"><img src="/did/images/logo-mini.svg" alt="logo" /></a>--%>
             </div>
             <div class="navbar-menu-wrapper flex-grow d-flex align-items-end">
                 <ul class="navbar-nav w-100" style="justify-content: center !important; line-height: 1.5em; font-weight: 700; font-size: 3em;" >

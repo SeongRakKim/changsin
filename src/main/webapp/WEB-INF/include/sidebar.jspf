@@ -8,15 +8,26 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
+<style>
+    .bg-main-logo {
+        background: url("/img/changsin_logo.png");
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 7vh;
+    }
+</style>
+
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fa fa-solid fa-leaf"></i>
+        <div class="sidebar-brand-icon bg-main-logo">
+<%--            <i class="fa fa-solid fa-leaf"></i>--%>
         </div>
-        <div class="sidebar-brand-text mx-3">CSM <sup>2</sup></div>
+<%--        <div class="sidebar-brand-text mx-3">CSM <sup>2</sup></div>--%>
     </a>
 
     <!-- Divider -->
