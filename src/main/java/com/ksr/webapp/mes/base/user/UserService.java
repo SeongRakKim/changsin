@@ -49,6 +49,11 @@ public class UserService {
         return userDAO.userRegistModify(vmap);
     }
 
+    @Transactional
+    public int apiLogRegist(VMap vmap) throws Exception {
+        return userDAO.apiLogRegist(vmap);
+    }
+
     public int userPackDelete(VMap vmap) throws Exception {
         return userDAO.userPackDelete(vmap);
     }

@@ -82,9 +82,12 @@
 
     <%@ include file="/WEB-INF/include/main-progress.jspf"%>
 
-    <div class="card shadow" style="min-height: 740px;">
+    <div class="card shadow" style="height: 1500px;">
         <div class="card-body">
             <div class="table-responsive">
+                <div>
+                    <span style="font-size: 20px; font-weight: 300;"><i class="fas fa-check-double"></i> 입고이력</span>
+                </div>
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12">
@@ -111,31 +114,101 @@
                         </div>
                     </div>
                 </div>
+                <div style="margin-top: 80px;">
+                    <span style="font-size: 20px; font-weight: 300;"><i class="fas fa-check-double"></i> 출고이력</span>
+                </div>
+                <div id="dataTable_wrapper2" class="dataTables_wrapper dt-bootstrap4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table id ="tblMaster2" class="table-list table table-hover table-striped table-bordered mb-5" style="width: 100%">
+                                <thead>
+                                <tr role="row">
+                                    <th>입출고일시</th>
+                                    <th>구분</th>
+                                    <th>종류</th>
+                                    <th>위치</th>
+                                    <th style="width: 8%">품번</th>
+                                    <th style="width: 12%">품목명</th>
+                                    <th>종류</th>
+                                    <th>분류</th>
+                                    <th>규격</th>
+                                    <th>전일재고</th>
+                                    <th>입출고량</th>
+                                    <th>현재고량</th>
+                                    <th style="width: 18%">상세구분</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+<%--    <div class="card shadow" style="min-height: 740px;">--%>
+<%--        <div class="card-body">--%>
+<%--            <div class="table-responsive">--%>
+<%--                <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">--%>
+<%--                    <div class="row">--%>
+<%--                        <div class="col-sm-12">--%>
+<%--                            <table id ="tblMaster" class="table-list table table-hover table-striped table-bordered mb-5" style="width: 100%">--%>
+<%--                                <thead>--%>
+<%--                                <tr role="row">--%>
+<%--                                    <th>입출고일시</th>--%>
+<%--                                    <th>구분</th>--%>
+<%--                                    <th>종류</th>--%>
+<%--                                    <th>위치</th>--%>
+<%--                                    <th style="width: 8%">품번</th>--%>
+<%--                                    <th style="width: 12%">품목명</th>--%>
+<%--                                    <th>종류</th>--%>
+<%--                                    <th>분류</th>--%>
+<%--                                    <th>규격</th>--%>
+<%--                                    <th>전일재고</th>--%>
+<%--                                    <th>입출고량</th>--%>
+<%--                                    <th>현재고량</th>--%>
+<%--                                    <th style="width: 18%">상세구분</th>--%>
+<%--                                </tr>--%>
+<%--                                </thead>--%>
+<%--                                <tbody></tbody>--%>
+<%--                            </table>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </div>--%>
 </div>
 
 <script>
 
     $(document).ready(() => {
         // DataTables setting
-        setDatatable();
+        setDatatable("tblMaster");
+        setDatatable("tblMaster2");
 
-        $("#prod_kind, #prod_family, #prod_group").on("change", () => { getData() });
+        $("#prod_kind, #prod_family, #prod_group").on("change", () => {
+            getData();
+            getData2();
+        });
 
         // 조회
-        $("#btnSearch").on("click", () => { getData() });
+        $("#btnSearch").on("click", () => {
+            getData();
+            getData2();
+        });
 
         setTimeout(() => getData(), 30);
+        setTimeout(() => getData2(), 30);
 
     });
 
     // set tblMaster Database
-    function setDatatable()
+    function setDatatable(tableId)
     {
         var arguments = {
-            tabldID: "tblMaster"
+            tabldID: tableId
             ,ordering: true
             // ,responsive: true
             ,orderIdx: []
@@ -183,49 +256,116 @@
                 ,prod_family: $("#prod_family").val()
                 ,prod_group: $("#prod_group").val()
                 ,search_text: $("#search_text").val()
+                ,inout_type: "I"
             })
         })
-            .done(function (data)
-            {
-                $("#tblMaster").DataTable().clear();
+        .done(function (data)
+        {
+            $("#tblMaster").DataTable().clear();
 
-                data.forEach((item, index) => {
-                    let node = [];
+            data.forEach((item, index) => {
+                let node = [];
 
-                    node.push("<div class='text-center'>" + IsEmpty(item.inout_dt_time) + "</div>");
-                    node.push("<div class='text-center'>" + IsEmpty(item.inout_type_nm) + "</div>");
-                    node.push("<div class='text-center'>" + IsEmpty(item.inout_item_nm) + "</div>");
-                    node.push("<div class='text-center'>" + IsEmpty(item.inout_crcd_nm) + "</div>");
-                    node.push(IsEmpty(item.prod_pn));
-                    node.push(IsEmpty(item.prod_nm));
-                    node.push(IsEmpty(item.prod_kind_nm));
-                    node.push(IsEmpty(item.prod_group_nm));
-                    node.push(IsEmpty(item.prod_stand));
-                    node.push("<div class='text-right'>" + IsEmpty(item.prod_stock_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
-                    if(item.inout_type === "I") {
-                        node.push("<div class='text-right'>" + IsEmpty(item.inout_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
-                    }else {
-                        node.push("<div class='text-right'>" + "-" + IsEmpty(item.inout_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
-                    }
-                    node.push("<div class='text-right'>" + IsEmpty(item.cur_prod_stock_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
-                    node.push(IsEmpty(item.inout_msg));
+                node.push("<div class='text-center'>" + IsEmpty(item.inout_dt_time) + "</div>");
+                node.push("<div class='text-center'>" + IsEmpty(item.inout_type_nm) + "</div>");
+                node.push("<div class='text-center'>" + IsEmpty(item.inout_item_nm) + "</div>");
+                node.push("<div class='text-center'>" + IsEmpty(item.inout_crcd_nm) + "</div>");
+                node.push(IsEmpty(item.prod_pn));
+                node.push(IsEmpty(item.prod_nm));
+                node.push(IsEmpty(item.prod_kind_nm));
+                node.push(IsEmpty(item.prod_group_nm));
+                node.push(IsEmpty(item.prod_stand));
+                node.push("<div class='text-right'>" + IsEmpty(item.prod_stock_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
+                if(item.inout_type === "I") {
+                    node.push("<div class='text-right'>" + IsEmpty(item.inout_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
+                }else {
+                    node.push("<div class='text-right'>" + "-" + IsEmpty(item.inout_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
+                }
+                node.push("<div class='text-right'>" + IsEmpty(item.cur_prod_stock_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
+                node.push(IsEmpty(item.inout_msg));
 
-                    // 각 row node 추가
-                    let row = $("#tblMaster").DataTable().row.add(node).node();
-                    if(item.inout_type == "O") {
-                        $(row).find("td").addClass("red");
-                    }
-                });
-
-                // datatables draw
-                $("#tblMaster").DataTable().draw(false);
-            })
-            .always(function (data) {
-                hideWait('.container-fluid');
-            })
-            .fail(function (jqHXR, textStatus, errorThrown) {
-                ajaxErrorAlert(jqHXR);
+                // 각 row node 추가
+                let row = $("#tblMaster").DataTable().row.add(node).node();
+                if(item.inout_type == "O") {
+                    $(row).find("td").addClass("red");
+                }
             });
+
+            // datatables draw
+            $("#tblMaster").DataTable().draw(false);
+        })
+        .always(function (data) {
+            hideWait('.container-fluid');
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+        });
+    }
+
+    function getData2()
+    {
+        showWait('.container-fluid');
+
+        $.ajax({
+            url: "/mes/product/inout/productInoutList"
+            ,type: "post"
+            ,headers: {
+                "Content-Type": "application/json"
+                ,"X-HTTP-Method-Override": "POST"
+            }
+            ,dataType: "json"
+            ,data: JSON.stringify({
+                fact_cd: "${vmap.fact_cd}"
+                ,startDate: $("#startDate").val()
+                ,endDate: $("#endDate").val()
+                ,prod_kind: $("#prod_kind").val()
+                ,prod_family: $("#prod_family").val()
+                ,prod_group: $("#prod_group").val()
+                ,search_text: $("#search_text").val()
+                ,inout_type: "O"
+            })
+        })
+        .done(function (data)
+        {
+            $("#tblMaster2").DataTable().clear();
+
+            data.forEach((item, index) => {
+                let node = [];
+
+                node.push("<div class='text-center'>" + IsEmpty(item.inout_dt_time) + "</div>");
+                node.push("<div class='text-center'>" + IsEmpty(item.inout_type_nm) + "</div>");
+                node.push("<div class='text-center'>" + IsEmpty(item.inout_item_nm) + "</div>");
+                node.push("<div class='text-center'>" + IsEmpty(item.inout_crcd_nm) + "</div>");
+                node.push(IsEmpty(item.prod_pn));
+                node.push(IsEmpty(item.prod_nm));
+                node.push(IsEmpty(item.prod_kind_nm));
+                node.push(IsEmpty(item.prod_group_nm));
+                node.push(IsEmpty(item.prod_stand));
+                node.push("<div class='text-right'>" + IsEmpty(item.prod_stock_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
+                if(item.inout_type === "I") {
+                    node.push("<div class='text-right'>" + IsEmpty(item.inout_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
+                }else {
+                    node.push("<div class='text-right'>" + "-" + IsEmpty(item.inout_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
+                }
+                node.push("<div class='text-right'>" + IsEmpty(item.cur_prod_stock_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
+                node.push(IsEmpty(item.inout_msg));
+
+                // 각 row node 추가
+                let row = $("#tblMaster2").DataTable().row.add(node).node();
+                if(item.inout_type == "O") {
+                    $(row).find("td").addClass("red");
+                }
+            });
+
+            // datatables draw
+            $("#tblMaster2").DataTable().draw(false);
+        })
+        .always(function (data) {
+            hideWait('.container-fluid');
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+        });
     }
 
 

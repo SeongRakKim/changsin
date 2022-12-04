@@ -471,6 +471,10 @@
 
         $("#btnSetSubList").on("click", () => {
             if(!parsleyIsValidate("dataForm")) return false;
+            if($("#pop_plan_stdt").val() > $("#pop_plan_eddt").val()) {
+                eAlert("잘못된 날짜입니다. 생산 시작일/종료일을 확인해주세요.");
+                return false;
+            }
             addPopPlanRow();
         });
 

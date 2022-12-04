@@ -57,7 +57,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
             .logout()
-//            .logoutUrl(Url.LOGIN)
             .invalidateHttpSession(true)
             .deleteCookies("JSESSIONID")
         ;

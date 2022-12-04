@@ -168,7 +168,6 @@
                 ,dataType : 'json'
                 ,data : params
                 ,success : function(result) {
-                    console.log('오후 6:47', '168', result);
                     if(result.resultCode != "00"){
                         eAlert(result.resultMessage);
                     }

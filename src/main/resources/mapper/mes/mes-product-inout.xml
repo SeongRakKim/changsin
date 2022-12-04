@@ -81,6 +81,9 @@
        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
            AND PROD_GROUP = #{prod_group}
        </if>
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(inout_type)">
+           AND INOUT_TYPE = #{inout_type}
+       </if>
        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
             AND
             (

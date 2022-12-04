@@ -133,7 +133,7 @@
                                 <th>비밀번호<span class="red"> (필수)</span></th>
                                 <td>
                                     <input type="password" id="pop_u_pw" name="pop_u_pw" class="form-control rudder" placeholder="비밀번호" title="비밀번호"
-                                           />
+                                           required />
                                 </td>
                             </tr>
                             <tr>

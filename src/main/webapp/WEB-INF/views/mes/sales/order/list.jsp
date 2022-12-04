@@ -673,6 +673,10 @@
 
         $("#btnSetSubList").on("click", () => {
             if(!parsleyIsValidate("dataForm")) return false;
+            if($("#pop_odr_dt").val() > $("#pop_odr_ship_dt").val()) {
+                eAlert("잘못된 날짜입니다. 수주일/납기요청일을 확인해주세요.");
+                return false;
+            }
             addPopOrderRow();
         });
 

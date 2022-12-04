@@ -34,6 +34,10 @@ public class UserDAO extends MapperDAO {
         return insert(mapperName + ".userRegistModify", vmap.getMap());
     }
 
+    public int apiLogRegist(VMap vmap) throws Exception {
+        return insert(mapperName + ".apiLogRegist", vmap.getMap());
+    }
+
     public int userPackDelete(VMap vmap) throws Exception {
         return update(mapperName + ".userPackDelete", vmap.getMap());
     }

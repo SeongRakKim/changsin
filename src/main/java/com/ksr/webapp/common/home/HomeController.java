@@ -1,5 +1,6 @@
 package com.ksr.webapp.common.home;
 
+import com.ksr.webapp.common.config.BaseCodeItem;
 import com.ksr.webapp.common.vo.VMap;
 import com.ksr.webapp.mes.base.equipment.EquipmentService;
 import com.ksr.webapp.mes.base.material.MaterialService;
@@ -35,6 +36,8 @@ public class HomeController {
     @GetMapping("/")
     public String homeGet(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
 //        vmap.put("requestUri", httpServletRequest.getRequestURI());
+
+        vmap.put("userList", userService.userList(vmap));
 
         return "index";
     }

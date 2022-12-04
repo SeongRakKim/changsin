@@ -2,6 +2,8 @@ package com.ksr.webapp.common.config;
 
 public class BaseCodeItem
 {
+    public static final String API_KEY = "$5$API$oSxSirazOfeKdU16pm/tNPbU3Xrr74Jkwyk.9Rl.44C";
+
     public static final String ORDER_REGIST = "01";
     public static final String ORDER_CANCLE = "02";
 

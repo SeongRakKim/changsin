@@ -150,6 +150,13 @@
             ,U_UPUSER = #{u_cd}
     </insert>
 
+    <insert id="apiLogRegist" parameterType="VMap">
+        INSERT INTO MES_API_LOG
+        (API_KEY, LOG_DT, LOG_TYPE, U_CD, LOG_IP, LOT_DATA_BYTE)
+        VALUES
+        (#{api_key}, #{log_dt}, #{log_type}, #{u_cd}, #{log_ip}, #{lot_data_byte})
+    </insert>
+
     <!--<delete id="compPackDelete" parameterType="VMap">
         DELETE FROM MES_COMPANY_INFO
         WHERE COMP_CD IN
