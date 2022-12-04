@@ -63,6 +63,12 @@ public class AuthSuccessHandler extends CoTopComponent implements Authentication
         apiMap.put("u_cd", authentication.getName());
         apiMap.put("log_type", "접속");
         apiMap.put("log_dt", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()));
+        try {
+            apiMap.put("lot_ip", ClientUtils.getClientIp());
+            userService.apiLogRegist(apiMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         writeResponse(response, loginResult);
 
