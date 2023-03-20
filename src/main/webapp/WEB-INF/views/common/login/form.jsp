@@ -162,23 +162,36 @@
                 ,'password' : $("#password").val()
             }
 
-            $.ajax({
-                type : 'POST'
-                ,url : '/auth/login-proc'
-                ,dataType : 'json'
-                ,data : params
-                ,success : function(result) {
-                    if(result.resultCode != "00"){
-                        eAlert(result.resultMessage);
-                    }
-                    else{
-                        location.href=result.targetUrl;
-                    }
-                },
-                error: function(request, status, error) {
+            // $.ajax({
+            //     type : 'POST'
+            //     ,url : 'sendLogDataJSON.do'
+            //     ,dataType : 'json'
+            //     ,data : params
+            //     ,success : function(result) {
+            //         console.log("AAAAAAA");
 
-                }
-            });
+                    $.ajax({
+                        type : 'POST'
+                        ,url : '/auth/login-proc'
+                        ,dataType : 'json'
+                        ,data : params
+                        ,success : function(result) {
+                            if(result.resultCode != "00"){
+                                eAlert(result.resultMessage);
+                            }
+                            else{
+                                location.href=result.targetUrl;
+                            }
+                        },
+                        error: function(request, status, error) {
+
+                        }
+                    });
+            //     },
+            //     error: function(request, status, error) {
+            //
+            //     }
+            // });
         }
     </script>
 

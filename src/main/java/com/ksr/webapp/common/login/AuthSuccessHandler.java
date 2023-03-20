@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.ksr.webapp.common.config.BaseCodeItem;
 import com.ksr.webapp.common.config.CoTopComponent;
 import com.ksr.webapp.common.config.Url;
+import com.ksr.webapp.common.retrofit.RetrofitService;
 import com.ksr.webapp.common.util.ClientUtils;
 import com.ksr.webapp.common.util.CommonUtils;
 import com.ksr.webapp.common.vo.VMap;
@@ -43,6 +44,9 @@ public class AuthSuccessHandler extends CoTopComponent implements Authentication
     @Autowired
     UserService userService;
 
+    @Autowired
+    RetrofitService retrofitService;
+
 //    @AuthenticationPrincipal CustomUserDetails customUserDetails;
 
     @Override
@@ -63,9 +67,18 @@ public class AuthSuccessHandler extends CoTopComponent implements Authentication
         apiMap.put("u_cd", authentication.getName());
         apiMap.put("log_type", "접속");
         apiMap.put("log_dt", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()));
+        apiMap.put("crtfcKey", BaseCodeItem.API_KEY);
+        apiMap.put("logDt", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()));
+        apiMap.put("useSe", "접속");
+        apiMap.put("sysUser", authentication.getName());
+        apiMap.put("dataUsgqty", "0");
+
         try {
-            apiMap.put("lot_ip", ClientUtils.getClientIp());
+            apiMap.put("log_ip", ClientUtils.getClientIp());
             userService.apiLogRegist(apiMap);
+
+            apiMap.put("conectIp", ClientUtils.getClientIp());
+            retrofitService.apiTest(apiMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
