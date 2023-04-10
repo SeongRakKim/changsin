@@ -1,5 +1,6 @@
 package com.ksr.webapp.common.config;
 
+import com.ksr.webapp.common.handler.SimpleUrlLogoutSuccessHandler;
 import com.ksr.webapp.common.login.AuthFailureHandler;
 import com.ksr.webapp.common.login.AuthSuccessHandler;
 import com.ksr.webapp.common.login.LoginIdPwValidator;
@@ -31,6 +32,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     AuthFailureHandler authFailureHandler;
 
+    @Autowired
+    SimpleUrlLogoutSuccessHandler simpleUrlLogoutSuccessHandler;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
@@ -59,6 +63,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             .logout()
             .invalidateHttpSession(true)
             .deleteCookies("JSESSIONID")
+            .logoutSuccessHandler(simpleUrlLogoutSuccessHandler)
+//            .logoutSuccessHandler(((request, response, authentication) -> {
+//                response.sendRedirect("/login/form");
+//            }))
         ;
 
         http

@@ -78,7 +78,7 @@ public class AuthSuccessHandler extends CoTopComponent implements Authentication
             userService.apiLogRegist(apiMap);
 
             apiMap.put("conectIp", ClientUtils.getClientIp());
-            retrofitService.apiTest(apiMap);
+            //retrofitService.apiTest(apiMap);
         } catch (Exception e) {
             e.printStackTrace();
         }
