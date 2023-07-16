@@ -50,6 +50,7 @@
                ,PROD_STOCK_CNT
                ,PROD_YN
                ,PROD_MASS_YN
+               ,PROD_LOT_YN
                ,PROD_NOTICE
                ,PROD_INDATE
                ,PROD_INUSER
@@ -118,6 +119,7 @@
                ,PROD_STOCK_CNT
                ,PROD_YN
                ,PROD_MASS_YN
+               ,PROD_LOT_YN
                ,PROD_NOTICE
                ,PROD_INDATE
                ,PROD_INUSER
@@ -127,6 +129,60 @@
          WHERE PROD_YN = 'Y'
            AND PROD_CD = #{prod_cd}
     </select>
+
+    <select id="createProdLotNo" parameterType="VMap" resultType="RowMap">
+        SELECT CREATE_LOT_NO(#{prod_cd}, #{lot_date}) LOT_NO
+          FROM DUAL
+    </select>
+
+    <insert id="prodLotRegistModify" parameterType="VMap">
+        INSERT INTO MES_PRODUCT_LOT
+        (
+            FACT_CD
+            ,PROD_CD
+            ,LOT_NO
+            ,LOT_IN_CNT
+            ,LOT_CNT
+            ,LOT_DT
+            ,LOT_NOTICE
+            ,LOT_INDATE
+            ,LOT_INUSER
+            ,LOT_UPDATE
+            ,LOT_UPUSER
+        )VALUES
+        (
+            #{fact_cd}
+            ,#{prod_cd}
+            ,#{lot_no}
+            ,#{lot_in_cnt}
+            ,#{lot_cnt}
+            ,#{lot_DT}
+            ,#{lot_notice}
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+        )
+        ON DUPLICATE KEY UPDATE
+            LOT_NOTICE = #{lot_notice}
+        <choose>
+            <when test='inout_type == "I"'>
+                ,LOT_CNT = LOT_CNT + IFNULL(#{lot_cnt}, 0)
+            </when>
+            <when test='inout_type == "O"'>
+                ,LOT_CNT = LOT_CNT - IFNULL(#{lot_cnt}, 0)
+            </when>
+        </choose>
+            ,LOT_UPDATE = NOW()
+            ,LOT_UPUSER = IFNULL(#{u_cd}, 'system')
+    </insert>
+
+    <delete id="prodLotDelete" parameterType="VMap">
+        DELETE FROM MES_PRODUCT_LOT
+        WHERE FACT_CD = #{fact_cd}
+          AND PROD_CD = #{prod_cd}
+          AND LOT_NO = #{lot_no}
+    </delete>
 
     <select id="prodOverlap" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
@@ -520,6 +576,7 @@
             ,PROD_STOCK_CNT
             ,PROD_YN
             ,PROD_MASS_YN
+            ,PROD_LOT_YN
             ,PROD_NOTICE
             ,PROD_INDATE
             ,PROD_INUSER
@@ -543,6 +600,7 @@
             ,0
             ,'Y'
             ,#{prod_mass_yn}
+            ,#{prod_lot_yn}
             ,#{prod_notice}
             ,NOW()
             ,IFNULL(#{u_cd}, 'system')
@@ -561,6 +619,7 @@
             ,PROD_MAIN_COMP = #{prod_main_comp}
             ,PROD_KEEP_CNT = #{prod_keep_cnt}
             ,PROD_MASS_YN = #{prod_mass_yn}
+            ,PROD_LOT_YN = #{prod_lot_yn}
             ,PROD_NOTICE = #{prod_notice}
             ,PROD_UPDATE = NOW()
             ,PROD_UPUSER = IFNULL(#{u_cd}, 'system')
@@ -582,6 +641,8 @@
             #{item}
         </foreach>
     </delete>
+
+
 
     <delete id="prodBomPackDelete" parameterType="VMap">
         DELETE FROM MES_PRODUCT_BOM

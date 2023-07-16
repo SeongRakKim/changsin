@@ -186,6 +186,7 @@
                                        placeholder="제품명" title="제품명" />
                                 <input type="hidden" id="pop_prod_pn" name="pop_prod_pn" class="form-control"
                                        placeholder="제품품번" title="제품코드" />
+                                <input type="hidden" id="pop_prod_lot_yn" name="pop_prod_lot_yn" class="form-control" />
                                 <div id="pop_selector2" name="pop_selector2"></div>
                             </td>
                             <th>제품종류</th>
@@ -239,12 +240,13 @@
                             <thead>
                             <tr>
                                 <th>순서</th>
-                                <th>설비</th>
+                                <th>설비<span class="red"> (필수)</span></th>
                                 <th>작업자 <span class="red"> (필수)</span></th>
                                 <th>작업시작일 <span class="red"> (필수)</span></th>
                                 <th>작업종료일 <span class="red"> (필수)</span></th>
                                 <th>생산량 <span class="red"> (필수)</span></th>
-                                <th>비고</th>
+                                <th>Lot.No</th>
+<%--                                <th>비고</th>--%>
                                 <th>
                                     <button type="button" id="btnAddSubList" class="btn btn-primary btn-sm">
                                         <span class="btn-wrapper--icon">
@@ -318,9 +320,13 @@
                    placeholder="생산량" title="생산량" required />
         </td>
         <td>
-            <input type="text" name="pop_plan_res_notice" class="form-control" value="{{plan_res_notice}}"
-                   placeholder="비고" title="비고" />
+            <input type="text" name="pop_lot_no" class="form-control" value="{{lot_no}}" readonly="readonly"
+                   placeholder="Lot.No" title="Lot.No" />
         </td>
+<%--        <td>--%>
+<%--            <input type="text" name="pop_plan_res_notice" class="form-control" value="{{plan_res_notice}}"--%>
+<%--                   placeholder="비고" title="비고" />--%>
+<%--        </td>--%>
         <td style="text-align: center;">
             <button class="btn btn-sm btn-dark result-stop" type="button" onclick="callPlanStop({{cnt}})">
                 <span class="btn-wrapper--icon">
@@ -1164,6 +1170,7 @@
                 ,plan_res_eddt: data.plan_res_eddt
                 ,old_plan_res_cnt: data.plan_res_cnt
                 ,plan_res_cnt: data.plan_res_cnt.comma('3')
+                ,lot_no: data.lot_no
                 ,plan_res_notice: data.plan_res_notice
             };
 
@@ -1269,6 +1276,7 @@
                         ,odr_cd: $("#pop_odr_cd").val()
                         ,proc_cd: $("#pop_proc_cd").val()
                         ,prod_cd: $("#pop_prod_cd").val()
+                        ,prod_lot_yn: $("#pop_prod_lot_yn").val()
                         ,plan_proc_last_yn: $("#pop_plan_proc_last_yn").val()
                         ,equ_cd: equ_cd
                         ,plan_res_cd: plan_res_cd
@@ -1307,6 +1315,7 @@
         let plan_res_eddt = $tr.find("input[name=pop_plan_res_eddt]").val();
         let old_plan_res_cnt = $tr.find("input[name=pop_old_plan_res_cnt]").val();
         let plan_res_cnt = $tr.find("input[name=pop_plan_res_cnt]").val().replace(/,/g, "");
+        let lot_no = $tr.find("input[name=pop_lot_no]").val();
         let plan_res_notice = $tr.find("input[name=pop_plan_res_notice]").val();
 
         if(IsNull(equ_cd)) {
@@ -1368,6 +1377,7 @@
                         ,odr_cd: $("#pop_odr_cd").val()
                         ,proc_cd: $("#pop_proc_cd").val()
                         ,prod_cd: $("#pop_prod_cd").val()
+                        ,prod_lot_yn: $("#pop_prod_lot_yn").val()
                         ,plan_proc_last_yn: $("#pop_plan_proc_last_yn").val()
                         ,plan_res_cd: plan_res_cd
                         ,equ_cd: equ_cd
@@ -1377,6 +1387,7 @@
                         ,old_plan_res_cnt: old_plan_res_cnt
                         ,plan_res_cnt: plan_res_cnt
                         ,plan_res_notice: plan_res_notice
+                        ,lot_no: lot_no
                     })
                 })
                 .done(function (data) {
@@ -1398,6 +1409,7 @@
     function planResultDelete(cnt)
     {
         let plan_res_cd = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_plan_res_cd]").val();
+        let lot_no = $("#tblPopResultData .list_tr" + cnt).find("[name=pop_lot_no]").val();
 
         if(IsNull(plan_res_cd))
         {
@@ -1431,8 +1443,11 @@
                             plan_cd: $("#pop_plan_cd").val()
                             ,plan_proc_cd: $("#pop_plan_proc_cd").val()
                             ,odr_cd: $("#pop_odr_cd").val()
+                            ,prod_cd: $("#pop_prod_cd").val()
                             ,plan_res_cd: plan_res_cd
+                            ,prod_lot_yn: $("#pop_prod_lot_yn").val()
                             ,plan_proc_last_yn: $("#pop_plan_proc_last_yn").val()
+                            ,lot_no: lot_no
                         })
                     })
                     .done(function (data) {

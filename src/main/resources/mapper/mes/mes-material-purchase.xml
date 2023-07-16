@@ -37,6 +37,7 @@
                 ) PROD_UNIT_NM
                ,PROD_PRICE
                ,PROD_MAIN_COMP
+               ,PROD_LOT_YN
                ,(SELECT COMP_NM
                   FROM MES_COMPANY_INFO
                   WHERE COMP_CD = PROD_MAIN_COMP
@@ -275,8 +276,9 @@
     <update id="purchaseInModify" parameterType="VMap">
         UPDATE MES_PURCHASE_INFO
         SET PUR_IN_CNT = #{pur_cnt}
-          ,PUR_IN_DT = NOW()
-          ,PUR_STATE = #{pur_state}
+          , PUR_IN_DT = NOW()
+          , PUR_STATE = #{pur_state}
+          , LOT_NO = #{lot_no}
         WHERE PUR_CD = #{pur_cd}
     </update>
 

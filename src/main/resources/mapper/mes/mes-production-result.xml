@@ -135,6 +135,7 @@
                ,PROD_KEEP_CNT
                ,PROD_STOCK_CNT
                ,PROD_MASS_YN
+               ,PROD_LOT_YN
                ,PROC_CD
                ,PROC_NM
                ,PLAN_STDT
@@ -220,6 +221,7 @@
                ,PROD_KEEP_CNT
                ,PROD_STOCK_CNT
                ,PROD_MASS_YN
+               ,PROD_LOT_YN
                ,PROC_CD
                ,PROC_NM
                ,PLAN_NO
@@ -246,6 +248,7 @@
                ,PLAN_PROC_UPDATE
                ,PLAN_PROC_UPUSER
                ,PLAN_RES_CD
+               ,LOT_NO
                ,PLAN_RES_CNT
                ,DATE_FORMAT(PLAN_RES_STDT, '%Y-%m-%d %H:%i') PLAN_RES_STDT
                ,DATE_FORMAT(PLAN_RES_EDDT, '%Y-%m-%d %H:%i') PLAN_RES_EDDT
@@ -543,6 +546,15 @@
           ,PLAN_RES_NOTICE = #{plan_res_notice}
           ,PLAN_RES_UPDATE = NOW()
           ,PLAN_RES_UPUSER = IFNULL(#{u_cd}, 'system')
+        WHERE PLAN_CD = #{plan_cd}
+          AND PLAN_PROC_CD = #{plan_proc_cd}
+          AND PLAN_RES_CD = #{plan_res_cd}
+    </update>
+
+    <update id="planResultModify2" parameterType="VMap">
+        UPDATE MES_PRODUCTION_PLAN_RESULT
+        SET PLAN_RES_LAST_YN = #{plan_res_last_yn}
+          ,LOT_NO = #{lot_no}
         WHERE PLAN_CD = #{plan_cd}
           AND PLAN_PROC_CD = #{plan_proc_cd}
           AND PLAN_RES_CD = #{plan_res_cd}

@@ -62,6 +62,7 @@
                ,MPI.PROD_STOCK_CNT
                ,CUR_PROD_STOCK_CNT
                ,INOUT_MSG
+               ,LOT_NO
                ,INOUT_NOTICE
                ,INOUT_INDATE
                ,INOUT_INUSER

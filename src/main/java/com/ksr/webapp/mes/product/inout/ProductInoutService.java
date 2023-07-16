@@ -52,6 +52,7 @@ public class ProductInoutService {
         inout.put("inout_dt", null);
         inout.put("prod_stock_cnt", prod.get("prod_stock_cnt"));
         inout.put("inout_msg", inout_msg);
+        inout.put("lot_no", vmap.getString("lot_no"));
 
         productInoutDAO.productInoutRegist(inout);
 

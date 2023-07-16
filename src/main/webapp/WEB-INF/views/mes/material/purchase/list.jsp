@@ -88,12 +88,12 @@
                 <span class="btn-wrapper--label">삭제</span>
             </button>
 
-            <button class="btn btn-sm btn-first" type="button" id="btnIn">
-                <span class="btn-wrapper--icon">
-                    <i class="fas fa-copy"></i>
-                </span>
-                <span class="btn-wrapper--label">일괄입고</span>
-            </button>
+<%--            <button class="btn btn-sm btn-first" type="button" id="btnIn">--%>
+<%--                <span class="btn-wrapper--icon">--%>
+<%--                    <i class="fas fa-copy"></i>--%>
+<%--                </span>--%>
+<%--                <span class="btn-wrapper--label">일괄입고</span>--%>
+<%--            </button>--%>
 
         </div>
 
@@ -611,7 +611,6 @@
             });
         });
 
-        // 생산계획
         $("#btnIn").on("click", () => {
 
             if($("input[name=listCheck]:checked").length === 0) {
@@ -965,6 +964,7 @@
                         + ",prod_kind_nm: '" +  item.prod_kind_nm + "'"
                         + ",prod_stand: '" +  item.prod_stand + "'"
                         + ",prod_unit_nm: '" +  item.prod_unit_nm + "'"
+                        + ",prod_lot_yn: '" +  item.prod_lot_yn + "'"
                         + "}";
 
                     let manageButton = "<div style='display: flex; flex-wrap: wrap; justify-content: space-around;' >" +
@@ -1245,6 +1245,7 @@
 
     function setPurchaseInModify()
     {
+        console.log('PM 2:11', '1248', arguments[0]);
         Swal.fire({
             title: '',
             text: "입고처리 하시겠습니까?",
@@ -1272,6 +1273,7 @@
                         ,pur_cd: arguments[0].pur_cd
                         ,pur_cnt: arguments[0].pur_cnt.replace(/,/g, "")
                         ,prod_cd: arguments[0].prod_cd
+                        ,prod_lot_yn: arguments[0].prod_lot_yn
                     })
                 })
                 .done(function (data) {

@@ -2,8 +2,11 @@ package com.ksr.webapp.mes.production.result;
 
 import com.ksr.webapp.common.config.BaseCodeItem;
 import com.ksr.webapp.common.util.CommonUtils;
+import com.ksr.webapp.common.util.DateUtils;
 import com.ksr.webapp.common.vo.VMap;
+import com.ksr.webapp.mes.base.product.Product;
 import com.ksr.webapp.mes.base.product.ProductDAO;
+import com.ksr.webapp.mes.base.product.ProductService;
 import com.ksr.webapp.mes.common.CommonDAO;
 import com.ksr.webapp.mes.material.inout.MaterialInoutService;
 import com.ksr.webapp.mes.product.inout.ProductInoutService;
@@ -38,6 +41,9 @@ public class ProductionResultService {
 
     @Autowired
     MaterialInoutService materialInoutService;
+
+    @Autowired
+    ProductService productService;
 
     public List<Map<String, Object>> planProcessList(VMap vmap) throws Exception {
         return productionResultDAO.planProcessList(vmap);
@@ -92,6 +98,17 @@ public class ProductionResultService {
         // 생성된 제품 재고 증감 처리
         if(vmap.getString("plan_proc_last_yn").equals("Y"))
         {
+            if(vmap.getString("prod_lot_yn").equals("Y")) {
+                vmap.put("lot_date", DateUtils.getTodayDate());
+                Map<String, Object> lotMap = productService.createProdLotNo(vmap);
+                vmap.put("lot_no", lotMap.get("lot_no"));
+
+                vmap.put("lot_in_cnt", vmap.getString("plan_res_cnt"));
+                vmap.put("lot_cnt", vmap.getString("plan_res_cnt"));
+                vmap.put("lot_dt", vmap.getString("plan_res_eddt"));
+                productService.prodLotRegistModify(vmap);
+            }
+
             productInoutService.productStockModify(vmap
                     ,"I"
                     ,BaseCodeItem.INOUT_PRODUCTION
@@ -100,10 +117,14 @@ public class ProductionResultService {
                     ,0
                     ,plan_res_cd
                     ,BaseCodeItem.PLAN_RESULT_REGIST);
+
+            productionResultDAO.planResultModify2(vmap);
         }
 
         // 소요자재 자동 차감
         List<Map<String, Object>> bomList = productDAO.prodBomList(vmap);
+        // LOT 초기화
+        vmap.put("lot_no", null);
         for(Map<String, Object> result : bomList)
         {
             // 투입실적이력 생성
@@ -158,6 +179,11 @@ public class ProductionResultService {
 
             if(vmap.getString("plan_proc_last_yn").equals("Y"))
             {
+                if(vmap.getString("prod_lot_yn").equals("Y")) {
+                    vmap.put("lot_cnt", diffCnt);
+                    productService.prodLotRegistModify(vmap);
+                }
+
                 // 생성된 제품 재고 보정 처리
                 productInoutService.productStockModify(vmap
                         ,inout_type
@@ -216,6 +242,10 @@ public class ProductionResultService {
 
         if(vmap.getString("plan_proc_last_yn").equals("Y"))
         {
+            if(vmap.getString("prod_lot_yn").equals("Y")) {
+                productService.prodLotDelete(vmap);
+            }
+
             // 생성된 제품 재고 보정 처리
             productInoutService.productStockModify(vmap
                     ,"O"

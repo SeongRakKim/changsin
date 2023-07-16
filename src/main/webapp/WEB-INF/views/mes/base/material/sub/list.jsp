@@ -86,6 +86,7 @@
                                     <th>단가</th>
                                     <th>주거래처</th>
                                     <th>안전재고</th>
+                                    <th>LOT사용여부</th>
 <%--                                    <th>자재재고</th>--%>
                                 </tr>
                                 </thead>
@@ -177,8 +178,21 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <th>LOT 사용여부</th>
+                                    <td>
+                                        <div style="display: flex; flex-wrap: wrap;">
+                                            <div class="custom-control custom-radio my-3">
+                                                <input type="radio" id="customRadio3" name="pop_prod_lot_yn" class="custom-control-input" value="Y">
+                                                <label class="custom-control-label" for="customRadio3">예</label>
+                                            </div>
+                                            <div class="custom-control custom-radio my-3">
+                                                <input type="radio" checked="" id="customRadio4" name="pop_prod_lot_yn" class="custom-control-input" value="N">
+                                                <label class="custom-control-label" for="customRadio4">아니오</label>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <th>비고</th>
-                                    <td colspan="5">
+                                    <td colspan="3">
                                         <input type="text" id="pop_prod_notice" name="pop_prod_notice" class="form-control" placeholder="비고" title="비고" />
                                     </td>
                                 </tr>
@@ -467,6 +481,7 @@
                             node.push("<div class='text-right'>" + IsEmpty(item.prod_price.comma('2')) + "</div>");
                             node.push(IsEmpty(item.prod_main_comp_nm));
                             node.push("<div class='text-right'>" + IsEmpty(item.prod_keep_cnt.comma('2')) + "</div>");
+                            node.push("<div class='text-center'>" + IsEmpty(item.prod_lot_yn) + "</div>");
                             // node.push("<div class='text-right'>" + IsEmpty(item.prod_stock_cnt.comma('2')) + "</div>");
 
                             // 각 row node 추가
@@ -535,6 +550,7 @@
                         ,prod_main_comp: $("#pop_prod_main_comp").val()
                         ,prod_keep_cnt: $("#pop_prod_keep_cnt").val().replace(/,/g, "")
                         ,prod_notice: $("#pop_prod_notice").val()
+                        ,prod_lot_yn: $("input:radio[name=pop_prod_lot_yn]:checked").val()
                     })
                 })
                     .done(function (data) {

@@ -48,6 +48,10 @@ public class ProductionResultDAO extends MapperDAO {
         return insert(mapperName + ".planResultModify", vmap.getMap());
     }
 
+    public int planResultModify2(VMap vmap) throws Exception {
+        return insert(mapperName + ".planResultModify2", vmap.getMap());
+    }
+
     public int planResultDelete(VMap vmap) throws Exception {
         return delete(mapperName + ".planResultDelete", vmap.getMap());
     }

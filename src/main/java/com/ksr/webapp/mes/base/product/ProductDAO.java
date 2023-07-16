@@ -20,6 +20,18 @@ public class ProductDAO extends MapperDAO {
         return selectOne(mapperName + ".prodOne", vmap.getMap());
     }
 
+    public Map<String, Object> createProdLotNo(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".createProdLotNo", vmap.getMap());
+    }
+
+    public int prodLotRegistModify(VMap vmap) throws Exception {
+        return insert(mapperName + ".prodLotRegistModify", vmap.getMap());
+    }
+
+    public int prodLotDelete(VMap vmap) throws Exception {
+        return delete(mapperName + ".prodLotDelete", vmap.getMap());
+    }
+
     public Map<String, Object> prodOverlap(VMap vmap) throws Exception {
         return selectOne(mapperName + ".prodOverlap", vmap.getMap());
     }

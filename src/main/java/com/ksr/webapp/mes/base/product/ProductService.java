@@ -24,6 +24,19 @@ public class ProductService {
         return productDAO.prodOne(vmap);
     }
 
+    public Map<String, Object> createProdLotNo(VMap vmap) throws Exception {
+        return productDAO.createProdLotNo(vmap);
+    }
+
+    @Transactional
+    public int prodLotRegistModify(VMap vmap) throws Exception {
+        return productDAO.prodLotRegistModify(vmap);
+    }
+
+    public int prodLotDelete(VMap vmap) throws Exception {
+        return productDAO.prodLotDelete(vmap);
+    }
+
     public Map<String, Object> prodOverlap(VMap vmap) throws Exception {
         return productDAO.prodOverlap(vmap);
     }

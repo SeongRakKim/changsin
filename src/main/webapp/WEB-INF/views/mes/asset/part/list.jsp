@@ -114,19 +114,20 @@
                             <table id ="tblMaster2" class="table-list table table-hover table-striped table-bordered mb-5" style="width: 100%">
                                 <thead>
                                 <tr role="row">
-                                    <th>입출고일시</th>
-                                    <th>구분</th>
-                                    <th>종류</th>
-                                    <th>위치</th>
-                                    <th style="width: 8%">품번</th>
-                                    <th style="width: 12%">품목명</th>
+                                    <th style="width: 9%">입출고일시</th>
+                                    <th style="width: 5%">구분</th>
+                                    <th style="width: 5%">종류</th>
+                                    <th style="width: 5%">위치</th>
+                                    <th>품번</th>
+                                    <th>품목명</th>
 <%--                                    <th>종류</th>--%>
 <%--                                    <th>분류</th>--%>
-                                    <th>규격</th>
-                                    <th>전일재고</th>
-                                    <th>입출고량</th>
-                                    <th>현재고량</th>
-                                    <th style="width: 18%">상세구분</th>
+                                    <th style="width: 6%">규격</th>
+                                    <th style="width: 7%">전일재고</th>
+                                    <th>Lot.No</th>
+                                    <th style="width: 7%">입출고량</th>
+                                    <th style="width: 7%">현재고량</th>
+                                    <th>상세구분</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -318,6 +319,7 @@
                 // node.push(IsEmpty(item.prod_group_nm));
                 node.push(IsEmpty(item.prod_stand));
                 node.push("<div class='text-right'>" + IsEmpty(item.prod_stock_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
+                node.push(IsEmpty(item.lot_no));
                 if(item.inout_type === "I") {
                     node.push("<div class='text-right'>" + IsEmpty(item.inout_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
                 }else {

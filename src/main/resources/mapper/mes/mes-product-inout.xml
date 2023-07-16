@@ -167,6 +167,7 @@
              ,INOUT_TYPE
              ,INOUT_ITEM
              ,PROD_CD
+             ,LOT_NO
              ,INOUT_CNT
              ,INOUT_CRCD
              ,INOUT_DT
@@ -185,6 +186,7 @@
              ,#{inout_type}
              ,#{inout_item}
              ,#{prod_cd}
+             ,#{lot_no}
              ,#{inout_cnt}
              ,#{inout_crcd}
              ,IFNULL(#{inout_dt}, CURDATE())

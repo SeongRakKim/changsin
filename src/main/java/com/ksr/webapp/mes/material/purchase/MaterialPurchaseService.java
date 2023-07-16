@@ -2,7 +2,9 @@ package com.ksr.webapp.mes.material.purchase;
 
 import com.ksr.webapp.common.config.BaseCodeItem;
 import com.ksr.webapp.common.util.CommonUtils;
+import com.ksr.webapp.common.util.DateUtils;
 import com.ksr.webapp.common.vo.VMap;
+import com.ksr.webapp.mes.base.product.ProductService;
 import com.ksr.webapp.mes.common.CommonDAO;
 import com.ksr.webapp.mes.product.inout.ProductInoutService;
 import com.ksr.webapp.mes.production.plan.ProductionPlanDAO;
@@ -23,6 +25,9 @@ public class MaterialPurchaseService {
     ProductionPlanDAO productionPlanDAO;
     @Autowired
     ProductInoutService productInoutService;
+
+    @Autowired
+    ProductService productService;
 
     public List<Map<String, Object>> purchaseList(VMap vmap) throws Exception {
         return materialPurchaseDAO.purchaseList(vmap);
@@ -94,6 +99,12 @@ public class MaterialPurchaseService {
     public int purchaseInModify(VMap vmap) throws Exception {
 
         vmap.put("pur_state", BaseCodeItem.PURCHASE_COMPELTE);
+//        Map<String, Object> lotMap = null;
+        if(vmap.getString("prod_lot_yn").equals("Y")) {
+            vmap.put("lot_date", DateUtils.getTodayDate());
+            Map<String, Object> lotMap = productService.createProdLotNo(vmap);
+            vmap.put("lot_no", lotMap.get("lot_no"));
+        }
 
         // 입고처리
         productInoutService.productStockModify(vmap
