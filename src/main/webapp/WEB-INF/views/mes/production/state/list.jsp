@@ -136,7 +136,7 @@
 
 <div class="modal fade dataModal" id="dataModal" tabindex="-1" role="dialog" aria-labelledby="registModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl modal-form-xl" role="document">
-        <div class="modal-content" style="width: 90%;">
+        <div class="modal-content" style="width: 95%;">
             <div class="modal-header">
                 <h2 class="modal-title"><i id="form-modal-icon"></i> <span id="form-modal-title"></span></h2>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -260,7 +260,8 @@
                             <th>작업시작일</th>
                             <th>작업종료일</th>
                             <th>생산량</th>
-                            <th>비고</th>
+<%--                            <th>비고</th>--%>
+                            <th>Lot.No</th>
                         </tr>
                         </thead>
                         <tbody></tbody>
@@ -289,14 +290,15 @@
         <td style="text-align: center !important;">{{plan_res_stdt}}</td>
         <td style="text-align: center !important;">{{plan_res_eddt}}</td>
         <td style="text-align: right !important;">{{plan_res_cnt}}</td>
-        <td>{{plan_res_notice}}</td>
+        <td>{{lot_no}}</td>plan_res_notice
+        <%--        <td>{{plan_res_notice}}</td>--%>
     </tr>
 </script>
 
 <script id="popPlanProcTemplete" type="text/x-handlebars-template">
     <tr class="dataList list_tr{{cnt}}">
         <td>
-            <input type="hidden" name="pop_plan_proc_cd" class="form-control" value="{{plan_proc_cd}}" />
+            <input type="hidden" name="pop_plan_proc_cd" class="form-control" value="{{plan_pro _cd}}" />
             <input type="hidden" name="pop_proc_cd" class="form-control" value="{{proc_cd}}" />
             {{plan_proc_seq}}
         </td>
@@ -548,6 +550,7 @@
             ,plan_res_eddt: data.plan_res_eddt
             ,plan_res_cnt: data.plan_res_cnt.comma('3')
             ,plan_res_notice: data.plan_res_notice
+            ,lot_no: data.lot_no
         }
 
         $("#tblPopSubData > tbody").append(template(templateData));
