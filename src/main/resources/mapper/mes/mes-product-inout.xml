@@ -61,6 +61,7 @@
                ,DATE_FORMAT(INOUT_DT_TIME, '%Y-%m-%d %H:%i:%s')INOUT_DT_TIME
                ,MPI.PROD_STOCK_CNT
                ,CUR_PROD_STOCK_CNT
+               ,LOT_NO
                ,INOUT_MSG
                ,INOUT_NOTICE
                ,INOUT_INDATE

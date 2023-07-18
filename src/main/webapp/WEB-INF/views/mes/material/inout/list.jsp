@@ -127,9 +127,7 @@
 
         // 조회
         $("#btnSearch").on("click", () => { getData() });
-
         setTimeout(() => getData(), 30);
-
     });
 
     // set tblMaster Database
