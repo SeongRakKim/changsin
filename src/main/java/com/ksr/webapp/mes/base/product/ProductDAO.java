@@ -83,7 +83,6 @@ public class ProductDAO extends MapperDAO {
     public List<Map<String, Object>> prodBomList(VMap vmap) throws Exception {
         return selectList(mapperName + ".prodBomList", vmap.getMap());
     }
-
     public int prodBomRegistModify(VMap vmap) throws Exception {
         return insert(mapperName + ".prodBomRegistModify", vmap.getMap());
     }
@@ -94,6 +93,10 @@ public class ProductDAO extends MapperDAO {
 
     public int prodStockCntModify(VMap vmap) throws Exception {
         return update(mapperName + ".prodStockCntModify", vmap.getMap());
+    }
+
+    public List<Map<String, Object>> prodLotList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".prodLotList", vmap.getMap());
     }
 
 }

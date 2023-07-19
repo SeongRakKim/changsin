@@ -222,15 +222,17 @@
                         <table id="tblPopShipmentData" class="table table-hover table-bordered mb-3 table-form">
                             <colgroup>
                                 <col style="width: 10%" />
-                                <col style="width: 25%" />
-                                <col style="width: 25%" />
-                                <col style="width: 30%" />
+                                <col style="width: 20%" />
+                                <col style="width: 20%" />
+                                <col style="width: 20%" />
+                                <col style="width: 20%" />
                                 <col style="width: 10%" />
                             </colgroup>
                             <thead>
                             <tr>
                                 <th>순서</th>
                                 <th>납품일 <span class="red"> (필수)</span></th>
+                                <th>Lot.No <span class="red"> (필수)</span></th>
                                 <th>납품수량 <span class="red"> (필수)</span></th>
                                 <th>비고</th>
                                 <th>
@@ -284,6 +286,13 @@
                     <span class="input-group-text"><i class="fas fa-calendar"></i></span>
                 </div>
             </div>
+        </td>
+        <td>
+            <select name="pop_lot_no" class="custom-select w-100">
+                <option value="">LOT 선택</option>
+            </select>
+            <input type="hidden" name="pop_old_lot_no" class="form-control" value="{{old_lot_no}}"
+                   placeholder="Lot.No" title="Lot.No" required />
         </td>
         <td>
             <input type="hidden" name="pop_old_ship_detail_cnt" class="form-control" value="{{old_ship_detail_cnt}}"
@@ -542,6 +551,7 @@
             $("#pop_selector2").text('[' + data.prod_pn + '] ' + data.prod_nm);
 
             getShipmentDetailData();
+            setTimeout(() => setProdLotData(data.prod_cd), 300);
         })
         .always(function (data) {
             hideWait('.dataModal');
@@ -585,6 +595,39 @@
             .fail(function (jqHXR, textStatus, errorThrown) {
                 ajaxErrorAlert(jqHXR);
             });
+    }
+
+    function setProdLotData(prod_cd)
+    {
+        $.ajax({
+            url: "/mes/base/product/prodLotList"
+            ,type: "post"
+            ,headers: {
+                "Content-Type": "application/json"
+                ,"X-HTTP-Method-Override": "POST"
+            }
+            ,dataType: "json"
+            ,data: JSON.stringify({
+                fact_cd: "${vmap.fact_cd}"
+                ,prod_cd: prod_cd
+            })
+        })
+        .done(function (data)
+        {
+            $.each($("#tblPopShipmentData > tbody > tr"), function(index, item)
+            {
+               console.log('PM 7:01', '619', $(".list_tr${index+1}").find("[name=pop_ship_detail_cnt]").val());
+            });
+
+            // $("#tblPopShipmentData > tbody").empty();
+            // data.forEach((item, index) => {
+            // });
+        })
+        .always(function (data) {
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+        });
     }
 
     // let resultRowCnt = 0;

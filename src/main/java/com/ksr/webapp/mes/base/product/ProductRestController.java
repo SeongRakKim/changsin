@@ -156,4 +156,13 @@ public class ProductRestController {
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
 
+    @PostMapping("/mes/base/product/prodLotList")
+    public ResponseEntity<List<Map<String, Object>>> prodLotList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    {
+        vmap.set(map);
+        List<Map<String, Object>> resultList = productService.prodLotList(vmap);
+
+        return new ResponseEntity<>(resultList, HttpStatus.OK);
+    }
+
 }

@@ -250,6 +250,7 @@
                ,ODR_INUSER
                ,ODR_UPDATE
                ,ODR_UPUSER
+               ,LOT_NO
         FROM MES_SHIP_DETAIL
         JOIN MES_SHIP_INFO MSI USING (FACT_CD, ODR_CD, SHIP_CD)
         JOIN MES_ORDER_INFO MOI USING (FACT_CD, ODR_CD)

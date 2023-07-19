@@ -845,4 +845,21 @@
         WHERE PROD_CD = #{prod_cd}
     </update>
 
+    <select id="prodLotList" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+             , PROD_CD
+             , LOT_NO
+             , LOT_IN_CNT
+             , LOT_CNT
+             , LOT_DT
+             , LOT_NOTICE
+             , LOT_INDATE
+             , LOT_INUSER
+             , LOT_UPDATE
+             , LOT_UPUSER
+        FROM MES_PRODUCT_LOT
+        WHERE PROD_CD = #{prod_cd}
+        ORDER BY LOT_DT ASC
+    </select>
+
 </mapper>
