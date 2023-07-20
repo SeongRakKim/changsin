@@ -108,13 +108,14 @@ public class MaterialPurchaseService {
 
         // 입고처리
         productInoutService.productStockModify(vmap
-                ,"I"
-                ,BaseCodeItem.INOUT_PURCHASE
-                ,vmap.getString("prod_cd")
-                ,Double.parseDouble(vmap.getString("pur_cnt"))
-                ,0
-                ,vmap.getString("pur_cd")
-                ,BaseCodeItem.PURCHASE_REGIST);
+                                                ,"I"
+                                                ,BaseCodeItem.INOUT_PURCHASE
+                                                ,vmap.getString("prod_cd")
+                                                ,Double.parseDouble(vmap.getString("pur_cnt"))
+                                                ,0
+                                                ,vmap.getString("pur_cd")
+                                                ,vmap.getString("lot_no")
+                                                ,BaseCodeItem.PURCHASE_REGIST);
 
         return materialPurchaseDAO.purchaseInModify(vmap);
     }
@@ -137,13 +138,14 @@ public class MaterialPurchaseService {
 
             // 입고처리
             productInoutService.productStockModify(vmap
-                    ,"I"
-                    ,BaseCodeItem.INOUT_PURCHASE
-                    ,String.valueOf(result.get("prod_cd"))
-                    ,Double.parseDouble(String.valueOf(result.get("pur_cnt")))
-                    ,0
-                    ,String.valueOf(vmap.get("pur_cd"))
-                    ,BaseCodeItem.PURCHASE_REGIST);
+                                                    ,"I"
+                                                    ,BaseCodeItem.INOUT_PURCHASE
+                                                    ,String.valueOf(result.get("prod_cd"))
+                                                    ,Double.parseDouble(String.valueOf(result.get("pur_cnt")))
+                                                    ,0
+                                                    ,String.valueOf(vmap.get("pur_cd"))
+                                                    ,null
+                                                    ,BaseCodeItem.PURCHASE_REGIST);
         }
 
         return returnCnt;

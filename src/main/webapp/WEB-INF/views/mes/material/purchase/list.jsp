@@ -1245,7 +1245,6 @@
 
     function setPurchaseInModify()
     {
-        console.log('PM 2:11', '1248', arguments[0]);
         Swal.fire({
             title: '',
             text: "입고처리 하시겠습니까?",

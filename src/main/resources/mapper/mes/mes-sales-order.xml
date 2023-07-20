@@ -87,6 +87,7 @@
                 OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
             )
         </if>
+        ORDER BY ODR_DT DESC
     </select>
 
     <select id="orderList2" parameterType="VMap" resultType="RowMap">

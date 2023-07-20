@@ -1,5 +1,6 @@
 package com.ksr.webapp.mes.product.inout;
 
+import com.ksr.webapp.common.util.CommonUtils;
 import com.ksr.webapp.common.vo.VMap;
 import com.ksr.webapp.mes.base.product.ProductDAO;
 import com.ksr.webapp.mes.common.CommonDAO;
@@ -31,7 +32,7 @@ public class ProductInoutService {
 
     @Transactional
     public void productStockModify(VMap vmap, String inout_type, String inout_item, String prod_cd,
-                                    double inout_cnt, double bom_cnt, String inout_crcd, String inout_msg) throws Exception {
+                                    double inout_cnt, double bom_cnt, String inout_crcd, String lot_no, String inout_msg) throws Exception {
         // 제품 정보 가져오기
         VMap prodMap = new VMap();
         prodMap.put("prod_cd", prod_cd);
@@ -52,7 +53,7 @@ public class ProductInoutService {
         inout.put("inout_dt", null);
         inout.put("prod_stock_cnt", prod.get("prod_stock_cnt"));
         inout.put("inout_msg", inout_msg);
-        inout.put("lot_no", vmap.getString("lot_no"));
+        inout.put("lot_no", lot_no);
 
         productInoutDAO.productInoutRegist(inout);
 
@@ -60,9 +61,13 @@ public class ProductInoutService {
         vmap.put("prod_cd", prod_cd);
         vmap.put("inout_type", inout_type);
         vmap.put("prod_stock_cnt", inout_cnt);
-
         productDAO.prodStockCntModify(vmap);
 
+        if(CommonUtils.isNotEmpty(lot_no)) {
+            vmap.put("lot_cnt", inout_cnt);
+            vmap.put("lot_no", lot_no);
+            productDAO.prodStockLotCntModify(vmap);
+        }
     }
 
     @Transactional

@@ -95,6 +95,10 @@ public class ProductDAO extends MapperDAO {
         return update(mapperName + ".prodStockCntModify", vmap.getMap());
     }
 
+    public int prodStockLotCntModify(VMap vmap) throws Exception {
+        return update(mapperName + ".prodStockLotCntModify", vmap.getMap());
+    }
+
     public List<Map<String, Object>> prodLotList(VMap vmap) throws Exception {
         return selectList(mapperName + ".prodLotList", vmap.getMap());
     }

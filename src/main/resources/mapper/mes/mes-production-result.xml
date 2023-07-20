@@ -111,6 +111,7 @@
                ,PROD_PN
                ,PROD_NM
                ,PROD_KIND
+               ,PROD_LOT_YN
                ,(SELECT CODE_NM
                  FROM DFT_CODE_INFO
                  WHERE CODE_ID = 'PROD_KIND'

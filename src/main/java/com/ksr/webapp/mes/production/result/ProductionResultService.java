@@ -110,13 +110,14 @@ public class ProductionResultService {
             }
 
             productInoutService.productStockModify(vmap
-                    ,"I"
-                    ,BaseCodeItem.INOUT_PRODUCTION
-                    ,vmap.getString("prod_cd")
-                    ,Double.parseDouble(vmap.getString("plan_res_cnt"))
-                    ,0
-                    ,plan_res_cd
-                    ,BaseCodeItem.PLAN_RESULT_REGIST);
+                                                    ,"I"
+                                                    ,BaseCodeItem.INOUT_PRODUCTION
+                                                    ,vmap.getString("prod_cd")
+                                                    ,Double.parseDouble(vmap.getString("plan_res_cnt"))
+                                                    ,0
+                                                    ,plan_res_cd
+                                                    ,null
+                                                    ,BaseCodeItem.PLAN_RESULT_REGIST);
 
             productionResultDAO.planResultModify2(vmap);
         }
@@ -143,13 +144,14 @@ public class ProductionResultService {
 
             // 투입자재 재고 차감 처리
             productInoutService.productStockModify(vmap
-                ,"O"
-                ,BaseCodeItem.INOUT_INPUT
-                ,String.valueOf(result.get("prod_ja_cd"))
-                ,Double.parseDouble(String.valueOf(result.get("prod_bom_cnt"))) * Double.parseDouble(vmap.getString("plan_res_cnt"))
-                ,Double.parseDouble(String.valueOf(result.get("prod_bom_cnt")))
-                ,plan_res_cd
-                ,BaseCodeItem.PLAN_INPUT_REGIST);
+                                                    ,"O"
+                                                    ,BaseCodeItem.INOUT_INPUT
+                                                    ,String.valueOf(result.get("prod_ja_cd"))
+                                                    ,Double.parseDouble(String.valueOf(result.get("prod_bom_cnt"))) * Double.parseDouble(vmap.getString("plan_res_cnt"))
+                                                    ,Double.parseDouble(String.valueOf(result.get("prod_bom_cnt")))
+                                                    ,plan_res_cd
+                                                        ,null
+                                                    ,BaseCodeItem.PLAN_INPUT_REGIST);
         }
 
         return returnCnt;
@@ -186,13 +188,14 @@ public class ProductionResultService {
 
                 // 생성된 제품 재고 보정 처리
                 productInoutService.productStockModify(vmap
-                        ,inout_type
-                        ,BaseCodeItem.INOUT_PRODUCTION
-                        ,vmap.getString("prod_cd")
-                        ,diffCnt
-                        ,0
-                        ,vmap.getString("plan_res_cd")
-                        ,BaseCodeItem.PLAN_RESULT_MODIFY);
+                                                        ,inout_type
+                                                        ,BaseCodeItem.INOUT_PRODUCTION
+                                                        ,vmap.getString("prod_cd")
+                                                        ,diffCnt
+                                                        ,0
+                                                        ,vmap.getString("plan_res_cd")
+                                                        ,null
+                                                        ,BaseCodeItem.PLAN_RESULT_MODIFY);
             }
 
             // 소요자재 투입이력 삭제
@@ -218,13 +221,14 @@ public class ProductionResultService {
 
                 // 투입자재 재고 차감 처리
                 productInoutService.productStockModify(vmap
-                        ,inout_type.equals("I") ? "O" : "I"
-                        ,BaseCodeItem.INOUT_INPUT
-                        ,String.valueOf(result.get("prod_ja_cd"))
-                        ,Double.parseDouble(String.valueOf(result.get("prod_bom_cnt"))) * diffCnt
-                        ,Double.parseDouble(String.valueOf(result.get("prod_bom_cnt")))
-                        ,vmap.getString("plan_res_cd")
-                        ,BaseCodeItem.PLAN_RESULT_MODIFY);
+                                                        ,inout_type.equals("I") ? "O" : "I"
+                                                        ,BaseCodeItem.INOUT_INPUT
+                                                        ,String.valueOf(result.get("prod_ja_cd"))
+                                                        ,Double.parseDouble(String.valueOf(result.get("prod_bom_cnt"))) * diffCnt
+                                                        ,Double.parseDouble(String.valueOf(result.get("prod_bom_cnt")))
+                                                        ,vmap.getString("plan_res_cd")
+                                                        ,null
+                                                        ,BaseCodeItem.PLAN_RESULT_MODIFY);
             }
         }
 
@@ -248,13 +252,14 @@ public class ProductionResultService {
 
             // 생성된 제품 재고 보정 처리
             productInoutService.productStockModify(vmap
-                    ,"O"
-                    ,BaseCodeItem.INOUT_PRODUCTION
-                    ,String.valueOf(result.get("prod_cd"))
-                    ,Double.parseDouble(String.valueOf(result.get("plan_res_cnt")))
-                    ,0
-                    ,String.valueOf(result.get("plan_res_cd"))
-                    ,BaseCodeItem.PLAN_RESULT_DELETE);
+                                                    ,"O"
+                                                    ,BaseCodeItem.INOUT_PRODUCTION
+                                                    ,String.valueOf(result.get("prod_cd"))
+                                                    ,Double.parseDouble(String.valueOf(result.get("plan_res_cnt")))
+                                                    ,0
+                                                    ,String.valueOf(result.get("plan_res_cd"))
+                                                    ,null
+                                                    ,BaseCodeItem.PLAN_RESULT_DELETE);
         }
 
         // 소요자재 재고 보정
@@ -263,13 +268,14 @@ public class ProductionResultService {
         {
             // 투입자재 재고 차감 처리
             productInoutService.productStockModify(vmap
-                    ,"I"
-                    ,BaseCodeItem.INOUT_INPUT
-                    ,String.valueOf(input.get("prod_ja_cd"))
-                    ,Double.parseDouble(String.valueOf(input.get("plan_input_cnt")))
-                    ,Double.parseDouble(String.valueOf(input.get("plan_bom_cnt")))
-                    ,String.valueOf(result.get("plan_res_cd"))
-                    ,BaseCodeItem.PLAN_INPUT_DELETE);
+                                                    ,"I"
+                                                    ,BaseCodeItem.INOUT_INPUT
+                                                    ,String.valueOf(input.get("prod_ja_cd"))
+                                                    ,Double.parseDouble(String.valueOf(input.get("plan_input_cnt")))
+                                                    ,Double.parseDouble(String.valueOf(input.get("plan_bom_cnt")))
+                                                    ,String.valueOf(result.get("plan_res_cd"))
+                                                    ,null
+                                                    ,BaseCodeItem.PLAN_INPUT_DELETE);
         }
 
         // 소요자재 투입이력 삭제

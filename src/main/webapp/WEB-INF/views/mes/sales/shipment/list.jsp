@@ -177,6 +177,8 @@
                             <td>
                                 <input type="hidden" id="pop_prod_cd" name="pop_prod_cd" class="form-control"
                                        placeholder="제품코드" title="제품코드" />
+                                <input type="hidden" id="pop_prod_lot_yn" name="pop_prod_lot_yn" class="form-control"
+                                       placeholder="lot 사용여부" title="lot 사용여부" />
                                 <input type="hidden" id="pop_prod_nm" name="pop_prod_nm" class="form-control"
                                        placeholder="제품명" title="제품명" />
                                 <input type="hidden" id="pop_prod_pn" name="pop_prod_pn" class="form-control"
@@ -288,7 +290,7 @@
             </div>
         </td>
         <td>
-            <select name="pop_lot_no" class="custom-select w-100">
+            <select name="pop_lot_no" class="custom-select w-100" style="display: none;">
                 <option value="">LOT 선택</option>
             </select>
             <input type="hidden" name="pop_old_lot_no" class="form-control" value="{{old_lot_no}}"
@@ -551,7 +553,6 @@
             $("#pop_selector2").text('[' + data.prod_pn + '] ' + data.prod_nm);
 
             getShipmentDetailData();
-            setTimeout(() => setProdLotData(data.prod_cd), 300);
         })
         .always(function (data) {
             hideWait('.dataModal');
@@ -597,7 +598,7 @@
             });
     }
 
-    function setProdLotData(prod_cd)
+    function setProdLotData(prod_cd, cnt, lot_no=null)
     {
         $.ajax({
             url: "/mes/base/product/prodLotList"
@@ -614,14 +615,16 @@
         })
         .done(function (data)
         {
-            $.each($("#tblPopShipmentData > tbody > tr"), function(index, item)
-            {
-               console.log('PM 7:01', '619', $(".list_tr${index+1}").find("[name=pop_ship_detail_cnt]").val());
-            });
+            let $tr = $("#tblPopShipmentData .list_tr" + cnt);
+            if(IsNotNull(data)) {
+                $tr.find("[name=pop_lot_no] option:not(:first)").empty();
+                data.forEach((item, index) => {
+                    var newOption = "<option value='" + item.lot_no + "' data-qty='" + item.lot_cnt + "'" + ">" + item.lot_no + " [" + item.lot_cnt + "]" + "</option>";
+                    $tr.find("[name=pop_lot_no]").append(newOption);
+                });
+            }
 
-            // $("#tblPopShipmentData > tbody").empty();
-            // data.forEach((item, index) => {
-            // });
+            if(IsNotNull(lot_no)) $tr.find("[name=pop_lot_no]").val([lot_no]);
         })
         .always(function (data) {
         })
@@ -647,6 +650,8 @@
             };
 
             $("#tblPopShipmentData > tbody").append(template(templateData));
+
+
         }
         else
         {
@@ -654,26 +659,42 @@
                 cnt : resultRowCnt
                 ,ship_detail_cd: data.ship_detail_cd
                 ,ship_detail_dt: data.ship_detail_dt
+                ,lot_no: data.lot_no
+                ,old_lot_no: data.lot_no
                 ,old_ship_detail_cnt: data.ship_detail_cnt
                 ,ship_detail_cnt: data.ship_detail_cnt.comma('3')
                 ,ship_detail_notice: data.ship_detail_notice
             };
 
             $("#tblPopShipmentData > tbody").append(template(templateData));
-
         }
 
         setDatePicker("datepicker");
+        let thisRow = $("#tblPopShipmentData .list_tr" + resultRowCnt);
 
-        $("#tblPopShipmentData .list_tr" + resultRowCnt)
-            .find("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total'], input[name$='rate'], input[name$='min'], input[name$='vat']")
-            .css("text-align", "right")
-            .on("click", function() {
-                $(this).select();
-            })
-            .on("keyup", function() {
-                $(this).val($(this).val().comma("2"));
-            });
+        // debugger
+        if($("#pop_prod_lot_yn").val() === "Y") {
+            setTimeout(() =>
+                IsNull(data) ? setProdLotData($("#pop_prod_cd").val(), resultRowCnt) : setProdLotData($("#pop_prod_cd").val(), resultRowCnt, data.lot_no)
+            , 300);
+
+            $("#tblPopShipmentData .list_tr" + resultRowCnt).find("select[name=pop_lot_no]").css("display", "block");
+        }
+
+        thisRow.find("select[name=pop_lot_no]").on("change", function () {
+            let lot_cnt = parseInt($(this).find("option:selected").data("qty"));
+            let odr_cnt = parseInt($("#pop_odr_cnt").text().replace(/,/g, ""));
+            thisRow.find("[name=pop_ship_detail_cnt]").val(lot_cnt>=odr_cnt ? odr_cnt : lot_cnt);
+        });
+
+        thisRow.find("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total'], input[name$='rate'], input[name$='min'], input[name$='vat']")
+                .css("text-align", "right")
+                .on("click", function() {
+                    $(this).select();
+                })
+                .on("keyup", function() {
+                    $(this).val($(this).val().comma("2"));
+                });
     }
 
     function shipmentDetailRegistModifyData()
@@ -683,6 +704,8 @@
         //. Data List
         let ary_ship_detail_cd = [];
         let ary_ship_detail_dt = [];
+        let ary_old_lot_no = [];
+        let ary_lot_no = [];
         let ary_old_ship_detail_cnt = [];
         let ary_ship_detail_cnt = [];
         let ary_ship_detail_notice = [];
@@ -691,6 +714,8 @@
         {
             ary_ship_detail_cd.push($(item).find("input[name=pop_ship_detail_cd]").val());
             ary_ship_detail_dt.push($(item).find("input[name=pop_ship_detail_dt]").val());
+            ary_old_lot_no.push($(item).find("input[name=pop_old_lot_no]").val())
+            ary_lot_no.push($(item).find("select[name=pop_lot_no]").val())
             ary_old_ship_detail_cnt.push($(item).find("input[name=pop_old_ship_detail_cnt]").val().replace(/,/g, ""));
             ary_ship_detail_cnt.push($(item).find("input[name=pop_ship_detail_cnt]").val().replace(/,/g, ""));
             ary_ship_detail_notice.push($(item).find("input[name=pop_ship_detail_notice]").val());
@@ -711,6 +736,8 @@
                 ,prod_cd: $("#pop_prod_cd").val()
                 ,ary_ship_detail_cd: ary_ship_detail_cd
                 ,ary_ship_detail_dt: ary_ship_detail_dt
+                ,ary_old_lot_no: ary_old_lot_no
+                ,ary_lot_no: ary_lot_no
                 ,ary_old_ship_detail_cnt: ary_old_ship_detail_cnt
                 ,ary_ship_detail_cnt: ary_ship_detail_cnt
                 ,ary_ship_detail_notice: ary_ship_detail_notice
@@ -732,6 +759,7 @@
 
     function salesShipmentDetailDelete(cnt)
     {
+        let lot_no = $("#tblPopShipmentData .list_tr" + cnt).find("[name=pop_lot_no]").val();
         let ship_detail_cd = $("#tblPopShipmentData .list_tr" + cnt).find("[name=pop_ship_detail_cd]").val();
         let ship_detail_cnt = $("#tblPopShipmentData .list_tr" + cnt).find("[name=pop_ship_detail_cnt]").val();
 
@@ -769,6 +797,7 @@
                             ,prod_cd: $("#pop_prod_cd").val()
                             ,ship_detail_cd: ship_detail_cd
                             ,ship_detail_cnt: ship_detail_cnt
+                            ,lot_no: lot_no
                         })
                     })
                     .done(function (data) {

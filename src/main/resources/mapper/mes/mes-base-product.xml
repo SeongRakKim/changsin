@@ -845,6 +845,21 @@
         WHERE PROD_CD = #{prod_cd}
     </update>
 
+    <update id="prodStockLotCntModify" parameterType="VMap">
+        UPDATE MES_PRODUCT_LOT
+        SET
+        <choose>
+            <when test='inout_type == "I"'>
+                LOT_CNT = LOT_CNT + IFNULL(#{lot_cnt}, 0)
+            </when>
+            <when test='inout_type == "O"'>
+                LOT_CNT = LOT_CNT - IFNULL(#{lot_cnt}, 0)
+            </when>
+        </choose>
+        WHERE PROD_CD = #{prod_cd}
+        AND LOT_NO = #{lot_no}
+    </update>
+
     <select id="prodLotList" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
              , PROD_CD

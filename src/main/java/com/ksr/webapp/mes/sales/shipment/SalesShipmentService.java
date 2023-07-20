@@ -59,6 +59,8 @@ public class SalesShipmentService {
 
         List<String> ship_detail_cd =  (List<String>)vmap.get("ary_ship_detail_cd");
         List<String> ship_detail_dt = (List<String>)vmap.get("ary_ship_detail_dt");
+        List<String> ary_old_lot_no = (List<String>)vmap.get("ary_old_lot_no");
+        List<String> ary_lot_no = (List<String>)vmap.get("ary_lot_no");
         List<String> old_ship_detail_cnt = (List<String>)vmap.get("ary_old_ship_detail_cnt");
         List<String> ship_detail_cnt = (List<String>)vmap.get("ary_ship_detail_cnt");
         List<String> ship_detail_notice = (List<String>)vmap.get("ary_ship_detail_notice");
@@ -72,6 +74,7 @@ public class SalesShipmentService {
             shipMap.put("fact_cd", vmap.getString("fact_cd"));
             shipMap.put("odr_cd", vmap.getString("odr_cd"));
             shipMap.put("ship_cd", vmap.getString("ship_cd"));
+            shipMap.put("lot_no", ary_lot_no.get(i));
             shipMap.put("ship_detail_cd", CommonUtils.isNotEmpty(ship_detail_cd.get(i)) ? ship_detail_cd.get(i) : commonDAO.getTablePrimaryCode(vmap));
             shipMap.put("ship_detail_dt", ship_detail_dt.get(i));
             shipMap.put("ship_detail_cnt", ship_detail_cnt.get(i));
@@ -95,13 +98,14 @@ public class SalesShipmentService {
 
                 // 생성된 제품 재고 보정 처리
                 productInoutService.productStockModify(vmap
-                        ,inout_type
-                        ,BaseCodeItem.INOUT_SHIP
-                        ,vmap.getString("prod_cd")
-                        ,diffCnt
-                        ,0
-                        ,vmap.getString("ship_cd")
-                        ,ioMsg);
+                                                        ,inout_type
+                                                        ,BaseCodeItem.INOUT_SHIP
+                                                        ,vmap.getString("prod_cd")
+                                                        ,diffCnt
+                                                        ,0
+                                                        ,vmap.getString("ship_cd")
+                                                        ,ary_lot_no.get(i)
+                                                        ,ioMsg);
             }
         }
 
@@ -113,13 +117,14 @@ public class SalesShipmentService {
     public int salesShipmentDetailDelete(VMap vmap) throws Exception {
 
         productInoutService.productStockModify(vmap
-                ,"I"
-                ,BaseCodeItem.INOUT_SHIP
-                ,vmap.getString("prod_cd")
-                ,Double.parseDouble(vmap.getString("ship_detail_cnt"))
-                ,0
-                ,vmap.getString("ship_cd")
-                ,BaseCodeItem.SHIP_DELETE);
+                                                ,"I"
+                                                ,BaseCodeItem.INOUT_SHIP
+                                                ,vmap.getString("prod_cd")
+                                                ,Double.parseDouble(vmap.getString("ship_detail_cnt"))
+                                                ,0
+                                                ,vmap.getString("ship_cd")
+                                                ,vmap.getString("lot_no")
+                                                ,BaseCodeItem.SHIP_DELETE);
 
         int returnCnt = salesShipmentDAO.salesShipmentDetailDelete(vmap);
 

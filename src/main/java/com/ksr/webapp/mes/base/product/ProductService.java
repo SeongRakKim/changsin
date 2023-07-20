@@ -158,6 +158,10 @@ public class ProductService {
         return productDAO.prodStockCntModify(vmap);
     }
 
+    public int prodStockLotCntModify(VMap vmap) throws Exception {
+        return productDAO.prodStockLotCntModify(vmap);
+    }
+
     public List<Map<String, Object>> prodLotList(VMap vmap) throws Exception {
         return productDAO.prodLotList(vmap);
     }

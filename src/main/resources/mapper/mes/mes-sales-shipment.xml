@@ -98,6 +98,7 @@
                 OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
             )
         </if>
+        ORDER BY ODR_SHIP_DT DESC
     </select>
 
     <select id="shipOne" parameterType="VMap" resultType="RowMap">
@@ -119,6 +120,7 @@
                ,PROD_PN
                ,PROD_NM
                ,PROD_KIND
+               ,PROD_LOT_YN
                ,(SELECT CODE_NM
                  FROM DFT_CODE_INFO
                  WHERE CODE_ID = 'PROD_KIND'
@@ -311,6 +313,7 @@
             ,SHIP_CD
             ,SHIP_DETAIL_CD
             ,SHIP_DETAIL_DT
+            ,LOT_NO
             ,SHIP_DETAIL_CNT
             ,SHIP_DETAIL_NOTICE
             ,SHIP_DETAIL_INDATE
@@ -324,6 +327,7 @@
             ,#{ship_cd}
             ,#{ship_detail_cd}
             ,#{ship_detail_dt}
+            ,#{lot_no}
             ,#{ship_detail_cnt}
             ,#{ship_detail_notice}
             ,NOW()
@@ -333,6 +337,7 @@
         )
         ON DUPLICATE KEY UPDATE
              SHIP_DETAIL_DT = #{ship_detail_dt}
+              ,LOT_NO = #{lot_no}
               ,SHIP_DETAIL_CNT = #{ship_detail_cnt}
               ,SHIP_DETAIL_NOTICE = #{ship_detail_notice}
               ,SHIP_DETAIL_UPDATE = NOW()
