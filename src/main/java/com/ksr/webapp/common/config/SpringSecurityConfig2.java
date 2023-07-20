@@ -4,12 +4,10 @@ import com.ksr.webapp.common.handler.SimpleUrlLogoutSuccessHandler;
 import com.ksr.webapp.common.login.AuthFailureHandler;
 import com.ksr.webapp.common.login.AuthSuccessHandler;
 import com.ksr.webapp.common.login.LoginIdPwValidator;
-import com.ksr.webapp.mes.base.user.UserService;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -21,7 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+@Order(2)
+public class SpringSecurityConfig2 extends WebSecurityConfigurerAdapter {
 
     @Autowired
     LoginIdPwValidator loginIdPwValidator;
@@ -40,6 +39,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     {
 
         http
+            .antMatcher("/**")
             .csrf().disable()
         ;
 
@@ -86,12 +86,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    @Bean
+    @Bean("sessionRegistry2")
     public SessionRegistry sessionRegistry() {
         return new SpringSecuritySessionRegistImpl();
     }
 
-    @Bean
+    @Bean("passwordEncoder2")
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }

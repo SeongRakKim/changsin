@@ -40,4 +40,16 @@ public class LoginController {
         return "/common/login/form";
     }
 
+    @RequestMapping("/tablet/login/form")
+    public String tabletHomeGet(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+        vmap.put("requestUri", httpServletRequest.getRequestURI());
+
+        return "/common/tablet/login/form";
+    }
+
+    @GetMapping("/tablet")
+    public String tabletGet(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+        return "redirect:/did/notice/list";
+    }
+
 }

@@ -101,7 +101,7 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Manufacturing Execution System</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">현장이다잉</h1>
                                     </div>
                                     <form id="loginForm" class="user" method="post" action="/auth/login-proc">
                                         <div class="form-group">

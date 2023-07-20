@@ -5,6 +5,10 @@ public final class Url {
     // 로그인 폼
     public static final String LOGIN = "/login/form";
 
+    public static final String TABLET_LOGIN = "/tablet/login/form";
+
+    public static final String TABLET = "/tablet";
+
     /* 로그인 인증 요청 */
     public static final String LOGIN_PROC = "/auth/login-proc";
 
