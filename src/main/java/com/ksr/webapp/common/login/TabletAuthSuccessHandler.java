@@ -42,10 +42,9 @@ public class TabletAuthSuccessHandler extends CoTopComponent implements Authenti
 
         JsonObject loginResult = new JsonObject();
         loginResult.addProperty("resultCode", "00");
-        loginResult.addProperty("targetUrl", request.getContextPath() + "/");
+        loginResult.addProperty("targetUrl", request.getContextPath() + "/tablet/menu/list");
 
         writeResponse(response, loginResult);
-
     }
 }
 

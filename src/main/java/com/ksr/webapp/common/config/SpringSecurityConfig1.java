@@ -106,10 +106,15 @@ public class SpringSecurityConfig1 extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .userDetailsService(tabletLoginIdPwValidator)
-            .passwordEncoder(new BCryptPasswordEncoder());
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication().withUser("user").password("").roles("USER");
     }
+
+//    @Override
+//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth
+//            .userDetailsService(tabletLoginIdPwValidator)
+//            .passwordEncoder(new BCryptPasswordEncoder());
+//    }
 
 }

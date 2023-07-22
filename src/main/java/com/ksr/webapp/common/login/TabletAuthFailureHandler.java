@@ -57,10 +57,8 @@ public class TabletAuthFailureHandler extends CoTopComponent implements Authenti
         }
         
         JsonObject result = new JsonObject();
-//        result.addProperty("resultCode", errCode);
-        result.addProperty("resultCode", "00");
+        result.addProperty("resultCode", errCode);
         result.addProperty("resultMessage", errMsg);
-        result.addProperty("targetUrl", request.getContextPath() + "/");
         return result;
     }
 }

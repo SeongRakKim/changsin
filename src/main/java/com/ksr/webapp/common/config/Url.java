@@ -27,5 +27,7 @@ public final class Url {
     /* DID url */
     public static final String DID_PATH = "/did/**";
 
+    public static final String TABLET_PATH = "/did/**";
+
 }
 

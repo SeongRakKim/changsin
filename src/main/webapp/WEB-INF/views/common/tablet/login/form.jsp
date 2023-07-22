@@ -229,13 +229,12 @@
                 ,dataType : 'json'
                 ,data : params
                 ,success : function(result) {
-                    console.log('PM 6:25', '232', result);
+                    console.log('PM 10:48', '232', result);
                     if(result.resultCode != "00"){
                         eAlert(result.resultMessage);
                     }
                     else{
-                        console.log('PM 5:54', '231', result.targetUrl);
-                        // location.href=result.targetUrl;
+                        location.href=result.targetUrl;
                     }
                 },
                 error: function(request, status, error) {
