@@ -15,6 +15,12 @@ public final class Url {
     /* 로그아웃 요청 */
     public static final String LOGOUT_PROC = "/auth/logout-proc";
 
+    /* 로그인 인증 요청 */
+    public static final String TABLET_LOGIN_PROC = "/tablet/auth/login-proc";
+
+    /* 로그아웃 요청 */
+    public static final String TABLET_LOGOUT_PROC = "/tablet/auth/logout-proc";
+
     /* 로그인 url */
     public static final String MAIN = "/";
 

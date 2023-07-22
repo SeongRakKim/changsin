@@ -43,6 +43,7 @@ public class LoginController {
     @RequestMapping("/tablet/login/form")
     public String tabletHomeGet(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
         vmap.put("requestUri", httpServletRequest.getRequestURI());
+        vmap.put("userList", userService.userList(vmap));
 
         return "/common/tablet/login/form";
     }

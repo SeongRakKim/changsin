@@ -75,12 +75,12 @@
         background-position: center;
         background-size: contain;
         background-repeat: no-repeat;
-        width: 10%;
+        width: 10vw;
         height: 10vh;
     }
 
     .login-main-form {
-        margin: 100px 0 100px 0;
+        margin: 3vh 0 3vh 0;
         height: 80vh;
     }
 
@@ -89,7 +89,21 @@
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: center;
-        align-items: stretch;
+        align-items: center;
+    }
+
+    .tablet-form-select {
+        width: 50vw!important;
+        margin-top: 5vh;
+        height: 10vh;
+        font-size: 2.5em;
+    }
+
+    .select-group {
+        display: flex;
+        align-items: center;
+        /*align-content: center;*/
+        justify-content: center;
     }
 </style>
 
@@ -115,24 +129,26 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-12" style="height: 60vh; margin-top: 60px;">
+                            <div class="col-lg-12" style="height: 65vh; margin-top: 0px;">
                                 <div class="p-5">
                                     <div class="text-center table-title">
                                         <div class="sidebar-brand-icon bg-main-logo"></div>
-                                        <div><h1 class="h4 text-gray-900 mb-4">(유) 창신)</h1></div>
+                                        <div>
+                                            <h1 class="h4 text-gray-900 mb-4" style="font-size: 4em; font-weight: 500;">(유) 창신</h1>
+                                        </div>
                                     </div>
                                     <form id="loginForm" class="user" method="post" action="/auth/login-proc">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-user"
-                                                   id="id" aria-describedby="emailHelp"
-                                                   placeholder="Id...">
+                                        <div class="form-group select-group">
+                                            <select id="id" name="id" class="custom-select w-100 tablet-form-select" onchange="setPassword(this);">
+                                                <option value="">사용자선택</option>
+                                                <c:forEach var="item" items="${vmap.userList}" varStatus="status">
+                                                    <option value="${item.u_cd}" data-pw="${item.u_pw}">${item.u_nm}</option>
+                                                </c:forEach>
+                                            </select>
+                                            <input type="hidden" id="password" name="password" value="" />
                                         </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                   id="password" placeholder="Password...">
-                                        </div>
-                                        <a href="#" onclick="submitForm();" class="btn btn-primary btn-user btn-block">
-                                            Login
+                                        <a href="#" onclick="submitForm();" style="font-size: 3em; margin-top: 5vh;" class="btn btn-primary btn-user btn-block">
+                                            로그인
                                         </a>
                                     </form>
                                     <hr>
@@ -151,11 +167,11 @@
         {
             $(function()
             {
-                if ("${sessionScope.isLogOut}" === "Y") sendLogApi();
+                <%--if ("${sessionScope.isLogOut}" === "Y") sendLogApi();--%>
             });
         })();
 
-        function sendLogApi()
+        /*function sendLogApi()
         {
             let TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
             let d = new Date();
@@ -192,6 +208,10 @@
                 complete : function() {
                 }
             });
+        }*/
+
+        function setPassword(obj) {
+            $("#password").val($(obj).find("option:selected").data("pw"));
         }
 
         function submitForm() {
@@ -203,36 +223,25 @@
                 ,'password' : $("#password").val()
             }
 
-            // $.ajax({
-            //     type : 'POST'
-            //     ,url : 'sendLogDataJSON.do'
-            //     ,dataType : 'json'
-            //     ,data : params
-            //     ,success : function(result) {
-            //         console.log("AAAAAAA");
+            $.ajax({
+                type : 'POST'
+                ,url : '/tablet/auth/login-proc'
+                ,dataType : 'json'
+                ,data : params
+                ,success : function(result) {
+                    console.log('PM 6:25', '232', result);
+                    if(result.resultCode != "00"){
+                        eAlert(result.resultMessage);
+                    }
+                    else{
+                        console.log('PM 5:54', '231', result.targetUrl);
+                        // location.href=result.targetUrl;
+                    }
+                },
+                error: function(request, status, error) {
 
-                    $.ajax({
-                        type : 'POST'
-                        ,url : '/auth/login-proc'
-                        ,dataType : 'json'
-                        ,data : params
-                        ,success : function(result) {
-                            if(result.resultCode != "00"){
-                                eAlert(result.resultMessage);
-                            }
-                            else{
-                                location.href=result.targetUrl;
-                            }
-                        },
-                        error: function(request, status, error) {
-
-                        }
-                    });
-            //     },
-            //     error: function(request, status, error) {
-            //
-            //     }
-            // });
+                }
+            });
         }
     </script>
 

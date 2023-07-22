@@ -1,9 +1,8 @@
 package com.ksr.webapp.common.config;
 
 import com.ksr.webapp.common.handler.SimpleUrlLogoutSuccessHandler;
-import com.ksr.webapp.common.login.AuthFailureHandler;
-import com.ksr.webapp.common.login.AuthSuccessHandler;
-import com.ksr.webapp.common.login.LoginIdPwValidator;
+import com.ksr.webapp.common.handler.TabletSimpleUrlLogoutSuccessHandler;
+import com.ksr.webapp.common.login.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,16 +22,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SpringSecurityConfig1 extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    LoginIdPwValidator loginIdPwValidator;
+    TabletLoginIdPwValidator tabletLoginIdPwValidator;
 
     @Autowired
-    AuthSuccessHandler authSuccessHandler;
+    TabletAuthSuccessHandler tabletAuthSuccessHandler;
 
     @Autowired
-    AuthFailureHandler authFailureHandler;
+    TabletAuthFailureHandler tabletAuthFailureHandler;
 
     @Autowired
-    SimpleUrlLogoutSuccessHandler simpleUrlLogoutSuccessHandler;
+    TabletSimpleUrlLogoutSuccessHandler tabletSimpleUrlLogoutSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception
@@ -40,30 +39,33 @@ public class SpringSecurityConfig1 extends WebSecurityConfigurerAdapter {
 
         http
             .antMatcher("/tablet/**")
-            .csrf().disable()
+            .csrf()
+            .disable()
         ;
 
         http
             .authorizeHttpRequests()
-            .antMatchers(Url.TABLET_LOGIN, Url.DID_PATH).permitAll()
-            .anyRequest().authenticated() // 모두 인증
+            .antMatchers(Url.TABLET_LOGIN, Url.DID_PATH)
+            .permitAll()
+            .anyRequest()
+            .authenticated() // 모두 인증
         ;
 
         http
             .formLogin()
             .loginPage(Url.TABLET_LOGIN)
-            .loginProcessingUrl(Url.LOGIN_PROC)
+            .loginProcessingUrl(Url.TABLET_LOGIN_PROC)
             .usernameParameter("id")
             .passwordParameter("password")
-            .successHandler(authSuccessHandler)
-            .failureHandler(authFailureHandler)
+            .successHandler(tabletAuthSuccessHandler)
+            .failureHandler(tabletAuthFailureHandler)
         ;
 
         http
             .logout()
             .invalidateHttpSession(true)
             .deleteCookies("JSESSIONID")
-            .logoutSuccessHandler(simpleUrlLogoutSuccessHandler)
+            .logoutSuccessHandler(tabletSimpleUrlLogoutSuccessHandler)
 //            .logoutSuccessHandler(((request, response, authentication) -> {
 //                response.sendRedirect("/login/form");
 //            }))
@@ -98,12 +100,16 @@ public class SpringSecurityConfig1 extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity webSecurity) throws Exception {
-        webSecurity.ignoring().antMatchers(Constants.STATIOC_RESOUCREC_URL_PATTERNS);
+        webSecurity
+            .ignoring()
+            .antMatchers(Constants.STATIOC_RESOUCREC_URL_PATTERNS);
     }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(loginIdPwValidator).passwordEncoder(new BCryptPasswordEncoder());
+        auth
+            .userDetailsService(tabletLoginIdPwValidator)
+            .passwordEncoder(new BCryptPasswordEncoder());
     }
 
 }
