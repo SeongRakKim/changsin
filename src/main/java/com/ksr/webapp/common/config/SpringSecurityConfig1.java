@@ -25,6 +25,9 @@ public class SpringSecurityConfig1 extends WebSecurityConfigurerAdapter {
     TabletLoginIdPwValidator tabletLoginIdPwValidator;
 
     @Autowired
+    LoginIdPwValidator loginIdPwValidator;
+
+    @Autowired
     TabletAuthSuccessHandler tabletAuthSuccessHandler;
 
     @Autowired
@@ -100,21 +103,12 @@ public class SpringSecurityConfig1 extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity webSecurity) throws Exception {
-        webSecurity
-            .ignoring()
-            .antMatchers(Constants.STATIOC_RESOUCREC_URL_PATTERNS);
+        webSecurity.ignoring().antMatchers(Constants.STATIOC_RESOUCREC_URL_PATTERNS);
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("user").password("").roles("USER");
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(tabletLoginIdPwValidator).passwordEncoder(new BCryptPasswordEncoder());
     }
-
-//    @Override
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//            .userDetailsService(tabletLoginIdPwValidator)
-//            .passwordEncoder(new BCryptPasswordEncoder());
-//    }
 
 }

@@ -1,0 +1,337 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: outsourcing
+  Date: 2022-02-09
+  Time: 오후 10:51
+  To change this template use File | Settings | File Templates.
+--%>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; KSR MES 2023</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-primary" href="login.html">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(() => {
+
+        // Menu Select
+        setTreeMenuActive("${vmap.requestUri}");
+        setDatePicker("datepicker");
+
+        // default search date
+        $("#startDate").val(moment().add(-7, 'days').format('YYYY-MM-DD'));
+        $("#endDate").val(moment().format('YYYY-MM-DD'));
+
+
+        // list check
+        $("#listAll").on("click", () => {
+            $("input:checkbox[name=listCheck]").prop("checked", $("#listAll").is(":checked"));
+        });
+
+        $("#tblMaster").on("click", "tr", function() {
+            $(this).find("[name=listCheck]").prop("checked", $(this).find("[name=listCheck]").is(":checked") ? false : true);
+        });
+
+        $("input[name$='cnt'], input[name$='price'], input[name$='amt'], input[name$='total'], input[name$='rate'], input[name$='min'], input[name$='vat']").css("text-align", "right")
+            .on("click", function() {
+                $(this).select();
+            })
+            .on("keyup", function() {
+                $(this).val($(this).val().comma("2"));
+            });
+
+        $(document)
+            .on("keydown", function (event) {
+                if (event.keyCode == 13 && event.target.tagName != "TEXTAREA") {
+                    event.preventDefault();
+                }
+            })
+            .on("keyup", function (event) {
+                if (event.keyCode == 13 || event.keyCode == 38 || event.keyCode == 40) {
+                    if (event.target.tagName != "TEXTAREA"
+                        && event.target.className != "btn dropdown-toggle btn-default"
+                        && event.target.className != "inner open") {
+                        fnMoveFocus(event);
+                    }
+                }
+            });
+
+        $("input[type=text]")
+            .prop("autocomplete", "off")        // chrome에서 이전에 사용한 cache가 남아있다..
+            .on("click", function (event) {
+                $(this).select();
+            })
+            .on("keyup", function (event) {
+                // 엔터 값 입력 시 $(document).on("keyup") 호출 안되도록.. 중요!!
+                event.stopPropagation();
+
+                // 왼쪽, 오른쪽은 제외 : input 내 커서 이동을 위해.. 중요!!
+                if (event.keyCode == 13 || event.keyCode == 38 || event.keyCode == 40) {
+                    fnMoveFocus(event);
+                }
+            });
+
+        // Parsely set
+        window.Parsley.on('field:error', function(field) {
+            // This global callback will be called for any field that fails validation.
+            console.log('Validation failed for: ', this.$element);
+
+            var errorMessageStr = "";
+
+            $.each(field.getErrorsMessages(), function(index, value) {
+                if (errorMessageStr !== "") {
+                    errorMessageStr += "\n";
+                }
+                errorMessageStr += field.element.title + "은(는) " + value;
+            });
+
+            eAlert(errorMessageStr);
+        });
+
+    });
+
+    function setSearchDate(flag)
+    {
+        let startDate;
+        let endDate;
+
+        if(flag === "week") {
+            startDate = moment().day(1).format('YYYY-MM-DD');
+            endDate = moment().day(7).format('YYYY-MM-DD');
+        }else if(flag === "today") {
+            startDate = moment().format('YYYY-MM-DD');
+            endDate = moment().format('YYYY-MM-DD');
+        }else if(flag === "1week") {
+            startDate = moment().add(-7, 'days').format('YYYY-MM-DD');
+            endDate = moment().format('YYYY-MM-DD');
+        }else if(flag === "1month") {
+            startDate = moment().add(-1, 'months').format('YYYY-MM-DD');
+            endDate = moment().format('YYYY-MM-DD');
+        }else if(flag === "3month") {
+            startDate = moment().add(-3, 'months').format('YYYY-MM-DD');
+            endDate = moment().format('YYYY-MM-DD');
+        }else if(flag === "6month") {
+            startDate = moment().add(-6, 'months').format('YYYY-MM-DD');
+            endDate = moment().format('YYYY-MM-DD');
+        }else if(flag === "1year") {
+            startDate = moment().add(-1, 'years').format('YYYY-MM-DD');
+            endDate = moment().format('YYYY-MM-DD');
+        }
+
+        if(IsNotNull(startDate) && IsNotNull(endDate)) {
+            $("#startDate").val(startDate);
+            $("#endDate").val(endDate);
+        }
+
+        getData();
+        getData2();
+    }
+
+    function setDataTablesOption()
+    {
+        let orderIdx = arguments[0].orderIdx;
+        let orderGubn = arguments[0].orderGubn;
+
+        let isCheck = true;
+        if (Array.isArray(orderGubn) == false) {
+            isCheck = false;
+        } else if (orderIdx.length != orderGubn.length) {
+            alert("orderGubn이 Array일 때 orderIdx와 orderGubn 길이는 같아야 합니다.\n테이블에 DataTables는 적용되지 않습니다.");
+            return false;
+        }
+
+        let orderArray = [];
+        if (IsNotNull(orderIdx)) {
+            $.each(arguments[0].orderIdx, function (index, item) {
+                var array = [];
+                array.push(item);
+                array.push(isCheck ? orderGubn[index] : orderGubn);
+                orderArray.push(array);
+            });
+        }
+
+        let scrollY = IsNull(arguments[0].scrollY) ? "" : arguments[0].scrollY + "px";
+        let lengthMenu = IsNull(arguments[0].lengthMenu) ? [15, 50, 100, 500, 1000] : arguments[0].lengthMenu;
+
+        let $dataTable = $("#" + arguments[0].tabldID).DataTable({
+            buttons: [{
+                extend: "excelHtml5"
+                , footer: true
+                , title: ""
+                , filename: moment().locale("ko").format("YYYY-MM-DD_HHmmss")
+            }, {
+                extend: "pdfHtml5"
+                , footer: true
+                , title: ""
+                , filename: moment().locale("ko").format("YYYY-MM-DD_HHmmss")
+            }]
+            ,fixedHeader: false
+            ,rowId: "test"
+            // ,columns : arguments[0].columns
+            ,responsive : arguments[0].responsive
+            ,columnDefs : arguments[0].columnDefs
+            ,ordering: arguments[0].ordering
+            ,order: orderArray
+            ,rowsGroup: arguments[0].rowspan
+            ,paging: arguments[0].paging
+            ,pageLength: arguments[0].pageLength
+            ,info: arguments[0].info
+            ,filter: arguments[0].filter
+            ,stateSave: arguments[0].stateSave
+            ,stateLoadParams: function (settings, data) {
+                //data.start = 0;
+                //data.search.search = "";
+                data.order = orderArray;
+            }
+            ,scrollY: scrollY
+            ,scrollCollapse: arguments[0].collapse
+            // ,dom: "<'row-centered info-div'<'col-centered pull-left text-left w33'<'topLF'>Bf><'col-centered w34 field'><'col-centered pull-right text-right w33'li>><t><p>"
+            ,pagingType: "full_numbers"
+            ,lengthMenu: lengthMenu
+            ,language: {
+                lengthMenu: "_MENU_"
+                , zeroRecords: "<div class='text-center'>데이터가 없습니다.</div>"
+                , info: "<small>현재 _START_ to _END_ / _TOTAL_건</small>"
+                , infoEmpty: ""
+                , infoFiltered: "<small>( 재검색 : _TOTAL_개 )</small>"
+                , search: "<small>재검색 : </small>"
+                , paginate: {
+                    first: "<i class='fa fa-angle-double-left'></i>"
+                    , previous: "<i class='fa fa-angle-left'></i>"
+                    , next: "<i class='fa fa-angle-right'></i>"
+                    , last: "<i class='fa fa-angle-double-right'></i>"
+                }
+            }
+            ,footerCallback: arguments[0].footerCallback
+            ,serverSide: arguments[0].serverSide
+            ,processing: arguments[0].processing
+            // ,scrollX: true
+            // ,fixedColumns: true
+        });
+
+        let text = "<button type=\"button\" style=\"margin-left: 7px;\" class=\"btn btn-sm btn-success\" onclick=\"setExcelPdfButtonEvent({tableID:'" + arguments[0].tabldID + "', btn:'excel'});\"><i class=\"fas fa-file-excel\"></i> 엑셀</button>";
+        $("#tblMaster_filter").append(text);
+
+    }
+
+    function setExcelPdfButtonEvent() {
+        if ($.fn.DataTable.isDataTable("#" + arguments[0].tableID)) {
+            $("#" + arguments[0].tableID).DataTable().button(".buttons-" + arguments[0].btn).trigger();
+        }
+    }
+
+</script>
+
+<%--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">--%>
+<%--<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>--%>
+<%--<script src="https://cdn.datatables.net/fixedcolumns/4.0.1/js/dataTables.fixedColumns.min.js"></script>--%>
+
+<%-- datetimepicker --%>
+<script src="/plugin/datetimepicker/jquery.datetimepicker.full.min.js"></script>
+
+<%-- waitMe --%>
+<link rel="stylesheet" type="text/css" href="/plugin/waitme/waitMe.min.css">
+<script src="/plugin/waitme/waitMe.min.js"></script>
+
+<%-- Parsley.js--%>
+<%--<script src="/plugin/parsley/parsley.js"></script>--%>
+<script src="/plugin/parsley/parsley.min.js"></script>
+<script src="/plugin/parsley/i18n/ko.js"></script>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.9/dist/sweetalert2.all.min.js"></script>
+
+<%-- moment.js --%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
+
+<!-- Custom -->
+<script src="/common/common.js"></script>
+<link href="/common/common.css" rel="stylesheet">
+
+<!-- Bootstrap core JavaScript-->
+<script src="/sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<%--<!-- Custom scripts for all pages-->--%>
+<script src="/sbadmin/js/sb-admin-2.min.js"></script>
+
+<%--<!-- Page level plugins -->--%>
+<%--<script src="/sbadmin/vendor/chart.js/Chart.min.js"></script>--%>
+
+<%--<!-- Page level custom scripts -->--%>
+<%--<script src="/sbadmin/js/demo/chart-area-demo.js"></script>--%>
+<%--<script src="/sbadmin/js/demo/chart-pie-demo.js"></script>--%>
+
+<%-- Datatables --%>
+<link rel="stylesheet" type="text/css" href="/sbadmin/vendor/datatables/datatables.css"/>
+<script type="text/javascript" src="/sbadmin/vendor/datatables/datatables.js"></script>
+
+<%-- Icon Include --%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="/bamburgh/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<%--<!--Bootstrap init-->--%>
+<script src="/bamburgh/js/demo/bootstrap/bootstrap.min.js"></script>
+
+<%--<!--Perfect scrollbar-->--%>
+<script src="/bamburgh/vendor/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
+
+<%--<!--Perfect scrollbar init-->--%>
+<script src="/bamburgh/js/demo/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+
+<%--<!--StickyKit-->--%>
+<script src="/bamburgh/vendor/stickykit/js/stickykit.min.js"></script>
+<%--<!--StickyKit init-->--%>
+
+<script src="/bamburgh/js/demo/stickykit/stickykit.min.js"></script>
+<%--<!--Apexcharts-->--%>
+
+<script src="/bamburgh/vendor/apexcharts/js/apexcharts.min.js"></script>
+<script src="/bamburgh/js/demo/apexcharts/light-charts.min.js"></script>
+<script src="/bamburgh/js/demo/apexcharts/dark-charts.min.js"></script>
+
+</body>
+</html>

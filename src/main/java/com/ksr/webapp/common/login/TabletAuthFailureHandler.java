@@ -29,7 +29,7 @@ public class TabletAuthFailureHandler extends CoTopComponent implements Authenti
         String errMsg = "";
 
         if(exception instanceof BadCredentialsException) {
-            errMsg = "비밀번호가 일치하지 않습니다.";
+            errMsg = "접속정보를 확인하세요.";
         }
 
         if(exception instanceof InternalAuthenticationServiceException) {

@@ -9,6 +9,7 @@
         SELECT FACT_CD
                ,U_CD
                ,U_PW
+               ,U_PW_NO_CRYPT
                ,U_NM
                ,DEPT_CD
                ,DEPT_NM
@@ -51,6 +52,7 @@
         SELECT FACT_CD
                ,U_CD
                ,U_PW
+               ,U_PW_NO_CRYPT
                ,U_NM
                ,DEPT_CD
                ,GRADE_CD
@@ -101,6 +103,7 @@
             FACT_CD
             ,U_CD
             ,U_PW
+            ,U_PW_NO_CRYPT
             ,U_NM
             ,DEPT_CD
             ,GRADE_CD
@@ -120,6 +123,7 @@
             #{fact_cd}
             ,#{u_cd}
             ,#{u_pw}
+            ,#{u_pw_no_crypt}
             ,#{u_nm}
             ,#{dept_cd}
             ,#{grade_cd}
@@ -137,6 +141,7 @@
         )
         ON DUPLICATE KEY UPDATE
              U_PW = #{u_pw}
+            ,U_PW_NO_CRYPT = #{u_pw_no_crypt}
             ,U_NM = #{u_nm}
             ,DEPT_CD = #{dept_cd}
             ,GRADE_CD = #{grade_cd}

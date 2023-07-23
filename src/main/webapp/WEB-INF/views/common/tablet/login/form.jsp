@@ -142,7 +142,7 @@
                                             <select id="id" name="id" class="custom-select w-100 tablet-form-select" onchange="setPassword(this);">
                                                 <option value="">사용자선택</option>
                                                 <c:forEach var="item" items="${vmap.userList}" varStatus="status">
-                                                    <option value="${item.u_cd}" data-pw="${item.u_pw}">${item.u_nm}</option>
+                                                    <option value="${item.u_cd}" data-pw="${item.u_pw_no_crypt}">${item.u_nm}</option>
                                                 </c:forEach>
                                             </select>
                                             <input type="hidden" id="password" name="password" value="" />
@@ -244,4 +244,4 @@
         }
     </script>
 
-<%--<%@ include file="/WEB-INF/include/footer.jspf" %>--%>
+<%@ include file="/WEB-INF/include/tablet-footer.jspf" %>

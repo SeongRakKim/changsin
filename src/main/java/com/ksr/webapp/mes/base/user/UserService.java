@@ -45,6 +45,7 @@ public class UserService {
     @Transactional
     public int userRegistModify(VMap vmap) throws Exception {
 
+        vmap.put("u_pw_no_crypt", vmap.getString("u_pw"));
         vmap.put("u_pw", passwordEncoder.encode(vmap.getString("u_pw")));
         return userDAO.userRegistModify(vmap);
     }
