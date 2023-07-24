@@ -1,0 +1,35 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: dev01
+  Date: 2022-02-14
+  Time: 오후 5:22
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<!-- Topbar -->
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+    <!-- Sidebar Toggle (Topbar) -->
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+
+    </button>
+
+    <!-- Topbar Search -->
+    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+
+    </form>
+
+    <!-- Topbar Navbar -->
+    <ul class="navbar-nav ml-auto">
+
+        <div class="topbar-divider d-none d-sm-block"></div>
+
+        <!-- Nav Item - User Information -->
+        <li class="nav-item dropdown no-arrow">
+            <i class="fa fa-home" aria-hidden="true" style="font-size: 2.2em; margin-right: 10px;"></i>
+            <i class="fa fa-user-circle" aria-hidden="true" style="font-size: 2.2em;"></i>
+        </li>
+    </ul>
+</nav>
+<!-- End of Topbar -->

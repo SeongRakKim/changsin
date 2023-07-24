@@ -23,11 +23,11 @@ public class TabletMenuController {
     UserService userService;
 
 
-    @RequestMapping("/tablet/menu/list")
+    @RequestMapping("/common/tablet/menu/list")
     public String homeGet(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
         vmap.put("requestUri", httpServletRequest.getRequestURI());
 
-        return "/tablet/menu/list";
+        return "/common/tablet/menu/list";
     }
 
 }

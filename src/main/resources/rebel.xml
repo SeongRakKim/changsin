@@ -9,13 +9,13 @@
 	<id>changsin</id>
 
 	<classpath>
-		<dir name="C:/Devlop/IntellijProject/changsin/target/classes">
+		<dir name="J:/Devlop/IntellijProject/changsin/target/classes">
 		</dir>
 	</classpath>
 
 	<web>
 		<link target="/">
-			<dir name="C:/Devlop/IntellijProject/changsin/src/main/webapp">
+			<dir name="J:/Devlop/IntellijProject/changsin/src/main/webapp">
 			</dir>
 		</link>
 	</web>
