@@ -80,7 +80,7 @@
         </div>
         <div class="card card-body2" onclick="goTablePage('PI');">
             <div class="card-text">
-                <i class="fas fa-cog"></i> 재료투입
+                <i class="fas fa-cog"></i> 재료투입2
             </div>
         </div>
     </div>
@@ -109,11 +109,7 @@
     })();
 
     function goTablePage(flag) {
-        switch (flag) {
-            case 'MI' :
-                location.href = "/tablet/purchase/in";
-                break;
-        }
+        console.log('PM 6:34', '112', flag);
     }
 
 </script>
