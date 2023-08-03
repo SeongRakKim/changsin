@@ -37,36 +37,38 @@
         height: 30vh;
         align-items: center;
         background-color: #6699FF;
+        justify-content: center;
+        align-items: center;
     }
 
     .card-text {
-        position: absolute;
-        top: 45%;
-        left: 25%;
-        margin: -25px 0 0 -25px;
+        /*position: absolute;*/
+        /*top: 45%;*/
+        /*left: 25%;*/
+        /*margin: -25px 0 0 -25px;*/
         font-size: 3.5em;
         font-weight: 800;
         color: whitesmoke;
     }
 
-    .card-third-text { left: 18%;}
+    /*.card-third-text { left: 18%;}*/
 </style>
 
 <div id='calendar-container'>
     <div class="card-main-body">
-        <div class="card card-body3" onclick="goTablePage('QI');">
+        <div class="card card-body3" onclick="goTabletPage('QI');">
             <div class="card-text card-third-text" >
-                <i class="fas fa-industry"></i> 프레스
+                <i class="fas fa-users-cog"></i> 프레스
             </div>
         </div>
-        <div class="card card-body3" onclick="goTablePage('QP');">
+        <div class="card card-body3" onclick="goTabletPage('QP');">
             <div class="card-text card-third-text">
-                <i class="fas fa-industry"></i> 절단
+                <i class="fas fa-users-cog"></i> 절단
             </div>
         </div>
-        <div class="card card-body3" onclick="goTablePage('QD');">
+        <div class="card card-body3" onclick="goTabletPage('QD');">
             <div class="card-text card-third-text">
-                <i class="fas fa-industry"></i> 하부용접
+                <i class="fas fa-users-cog"></i> 하부용접
             </div>
         </div>
     </div>
@@ -77,7 +79,7 @@
 
     })();
 
-    function goTablePage(flag) {
+    function goTabletPage(flag) {
         switch (flag) {
             case 'MI' :
                 location.href = "/tablet/purchase/in";

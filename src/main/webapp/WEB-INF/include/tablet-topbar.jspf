@@ -21,6 +21,7 @@
 <%--    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"></form>--%>
 
     <ul class="navbar-nav ml-auto">
+        <i class="fas fa-arrow-left" onclick="goBack();" style="font-size: 2.2em;" ></i>
     </ul>
     <ul class="navbar-nav ml-auto" style="flex-direction: row; justify-content: center; font-size: 2em; font-weight: 900">
         (유)창신

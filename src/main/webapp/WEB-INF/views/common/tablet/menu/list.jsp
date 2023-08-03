@@ -54,41 +54,41 @@
 
 <div id='calendar-container'>
     <div class="card-main-body">
-        <div class="card card-body2" onclick="goTablePage('MI');">
+        <div class="card card-body2" onclick="goTabletPage('MI');">
             <div class="card-text">
                 <i class="fa fa-reply-all" aria-hidden="true"></i> 자재입고
             </div>
         </div>
-        <div class="card card-body2" onclick="goTablePage('PD');">
+        <div class="card card-body2" onclick="goTabletPage('PD');">
             <div class="card-text">
                 <i class="fas fa-truck"></i> 제품출고
             </div>
         </div>
     </div>
     <div class="card-main-body">
-        <div class="card card-body2" style="width: 98vw" onclick="goTablePage('PL');">
+        <div class="card card-body2" style="width: 98vw" onclick="goTabletPage('PL');">
             <div class="card-text" style="left: 35%">
                 <i class="fas fa-cogs"></i> 생산보고
             </div>
         </div>
-<%--        <div class="card card-body4" onclick="goTablePage('PI');">--%>
+<%--        <div class="card card-body4" onclick="goTabletPage('PI');">--%>
 <%--            <div class="card-text">--%>
 <%--                <i class="fas fa-cog"></i> 재료투입--%>
 <%--            </div>--%>
 <%--        </div>--%>
     </div>
     <div class="card-main-body">
-        <div class="card card-body3" onclick="goTablePage('QI');">
+        <div class="card card-body3" onclick="goTabletPage('QI');">
             <div class="card-text card-third-text" >
                 <i class="fas fa-file-signature"></i> 수입검사
             </div>
         </div>
-        <div class="card card-body3" onclick="goTablePage('QP');">
+        <div class="card card-body3" onclick="goTabletPage('QP');">
             <div class="card-text card-third-text">
                 <i class="fas fa-file-signature"></i> 공정검사
             </div>
         </div>
-        <div class="card card-body3" onclick="goTablePage('QD');">
+        <div class="card card-body3" onclick="goTabletPage('QD');">
             <div class="card-text card-third-text">
                 <i class="fas fa-file-signature"></i> 출고검사
             </div>
@@ -101,7 +101,7 @@
 
     })();
 
-    function goTablePage(flag) {
+    function goTabletPage(flag) {
         switch (flag) {
             case 'MI' :
                 location.href = "/tablet/purchase/in";
