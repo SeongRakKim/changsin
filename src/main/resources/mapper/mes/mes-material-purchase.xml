@@ -87,6 +87,7 @@
                 OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
             )
         </if>
+        ORDER BY PUR_STATE ASC, PUR_DT ASC
     </select>
 
     <select id="purchaseList2" parameterType="VMap" resultType="RowMap">

@@ -54,43 +54,19 @@
 
 <div id='calendar-container'>
     <div class="card-main-body">
-        <div class="card card-body2" onclick="goTablePage('MI');">
-            <div class="card-text">
-                <i class="fa fa-reply-all" aria-hidden="true"></i> 자재입고
-            </div>
-        </div>
-        <div class="card card-body2" onclick="goTablePage('PD');">
-            <div class="card-text">
-                <i class="fas fa-truck"></i> 제품출고
-            </div>
-        </div>
-    </div>
-    <div class="card-main-body">
-        <div class="card card-body2" style="width: 98vw" onclick="goTablePage('PL');">
-            <div class="card-text" style="left: 35%">
-                <i class="fas fa-cogs"></i> 생산보고
-            </div>
-        </div>
-<%--        <div class="card card-body4" onclick="goTablePage('PI');">--%>
-<%--            <div class="card-text">--%>
-<%--                <i class="fas fa-cog"></i> 재료투입--%>
-<%--            </div>--%>
-<%--        </div>--%>
-    </div>
-    <div class="card-main-body">
         <div class="card card-body3" onclick="goTablePage('QI');">
             <div class="card-text card-third-text" >
-                <i class="fas fa-file-signature"></i> 수입검사
+                <i class="fas fa-industry"></i> 프레스
             </div>
         </div>
         <div class="card card-body3" onclick="goTablePage('QP');">
             <div class="card-text card-third-text">
-                <i class="fas fa-file-signature"></i> 공정검사
+                <i class="fas fa-industry"></i> 절단
             </div>
         </div>
         <div class="card card-body3" onclick="goTablePage('QD');">
             <div class="card-text card-third-text">
-                <i class="fas fa-file-signature"></i> 출고검사
+                <i class="fas fa-industry"></i> 하부용접
             </div>
         </div>
     </div>
@@ -110,7 +86,7 @@
                 location.href = "/tablet/ship/out";
                 break;
             case 'PL' :
-                location.href = "/common/tablet/process/list";
+                location.href = "/tablet/production/list";
                 break;
         }
     }

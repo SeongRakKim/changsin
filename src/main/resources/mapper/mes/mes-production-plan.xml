@@ -89,6 +89,7 @@
                 OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
             )
         </if>
+        ORDER BY PLAN_STATE ASC, PLAN_CD DESC
     </select>
 
     <select id="planOne" parameterType="VMap" resultType="RowMap">

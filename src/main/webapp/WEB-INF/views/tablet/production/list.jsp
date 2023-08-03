@@ -18,10 +18,8 @@
                     <th>검색날짜</th>
                     <td colspan="3">
                         <div style="display: flex;">
-                            <select id="date_type" name="date_type" class="custom-select w-10 vw-10 mr-1">
-                                <option value="PUR_DT">발주일</option>
-                                <option value="PUR_SHIP_DT">납기요청일</option>
-                            </select>
+<%--                            <select id="date_type" name="date_type" class="custom-select w-10 vw-10 mr-1">--%>
+<%--                            </select>--%>
                             <%@ include file="/WEB-INF/include/tablet-main-search-date-content.jspf"%>
                         </div>
                     </td>
@@ -36,7 +34,7 @@
 <script id="purchaseListTemplate" type="text/x-handlebars-template">
     <div class="card-body card-list-body list_div{{cnt}}">
         <div class="card-border">
-            <div class="sub-card-state bg-gradient-primary">{{pur_state_nm}}</div>
+            <div class="sub-card-state bg-gradient-primary">{{plan_state_nm}}</div>
             <div class="sub-card-table">
                 <table class="table tableSearch table-bordered mb-5">
                     <colgroup>
@@ -51,8 +49,7 @@
                     <tr>
                         <th>거래처</th>
                         <td>
-                            <input type="hidden" name="frm_pur_cd" class="form-control" value="{{pur_cd}}" />
-                            <input type="hidden" name="frm_pur_cnt" class="form-control" value="{{pur_cnt}}" />
+                            <input type="hidden" name="frm_plan_cd" class="form-control" value="{{plan_cd}}" />
                             <input type="hidden" name="frm_prod_cd" class="form-control" value="{{prod_cd}}" />
                             <input type="hidden" name="frm_prod_pn" class="form-control" value="{{prod_pn}}" />
                             <input type="hidden" name="frm_prod_nm" class="form-control" value="{{prod_nm}}" />
@@ -62,16 +59,16 @@
                             <input type="hidden" name="frm_prod_lot_yn" class="form-control" value="{{prod_lot_yn}}" />
                             {{comp_nm}}
                         </td>
-                        <th>매입일</th>
-                        <td>{{pur_dt}}</td>
                         <th>품번</th>
                         <td>{{prod_pn}}</td>
+                        <th>규격</th>
+                        <td>{{prod_stand}}</td>
                     </tr>
                     <tr>
                         <th>품명</th>
                         <td>{{prod_nm}}</td>
-                        <th>규격</th>
-                        <td>{{prod_stand}}</td>
+                        <th>수주번호</th>
+                        <td>{{odr_cd}}</td>
                         <th>수량</th>
                         <td>{{pur_cnt}}{{prod_unit_nm}}</td>
                     </tr>
@@ -80,7 +77,7 @@
             </div>
             <div class="sub-card-detail">
 <%--                <i class="fas fa-plus-square" onclick="setPurchaseInModify({{cnt}})"></i>--%>
-                <button class="btn btn-ready btn-sm btn-first tablet-list-btn-full" type="button" onclick="setPurchaseInModify({{cnt}})">입고</button>
+                <button class="btn btn-ready btn-sm btn-first tablet-list-btn-full" type="button" onclick="setPurchaseInModify({{cnt}})">생산</button>
                 <button class="btn btn-complete btn-sm btn-info tablet-list-btn-full" type="button" disabled style="display: none;">완료</button>
             </div>
         </div>
@@ -89,7 +86,7 @@
 
 <script>
     $(document).ready(() => {
-        $("#tablet-top-title").text("물류 > 자재입고");
+        $("#tablet-top-title").text("생산 > 생산보고");
         setTimeout(() => getData(), 50);
     });
 
@@ -98,7 +95,7 @@
         showWait('.container-fluid');
 
         $.ajax({
-            url: "/mes/material/purchase/purchaseList"
+            url: "/mes/production/plan/planList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -107,7 +104,6 @@
             ,dataType: "json"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,date_type: $("#date_type").val()
                 ,startDate: $("#startDate").val()
                 ,endDate: $("#endDate").val()
                 ,search_text: $("#search_text").val()
@@ -140,17 +136,13 @@
 
         let templateData = {
             ...item
-            , cnt: ++rowCnt
-            ,pur_cnt: item.pur_cnt.comma('2')
-            ,pur_in_cnt: item.pur_in_cnt.comma('2')
-            ,pur_price: item.pur_price.comma('2')
-            ,pur_amt: item.pur_amt.comma('2')
-            ,pur_vat: item.pur_vat.comma('2')
-        };
+            ,cnt: ++rowCnt
+            ,plan_cnt: item.plan_cnt.comma('2')
+        }
 
         $("#tblList").append(template(templateData));
 
-        if(item.pur_state === "31") {
+        if(item.plan_state === "12") {
             $("#tblList .list_div" + rowCnt + " .btn-complete").toggle();
             $("#tblList .list_div" + rowCnt + " .btn-ready").toggle();
 

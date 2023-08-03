@@ -30,4 +30,11 @@ public class TabletMenuController {
         return "/common/tablet/menu/list";
     }
 
+    @RequestMapping("/common/tablet/process/list")
+    public String homeGet2(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+        vmap.put("requestUri", httpServletRequest.getRequestURI());
+
+        return "/common/tablet/process/list";
+    }
+
 }

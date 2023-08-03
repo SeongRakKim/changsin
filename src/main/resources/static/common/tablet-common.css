@@ -1,0 +1,99 @@
+.fc-header-toolbar {
+    padding-top: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.card-body {
+    padding: 0.6rem !important;
+}
+
+.card-main-body {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 5px;
+}
+
+.card-body2 {
+    width: 48vw;
+    height: 30vh;
+    align-items: center;
+    background-color: #6699FF;
+}
+
+.card-body3 {
+    width: 32vw;
+    height: 30vh;
+    align-items: center;
+    background-color: #6699FF;
+}
+
+.card-text {
+    position: absolute;
+    top: 45%;
+    left: 25%;
+    margin: -25px 0 0 -25px;
+    font-size: 3.5em;
+    font-weight: 800;
+    color: whitesmoke;
+}
+
+.card-third-text { left: 18%;}
+
+.thead-light > tr > td {background-color: white !important;}
+.table td, table th {padding: 0.2rem;}
+.vw-10 {width: 10vw !important;}
+.tablet-main-card {min-height: 95vh;}
+.table thead tr td {
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: bold;
+}
+.card-list-body {
+    padding: 0.8rem;
+    max-height: 20vh;
+    height: 20vh;
+}
+.card-border {
+    border: 0.15rem solid #4e73df ;
+    height: 100%;
+    padding: 0.4rem;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.sub-card-state {
+    width: 21vw;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 3.3em;
+    font-weight: bold;
+    color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sub-card-table {
+    width: 64vw;
+}
+.sub-card-table table {
+    height: 100%;
+}
+.sub-card-table table thead tr th, sub-card-table table thead tr td {
+    font-size: 1.5em;
+}
+.sub-card-detail {
+    font-size: 2.5em;
+}
+.sub-card-detail i {
+    color: #4e73df;
+}
+.tablet-list-btn-full {
+    height: 100%;
+    font-weight: bold;
+    font-size: 0.4em;
+}

@@ -11,16 +11,6 @@
         </div>
         <!-- End of Main Content -->
 
-        <!-- Footer -->
-        <footer class="bg-white">
-<%--            <div class="container my-auto">--%>
-<%--                <div class="copyright text-center my-auto">--%>
-<%--                    <span>Copyright &copy; KSR MES 2023</span>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-        </footer>
-        <!-- End of Footer -->
-
     </div>
     <!-- End of Content Wrapper -->
 
@@ -57,8 +47,6 @@
 
     $(document).ready(() => {
 
-        // Menu Select
-        setTreeMenuActive("${vmap.requestUri}");
         setDatePicker("datepicker");
 
         // default search date
@@ -263,11 +251,16 @@
         }
     }
 
+    function goBack() {
+        window.history.back();
+    }
+
+    function goTabletHome() {
+        location.href = "/common/tablet/menu/list";
+    }
+
 </script>
 
-<%--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css">--%>
-<%--<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>--%>
-<%--<script src="https://cdn.datatables.net/fixedcolumns/4.0.1/js/dataTables.fixedColumns.min.js"></script>--%>
 
 <%-- datetimepicker --%>
 <script src="/plugin/datetimepicker/jquery.datetimepicker.full.min.js"></script>

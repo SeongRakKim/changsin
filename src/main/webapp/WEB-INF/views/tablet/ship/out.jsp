@@ -81,7 +81,7 @@
             <div class="sub-card-detail">
 <%--                <i class="fas fa-plus-square" onclick="setPurchaseInModify({{cnt}})"></i>--%>
                 <button class="btn btn-ready btn-sm btn-first tablet-list-btn-full" type="button" onclick="setPurchaseInModify({{cnt}})">입고</button>
-                <button class="btn btn-complete btn-sm btn-info tablet-list-btn-full" type="button" disabled style="display: none;">완료</button>
+                <button class="btn btn-complete btn-sm btn-success tablet-list-btn-full" type="button" disabled style="display: none;">완료</button>
             </div>
         </div>
     </div>
@@ -89,7 +89,7 @@
 
 <script>
     $(document).ready(() => {
-        $("#tablet-top-title").text("물류 > 자재입고");
+        $("#tablet-top-title").text("물류 > 제품출고");
         setTimeout(() => getData(), 50);
     });
 
@@ -139,23 +139,33 @@
         let template = Handlebars.compile(template_html);
 
         let templateData = {
-            ...item
-            , cnt: ++rowCnt
+            // cnt : rowCnt
+            cnt: ++rowCnt
+            ,comp_cd: item.comp_cd
+            ,comp_nm: item.comp_nm
+            ,prod_cd: item.prod_cd
+            ,prod_pn: item.prod_pn
+            ,prod_nm: item.prod_nm
+            ,prod_kind_nm: item.prod_kind_nm
+            ,prod_unit_nm: item.prod_unit_nm
+            ,pur_cd: item.pur_cd
+            ,pur_dt: item.pur_dt
+            ,pur_ship_dt: item.pur_ship_dt
             ,pur_cnt: item.pur_cnt.comma('2')
             ,pur_in_cnt: item.pur_in_cnt.comma('2')
             ,pur_price: item.pur_price.comma('2')
             ,pur_amt: item.pur_amt.comma('2')
             ,pur_vat: item.pur_vat.comma('2')
-        };
+            ,prod_lot_yn: item.prod_lot_yn
+            ,pur_state_nm: item.pur_state_nm
+            ,pur_state: item.pur_state
+        }
 
         $("#tblList").append(template(templateData));
 
         if(item.pur_state === "31") {
             $("#tblList .list_div" + rowCnt + " .btn-complete").toggle();
             $("#tblList .list_div" + rowCnt + " .btn-ready").toggle();
-
-            $("#tblList .list_div" + rowCnt + " .sub-card-state").addClass("bg-gradient-info");
-            $("#tblList .list_div" + rowCnt + " .sub-card-state").removeClass("bg-gradient-primary");
         }
     }
 
