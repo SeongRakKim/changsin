@@ -56,17 +56,17 @@
 
 <div id='calendar-container'>
     <div class="card-main-body">
-        <div class="card card-body3" onclick="goTabletPage('QI');">
+        <div class="card card-body3" onclick="goTabletPage('PROC2');">
             <div class="card-text card-third-text" >
                 <i class="fas fa-users-cog"></i> 프레스
             </div>
         </div>
-        <div class="card card-body3" onclick="goTabletPage('QP');">
+        <div class="card card-body3" onclick="goTabletPage('PROC3');">
             <div class="card-text card-third-text">
                 <i class="fas fa-users-cog"></i> 절단
             </div>
         </div>
-        <div class="card card-body3" onclick="goTabletPage('QD');">
+        <div class="card card-body3" onclick="goTabletPage('PROC4');">
             <div class="card-text card-third-text">
                 <i class="fas fa-users-cog"></i> 하부용접
             </div>
@@ -79,18 +79,9 @@
 
     })();
 
-    function goTabletPage(flag) {
-        switch (flag) {
-            case 'MI' :
-                location.href = "/tablet/purchase/in";
-                break;
-            case 'PD' :
-                location.href = "/tablet/ship/out";
-                break;
-            case 'PL' :
-                location.href = "/tablet/production/list";
-                break;
-        }
+    function goTabletPage(flag)
+    {
+        location.href = "/tablet/production/list?proc_cd="+flag;
     }
 
 </script>

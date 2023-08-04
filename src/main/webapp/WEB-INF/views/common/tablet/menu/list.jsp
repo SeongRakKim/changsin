@@ -30,6 +30,8 @@
         height: 30vh;
         align-items: center;
         background-color: #6699FF;
+        justify-content: center;
+        align-items: center;
     }
 
     .card-body3 {
@@ -37,13 +39,15 @@
         height: 30vh;
         align-items: center;
         background-color: #6699FF;
+        justify-content: center;
+        align-items: center;
     }
 
     .card-text {
-        position: absolute;
-        top: 45%;
-        left: 25%;
-        margin: -25px 0 0 -25px;
+        /*position: absolute;*/
+        /*top: 45%;*/
+        /*left: 25%;*/
+        /*margin: -25px 0 0 -25px;*/
         font-size: 3.5em;
         font-weight: 800;
         color: whitesmoke;

@@ -115,10 +115,8 @@
         })
         .done(function (data)
         {
-            $("#tblMaster").DataTable().clear();
-
+            $("#tblList").empty();
             if(IsNotNull(data)) {
-                $("#tblList").empty();
                 data.forEach((item, index) => {
                     addGetDataList(item);
                 });

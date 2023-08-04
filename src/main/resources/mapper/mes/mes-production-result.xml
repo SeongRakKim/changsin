@@ -83,6 +83,12 @@
        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(prod_group)">
            AND PROD_GROUP = #{prod_group}
        </if>
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(proc_cd)">
+           AND PROC_CD = #{proc_cd}
+       </if>
+       <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(mes_state)">
+           AND PLAN_PROC_STATE = #{mes_state}
+       </if>
        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
             AND
             (
@@ -96,7 +102,7 @@
                 OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
             )
         </if>
-        ORDER BY PLAN_CD , PLAN_PROC_SEQ
+        ORDER BY PLAN_PROC_STATE ASC, PLAN_CD , PLAN_PROC_SEQ
     </select>
 
     <select id="planProcessOne" parameterType="VMap" resultType="RowMap">
@@ -159,7 +165,7 @@
                    AND CODE_CD = PLAN_PROC_STATE
                 ) PLAN_PROC_STATE_NM
                ,PLAN_PROC_NOTICE
-               ,PLAN_PROC_INDATE
+               ,DATE_FORMAT(PLAN_PROC_INDATE, '%Y-%m-%d') PLAN_PROC_INDATE
                ,PLAN_PROC_INUSER
                ,PLAN_PROC_UPDATE
                ,PLAN_PROC_UPUSER

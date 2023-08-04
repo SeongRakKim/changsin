@@ -1,6 +1,8 @@
 package com.ksr.webapp.tablet.production;
 
 import com.ksr.webapp.common.vo.VMap;
+import com.ksr.webapp.mes.base.equipment.EquipmentService;
+import com.ksr.webapp.mes.base.material.MaterialService;
 import com.ksr.webapp.mes.base.user.UserService;
 import com.ksr.webapp.mes.common.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,32 @@ public class TabletProductionController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    EquipmentService equipmentService;
+
+    @Autowired
+    MaterialService materialService;
 
     @RequestMapping("/tablet/production/list")
-    public void homeGet(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+    public void list(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
         vmap.put("requestUri", httpServletRequest.getRequestURI());
     }
 
+    @RequestMapping("/tablet/production/result")
+    public void result(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+        vmap.put("requestUri", httpServletRequest.getRequestURI());
+
+        // 설비
+        vmap.put("equList", equipmentService.equList(vmap));
+
+        // 사용자
+        vmap.put("userList", userService.userList(vmap));
+
+        // 소요자재
+        vmap.put("mateList", materialService.mateList(vmap));
+
+        // 비가동구분
+        vmap.put("base_cd", "plan_stop_item");
+        vmap.put("stopList", commonService.baseDetailList(vmap));
+    }
 }

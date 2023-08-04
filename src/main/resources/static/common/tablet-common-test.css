@@ -97,3 +97,11 @@
     font-weight: bold;
     font-size: 0.4em;
 }
+.tablet-main-card2 {
+    width: 35vw;
+    min-height: 80vh;
+}
+.main-card-list-body {
+    height: 80vh;
+    padding: 0.8rem;
+}
