@@ -101,7 +101,18 @@
     width: 35vw;
     min-height: 80vh;
 }
+
+.tablet-main-card3 {
+    width:63vw;
+    min-height: 80vh;
+}
+
 .main-card-list-body {
+    height: 80vh;
+    padding: 0.8rem;
+}
+
+.main-card-list-body2 {
     height: 80vh;
     padding: 0.8rem;
 }
