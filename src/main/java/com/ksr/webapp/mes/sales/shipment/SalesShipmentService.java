@@ -75,6 +75,7 @@ public class SalesShipmentService {
             shipMap.put("odr_cd", vmap.getString("odr_cd"));
             shipMap.put("ship_cd", vmap.getString("ship_cd"));
             shipMap.put("lot_no", ary_lot_no.get(i));
+            shipMap.put("old_lot_no", ary_old_lot_no.get(i));
             shipMap.put("ship_detail_cd", CommonUtils.isNotEmpty(ship_detail_cd.get(i)) ? ship_detail_cd.get(i) : commonDAO.getTablePrimaryCode(vmap));
             shipMap.put("ship_detail_dt", ship_detail_dt.get(i));
             shipMap.put("ship_detail_cnt", ship_detail_cnt.get(i));
@@ -84,28 +85,53 @@ public class SalesShipmentService {
 
             double diffCnt = Double.parseDouble(ship_detail_cnt.get(i)) - Double.parseDouble(old_ship_detail_cnt.get(i));
 
-            if(diffCnt != 0)
+            if(!ary_lot_no.get(i).equals(ary_old_lot_no.get(i)))
             {
-                String inout_type;
-                if(diffCnt < 0) {
-                    inout_type = "I";
-                    diffCnt = diffCnt * -1;
-                }else {
-                    inout_type = "O";
-                }
-
-                String ioMsg = (Integer.parseInt(String.valueOf(old_ship_detail_cnt.get(i))) == 0) ? BaseCodeItem.SHIP_REGIST : BaseCodeItem.SHIP_MODIFY;
-
-                // 생성된 제품 재고 보정 처리
                 productInoutService.productStockModify(vmap
-                                                        ,inout_type
+                                                        ,"I"
                                                         ,BaseCodeItem.INOUT_SHIP
                                                         ,vmap.getString("prod_cd")
-                                                        ,diffCnt
+                                                        ,Integer.parseInt(String.valueOf(old_ship_detail_cnt.get(i)))
+                                                        ,0
+                                                        ,vmap.getString("ship_cd")
+                                                        ,ary_old_lot_no.get(i)
+                                                        ,BaseCodeItem.SHIP_MODIFY);
+
+                productInoutService.productStockModify(vmap
+                                                        ,"O"
+                                                        ,BaseCodeItem.INOUT_SHIP
+                                                        ,vmap.getString("prod_cd")
+                                                        ,Integer.parseInt(String.valueOf(ship_detail_cnt.get(i)))
                                                         ,0
                                                         ,vmap.getString("ship_cd")
                                                         ,ary_lot_no.get(i)
-                                                        ,ioMsg);
+                                                        ,BaseCodeItem.SHIP_MODIFY);
+            }
+            else
+            {
+                if(diffCnt != 0)
+                {
+                    String inout_type;
+                    if(diffCnt < 0) {
+                        inout_type = "I";
+                        diffCnt = diffCnt * -1;
+                    }else {
+                        inout_type = "O";
+                    }
+
+                    String ioMsg = (Integer.parseInt(String.valueOf(old_ship_detail_cnt.get(i))) == 0) ? BaseCodeItem.SHIP_REGIST : BaseCodeItem.SHIP_MODIFY;
+
+                    // 생성된 제품 재고 보정 처리
+                    productInoutService.productStockModify(vmap
+                                                            ,inout_type
+                                                            ,BaseCodeItem.INOUT_SHIP
+                                                            ,vmap.getString("prod_cd")
+                                                            ,diffCnt
+                                                            ,0
+                                                            ,vmap.getString("ship_cd")
+                                                            ,ary_lot_no.get(i)
+                                                            ,ioMsg);
+                }
             }
         }
 

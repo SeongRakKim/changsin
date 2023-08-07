@@ -68,15 +68,6 @@
                     <th>작업종료일 </th>
                     <th>생산량 </th>
                     <th>Lot.No</th>
-<%--                    <th>비고</th>--%>
-<%--                    <th>--%>
-<%--                        <button type="button" id="btnAddSubList" class="btn btn-primary btn-sm">--%>
-<%--                            <span class="btn-wrapper--icon">--%>
-<%--                                <i class="fas fa-angle-double-down"></i>--%>
-<%--                            </span>--%>
-<%--                            <span class="btn-wrapper--label">추가</span>--%>
-<%--                        </button>--%>
-<%--                    </th>--%>
                 </tr>
                 </thead>
                 <tbody></tbody>
@@ -100,28 +91,24 @@
             <tr>
                 <th>거래처</th>
                 <td>
-                    <input type="hidden" id="frm_plan_cd" name="frm_plan_cd" class="form-control" value="{{plan_cd}}"
-                           placeholder="계획코드" title="계획코드" />
-                    <input type="hidden" id="frm_plan_proc_cd" name="frm_plan_proc_cd" class="form-control" value="{{plan_proc_cd}}"
-                           placeholder="계획공정코드" title="계획공정코드" />
-                    <input type="hidden" id="frm_proc_cd" name="frm_proc_cd" class="form-control" value="{{proc_cd}}"
-                           placeholder="공정코드" title="공정코드" />
-                    <input type="hidden" id="frm_odr_cd" name="frm_odr_cd" class="form-control" value="{{odr_cd}}"
+                   <input type="hidden" id="frm_ship_cd" name="frm_ship_cd" class="form-control"
+                           placeholder="납품코드" title="납품코드" />
+                    <input type="hidden" id="frm_odr_cd" name="frm_odr_cd" class="form-control"
                            placeholder="수주코드" title="수주코드" />
-                    <input type="hidden" id="frm_plan_proc_last_yn" name="frm_plan_proc_last_yn" class="form-control" value="{{plan_proc_last_yn}}"
-                           placeholder="마지막공정여부" title="마지막공정여부" />
-                    <input type="hidden" id="frm_plan_proc_state" name="frm_plan_proc_state" class="form-control" value="{{plan_proc_state}}"
-                           placeholder="공정진행상태" title="공정진행상태" />
-                    <input type="hidden" id="frm_comp_cd" name="frm_comp_cd" class="form-control" value="{{comp_cd}}"
+                    <input type="hidden" id="frm_comp_cd" name="frm_comp_cd" class="form-control"
                            placeholder="거래처" title="거래처" />
-                    <input type="hidden" id="frm_comp_nm" name="frm_comp_nm" class="form-control" value="{{comp_nm}}"
+                    <input type="hidden" id="frm_comp_nm" name="frm_comp_nm" class="form-control"
                            placeholder="거래처" title="거래처" />
+                    <input type="hidden" id="frm_odr_dt" name="frm_odr_dt" class="form-control"
+                           placeholder="수주일" title="수주일" />
+                    <input type="hidden" id="frm_odr_ship_dt" name="frm_odr_ship_dt" class="form-control"
+                           placeholder="납기요청일" title="납기요청일" />
                     {{comp_nm}}
                 </td>
-                <th>생산지시일</th>
-                <td>{{plan_proc_indate}}</td>
-                <th>공정</th>
-                <td>{{proc_nm}}</td>
+                <th>수주일</th>
+                <td>{{odr_dt}}</td>
+                <th>납기요청일</th>
+                <td>{{odr_ship_dt}}</td>
             </tr>
             <tr>
                 <th>품명</th>
@@ -137,17 +124,17 @@
                 </td>
                 <th>규격</th>
                 <td>{{prod_stand}}</td>
-                <th>지시수량</th>
+                <th>납품요청양</th>
                 <td>
-                    <div id="frm_plan_cnt" name="frm_plan_cnt"></div>
-                    {{plan_cnt}}
+                    <input type="hidden" id="frm_ship_cnt" name="frm_ship_cnt" class="form-control" value="{{ship_cnt}}" />
+                    {{odr_cnt}}
                 </td>
             </tr>
         </thead>
     </table>
 </script>
 
-<script id="planProcTemplate" type="text/x-handlebars-template">
+<script id="shipDetailTemplate" type="text/x-handlebars-template">
     <div class="card-body main-card-list-body">
         <div class="card-border">
             <div class="sub-card-table">
@@ -158,70 +145,41 @@
                     </colgroup>
                     <thead>
                         <tr>
-                            <th>설비<span class="red"> (*)</span></th>
-                            <td>
-                                <input type="hidden" id="frm_plan_res_cd" name="frm_plan_res_cd" class="form-control" value="{{plan_res_cd}}" />
-                                <select id="frm_equ_cd" name="frm_equ_cd" class="custom-select w-100" style="width: 100% !important;">
-                                    <option value="">설비선택</option>
-                                    <c:forEach var="item" items="${vmap.equList}" varStatus="status">
-                                        <option value="${item.equ_cd}">${item.equ_nm}</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>작업자 <span class="red"> (*)</span></th>
-                            <td>
-                                <select id="frm_plan_res_u_cd" name="frm_plan_res_u_cd" class="custom-select w-100" style="width: 100% !important;" required>
-                                    <option value="">사용자선택</option>
-                                    <c:forEach var="item" items="${vmap.userList}" varStatus="status">
-                                        <option value="${item.u_cd}">${item.u_nm}</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>작업시작일 <span class="red"> (*)</span></th>
+                            <th>납품일<span class="red"> (*)</span></th>
                             <td style="text-align: center;">
-                                <input type="text" id="frm_plan_res_stdt" name="frm_plan_res_stdt" class="form-control datetimepicker" value="{{plan_res_stdt}}"
-                                       placeholder="생산시작일시" title="생산시작일시" required />
+                                <input type="hidden" id="frm_ship_detail_cd" name="frm_ship_detail_cd" class="form-control" value="{{ship_detail_cd}}" />
+                                <div class="input-group input-group-seamless">
+                                    <input id="frm_ship_detail_dt" name="frm_ship_detail_dt" class="form-control datepicker no-reset" title="납품일자"
+                                           placeholder="납품일자" type="text" value="" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                         <tr>
-                            <th>작업종료일 <span class="red"> (*)</span></th>
-                            <td style="text-align: center;">
-                                <input type="text" id="frm_plan_res_eddt" name="frm_plan_res_eddt" class="form-control datetimepicker" value="{{plan_res_eddt}}"
-                                       placeholder="생산종료일시" title="생산종료일시" required />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>생산량 <span class="red"> (*)</span></th>
+                            <th>LOT.NO <span class="red"> (*)</span></th>
                             <td>
-                                <input type="hidden" id="frm_old_plan_res_cnt" name="frm_old_plan_res_cnt" class="form-control" value="{{old_plan_res_cnt}}"
-                                       placeholder="이전생산량" title="이전생산량" required />
-                                <input type="number" id="frm_plan_res_cnt" name="frm_plan_res_cnt" class="form-control" value="{{plan_res_cnt}}"
-                                       placeholder="생산량" title="생산량" required />
+                                <select id="frm_lot_no" name="frm_lot_no" class="custom-select w-100" style="width: 100% !important; display: none;" >
+                                    <option value="">LOT 선택</option>
+                                </select>
+                                <input type="hidden" id="frm_old_lot_no" name="frm_old_lot_no" class="form-control" value="{{old_lot_no}}"
+                                       placeholder="Lot.No" title="Lot.No" required />
                             </td>
                         </tr>
                         <tr>
-                            <th>Lot.No</th>
+                            <th>납품수량 <span class="red"> (*)</span></th>
                             <td>
-                                <input type="text" id="frm_lot_no" name="frm_lot_no" class="form-control" value="{{lot_no}}" readonly="readonly"
-                                       placeholder="Lot.No" title="Lot.No" />
+                                <input type="hidden" name="frm_old_ship_detail_cnt" class="form-control" value="{{old_ship_detail_cnt}}"
+                                       placeholder="이전납품량" title="이전납품량" required />
+                                <input type="text" name="frm_ship_detail_cnt" class="form-control" value="{{ship_detail_cnt}}"
+                                       placeholder="납품량" title="납품량" required />
                             </td>
                         </tr>
                     </thead>
                 </table>
                 <div class="result-button-box">
-                    <button class="btn btn-sm btn-first tablet-list-btn-full result-main-button result-btn-regist" onclick="planResultRegist();"><i class="fas fa-check"></i> 저장</button>
-                    <button class="btn btn-sm btn-warning tablet-list-btn-full result-main-button result-btn-modify" style="display: none;" onclick="planResultModify();"><i class="fas fa-check"></i> 수정</button>
-                    <button class="btn btn-sm btn-info tablet-list-btn-full result-main-button" onclick="callPlanInput({{cnt}})"><i class="fas fa-check"></i> 투입자재</button>
-                    <button class="btn btn-sm btn-dark tablet-list-btn-full result-main-button" onclick="callPlanStop({{cnt}});"><i class="fas fa-stop"></i> 비가동</button>
-                </div>
-                <div style="margin-top: 5px;">
-                    <button class="btn btn-sm btn-danger tablet-list-btn-full result-main-button result-btn-new" style="width: 30%" onclick="planResultInit();"><i class="fas fa-plus"></i> 신규</button>
-                    <button class="btn btn-sm btn-info tablet-list-btn-full result-main-button result-btn-new" style="width: 32%" onclick="planResultInit();"><i class="fab fa-yelp"></i> 완료</button>
-                    <button class="btn btn-sm btn-success tablet-list-btn-full result-main-button result-btn-new" style="width: 34%" onclick="planResultInit();"><i class="fas fa-barcode"></i> 바코드</button>
+                    <button class="btn btn-sm btn-first tablet-list-btn-full result-main-button result-btn-regist" style="width: 100%;" onclick="shipResultRegistModify();"><i class="fas fa-check"></i> 저장</button>
                 </div>
             </div>
         </div>
@@ -693,7 +651,7 @@
         $("#tablet-top-title").text("생산실적등록");
         // setTimeout(() => getData(), 50);
         setTimeout(() => setResultTemplate(), 50);
-        getDataOne("${vmap.plan_cd}", "${vmap.plan_proc_cd}");
+        getDataOne("${vmap.odr_cd}", "${vmap.ship_cd}");
 
         $("#btnAddStopSubList").on("click", () => {
             addPopStopRow();
@@ -735,10 +693,10 @@
         });
     });
 
-    function getDataOne(plan_cd, plan_proc_cd)
+    function getDataOne(odr_cd, ship_cd)
     {
         $.ajax({
-            url: "/mes/production/result/planProcessOne/" + plan_cd + "/" + plan_proc_cd
+            url: "/mes/sales/shipment/shipOne/" + odr_cd + "/" + ship_cd
             ,type: "get"
             ,dataType: "json"
             // ,data: JSON.stringify({})
@@ -765,7 +723,7 @@
         let templateData = {
             ...item
             ,cnt: ++mainRowCnt
-            ,plan_cnt: item.plan_cnt.comma('2')
+            ,ship_cnt: item.ship_cnt.comma('2')
         }
 
         $("#dataOneDiv").append(template(templateData));
@@ -774,7 +732,7 @@
     // 실적 입력 template
     function setResultTemplate()
     {
-        let template_html = $("#planProcTemplate").html();
+        let template_html = $("#shipDetailTemplate").html();
         let template = Handlebars.compile(template_html);
 
         $("#tblList").append(template());
@@ -786,9 +744,59 @@
         });
         $.datetimepicker.setLocale('ko');
 
-        $("#frm_plan_res_cnt").numpad();
-        setTimeout(() => getPlanResultData(), 50);
+        $("#frm_ship_detail_cnt").numpad();
+        setDatePicker("datepicker");
+
+        // debugger
+        if($("#frm_prod_lot_yn").val() === "Y") {
+            setTimeout(() => setProdLotData($("#frm_prod_cd").val(), null), 300);
+            $("#frm_lot_no").css("display", "block");
+        }
+
+        $("#frm_lot_no").on("change", function () {
+            let lot_cnt = parseInt($(this).find("option:selected").data("qty"));
+            let odr_cnt = parseInt($("#frm_odr_cnt").text().replace(/,/g, ""));
+            $("#frm_ship_detail_cnt").val(lot_cnt>=odr_cnt ? odr_cnt : lot_cnt);
+        });
+
+        // setTimeout(() => getPlanResultData(), 50);
     }
+
+    function setProdLotData(prod_cd, lot_no=null)
+    {
+        $.ajax({
+            url: "/mes/base/product/prodLotList"
+            ,type: "post"
+            ,headers: {
+                "Content-Type": "application/json"
+                ,"X-HTTP-Method-Override": "POST"
+            }
+            ,dataType: "json"
+            ,data: JSON.stringify({
+                fact_cd: "${vmap.fact_cd}"
+                ,prod_cd: prod_cd
+            })
+        })
+        .done(function (data)
+        {
+            if(IsNotNull(data)) {
+                $("#frm_lot_no option:not(:first)").empty();
+                data.forEach((item, index) => {
+                    var newOption = "<option value='" + item.lot_no + "' data-qty='" + item.lot_cnt + "'" + ">" + item.lot_no + " [" + item.lot_cnt + "]" + "</option>";
+                    $("#frm_lot_no").append(newOption);
+                });
+            }
+
+            if(IsNotNull(lot_no)) $("#frm_lot_no").val([lot_no]);
+        })
+        .always(function (data) {
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+        });
+    }
+
+
 
     // 실적저장
     function planResultRegist()

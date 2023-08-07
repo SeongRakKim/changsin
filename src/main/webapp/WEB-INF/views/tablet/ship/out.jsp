@@ -52,6 +52,7 @@
                         <th>거래처</th>
                         <td>
                             <input type="hidden" name="frm_ship_cd" class="form-control" value="{{ship_cd}}" />
+                            <input type="hidden" name="frm_odr_cd" class="form-control" value="{{odr_cd}}" />
                             <input type="hidden" name="frm_ship_cnt" class="form-control" value="{{ship_cnt}}" />
                             <input type="hidden" name="frm_prod_cd" class="form-control" value="{{prod_cd}}" />
                             <input type="hidden" name="frm_prod_pn" class="form-control" value="{{prod_pn}}" />
@@ -156,9 +157,10 @@
     function setShipModify(cnt)
     {
         let ship_cd = $("#tblList .list_div" + cnt).find("[name=frm_ship_cd]").val();
+        let odr_cd = $("#tblList .list_div" + cnt).find("[name=frm_odr_cd]").val();
 
         let url = "/tablet/ship/result?";
-        let param = "ship_cd="+ship_cd;
+        let param = "ship_cd="+ship_cd+"&odr_cd="+odr_cd;
 
         location.href = url+param;
     }
