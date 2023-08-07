@@ -98,7 +98,7 @@
                 OR (SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = PROD_FAMILY) LIKE CONCAT('%', #{search_text}, '%')
             )
         </if>
-        ORDER BY ODR_SHIP_DT DESC
+        ORDER BY SHIP_STATE ASC, ODR_SHIP_DT DESC
     </select>
 
     <select id="shipOne" parameterType="VMap" resultType="RowMap">

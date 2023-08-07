@@ -58,9 +58,6 @@
         <link href="/plugin/datepicker/datepicker.css" rel="stylesheet">
         <link href="/plugin/datetimepicker/jquery.datetimepicker.css" rel="stylesheet">
 
-        <link rel="stylesheet" href="/plugin/jquerynumpad/jquery.numpad.css">
-        <script type="text/javascript" src="/plugin/jquerynumpad/jquery.numpad.js"></script>
-
 <%--        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>--%>
 <%--        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>--%>
 
