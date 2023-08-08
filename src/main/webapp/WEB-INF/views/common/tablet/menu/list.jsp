@@ -116,6 +116,15 @@
             case 'PL' :
                 location.href = "/common/tablet/process/list";
                 break;
+            case 'QI' :
+                location.href = "/tablet/quality/list?qt="+flag;
+                break;
+            case 'QP' :
+                location.href = "/tablet/quality/list?qt="+flag;
+                break;
+            case 'QD' :
+                location.href = "/tablet/quality/list?qt="+flag;
+                break;
         }
     }
 
