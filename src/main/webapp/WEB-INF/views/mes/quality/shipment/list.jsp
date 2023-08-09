@@ -120,12 +120,6 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>거래처</th>
-                                            <td>
-                                                <div id="frm_comp_nm" name="frm_comp_nm"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
                                             <th>품번</th>
                                             <td>
                                                 <div id="frm_prod_pn" name="frm_prod_pn"></div>

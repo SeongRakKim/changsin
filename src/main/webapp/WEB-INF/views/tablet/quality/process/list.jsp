@@ -18,10 +18,6 @@
                     <th>검색날짜</th>
                     <td colspan="3">
                         <div style="display: flex;">
-                            <select id="date_type" name="date_type" class="custom-select w-10 vw-10 mr-1">
-                                <option value="PUR_DT">발주일</option>
-                                <option value="PUR_SHIP_DT">납기요청일</option>
-                            </select>
                             <%@ include file="/WEB-INF/include/tablet-main-search-date-content.jspf"%>
                         </div>
                     </td>
@@ -52,14 +48,15 @@
                     </colgroup>
                     <thead>
                     <tr>
-                        <th>거래처</th>
-                        <td>
-                            <input type="hidden" name="frm_pur_cd" class="form-control" value="{{pur_cd}}" />
-                            <input type="hidden" name="frm_pur_dt" class="form-control" value="{{pur_dt}}" />
-                            <input type="hidden" name="frm_pur_dt" class="form-control" value="{{pur_dt}}" />
-                            <input type="hidden" name="frm_pur_ship_dt" class="form-control" value="{{pur_ship_dt}}" />
-                            <input type="hidden" name="frm_pur_cnt" class="form-control" value="{{pur_cnt}}" />
-                            <input type="hidden" name="frm_pur_in_cnt" class="form-control" value="{{pur_in_cnt}}" />
+                        <th>작업지시번호</th>
+                        <td style="font-size: 0.5em;">
+                            <input type="hidden" name="frm_plan_cd" class="form-control" value="{{plan_cd}}" />
+                            <input type="hidden" name="frm_plan_proc_cd" class="form-control" value="{{plan_proc_cd}}" />
+                            <input type="hidden" name="frm_plan_no" class="form-control" value="{{plan_no}}" />
+                            <input type="hidden" name="frm_plan_proc_dt" class="form-control" value="{{plan_proc_dt}}" />
+                            <input type="hidden" name="frm_proc_nm" class="form-control" value="{{proc_nm}}" />
+                            <input type="hidden" name="frm_plan_cnt" class="form-control" value="{{plan_cnt}}" />
+                            <input type="hidden" name="frm_plan_proc_cnt" class="form-control" value="{{plan_proc_cnt}}" />
                             <input type="hidden" name="frm_prod_cd" class="form-control" value="{{prod_cd}}" />
                             <input type="hidden" name="frm_prod_pn" class="form-control" value="{{prod_pn}}" />
                             <input type="hidden" name="frm_prod_nm" class="form-control" value="{{prod_nm}}" />
@@ -67,25 +64,25 @@
                             <input type="hidden" name="frm_prod_stand" class="form-control" value="{{prod_stand}}" />
                             <input type="hidden" name="frm_prod_unit_nm" class="form-control" value="{{prod_unit_nm}}" />
                             <input type="hidden" name="frm_prod_lot_yn" class="form-control" value="{{prod_lot_yn}}" />
-                            <input type="hidden" name="frm_pur_quality_yn" class="form-control" value="{{pur_quality_yn}}" />
-                            {{comp_nm}}
+                            <input type="hidden" name="frm_plan_proc_quality_yn" class="form-control" value="{{plan_proc_quality_yn}}" />
+                            {{plan_no}}
                         </td>
-                        <th>매입일</th>
-                        <td>{{pur_dt}}</td>
+                        <th>계획일</th>
+                        <td style="font-size: 0.5em;">{{plan_dt}}</td>
                         <th>품번</th>
                         <td>{{prod_pn}}</td>
                         <th>수량</th>
-                        <td>{{pur_cnt}}{{prod_unit_nm}}</td>
+                        <td>{{plan_proc_cnt}}{{prod_unit_nm}}</td>
                     </tr>
                     <tr>
                         <th>품명</th>
                         <td>{{prod_nm}}</td>
                         <th>검사유무</th>
-                        <td>{{pur_quality_yn}}</td>
+                        <td>{{plan_proc_quality_yn}}</td>
                         <th>측정분류</th>
-                        <td>{{pur_quality_nm}}</td>
+                        <td>{{plan_proc_quality_nm}}</td>
                         <th>측정값</th>
-                        <td>{{pur_quality_val}}</td>
+                        <td>{{plan_proc_quality_val}}</td>
                     </tr>
                     </thead>
                 </table>
@@ -117,14 +114,14 @@
                         <tr role="row">
                             <th>발주일</th>
                             <td>
-                                <input type="hidden" id="pop_pur_cd" name="pop_pur_cd" value="" />
-                                <div id="pop_pur_dt" name="pop_pur_dt"></div>
+                                <input type="hidden" id="pop_plan_proc_cd" name="pop_plan_proc_cd" value="" />
+                                <div id="pop_plan_proc_dt" name="pop_plan_proc_dt"></div>
                             </td>
                         </tr>
                         <tr>
                             <th>납기요청일</th>
                             <td>
-                                <div id="pop_pur_ship_dt" name="pop_pur_ship_dt"></div>
+                                <div id="pop_plan_proc_ship_dt" name="pop_plan_proc_ship_dt"></div>
                             </td>
                         </tr>
                         <tr>
@@ -154,19 +151,19 @@
                         <tr>
                             <th>수량</th>
                             <td>
-                                <div class="text-right" id="pop_pur_cnt" name="pop_pur_cnt"></div>
+                                <div class="text-right" id="pop_plan_proc_cnt" name="pop_plan_proc_cnt"></div>
                             </td>
                         </tr>
                         <tr>
                             <th>입고수량</th>
                             <td>
-                                <div class="text-right" id="pop_pur_in_cnt" name="pop_pur_in_cnt"></div>
+                                <div class="text-right" id="pop_plan_proc_in_cnt" name="pop_plan_proc_in_cnt"></div>
                             </td>
                         </tr>
                         <tr>
                             <th>측정분류</th>
                             <td>
-                                <select id="pop_pur_quality_cd" name="pop_pur_quality_cd" class="custom-select w-100" style="width: 80% !important;">
+                                <select id="pop_plan_proc_quality_cd" name="pop_plan_proc_quality_cd" class="custom-select w-100" style="width: 80% !important;">
                                     <option value="">측정분류선택</option>
                                     <c:forEach var="item" items="${vmap.qualityItemList}" varStatus="status">
                                         <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
@@ -179,11 +176,11 @@
                             <td>
                                 <div style="display: flex; flex-wrap: wrap;">
                                     <div class="custom-control custom-radio my-3">
-                                        <input type="radio" checked=""  id="customRadio1" name="pop_pur_quality_val" class="custom-control-input" value="Y">
+                                        <input type="radio" checked=""  id="customRadio1" name="pop_plan_proc_quality_val" class="custom-control-input" value="Y">
                                         <label class="custom-control-label" for="customRadio1">양호</label>
                                     </div>
                                     <div class="custom-control custom-radio my-3">
-                                        <input type="radio" id="customRadio2" name="pop_pur_quality_val" class="custom-control-input" value="N">
+                                        <input type="radio" id="customRadio2" name="pop_plan_proc_quality_val" class="custom-control-input" value="N">
                                         <label class="custom-control-label" for="customRadio2">불량</label>
                                     </div>
                                 </div>
@@ -224,11 +221,11 @@
 
         $("#btnRegist").on("click", () =>
         {
-            if(IsNull($("#pop_pur_cd").val())) {
+            if(IsNull($("#pop_plan_proc_cd").val())) {
                 alert("저장할 항목을 선택해주세요.");
                 return false;
             }
-            if(IsNull($("#pop_pur_quality_cd").val())) {
+            if(IsNull($("#pop_plan_proc_quality_cd").val())) {
                 alert("측정분류를 선택해주세요.");
                 return false;
             }
@@ -241,7 +238,7 @@
         showWait('.container-fluid');
 
         $.ajax({
-            url: "/mes/quality/material/materialInspectList"
+            url: "/mes/quality/process/processInspectList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -250,9 +247,9 @@
             ,dataType: "json"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,date_type: $("#date_type").val()
                 ,startDate: $("#startDate").val()
                 ,endDate: $("#endDate").val()
+                ,mes_state: "12"
                 ,search_text: $("#search_text").val()
             })
         })
@@ -282,16 +279,13 @@
         let templateData = {
             ...item
             , cnt: ++rowCnt
-            ,pur_cnt: item.pur_cnt.comma('2')
-            ,pur_in_cnt: item.pur_in_cnt.comma('2')
-            ,pur_price: item.pur_price.comma('2')
-            ,pur_amt: item.pur_amt.comma('2')
-            ,pur_vat: item.pur_vat.comma('2')
+            ,plan_proc_cnt: item.plan_proc_cnt.comma('2')
+            ,plan_dt: item.plan_stdt + " ~ " + item.plan_eddt
         };
 
         $("#tblList").append(template(templateData));
 
-        if(item.pur_quality_yn === "Y") {
+        if(item.plan_proc_quality_yn === "Y") {
             $("#tblList .list_div" + rowCnt + " .btn-complete").toggle();
             $("#tblList .list_div" + rowCnt + " .btn-ready").toggle();
 
@@ -304,29 +298,29 @@
     {
         $("#inspModal").modal("show");
 
-        let frm_pur_cd = $("#tblList .list_div" + cnt).find("[name=frm_pur_cd]").val();
-        let frm_pur_dt = $("#tblList .list_div" + cnt).find("[name=frm_pur_dt]").val();
-        let frm_pur_ship_dt = $("#tblList .list_div" + cnt).find("[name=frm_pur_ship_dt]").val();
+        let frm_plan_proc_cd = $("#tblList .list_div" + cnt).find("[name=frm_plan_proc_cd]").val();
+        let frm_plan_proc_dt = $("#tblList .list_div" + cnt).find("[name=frm_plan_proc_dt]").val();
+        let frm_plan_proc_ship_dt = $("#tblList .list_div" + cnt).find("[name=frm_plan_proc_ship_dt]").val();
         let frm_prod_pn = $("#tblList .list_div" + cnt).find("[name=frm_prod_pn]").val();
         let frm_prod_nm = $("#tblList .list_div" + cnt).find("[name=frm_prod_nm]").val();
         let frm_prod_stand = $("#tblList .list_div" + cnt).find("[name=frm_prod_stand]").val();
         let frm_prod_unit_nm = $("#tblList .list_div" + cnt).find("[name=frm_prod_unit_nm]").val();
-        let frm_pur_cnt = $("#tblList .list_div" + cnt).find("[name=frm_pur_cnt]").val();
-        let frm_pur_in_cnt = $("#tblList .list_div" + cnt).find("[name=frm_pur_in_cnt]").val();
-        let frm_pur_quality_cd = $("#tblList .list_div" + cnt).find("[name=frm_pur_quality_cd]").val();
-        let frm_pur_quality_val = $("#tblList .list_div" + cnt).find("input:radio[name=frm_pur_quality_val]:checked").val();
+        let frm_plan_proc_cnt = $("#tblList .list_div" + cnt).find("[name=frm_plan_proc_cnt]").val();
+        let frm_plan_proc_in_cnt = $("#tblList .list_div" + cnt).find("[name=frm_plan_proc_in_cnt]").val();
+        let frm_plan_proc_quality_cd = $("#tblList .list_div" + cnt).find("[name=frm_plan_proc_quality_cd]").val();
+        let frm_plan_proc_quality_val = $("#tblList .list_div" + cnt).find("input:radio[name=frm_plan_proc_quality_val]:checked").val();
 
-        $("#pop_pur_cd").val(frm_pur_cd);
-        $("#pop_pur_dt").text(frm_pur_dt);
-        $("#pop_pur_ship_dt").text(frm_pur_ship_dt);
+        $("#pop_plan_proc_cd").val(frm_plan_proc_cd);
+        $("#pop_plan_proc_dt").text(frm_plan_proc_dt);
+        $("#pop_plan_proc_ship_dt").text(frm_plan_proc_ship_dt);
         $("#pop_prod_pn").text(frm_prod_pn);
         $("#pop_prod_nm").text(frm_prod_nm);
         $("#pop_prod_stand").text(frm_prod_stand);
         $("#pop_prod_unit_nm").text(frm_prod_unit_nm);
-        $("#pop_pur_cnt").text(frm_pur_cnt);
-        $("#pop_pur_in_cnt").text(frm_pur_in_cnt);
-        $("#pop_pur_quality_cd").val(frm_pur_quality_cd);
-        $("#pop_pur_quality_val").val(frm_pur_quality_val);
+        $("#pop_plan_proc_cnt").text(frm_plan_proc_cnt);
+        $("#pop_plan_proc_in_cnt").text(frm_plan_proc_in_cnt);
+        $("#pop_plan_proc_quality_cd").val(frm_plan_proc_quality_cd);
+        $("#pop_plan_proc_quality_val").val(frm_plan_proc_quality_val);
     }
 
     function setPurchaseQualityModify()
@@ -354,10 +348,10 @@
                     ,dataType: "text"
                     ,data: JSON.stringify({
                         fact_cd: "${vmap.fact_cd}"
-                        ,pur_cd: $("#pop_pur_cd").val()
-                        ,pur_quality_yn: "Y"
-                        ,pur_quality_cd: $("#pop_pur_quality_cd").val()
-                        ,pur_quality_val: $("input:radio[name=pop_pur_quality_val]:checked").val()
+                        ,plan_proc_cd: $("#pop_plan_proc_cd").val()
+                        ,plan_proc_quality_yn: "Y"
+                        ,plan_proc_quality_cd: $("#pop_plan_proc_quality_cd").val()
+                        ,plan_proc_quality_val: $("input:radio[name=pop_plan_proc_quality_val]:checked").val()
                     })
                 })
                 .done(function (data) {
