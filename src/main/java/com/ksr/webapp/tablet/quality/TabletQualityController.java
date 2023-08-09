@@ -20,9 +20,36 @@ public class TabletQualityController {
     UserService userService;
 
 
-    @RequestMapping("/tablet/quality/list")
+    @RequestMapping("/tablet/quality/material/list")
     public void homeGet(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
         vmap.put("requestUri", httpServletRequest.getRequestURI());
+
+        vmap.put("base_cd", "quality_item");
+        vmap.put("qualityItemList", commonService.baseDetailList(vmap));
+    }
+
+    @RequestMapping("/tablet/quality/list")
+    public void homeGet4(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+        vmap.put("requestUri", httpServletRequest.getRequestURI());
+
+        vmap.put("base_cd", "quality_item");
+        vmap.put("qualityItemList", commonService.baseDetailList(vmap));
+    }
+
+    @RequestMapping("/tablet/quality/process/list")
+    public void homeGet2(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+        vmap.put("requestUri", httpServletRequest.getRequestURI());
+
+        vmap.put("base_cd", "quality_item");
+        vmap.put("qualityItemList", commonService.baseDetailList(vmap));
+    }
+
+    @RequestMapping("/tablet/quality/shipment/list")
+    public void homeGet3(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+        vmap.put("requestUri", httpServletRequest.getRequestURI());
+
+        vmap.put("base_cd", "quality_item");
+        vmap.put("qualityItemList", commonService.baseDetailList(vmap));
     }
 
 }

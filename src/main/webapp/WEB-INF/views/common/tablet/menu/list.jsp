@@ -117,13 +117,14 @@
                 location.href = "/common/tablet/process/list";
                 break;
             case 'QI' :
-                location.href = "/tablet/quality/list?qt="+flag;
+                location.href = "/tablet/quality/material/list";
+                // location.href = "/tablet/quality/list";
                 break;
             case 'QP' :
-                location.href = "/tablet/quality/list?qt="+flag;
+                location.href = "/tablet/quality/process/list";
                 break;
             case 'QD' :
-                location.href = "/tablet/quality/list?qt="+flag;
+                location.href = "/tablet/quality/shipment/list";
                 break;
         }
     }

@@ -80,10 +80,13 @@
 .sub-card-table {
     width: 64vw;
 }
-.sub-card-table table {
+.sub-card-table2 {
+    width: 84vw;
+}
+.sub-card-table table, .sub-card-table2 tablet {
     height: 100%;
 }
-.sub-card-table table thead tr th, sub-card-table table thead tr td {
+.sub-card-table table thead tr th, sub-card-table table thead tr td, .sub-card-table2 table thead tr th, sub-card-table2 table thead tr td {
     font-size: 1.5em;
 }
 .sub-card-detail {

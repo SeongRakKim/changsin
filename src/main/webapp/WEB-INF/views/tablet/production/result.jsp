@@ -213,10 +213,10 @@
                     </thead>
                 </table>
                 <div class="result-button-box">
-                    <button class="btn btn-sm btn-first tablet-list-btn-full result-main-button result-btn-regist" onclick="planResultRegist();"><i class="fas fa-check"></i> 저장</button>
-                    <button class="btn btn-sm btn-warning tablet-list-btn-full result-main-button result-btn-modify" style="display: none;" onclick="planResultModify();"><i class="fas fa-check"></i> 수정</button>
-                    <button class="btn btn-sm btn-info tablet-list-btn-full result-main-button" onclick="callPlanInput({{cnt}})"><i class="fas fa-check"></i> 투입자재</button>
-                    <button class="btn btn-sm btn-dark tablet-list-btn-full result-main-button" onclick="callPlanStop({{cnt}});"><i class="fas fa-stop"></i> 비가동</button>
+                    <button class="btn btn-sm btn-first tablet-list-btn-full result-main-button result-btn-regist" style="width: 30%" onclick="planResultRegist();"><i class="fas fa-check"></i> 저장</button>
+                    <button class="btn btn-sm btn-warning tablet-list-btn-full result-main-button result-btn-modify" style="display: none;" style="width: 30%" onclick="planResultModify();"><i class="fas fa-check"></i> 수정</button>
+                    <button class="btn btn-sm btn-info tablet-list-btn-full result-main-button" style="width: 33%" onclick="callPlanInput({{cnt}})"><i class="fas fa-check"></i> 자재</button>
+                    <button class="btn btn-sm btn-dark tablet-list-btn-full result-main-button" style="width: 33%" onclick="callPlanStop({{cnt}});"><i class="fas fa-stop"></i> 비가동</button>
                 </div>
                 <div style="margin-top: 5px;">
                     <button class="btn btn-sm btn-danger tablet-list-btn-full result-main-button result-btn-new" style="width: 30%" onclick="planResultInit();"><i class="fas fa-plus"></i> 신규</button>
