@@ -52,6 +52,7 @@
                         <td style="font-size: 0.5em;">
                             <input type="hidden" name="frm_plan_cd" class="form-control" value="{{plan_cd}}" />
                             <input type="hidden" name="frm_plan_proc_cd" class="form-control" value="{{plan_proc_cd}}" />
+                            <input type="hidden" name="frm_plan_dt" class="form-control" value="{{plan_dt}}" />
                             <input type="hidden" name="frm_plan_no" class="form-control" value="{{plan_no}}" />
                             <input type="hidden" name="frm_plan_proc_dt" class="form-control" value="{{plan_proc_dt}}" />
                             <input type="hidden" name="frm_proc_nm" class="form-control" value="{{proc_nm}}" />
@@ -97,9 +98,9 @@
 
 <div class="modal fade dataModal inspModal" id="inspModal" tabindex="-1" role="dialog" aria-labelledby="registModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl modal-form-xl" role="document">
-        <div class="modal-content" style="width: 40vw; height: 70vh;">
+        <div class="modal-content" style="width: 40vw; height: 80vh;">
             <div class="modal-header" style="padding: 0.4rem">
-                <h4 class="modal-title"><i class="fas fa-insp-circle"></i> 수입검사등록</h4>
+                <h4 class="modal-title"><i class="fas fa-insp-circle"></i> 공정검사등록</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -112,16 +113,23 @@
                     </colgroup>
                     <tbody>
                         <tr role="row">
-                            <th>발주일</th>
+                            <th>계획일</th>
                             <td>
+                                <input type="hidden" id="pop_plan_cd" name="pop_plan_cd" value="" />
                                 <input type="hidden" id="pop_plan_proc_cd" name="pop_plan_proc_cd" value="" />
-                                <div id="pop_plan_proc_dt" name="pop_plan_proc_dt"></div>
+                                <div id="pop_plan_dt" name="pop_plan_dt"></div>
                             </td>
                         </tr>
                         <tr>
-                            <th>납기요청일</th>
+                            <th>작업지시번호</th>
                             <td>
-                                <div id="pop_plan_proc_ship_dt" name="pop_plan_proc_ship_dt"></div>
+                                <div id="pop_plan_no" name="pop_plan_no"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>거래처</th>
+                            <td>
+                                <div id="pop_comp_nm" name="pop_comp_nm"></div>
                             </td>
                         </tr>
                         <tr>
@@ -149,15 +157,15 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>수량</th>
+                            <th>계획수량</th>
                             <td>
-                                <div class="text-right" id="pop_plan_proc_cnt" name="pop_plan_proc_cnt"></div>
+                                <div class="text-right" id="pop_plan_cnt" name="pop_plan_cnt"></div>
                             </td>
                         </tr>
                         <tr>
-                            <th>입고수량</th>
+                            <th>생산수량</th>
                             <td>
-                                <div class="text-right" id="pop_plan_proc_in_cnt" name="pop_plan_proc_in_cnt"></div>
+                                <div class="text-right" id="pop_plan_proc_cnt" name="pop_plan_proc_cnt"></div>
                             </td>
                         </tr>
                         <tr>
@@ -184,6 +192,13 @@
                                         <label class="custom-control-label" for="customRadio2">불량</label>
                                     </div>
                                 </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>불량수량</th>
+                            <td>
+                                <input type="text" id="pop_plan_proc_quality_cnt" name="pop_plan_proc_quality_cnt" class="form-control"
+                                       placeholder="생산불량수량" title="생산불량수량" />
                             </td>
                         </tr>
                     </tbody>
@@ -229,7 +244,7 @@
                 alert("측정분류를 선택해주세요.");
                 return false;
             }
-            setPurchaseQualityModify();
+            setProcessQualityModify();
         });
     });
 
@@ -298,36 +313,42 @@
     {
         $("#inspModal").modal("show");
 
+        let frm_plan_cd = $("#tblList .list_div" + cnt).find("[name=frm_plan_cd]").val();
         let frm_plan_proc_cd = $("#tblList .list_div" + cnt).find("[name=frm_plan_proc_cd]").val();
-        let frm_plan_proc_dt = $("#tblList .list_div" + cnt).find("[name=frm_plan_proc_dt]").val();
-        let frm_plan_proc_ship_dt = $("#tblList .list_div" + cnt).find("[name=frm_plan_proc_ship_dt]").val();
+        let frm_plan_dt = $("#tblList .list_div" + cnt).find("[name=frm_plan_dt]").val();
+        let frm_plan_no = $("#tblList .list_div" + cnt).find("[name=frm_plan_no]").val();
+        let frm_comp_nm = $("#tblList .list_div" + cnt).find("[name=frm_comp_nm]").val();
         let frm_prod_pn = $("#tblList .list_div" + cnt).find("[name=frm_prod_pn]").val();
         let frm_prod_nm = $("#tblList .list_div" + cnt).find("[name=frm_prod_nm]").val();
         let frm_prod_stand = $("#tblList .list_div" + cnt).find("[name=frm_prod_stand]").val();
         let frm_prod_unit_nm = $("#tblList .list_div" + cnt).find("[name=frm_prod_unit_nm]").val();
+        let frm_plan_cnt = $("#tblList .list_div" + cnt).find("[name=frm_plan_cnt]").val();
         let frm_plan_proc_cnt = $("#tblList .list_div" + cnt).find("[name=frm_plan_proc_cnt]").val();
         let frm_plan_proc_in_cnt = $("#tblList .list_div" + cnt).find("[name=frm_plan_proc_in_cnt]").val();
         let frm_plan_proc_quality_cd = $("#tblList .list_div" + cnt).find("[name=frm_plan_proc_quality_cd]").val();
         let frm_plan_proc_quality_val = $("#tblList .list_div" + cnt).find("input:radio[name=frm_plan_proc_quality_val]:checked").val();
 
+        $("#pop_plan_cd").val(frm_plan_cd);
         $("#pop_plan_proc_cd").val(frm_plan_proc_cd);
-        $("#pop_plan_proc_dt").text(frm_plan_proc_dt);
-        $("#pop_plan_proc_ship_dt").text(frm_plan_proc_ship_dt);
+        $("#pop_plan_dt").text(frm_plan_dt);
+        $("#pop_plan_no").text(frm_plan_no);
+        $("#pop_comp_nm").val(frm_comp_nm);
         $("#pop_prod_pn").text(frm_prod_pn);
         $("#pop_prod_nm").text(frm_prod_nm);
         $("#pop_prod_stand").text(frm_prod_stand);
         $("#pop_prod_unit_nm").text(frm_prod_unit_nm);
+        $("#pop_plan_cnt").text(frm_plan_cnt);
         $("#pop_plan_proc_cnt").text(frm_plan_proc_cnt);
         $("#pop_plan_proc_in_cnt").text(frm_plan_proc_in_cnt);
         $("#pop_plan_proc_quality_cd").val(frm_plan_proc_quality_cd);
         $("#pop_plan_proc_quality_val").val(frm_plan_proc_quality_val);
     }
 
-    function setPurchaseQualityModify()
+    function setProcessQualityModify()
     {
         Swal.fire({
             title: '',
-            text: "수입검사 결과를 저장하시겠습니까?",
+            text: "공정검사 결과를 저장하시겠습니까?",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -340,7 +361,7 @@
                 showWait('.dataModal');
                 $.ajax({
                     type: "post"
-                    ,url: "/mes/quality/material/materialQualityModify"
+                    ,url: "/mes/quality/process/processQualityModify"
                     ,headers: {
                         "Content-Type": "application/json"
                         ,"X-HTTP-Method-Override": "POST"
@@ -348,10 +369,12 @@
                     ,dataType: "text"
                     ,data: JSON.stringify({
                         fact_cd: "${vmap.fact_cd}"
+                        ,plan_cd: $("#pop_plan_cd").val()
                         ,plan_proc_cd: $("#pop_plan_proc_cd").val()
                         ,plan_proc_quality_yn: "Y"
                         ,plan_proc_quality_cd: $("#pop_plan_proc_quality_cd").val()
                         ,plan_proc_quality_val: $("input:radio[name=pop_plan_proc_quality_val]:checked").val()
+                        ,plan_proc_quality_cnt: $("#pop_plan_proc_quality_cnt").val()
                     })
                 })
                 .done(function (data) {

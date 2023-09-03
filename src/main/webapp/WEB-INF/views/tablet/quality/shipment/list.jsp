@@ -69,7 +69,7 @@
                         <td>{{ship_dt}}</td>
                         <th>품번</th>
                         <td>{{prod_pn}}</td>
-                        <th>수량</th>
+                        <th>납품수량</th>
                         <td>{{ship_cnt}}{{prod_unit_nm}}</td>
                     </tr>
                     <tr>

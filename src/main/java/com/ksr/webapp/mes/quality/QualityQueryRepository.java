@@ -280,7 +280,7 @@ public class QualityQueryRepository {
                 .set(productionPlanProc.plan_proc_quality_yn, vmap.getString("plan_proc_quality_yn"))
                 .set(productionPlanProc.plan_proc_quality_cd, vmap.getString("plan_proc_quality_cd"))
                 .set(productionPlanProc.plan_proc_quality_val, vmap.getString("plan_proc_quality_val"))
-                .set(productionPlanProc.plan_proc_quality_cnt, vmap.getString("plan_proc_quality_cnt"))
+                .set(productionPlanProc.plan_proc_quality_cnt, CommonUtils.isNotEmpty(vmap.getString("plan_proc_quality_cnt")) ? vmap.getString("plan_proc_quality_cnt") : null)
                 .where(productionPlanProc.plan_cd.eq(vmap.getString("plan_cd")).and(productionPlanProc.plan_proc_cd.eq(vmap.getString("plan_proc_cd"))))
                 .execute();
     }
