@@ -16,6 +16,10 @@
 <style>
     #btnNew {display: none;}
     #btnDelete {display: none;}
+    #tblPopData tbody tr th, #tblPopData tbody tr td {
+        height: 25vh;
+        font-size: 3.5em;
+    }
 </style>
 
 <!-- Begin Page Content -->
@@ -92,24 +96,96 @@
         </div>
     </div>
 
-    <div class="report">
-<%--        <div id="all">--%>
-            <div id="a">
-                <h1>A 영역 입니다.</h1>
-            </div>
-
-            <div id="b">
-                <h1>B 영역 입니다.</h1>
-            </div>
-
-            <div id="c">
-                <h1>C 영역 입니다.</h1>
-            </div>
-
-            <div id="d">
-                <h1>D 영역 입니다.</h1>
-            </div>
-<%--        </div>--%>
+    <div class="report" style="display: none;">
+        <table id="tblPopData" class="table table-hover table-bordered mb-3 table-form">
+            <colgroup>
+                <col style="width: 20%" />
+                <col style="width: 30%" />
+                <col style="width: 20%" />
+                <col style="width: 30%" />
+            </colgroup>
+            <thead>
+                <tr>
+                    <th colspan="4" style="height: 35vh; font-size: 10em;">생산실적등록</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>거래처</th>
+                <td><div id="report_comp_nm"></div></td>
+                <th>공정</th>
+                <td>
+                    <div class="red" id="report_proc_nm" name="report_proc_nm"></div>
+                </td>
+            </tr>
+            <tr>
+                <th>작업지시번호</th>
+                <td>
+                    <div id="report_plan_no" name="report_plan_no"></div>
+                </td>
+                <th>생산계획일</th>
+                <td>
+                    <div id="report_plan_dt" name="report_plan_dt"></div>
+                </td>
+            </tr>
+            <tr>
+                <th>제품군</th>
+                <td>
+                    <div id="report_prod_family_nm" name="report_prod_family_nm"></div>
+                </td>
+                <th>제품분류</th>
+                <td>
+                    <div id="report_prod_group_nm" name="report_prod_group_nm"></div>
+                </td>
+            </tr>
+            <tr>
+                <th>제품종류</th>
+                <td>
+                    <div id="report_prod_kind_nm" name="report_prod_kind_nm"></div>
+                </td>
+                <th>현재고량</th>
+                <td class="text-right">
+                    <div id="report_prod_stock_cnt" name="report_prod_stock_cnt"></div>
+                </td>
+            </tr>
+            <tr>
+                <th>규격</th>
+                <td>
+                    <div id="report_prod_stand" name="report_prod_stand"></div>
+                </td>
+                <th>단위</th>
+                <td>
+                    <div id="report_prod_unit_nm" name="report_prod_unit_nm"></div>
+                </td>
+            </tr>
+            <tr>
+                <th>품번</th>
+                <td><div id="report_prod_pn" name="report_prod_pn"></div></td>
+                <th>품명</th>
+                <td><div id="report_prod_nm" name="report_prod_nm"></div></td>
+            </tr>
+            <tr>
+                <th>생산계획수량</th>
+                <td class="text-right">
+                    <div id="report_plan_cnt" name="report_plan_cnt"></div>
+                </td>
+                <th>생산량</th>
+                <td class="text-right">
+                    <div class="red" id="report_plan_proc_cnt" name="report_plan_proc_cnt"></div>
+                </td>
+            </tr>
+            <tr>
+                <th>작업시작일시</th>
+                <td>
+                    <div id="report_plan_res_stdt" name="report_plan_res_stdt"></div>
+                </td>
+                <th>작업종료일시</th>
+                <td>
+                    <div id="report_plan_res_eddt" name="report_plan_res_eddt"></div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -195,7 +271,7 @@
                     node.push("<div class='text-right'>" + IsEmpty(item.plan_res_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
 
                     let manageButton = "<div style='display: flex; flex-wrap: wrap; justify-content: space-around;' >" +
-                                       "    <button class=\"btn btn-sm btn btn-first \" type=\"button\" onclick=\"goReport()\">출력</button>" +
+                                       "    <button class=\"btn btn-sm btn btn-first \" type=\"button\" onclick=\"goReport('" + item.plan_res_cd + "')\">출력</button>" +
                                        "</div>";
 
                     node.push(manageButton);
@@ -220,27 +296,29 @@
     let all_area_array = ['#a','#b','#c','#d']; //전체영역 area
     let area_array = ['#a','#c','#d']; //pdf 다운 영역
 
-    const goReport = () => {
+    function goReport (plan_res_cd) {
         let difference = all_area_array.filter(x => !area_array.includes(x));
 
-        // $.each(difference,function(index, item){
-        //     $(item).attr('data-html2canvas-ignore', true);
-        // });
-
-        // $("#all").attr("data-html2canvas-ignore", true);
-
-        setTimeout(pdfMake(),500);
+        $.ajax({
+            url: "/mes/production/result/planResultOne/" + plan_res_cd
+            ,type: "get"
+            ,dataType: "json"
+        })
+        .done(function (data)
+        {
+            setDataOne("report_", data);
+            setTimeout(pdfMake(),500);
+        })
+        .always(function (data) {
+            hideWait('.dataModal');
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+        });
     }
 
-    // $('#pdf').on("click", function () {
-    //     let difference = all_area_array.filter(x => !area_array.includes(x));
-    //     $.each(difference,function(index, item){
-    //         $(item).attr('data-html2canvas-ignore', true);
-    //     });
-    //     setTimeout(pdfMake(),500);
-    // });
-
     const pdfMake = () => {
+        $(".report").show();
         html2canvas($('.report')[0]).then(function(canvas) {
             let imgData = canvas.toDataURL('image/png');
 
@@ -276,6 +354,7 @@
             // 파일 저장
             doc.save("생산실적_"+dateString+'.pdf');
         });
+        $(".report").hide();
     }
 </script>
 

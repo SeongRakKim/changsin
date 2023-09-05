@@ -52,6 +52,14 @@ public class ProductionResultRestController {
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 
+    @GetMapping("/mes/production/result/planResultOne/{plan_res_cd}")
+    public ResponseEntity<Map<String, Object>> planResultOne2(VMap vmap, @PathVariable("plan_res_cd") String plan_res_cd) throws Exception
+    {
+        vmap.put("plan_res_cd", plan_res_cd);
+        Map<String, Object> resultOne = productionResultService.planResultOne(vmap);
+
+        return new ResponseEntity<>(resultOne, HttpStatus.OK);
+    }
     @GetMapping("/mes/production/result/planResultOne/{plan_cd}/{plan_proc_cd}/{plan_res_cd}")
     public ResponseEntity<Map<String, Object>> planResultOne(VMap vmap, @PathVariable("plan_cd") String plan_cd
             , @PathVariable("plan_proc_cd") String plan_proc_cd , @PathVariable("plan_res_cd") String plan_res_cd) throws Exception

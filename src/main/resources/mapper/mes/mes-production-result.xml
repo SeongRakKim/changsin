@@ -486,6 +486,7 @@
                ,PLAN_RES_CNT
                ,DATE_FORMAT(PLAN_RES_STDT, '%Y-%m-%d %H:%i') PLAN_RES_STDT
                ,DATE_FORMAT(PLAN_RES_EDDT, '%Y-%m-%d %H:%i') PLAN_RES_EDDT
+               ,CONCAT(DATE_FORMAT(PLAN_STDT, '%Y-%m-%d'), '~', DATE_FORMAT(PLAN_EDDT, '%Y-%m-%d')) PLAN_DT
                ,PLAN_RES_U_CD
                ,(SELECT U_NM
                    FROM MES_USER_INFO
@@ -500,9 +501,16 @@
         JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
         LEFT JOIN MES_COMPANY_INFO USING (COMP_CD, FACT_CD)
         JOIN MES_PROCESS_INFO USING (PROC_CD, FACT_CD)
-       WHERE PLAN_CD = #{plan_cd}
-         AND PLAN_PROC_CD = #{plan_proc_cd}
-         AND PLAN_RES_CD = #{plan_res_cd}
+        WHERE TRUE
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(plan_cd)">
+            AND PLAN_CD = #{plan_cd}
+        </if>
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(plan_proc_cd)">
+            AND PLAN_PROC_CD = #{plan_proc_cd}
+        </if>
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(plan_res_cd)">
+            AND PLAN_RES_CD = #{plan_res_cd}
+        </if>
        ORDER BY PLAN_CD , PLAN_PROC_SEQ
     </select>
 
