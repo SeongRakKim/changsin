@@ -17,8 +17,11 @@
     #btnNew {display: none;}
     #btnDelete {display: none;}
     #tblPopData tbody tr th, #tblPopData tbody tr td {
-        height: 25vh;
-        font-size: 3.5em;
+        height: 22vh;
+        font-size: 3.2em;
+    }
+    .report {
+        padding: 70px;
     }
 </style>
 
