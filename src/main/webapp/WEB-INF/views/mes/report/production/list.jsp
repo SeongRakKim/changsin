@@ -109,7 +109,7 @@
             </colgroup>
             <thead>
                 <tr>
-                    <th colspan="4" style="height: 35vh; font-size: 10em;">생산실적등록</th>
+                    <th colspan="4" style="height: 35vh; font-size: 10em;">생산실적</th>
                 </tr>
             </thead>
             <tbody>
@@ -204,7 +204,6 @@
         $("#btnSearch").on("click", () => { getData() });
 
         setTimeout(() => getData(), 30);
-
     });
 
     // set tblMaster Database
@@ -258,50 +257,47 @@
                 ,search_text: $("#search_text").val()
             })
         })
-            .done(function (data)
-            {
-                $("#tblMaster").DataTable().clear();
+        .done(function (data)
+        {
+            $("#tblMaster").DataTable().clear();
 
-                data.forEach((item, index) => {
-                    let node = [];
+            data.forEach((item, index) => {
+                let node = [];
 
-                    node.push("<div class='text-center'>" + IsEmpty(item.plan_res_stdt) + "</div>");
-                    node.push("<div class='text-center'>" + IsEmpty(item.plan_res_eddt) + "</div>");
-                    node.push(IsEmpty(item.prod_pn));
-                    node.push(IsEmpty(item.prod_nm));
-                    node.push(IsEmpty(item.plan_no));
-                    node.push(IsEmpty(item.plan_res_u_nm));
-                    node.push("<div class='text-right'>" + IsEmpty(item.plan_res_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
+                node.push("<div class='text-center'>" + IsEmpty(item.plan_res_stdt) + "</div>");
+                node.push("<div class='text-center'>" + IsEmpty(item.plan_res_eddt) + "</div>");
+                node.push(IsEmpty(item.prod_pn));
+                node.push(IsEmpty(item.prod_nm));
+                node.push(IsEmpty(item.plan_no));
+                node.push(IsEmpty(item.plan_res_u_nm));
+                node.push("<div class='text-right'>" + IsEmpty(item.plan_res_cnt.comma('2')) + " " + IsEmpty(item.prod_unit_nm) + "</div>");
 
-                    let manageButton = "<div style='display: flex; flex-wrap: wrap; justify-content: space-around;' >" +
-                                       "    <button class=\"btn btn-sm btn btn-first \" type=\"button\" onclick=\"goReport('" + item.plan_res_cd + "')\">출력</button>" +
-                                       "</div>";
+                let manageButton = "<div style='display: flex; flex-wrap: wrap; justify-content: space-around;' >" +
+                                   "    <button class=\"btn btn-sm btn btn-first \" type=\"button\" onclick=\"goReport('" + item.plan_res_cd + "')\">출력</button>" +
+                                   "</div>";
 
-                    node.push(manageButton);
+                node.push(manageButton);
 
-                    // 각 row node 추가
-                    $("#tblMaster").DataTable().row.add(node).node();
-                });
-
-                // datatables draw
-                $("#tblMaster").DataTable().draw(false);
-            })
-            .always(function (data) {
-                hideWait('.container-fluid');
-            })
-            .fail(function (jqHXR, textStatus, errorThrown) {
-                ajaxErrorAlert(jqHXR);
+                // 각 row node 추가
+                $("#tblMaster").DataTable().row.add(node).node();
             });
+
+            // datatables draw
+            $("#tblMaster").DataTable().draw(false);
+        })
+        .always(function (data) {
+            hideWait('.container-fluid');
+        })
+        .fail(function (jqHXR, textStatus, errorThrown) {
+            ajaxErrorAlert(jqHXR);
+        });
     }
 </script>
 
 <script type="text/javascript">
-    let all_area_array = ['#a','#b','#c','#d']; //전체영역 area
-    let area_array = ['#a','#c','#d']; //pdf 다운 영역
 
-    function goReport (plan_res_cd) {
-        let difference = all_area_array.filter(x => !area_array.includes(x));
-
+    function goReport (plan_res_cd)
+    {
         $.ajax({
             url: "/mes/production/result/planResultOne/" + plan_res_cd
             ,type: "get"

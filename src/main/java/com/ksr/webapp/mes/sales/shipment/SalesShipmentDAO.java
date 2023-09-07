@@ -24,6 +24,10 @@ public class SalesShipmentDAO extends MapperDAO {
         return selectList(mapperName + ".salesShipmentDetailtList", vmap.getMap());
     }
 
+    public Map<String, Object> shipDetailOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".shipDetailOne", vmap.getMap());
+    }
+
     public int salesShipmentDetailRegistModify(VMap vmap) throws Exception {
         return insert(mapperName + ".salesShipmentDetailRegistModify", vmap.getMap());
     }

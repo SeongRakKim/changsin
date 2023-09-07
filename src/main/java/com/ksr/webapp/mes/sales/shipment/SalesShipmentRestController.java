@@ -43,6 +43,17 @@ public class SalesShipmentRestController {
         return new ResponseEntity<>(resultList, HttpStatus.OK);
     }
 
+    @GetMapping("/mes/sales/shipment/shipDetailOne/{ship_cd}/{ship_detail_cd}")
+    public ResponseEntity<Map<String, Object>> shipDetailOne(VMap vmap, @PathVariable("ship_cd") String ship_cd
+                                                            , @PathVariable("ship_detail_cd") String ship_detail_cd) throws Exception
+    {
+        vmap.put("ship_cd", ship_cd);
+        vmap.put("ship_detail_cd", ship_detail_cd);
+        Map<String, Object> resultOne = salesShipmentService.shipDetailOne(vmap);
+
+        return new ResponseEntity<>(resultOne, HttpStatus.OK);
+    }
+
     @PostMapping("/mes/sales/shipment/salesShipmentDetailRegistModify")
     public ResponseEntity<String> planResultRegist(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
     {

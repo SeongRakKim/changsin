@@ -305,6 +305,97 @@
         ORDER BY SHIP_DETAIL_CD DESC, SHIP_DETAIL_CNT DESC
     </select>
 
+    <select id="shipDetailOne" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,ODR_CD
+               ,SHIP_DETAIL_CD
+               ,SHIP_DETAIL_DT
+               ,SHIP_DETAIL_CNT
+               ,SHIP_DETAIL_NOTICE
+               ,SHIP_DETAIL_INDATE
+               ,SHIP_DETAIL_INUSER
+               ,SHIP_DETAIL_UPDATE
+               ,SHIP_DETAIL_UPUSER
+               ,SHIP_CD
+               ,SHIP_DT
+               ,SHIP_CNT
+               ,SHIP_STATE
+               ,(SELECT CODE_NM
+                   FROM DFT_CODE_INFO
+                  WHERE CODE_ID = 'MES_STATE'
+                    AND CODE_CD = SHIP_STATE
+                ) SHIP_STATE_NM
+               ,SHIP_NOTICE
+               ,COMP_CD
+               ,COMP_NM
+               ,PROD_CD
+               ,PROD_PN
+               ,PROD_NM
+               ,PROD_KIND
+               ,PROD_STOCK_CNT
+               ,(SELECT CODE_NM
+                 FROM DFT_CODE_INFO
+                 WHERE CODE_ID = 'PROD_KIND'
+                   AND CODE_CD = PROD_KIND
+                ) PROD_KIND_NM
+               ,PROD_GROUP
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_GROUP
+                ) PROD_GROUP_NM
+               ,PROD_FAMILY
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_FAMILY
+                ) PROD_FAMILY_NM
+               ,PROD_STAND
+               ,PROD_UNIT
+               ,(SELECT BASE_DETAIL_NM
+                 FROM DFT_BASE_DETAIL
+                 WHERE BASE_DETAIL_CD = PROD_UNIT
+                ) PROD_UNIT_NM
+               ,PROD_PRICE
+               ,PROD_MAIN_COMP
+               ,(SELECT COMP_NM
+                  FROM MES_COMPANY_INFO
+                  WHERE COMP_CD = PROD_MAIN_COMP
+                ) PROD_MAIN_COMP_NM
+               ,ODR_DT
+               ,ODR_SHIP_DT
+               ,ODR_CNT
+               ,ODR_PRICE
+               ,ODR_AMT
+               ,ODR_VAT
+               ,ODR_VAT_YN
+               ,ODR_NM
+               ,ODR_TEL
+               ,ODR_PROJECT
+               ,ODR_STATE
+               ,(SELECT CODE_NM
+                   FROM DFT_CODE_INFO
+                  WHERE CODE_ID = 'MES_STATE'
+                    AND CODE_CD = ODR_STATE
+                ) ODR_STATE_NM
+               ,ODR_NOTICE
+               ,ODR_INDATE
+               ,ODR_INUSER
+               ,ODR_UPDATE
+               ,ODR_UPUSER
+               ,LOT_NO
+        FROM MES_SHIP_DETAIL
+        JOIN MES_SHIP_INFO MSI USING (FACT_CD, ODR_CD, SHIP_CD)
+        JOIN MES_ORDER_INFO MOI USING (FACT_CD, ODR_CD)
+        JOIN MES_COMPANY_INFO USING (FACT_CD, COMP_CD)
+        JOIN MES_PRODUCT_INFO USING (FACT_CD, PROD_CD)
+       WHERE 1=1
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(ship_cd)">
+            AND SHIP_CD = #{ship_cd}
+        </if>
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(ship_detail_cd)">
+            AND SHIP_DETAIL_CD = #{ship_detail_cd}
+        </if>
+    </select>
+
      <insert id="salesShipmentDetailRegistModify" parameterType="VMap">
         INSERT INTO MES_SHIP_DETAIL
         (

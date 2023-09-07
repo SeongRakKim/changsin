@@ -51,6 +51,10 @@ public class SalesShipmentService {
         return salesShipmentDAO.salesShipmentDetailtList(vmap);
     }
 
+    public Map<String, Object> shipDetailOne(VMap vmap) throws Exception {
+        return salesShipmentDAO.shipDetailOne(vmap);
+    }
+
     @Transactional
     public int salesShipmentDetailRegistModify(VMap vmap) throws Exception {
 
