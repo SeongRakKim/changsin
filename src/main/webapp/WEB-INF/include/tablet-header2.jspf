@@ -57,6 +57,7 @@
 
         <link href="/plugin/datepicker/datepicker.css" rel="stylesheet">
         <link href="/plugin/datetimepicker/jquery.datetimepicker.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/jsbarcode/3.11.0/JsBarcode.all.min.js"></script>
 
 <%--        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>--%>
 <%--        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>--%>

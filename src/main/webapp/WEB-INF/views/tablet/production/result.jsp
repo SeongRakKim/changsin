@@ -3,6 +3,7 @@
 
 <link rel="stylesheet" href="/plugin/jquerynumpad/jquery.numpad.css">
 <script type="text/javascript" src="/plugin/jquerynumpad/jquery.numpad.js"></script>
+<script type="text/javascript" src="/plugin/JsBarcode/JsBarcode.all.min.js"/></script>
 
 <style>
     #planTableList thead tr th, #planTableList thead tr td {
@@ -41,10 +42,36 @@
     .btn-pop {
         font-size: 0.3rem;
     }
+
+    #barcode-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    #barcode-data {
+        padding: 5px;
+    }
+
+    #generate-barcode {
+        padding: 5px 10px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+    }
+
+    #barcode {
+        margin-top: 20px;
+    }
 </style>
 
 <div class="container-fluid">
     <div id="dataOneDiv" class="main-content"></div>
+    <div id="barcode-container">
+        <input type="text" id="barcode-data" placeholder="Enter data">
+        <button id="generate-barcode">Generate Barcode</button>
+        <svg id="barcode"></svg>
+    </div>
     <div style="display: flex; flex-wrap: nowrap; flex-direction: row; justify-content: center; align-items: center;">
         <div id="tblList" class="card tablet-main-card2" ></div>
         <div id="tblList2" class="card tablet-main-card3" style="padding: 0.75rem;">
@@ -67,7 +94,8 @@
                     <th>작업시작일 </th>
                     <th>작업종료일 </th>
                     <th>생산량 </th>
-                    <th>Lot.No</th>
+<%--                    <th>Lot.No</th>--%>
+                    <th>바코드</th>
 <%--                    <th>비고</th>--%>
 <%--                    <th>--%>
 <%--                        <button type="button" id="btnAddSubList" class="btn btn-primary btn-sm">--%>
@@ -220,7 +248,7 @@
                 </div>
                 <div style="margin-top: 5px;">
                     <button class="btn btn-sm btn-danger tablet-list-btn-full result-main-button result-btn-new" style="width: 30%" onclick="planResultInit();"><i class="fas fa-plus"></i> 신규</button>
-                    <button class="btn btn-sm btn-info tablet-list-btn-full result-main-button result-btn-new" style="width: 32%" onclick="planResultInit();"><i class="fab fa-yelp"></i> 완료</button>
+<%--                    <button class="btn btn-sm btn-info tablet-list-btn-full result-main-button result-btn-new" style="width: 32%" onclick="planResultInit();"><i class="fab fa-yelp"></i> 완료</button>--%>
                     <button class="btn btn-sm btn-success tablet-list-btn-full result-main-button result-btn-new" style="width: 34%" onclick="planResultInit();"><i class="fas fa-barcode"></i> 바코드</button>
                 </div>
             </div>
@@ -255,8 +283,8 @@
             {{plan_res_cnt}}
         </td>
         <td style="text-align: center !important;">
-            <input type="hidden" name="pop_lot_no" class="form-control" value="{{lot_no}}" />
-            {{lot_no}}
+            <button class="btn btn-sm btn-success tablet-list-btn-full result-main-button result-btn-new" style="width: 34%" onclick="generateBarCode('{{lot_no}}');">
+                <i class="fas fa-barcode"></i> 바코드</button>
         </td>
     </tr>
 </script>
@@ -1565,6 +1593,52 @@
                 ajaxErrorAlert(jqHXR);
                 hideWait('.dataModal');
             });
+    }
+
+    function generateBarCode(lot_no)
+    {
+        // debugger
+        // Get the data from the input field
+        let barcodeData = lot_no;
+
+        // Clear any previous barcode
+        $('#barcode').empty();
+
+        const widthInCentimeters = 5;
+        const heightInCentimeters = 3;
+        const dpi = 0.5;
+        const pixelsPerCentimeter = dpi / 1.54;
+        const widthInPixels = widthInCentimeters * pixelsPerCentimeter;
+        const heightInPixels = heightInCentimeters * pixelsPerCentimeter;
+
+
+        JsBarcode('#barcode', barcodeData, {
+            format: 'CODE128', // You can choose other barcode formats
+            displayValue: false, // Hide the text below the barcode
+            width: 1, // Adjust the barcode width as needed
+            height: 25 // Adjust the barcode height as needed
+        });
+
+        printDiv("barcode-container");
+    }
+
+    function printDiv(divId)
+    {
+        let divToPrint = document.getElementById(divId);
+        let printWindow = window.open('', '', 'width=600,height=600');
+        printWindow.document.open();
+        printWindow.document.write('<html><head><title>Print</title></head><body>');
+
+        // Append the SVG element to the new window's body
+        let svgElement = divToPrint.querySelector('svg');
+        if (svgElement) {
+            printWindow.document.write(new XMLSerializer().serializeToString(svgElement));
+        }
+
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+        printWindow.close();
     }
 
 </script>
