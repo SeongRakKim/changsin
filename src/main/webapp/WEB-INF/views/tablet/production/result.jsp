@@ -67,7 +67,7 @@
 
 <div class="container-fluid">
     <div id="dataOneDiv" class="main-content"></div>
-    <div id="barcode-container">
+    <div id="barcode-container" style="display: none">
         <input type="text" id="barcode-data" placeholder="Enter data">
         <button id="generate-barcode">Generate Barcode</button>
         <svg id="barcode"></svg>
@@ -249,7 +249,7 @@
                 <div style="margin-top: 5px;">
                     <button class="btn btn-sm btn-danger tablet-list-btn-full result-main-button result-btn-new" style="width: 30%" onclick="planResultInit();"><i class="fas fa-plus"></i> 신규</button>
 <%--                    <button class="btn btn-sm btn-info tablet-list-btn-full result-main-button result-btn-new" style="width: 32%" onclick="planResultInit();"><i class="fab fa-yelp"></i> 완료</button>--%>
-                    <button class="btn btn-sm btn-success tablet-list-btn-full result-main-button result-btn-new" style="width: 34%" onclick="planResultInit();"><i class="fas fa-barcode"></i> 바코드</button>
+<%--                    <button class="btn btn-sm btn-success tablet-list-btn-full result-main-button result-btn-new" style="width: 34%" onclick="planResultInit();"><i class="fas fa-barcode"></i> 바코드</button>--%>
                 </div>
             </div>
         </div>
@@ -283,7 +283,9 @@
             {{plan_res_cnt}}
         </td>
         <td style="text-align: center !important;">
-            <button class="btn btn-sm btn-success tablet-list-btn-full result-main-button result-btn-new" style="width: 34%" onclick="generateBarCode('{{lot_no}}');">
+            <button class="btn btn-sm btn-success tablet-list-btn-full result-main-button result-btn-new"
+<%--                    style="width: 34%"--%>
+                    onclick="generateBarCode('{{proc_nm}}', '{{prod_nm}}', '{{plan_res_cnt}}' , '{{lot_no}}');">
                 <i class="fas fa-barcode"></i> 바코드</button>
         </td>
     </tr>
@@ -1595,7 +1597,7 @@
             });
     }
 
-    function generateBarCode(lot_no)
+    function generateBarCode(proc_nm, prod_nm, plan_res_cnt, lot_no)
     {
         // debugger
         // Get the data from the input field
@@ -1619,24 +1621,45 @@
             height: 25 // Adjust the barcode height as needed
         });
 
-        printDiv("barcode-container");
+        var barcodeParam = {
+            proc_nm,
+            prod_nm,
+            plan_res_cnt,
+            lot_no
+        }
+        printDiv("barcode-container", barcodeParam);
     }
 
-    function printDiv(divId)
+    function printDiv(divId, barcodeParam)
     {
         let divToPrint = document.getElementById(divId);
         let printWindow = window.open('', '', 'width=600,height=600');
         printWindow.document.open();
-        printWindow.document.write('<html><head><title>Print</title></head><body>');
+        let printHtml = "";
+        printHtml += "<html>";
+        printHtml += "  <head>";
+        printHtml += "      <title>Print</title>";
+        printHtml += "  </head>";
+        printHtml += "  <body>";
+        printHtml += "    <div>";
 
         // Append the SVG element to the new window's body
         let svgElement = divToPrint.querySelector('svg');
-        if (svgElement) {
-            printWindow.document.write(new XMLSerializer().serializeToString(svgElement));
-        }
+        printHtml += new XMLSerializer().serializeToString(svgElement);
+        // if (svgElement) {
+        //     printWindow.document.write(new XMLSerializer().serializeToString(svgElement));
+        // }
 
-        printWindow.document.write('</body></html>');
+        printHtml += "    </div>";
+        printHtml += "    <div style='padding-left: 10px;'><span>Lot.No : " + barcodeParam.lot_no + "</span></div>";
+        printHtml += "    <div style='padding-left: 10px;'><span>공정 : " + barcodeParam.proc_nm + "</span></div>";
+        printHtml += "    <div style='padding-left: 10px;'><span>품명 : " + barcodeParam.prod_nm + "</span></div>";
+        printHtml += "    <div style='padding-left: 10px;'><span>수량 : " + barcodeParam.plan_res_cnt + "</span></div>";
+        printHtml += "  </body>";
+        printHtml += "</html>";
+        printWindow.document.write(printHtml);
         printWindow.document.close();
+        // debugger
         printWindow.print();
         printWindow.close();
     }

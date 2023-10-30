@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.base.sensor">
+
+    <select id="snsrList" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,SNSR_CD
+               ,SNSR_NM
+               ,SNSR_NO
+               ,SNSR_MODEL
+               ,SNSR_NATION
+               ,SNSR_PRICE
+               ,SNSR_UP_TP
+               ,SNSR_LW_TP
+               ,SNSR_YN
+               ,SNSR_NOTICE
+               ,SNSR_INDATE
+               ,SNSR_INUSER
+               ,SNSR_UPDATE
+               ,SNSR_UPUSER
+        FROM MES_SENSOR_INFO MEI
+         WHERE SNSR_YN = 'Y'
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+            AND
+            (
+                SNSR_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR SNSR_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR SNSR_NO LIKE CONCAT('%', #{search_text}, '%')
+                OR SNSR_MODEL LIKE CONCAT('%', #{search_text}, '%')
+                OR SNSR_NATION LIKE CONCAT('%', #{search_text}, '%')
+            )
+        </if>
+    </select>
+
+    <select id="snsrOne" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,SNSR_CD
+               ,SNSR_NM
+               ,SNSR_NO
+               ,SNSR_MODEL
+               ,SNSR_NATION
+               ,SNSR_PRICE
+               ,SNSR_UP_TP
+               ,SNSR_LW_TP
+               ,SNSR_YN
+               ,SNSR_NOTICE
+               ,SNSR_INDATE
+               ,SNSR_INUSER
+               ,SNSR_UPDATE
+               ,SNSR_UPUSER
+        FROM MES_SENSOR_INFO
+         WHERE SNSR_YN = 'Y'
+           AND SNSR_CD = #{snsr_cd}
+    </select>
+
+    <select id="snsrOverlap" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,SNSR_CD
+               ,SNSR_NM
+               ,SNSR_NO
+               ,SNSR_MODEL
+               ,SNSR_NATION
+               ,SNSR_PRICE
+               ,SNSR_UP_TP
+               ,SNSR_LW_TP
+               ,SNSR_YN
+               ,SNSR_NOTICE
+               ,SNSR_INDATE
+               ,SNSR_INUSER
+               ,SNSR_UPDATE
+               ,SNSR_UPUSER
+        FROM MES_SENSOR_INFO
+         WHERE SNSR_YN = 'Y'
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(snsr_cd)">
+            AND SNSR_CD = #{snsr_cd}
+        </if>
+    </select>
+
+    <insert id="snsrRegistModify" parameterType="VMap">
+        INSERT INTO MES_SENSOR_INFO
+        (
+            FACT_CD
+            ,SNSR_CD
+            ,SNSR_NM
+            ,SNSR_NO
+            ,SNSR_MODEL
+            ,SNSR_NATION
+            ,SNSR_PRICE
+            ,SNSR_UP_TP
+            ,SNSR_LW_TP
+            ,SNSR_YN
+            ,SNSR_NOTICE
+            ,SNSR_INDATE
+            ,SNSR_INUSER
+            ,SNSR_UPDATE
+            ,SNSR_UPUSER
+        )VALUES
+        (
+            #{fact_cd}
+            ,#{snsr_cd}
+            ,#{snsr_nm}
+            ,#{snsr_no}
+            ,#{snsr_model}
+            ,#{snsr_nation}
+            ,#{snsr_price}
+            ,#{snsr_up_tp}
+            ,#{snsr_lw_tp}
+            ,'Y'
+            ,#{snsr_notice}
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+        )
+        ON DUPLICATE KEY UPDATE
+            SNSR_NM = #{snsr_nm}
+            ,SNSR_NO = #{snsr_no}
+            ,SNSR_MODEL = #{snsr_model}
+            ,SNSR_NATION = #{snsr_nation}
+            ,SNSR_PRICE = #{snsr_price}
+            ,SNSR_UP_TP = #{snsr_up_tp}
+            ,SNSR_LW_TP = #{snsr_lw_tp}
+            ,SNSR_UPDATE = NOW()
+            ,SNSR_UPUSER = IFNULL(#{u_cd}, 'system')
+    </insert>
+
+    <update id="snsrPackDelete" parameterType="VMap">
+        UPDATE MES_SENSOR_INFO
+        SET SNSR_YN = 'N'
+        WHERE SNSR_CD IN
+        <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+</mapper>

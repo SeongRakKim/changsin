@@ -98,6 +98,8 @@
         })
         .done(function (data)
         {
+            $(".table > tbody").empty();
+
             data.forEach((item, index) => {
                 let html = "";
                 html += "<tr>";

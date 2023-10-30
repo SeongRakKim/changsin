@@ -29,4 +29,9 @@ public class ReportController {
         vmap.put("requestUri", httpServletRequest.getRequestURI());
     }
 
+    @GetMapping("/mes/report/material/list")
+    public void reportMaterialList(VMap vmap, Model model, HttpServletRequest httpServletRequest) throws Exception {
+        vmap.put("requestUri", httpServletRequest.getRequestURI());
+    }
+
 }

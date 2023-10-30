@@ -15,6 +15,39 @@
         FROM DUAL
     </select>
 
+    <select id="baseList" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD,
+               BASE_CD,
+               BASE_NM,
+               BASE_DEPTH,
+               BASE_HIGH_CD,
+               BASE_YN,
+               BASE_NT,
+               BASE_INDATE,
+               BASE_INUSER,
+               (SELECT U_NM FROM MES_USER_INFO WHERE U_CD = BASE_INUSER) BASE_INUSER_NM,
+               BASE_UPDATE,
+               BASE_UPUSER
+        FROM DFT_BASE_INFO
+    </select>
+
+    <select id="baseOne" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD,
+               BASE_CD,
+               BASE_NM,
+               BASE_DEPTH,
+               BASE_HIGH_CD,
+               BASE_YN,
+               BASE_NT,
+               BASE_INDATE,
+               BASE_INUSER,
+               (SELECT U_NM FROM MES_USER_INFO WHERE U_CD = BASE_INUSER) BASE_INUSER_NM,
+               BASE_UPDATE,
+               BASE_UPUSER
+        FROM DFT_BASE_INFO
+        WHERE BASE_CD = #{base_cd}
+    </select>
+
     <select id="baseDetailList" parameterType="VMap" resultType="RowMap">
         SELECT FACT_CD
                ,BASE_CD
@@ -29,5 +62,35 @@
         FROM DFT_BASE_DETAIL
         WHERE BASE_CD = #{base_cd}
     </select>
+
+    <insert id="baseCodeDetailRegistModify" parameterType="VMap">
+        INSERT INTO DFT_BASE_DETAIL
+        (FACT_CD, BASE_CD, BASE_DETAIL_CD, BASE_DETAIL_NM, BASE_DETAIL_NT, BASE_DETAIL_INDATE, BASE_DETAIL_INUSER,
+         BASE_DETAIL_UPDATE, BASE_DETAIL_UPUSER)
+        VALUES
+        (
+             #{fact_cd}
+            ,#{base_cd}
+            ,#{base_detail_cd}
+            ,#{base_detail_nm}
+            ,#{base_detail_nt}
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+        )
+        ON DUPLICATE KEY UPDATE
+            BASE_DETAIL_NM = #{base_detail_nm}
+            ,BASE_DETAIL_UPDATE = NOW()
+            ,BASE_DETAIL_UPUSER = IFNULL(#{u_cd}, 'system')
+    </insert>
+
+    <delete id="baseCodeDetailDelete" parameterType="VMap">
+        DELETE FROM DFT_BASE_DETAIL
+        WHERE 1=1
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(base_detail_cd)">
+            AND BASE_DETAIL_CD = #{base_detail_cd}
+        </if>
+    </delete>
 
 </mapper>

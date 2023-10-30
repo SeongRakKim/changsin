@@ -31,30 +31,12 @@
         <table class="tableSearch table table-hover table-striped table-bordered mb-5" style="margin-bottom: 0.5rem !important;">
             <thead class="thead-light">
             <tr>
-                <th>제품종류</th>
+                <th>자재종류</th>
                 <td>
                     <select id="prod_kind" name="prod_kind" class="custom-select w-100" required="">
-                        <option value="">제품종류선택</option>
-                        <option value="PA">완제품</option>
-                        <option value="PH">반제품</option>
-                    </select>
-                </td>
-                <th>제품분류</th>
-                <td>
-                    <select id="prod_group" name="prod_group" class="custom-select w-100" required="">
-                        <option value="">품목분류선택</option>
-                        <c:forEach var="item" items="${vmap.prodGroupList}" varStatus="status">
-                            <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
-                        </c:forEach>
-                    </select>
-                </td>
-                <th>품목군</th>
-                <td>
-                    <select id="prod_family" name="prod_family" class="custom-select w-100" required="">
-                        <option value="">품목군선택</option>
-                        <c:forEach var="item" items="${vmap.prodFamilyList}" varStatus="status">
-                            <option value="${item.base_detail_cd}">${item.base_detail_nm}</option>
-                        </c:forEach>
+                        <option value="">자재종류선택</option>
+                        <option value="MO">원자재</option>
+                        <option value="MS">부자재</option>
                     </select>
                 </td>
                 <th>검색어</th>
@@ -76,7 +58,7 @@
     <div class="menu-nav">
         <div>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 재고관리 <i class="fas fa-chevron-right"></i> 제품재고현황
+                <i class="fas fa-home"></i> <i class="fas fa-chevron-right"></i> 재고관리 <i class="fas fa-chevron-right"></i> 자재재고현황
             </span>
         </div>
 
@@ -104,12 +86,12 @@
                 <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                     <div class="row">
                         <div class="col-sm-12">
-                            <input type="hidden" id="prod_cls" name="prod_cls" value="P" />
+                            <input type="hidden" id="prod_cls" name="prod_cls" value="M" />
                             <%--                            <button type="button" class="btn btn-sm btn-success" onclick='setExcelPdfButtonEvent({tableID:"tblMaster", btn:"excel"});'><i class="fas fa-file-excel"></i> 엑셀</button>--%>
                             <table id ="tblMaster" class="table-list table table-hover table-striped table-bordered mb-5" style="width: 100%">
                                 <thead>
                                 <tr role="row">
-                                    <th>제품코드</th>
+                                    <th>자재코드</th>
                                     <th style="width: 8%">품번</th>
                                     <th style="width: 16%">품명</th>
                                     <th>종류</th>
@@ -136,10 +118,10 @@
         <table id="tblPopData" class="table table-hover table-bordered mb-3 table-form">
             <thead>
                 <tr>
-                    <th colspan="10" style="height: 20vh; font-size: 10em;">제품재고</th>
+                    <th colspan="10" style="height: 20vh; font-size: 10em;">자재재고</th>
                 </tr>
                 <tr>
-                    <th>제품코드</th>
+                    <th>자재코드</th>
                     <th style="width: 8%">품번</th>
                     <th style="width: 16%">품명</th>
                     <th>종류</th>
@@ -364,7 +346,7 @@
             let dateString = year + month + day + hours + minutes;
 
             // 파일 저장
-            doc.save("제품재고현황_"+dateString+'.pdf');
+            doc.save("자재재고현황_"+dateString+'.pdf');
         });
         $(".report").hide();
     }
