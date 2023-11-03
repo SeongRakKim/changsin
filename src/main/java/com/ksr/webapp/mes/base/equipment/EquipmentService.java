@@ -42,9 +42,29 @@ public class EquipmentService {
         return equipmentDAO.equPackDelete(vmap);
     }
 
-
     public List<Map<String, Object>> equipmentInterfaceData(VMap vmap) throws Exception {
         return equipmentDAO.equipmentInterfaceData(vmap);
+    }
+
+    public List<Map<String, Object>> equRepairList(VMap vmap) throws Exception {
+        return equipmentDAO.equRepairList(vmap);
+    }
+
+    public Map<String, Object> equRepairOne(VMap vmap) throws Exception {
+        return equipmentDAO.equRepairOne(vmap);
+    }
+
+    @Transactional
+    public int equRepairRegistModify(VMap vmap) throws Exception {
+
+        vmap.put("table_type", "REPAIR");
+        vmap.put("equ_repair_cd", CommonUtils.isNotEmpty(vmap.getString("equ_repair_cd")) ? vmap.getString("equ_repair_cd") : commonDAO.getTablePrimaryCode(vmap));
+
+        return equipmentDAO.equRepairRegistModify(vmap);
+    }
+
+    public int equRepairPackDelete(VMap vmap) throws Exception {
+        return equipmentDAO.equRepairPackDelete(vmap);
     }
 
 }

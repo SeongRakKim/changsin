@@ -60,10 +60,21 @@
         // Menu Select
         setTreeMenuActive("${vmap.requestUri}");
         setDatePicker("datepicker");
+        initStartEndDatepicker("startDate", "endDate");
 
         // default search date
         $("#startDate").val(moment().add(-7, 'days').format('YYYY-MM-DD'));
         $("#endDate").val(moment().format('YYYY-MM-DD'));
+
+        $("#startDate").on("change", ()=> {
+            let startDate = $("#startDate").val();
+            let endDate = $("#endDate").val();
+            let bfStartDate = $("#bfStartDate").val();
+            if(startDate > endDate) {
+                eAlert("시작일은 종료일보다 클 수 없습니다.");
+                $("#startDate").val(bfStartDate);
+            }
+        });
 
 
         // list check

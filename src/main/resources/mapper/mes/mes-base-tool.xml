@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mes.base.tool">
+
+    <select id="toolList" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+                ,TOOL_CD
+                ,TOOL_NM
+                ,TOOL_NO
+                ,TOOL_STAND
+                ,TOOL_DATE
+                ,TOOL_LOC
+                ,TOOL_PMOK
+                ,(SELECT PROD_NM FROM MES_PRODUCT_INFO WHERE PROD_CD = TOOL_PMOK) TOOL_PMOK_NM
+                ,TOOL_DEPT
+                ,(SELECT DEPT_NM FROM MES_DEPARTMENT_INFO WHERE DEPT_CD = TOOL_DEPT) TOOL_DEPT_NM
+                ,TOOL_CHECK_DATE
+                ,TOOL_NOTICE
+                ,TOOL_INDATE
+                ,TOOL_INUSER
+                ,TOOL_UPDATE
+                ,TOOL_UPUSER
+        FROM MES_TOOL_INFO MEI
+         WHERE TOOL_YN = 'Y'
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
+            AND
+            (
+                TOOL_CD LIKE CONCAT('%', #{search_text}, '%')
+                OR TOOL_NM LIKE CONCAT('%', #{search_text}, '%')
+                OR TOOL_NO LIKE CONCAT('%', #{search_text}, '%')
+                OR TOOL_STAND LIKE CONCAT('%', #{search_text}, '%')
+                OR TOOL_LOC LIKE CONCAT('%', #{search_text}, '%')
+            )
+        </if>
+    </select>
+
+    <select id="toolOne" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+             ,TOOL_CD
+             ,TOOL_NM
+             ,TOOL_NO
+             ,TOOL_STAND
+             ,TOOL_DATE
+             ,TOOL_LOC
+             ,TOOL_PMOK
+             ,TOOL_DEPT
+             ,TOOL_CHECK_DATE
+             ,TOOL_NOTICE
+             ,TOOL_INDATE
+             ,TOOL_INUSER
+             ,TOOL_UPDATE
+             ,TOOL_UPUSER
+        FROM MES_TOOL_INFO
+         WHERE TOOL_YN = 'Y'
+           AND TOOL_CD = #{tool_cd}
+    </select>
+
+    <select id="toolOverlap" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,TOOL_CD
+               ,TOOL_NM
+               ,TOOL_NO
+               ,TOOL_STAND
+               ,TOOL_DATE
+               ,TOOL_LOC
+               ,TOOL_PMOK
+               ,TOOL_DEPT
+               ,TOOL_CHECK_DATE
+               ,TOOL_NOTICE
+               ,TOOL_INDATE
+               ,TOOL_INUSER
+               ,TOOL_UPDATE
+               ,TOOL_UPUSER
+        FROM MES_TOOL_INFO
+         WHERE TOOL_YN = 'Y'
+        <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(tool_cd)">
+            AND TOOL_CD = #{tool_cd}
+        </if>
+    </select>
+
+    <insert id="toolRegistModify" parameterType="VMap">
+        INSERT INTO MES_TOOL_INFO
+        (
+            FACT_CD
+           ,TOOL_CD
+           ,TOOL_NM
+           ,TOOL_NO
+           ,TOOL_STAND
+           ,TOOL_DATE
+           ,TOOL_LOC
+           ,TOOL_PMOK
+           ,TOOL_DEPT
+           ,TOOL_CHECK_DATE
+           ,TOOL_NOTICE
+           ,TOOL_INDATE
+           ,TOOL_INUSER
+           ,TOOL_UPDATE
+           ,TOOL_UPUSER
+        )VALUES
+        (
+            #{fact_cd}
+            ,#{tool_cd}
+            ,#{tool_nm}
+            ,#{tool_no}
+            ,#{tool_stand}
+            ,#{tool_date}
+            ,#{tool_loc}
+            ,#{tool_pmok}
+            ,#{tool_dept}
+            ,#{tool_check_date}
+            ,#{tool_notice}
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+        )
+        ON DUPLICATE KEY UPDATE
+            TOOL_NM = #{tool_nm}
+            ,TOOL_NO = #{tool_no}
+            ,TOOL_STAND = #{tool_stand}
+            ,TOOL_DATE = #{tool_date}
+            ,TOOL_LOC = #{tool_loc}
+            ,TOOL_PMOK = #{tool_pmok}
+            ,TOOL_DEPT = #{tool_dept}
+            ,TOOL_CHECK_DATE = #{tool_check_date}
+            ,TOOL_NOTICE = #{tool_notice}
+            ,TOOL_UPDATE = NOW()
+            ,TOOL_UPUSER = IFNULL(#{u_cd}, 'system')
+    </insert>
+
+    <update id="toolPackDelete" parameterType="VMap">
+        UPDATE MES_TOOL_INFO
+        SET TOOL_YN = 'N'
+        WHERE TOOL_CD IN
+        <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
+</mapper>

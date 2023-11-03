@@ -14,24 +14,13 @@
     <div class="main-content">
         <table class="tableSearch table table-hover table-striped table-bordered mb-5" style="margin-bottom: 0.5rem !important;">
             <colgroup>
-                <col style="width: 10%">
                 <col style="width: 20%">
-                <col style="width: 10%">
+                <col style="width: 30%">
                 <col style="width: 20%">
-                <col style="width: 10%">
                 <col style="width: 30%">
             </colgroup>
             <thead class="thead-light">
                 <tr>
-                    <th>공정</th>
-                    <td>
-                        <select id="proc_cd" name="proc_cd" class="custom-select w-100" required="" title="공정">
-                            <option value="">공정선택</option>
-                            <c:forEach var="item" items="${vmap.processList}" varStatus="status">
-                                <option value="${item.proc_cd}">${item.proc_nm}</option>
-                            </c:forEach>
-                        </select>
-                    </td>
                     <th>검색어</th>
                     <td>
                         <div class="input-group">
@@ -53,7 +42,7 @@
     <div class="menu-nav">
         <div>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 기준정보 <i class="fas fa-arrow-circle-right"></i> 설비정보
+                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 기준정보 <i class="fas fa-arrow-circle-right"></i> 치공구정보
             </span>
         </div>
         <%@ include file="/WEB-INF/include/main-top-right.jspf"%>
@@ -76,14 +65,15 @@
                                                 <label class="custom-control-label" for="listAll"></label>
                                             </div>
                                         </th>
-                                        <th>설비코드</th>
-                                        <th>공정</th>
-                                        <th>설비명</th>
-                                        <th>설비번호</th>
-                                        <th>타입</th>
-                                        <th>모델</th>
-                                        <th>제작국</th>
-                                        <th>제작사</th>
+                                        <th>치공구코드</th>
+                                        <th>치공구명</th>
+                                        <th>치공구번호</th>
+                                        <th>규격</th>
+                                        <th>제작일</th>
+                                        <th>위치</th>
+                                        <th>적용제품</th>
+                                        <th>관리부서</th>
+                                        <th>최종검사일</th>
                                         <th>비고</th>
                                     </tr>
                                 </thead>
@@ -112,64 +102,71 @@
                     <table id="tblPopData" class="table table-hover table-bordered mb-5 table-form">
                         <tbody>
                             <tr>
-                                <th>설비코드</th>
+                                <th>치공구코드</th>
                                 <td>
-                                    <input type="text" id="pop_equ_cd" name="pop_equ_cd" class="form-control key"
-                                           placeholder="설비코드 / 미입력 시 자동생성" title="설비코드"
+                                    <input type="text" id="pop_tool_cd" name="pop_tool_cd" class="form-control key"
+                                           placeholder="치공구코드 / 미입력 시 자동생성" title="치공구코드"
                                            />
                                     <div class="invalid-feedback"></div>
                                 </td>
-                                <th>설비명<span class="red"> (필수)</span></th>
+                                <th>치공구명<span class="red"> (필수)</span></th>
                                 <td>
-                                    <input type="text" id="pop_equ_nm" name="pop_equ_nm" class="form-control"
-                                           placeholder="설비명" title="설비명"
+                                    <input type="text" id="pop_tool_nm" name="pop_tool_nm" class="form-control"
+                                           placeholder="치공구명" title="치공구명"
                                            required />
                                 </td>
-                                <th>공정<span class="red"> (필수)</span></th>
+                                <th>치공구번호</th>
                                 <td>
-                                    <select id="pop_proc_cd" name="pop_proc_cd" class="custom-select w-100" required title="공정">
-                                        <option value="">공정선택</option>
-                                        <c:forEach var="item" items="${vmap.processList}" varStatus="status">
-                                            <option value="${item.proc_cd}">${item.proc_nm}</option>
+                                    <input type="text" id="pop_tool_no" name="pop_tool_no" class="form-control"
+                                           placeholder="관리번호" title="관리번호" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>치공구규격</th>
+                                <td>
+                                    <input type="text" id="pop_tool_stand" name="pop_tool_stand" class="form-control"
+                                           placeholder="치공구규격" title="치공구규격" />
+                                </td>
+                                <th>제작일</th>
+                                <td>
+                                    <input type="text" id="pop_tool_date" name="pop_tool_date" class="form-control datepicker"
+                                           placeholder="제작일" title="제작일" />
+                                </td>
+                                <th>위치</th>
+                                <td>
+                                    <input type="text" id="pop_tool_loc" name="pop_tool_loc" class="form-control"
+                                           placeholder="위치" title="위치" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>적용제품</th>
+                                <td>
+                                    <select id="pop_tool_pmok" name="pop_tool_pmok" class="custom-select w-100" required title="적용제품">
+                                        <option value="">적용제품선택</option>
+                                        <c:forEach var="item" items="${vmap.productList}" varStatus="status">
+                                            <option value="${item.prod_cd}">${item.prod_nm}</option>
                                         </c:forEach>
                                     </select>
                                 </td>
-                            </tr>
-                            <tr>
-                                <th>설비번호</th>
+                                <th>관리부서</th>
                                 <td>
-                                    <input type="text" id="pop_equ_no" name="pop_equ_no" class="form-control"
-                                           placeholder="설비번호" title="설비번호" />
+                                    <select id="pop_tool_dept" name="pop_tool_dept" class="custom-select w-100" required title="관리부서">
+                                        <option value="">관리부서선택</option>
+                                        <c:forEach var="item" items="${vmap.deptList}" varStatus="status">
+                                            <option value="${item.dept_cd}">${item.dept_nm}</option>
+                                        </c:forEach>
+                                    </select>
                                 </td>
-                                <th>설비모델명</th>
+                                <th>최종검사일</th>
                                 <td>
-                                    <input type="text" id="pop_equ_model" name="pop_equ_model" class="form-control"
-                                           placeholder="설비모델명" title="설비모델명" />
+                                    <input type="text" id="pop_tool_check_date" name="pop_tool_check_date" class="form-control datepicker"
+                                           placeholder="최종검사일" title="최종검사일" />
                                 </td>
-                                <th>설비타입</th>
-                                <td>
-                                    <input type="text" id="pop_equ_type" name="pop_equ_type" class="form-control"
-                                           placeholder="설비타입" title="설비타입" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>제작국</th>
-                                <td>
-                                    <input type="text" id="pop_equ_nation" name="pop_equ_nation" class="form-control"
-                                           placeholder="제작국" title="제작국" />
-                                </td>
-                                <th>제작사</th>
-                                <td>
-                                    <input type="text" id="pop_equ_company" name="pop_equ_company" class="form-control"
-                                           placeholder="제작사" title="제작사" />
-                                </td>
-                                <th></th>
-                                <td></td>
                             </tr>
                             <tr>
                                 <th>비고</th>
                                 <td colspan="5">
-                                    <input type="text" id="pop_equ_notice" name="pop_equ_notice" class="form-control" placeholder="비고" title="비고" />
+                                    <input type="text" id="pop_tool_notice" name="pop_tool_notice" class="form-control" placeholder="비고" title="비고" />
                                 </td>
                             </tr>
                         </tbody>
@@ -209,14 +206,14 @@
 
         // Add Data - Call Data Form
         $("#btnNew").on("click", () => {
-            callEditmodal("설비 추가", "R");
+            callEditmodal("치공구 추가", "R");
         });
 
         // 상세조회
         $("#tblMaster").on("dblclick", "tr", function() {
-            let equ_cd = $(this).find("input[name=equ_cd]").val();
-            callEditmodal("설비 수정", "M");
-            getDataOne(equ_cd);
+            let tool_cd = $(this).find("input[name=tool_cd]").val();
+            callEditmodal("치공구 수정", "M");
+            getDataOne(tool_cd);
         });
 
         // 저장
@@ -231,7 +228,7 @@
 
             Swal.fire({
                 title: '',
-                text: "설비 정보를 저장하시겠습니까?",
+                text: "치공구 정보를 저장하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -243,6 +240,7 @@
                     registModifyData();
                 }
             });
+
         });
 
         // 데이터 삭제
@@ -255,7 +253,7 @@
 
             Swal.fire({
                 title: '',
-                text: "설비 정보를 삭제하시겠습니까?",
+                text: "치공구 정보를 삭제하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -267,25 +265,26 @@
                     deleteData();
                 }
             });
+
         });
 
-        $("#pop_equ_cd").on("keyup", () => {
-            if($("#pop_equ_cd").val().length > 3)
+        $("#pop_tool_cd").on("keyup", () => {
+            if($("#pop_tool_cd").val().length > 3)
             {
                 $.ajax({
                     type : 'get'
-                    ,url: '/mes/base/equipment/equOverlap/' + $("#pop_equ_cd").val()
+                    ,url: '/mes/base/tool/toolOverlap/' + $("#pop_tool_cd").val()
                     ,dataType : 'json'
                 })
                     .done(function (data)
                     {
                         if(data) {
-                            $("#pop_equ_cd").removeClass("is-valid");
-                            $("#pop_equ_cd").addClass("is-invalid");
-                            $(".invalid-feedback").text("중복된 설비 코드입니다.");
+                            $("#pop_tool_cd").removeClass("is-valid");
+                            $("#pop_tool_cd").addClass("is-invalid");
+                            $(".invalid-feedback").text("중복된 치공구 코드입니다.");
                         }else {
-                            $("#pop_equ_cd").removeClass("is-invalid");
-                            $("#pop_equ_cd").addClass("is-valid");
+                            $("#pop_tool_cd").removeClass("is-invalid");
+                            $("#pop_tool_cd").addClass("is-valid");
                             $(".invalid-feedback").text("");
                         }
                     })
@@ -361,7 +360,7 @@
         showWait('.container-fluid');
 
         $.ajax({
-            url: "/mes/base/equipment/equList"
+            url: "/mes/base/tool/toolList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -370,9 +369,6 @@
             ,dataType: "json"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,equ_kind: $("#equ_kind").val()
-                ,equ_family: $("#equ_family").val()
-                ,equ_group: $("#equ_group").val()
                 ,search_text: $("#search_text").val()
             })
         })
@@ -384,21 +380,22 @@
                 let node = [];
 
                 let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
-                                   "    <input type=\"hidden\" name=\"equ_cd\" value=\"" + item.equ_cd + "\">" +
+                                   "    <input type=\"hidden\" name=\"tool_cd\" value=\"" + item.tool_cd + "\">" +
                                    "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
                                    "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
                                    "</div>";
 
                 node.push(checkBoxNode);
-                node.push(IsEmpty(item.equ_cd));
-                node.push(IsEmpty(item.proc_nm));
-                node.push(IsEmpty(item.equ_nm));
-                node.push(IsEmpty(item.equ_no));
-                node.push(IsEmpty(item.equ_type));
-                node.push(IsEmpty(item.equ_model));
-                node.push(IsEmpty(item.equ_nation));
-                node.push(IsEmpty(item.equ_company));
-                node.push(IsEmpty(item.equ_notice));
+                node.push(IsEmpty(item.tool_cd));
+                node.push(IsEmpty(item.tool_nm));
+                node.push(IsEmpty(item.tool_no));
+                node.push(IsEmpty(item.tool_stand));
+                node.push(IsEmpty(item.tool_date));
+                node.push(IsEmpty(item.tool_loc));
+                node.push(IsEmpty(item.tool_pmok_nm));
+                node.push(IsEmpty(item.tool_dept_nm));
+                node.push(IsEmpty(item.tool_check_date));
+                node.push(IsEmpty(item.tool_notice));
 
                 // 각 row node 추가
                 $("#tblMaster").DataTable().row.add(node).node();
@@ -415,12 +412,12 @@
         });
     }
 
-    function getDataOne(equ_cd)
+    function getDataOne(tool_cd)
     {
         showWait('.dataModal');
 
         $.ajax({
-            url: "/mes/base/equipment/equOne/" + equ_cd
+            url: "/mes/base/tool/toolOne/" + tool_cd
             ,type: "get"
             ,dataType: "json"
             // ,data: JSON.stringify({})
@@ -429,7 +426,6 @@
         {
             setDataOne("pop_", data);
             $("#dataForm").find(".key").prop("disabled", true);
-            $("#pop_selector").val(data.equ_main_comp_nm);
         })
         .always(function (data) {
             hideWait('.dataModal');
@@ -446,7 +442,7 @@
 
         $.ajax({
             type: "post"
-            ,url: "/mes/base/equipment/equRegistModify"
+            ,url: "/mes/base/tool/toolRegistModify"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "POST"
@@ -454,15 +450,16 @@
             ,dataType: "text"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,equ_cd: $("#pop_equ_cd").val()
-                ,equ_nm: $("#pop_equ_nm").val()
-                ,proc_cd: $("#pop_proc_cd").val()
-                ,equ_no: $("#pop_equ_no").val()
-                ,equ_model: $("#pop_equ_model").val()
-                ,equ_type: $("#pop_equ_type").val()
-                ,equ_nation: $("#pop_equ_nation").val()
-                ,equ_company: $("#pop_equ_company").val()
-                ,equ_notice: $("#pop_equ_notice").val()
+                ,tool_cd: $("#pop_tool_cd").val()
+                ,tool_nm: $("#pop_tool_nm").val()
+                ,tool_no: $("#pop_tool_no").val()
+                ,tool_stand: $("#pop_tool_stand").val()
+                ,tool_date: $("#pop_tool_date").val()
+                ,tool_loc: $("#pop_tool_loc").val()
+                ,tool_pmok: $("#pop_tool_pmok").val()
+                ,tool_dept: $("#pop_tool_dept").val()
+                ,tool_check_date: $("#pop_tool_check_date").val()
+                ,tool_notice: $("#pop_tool_notice").val()
             })
         })
         .done(function (data) {
@@ -485,12 +482,12 @@
 
         let deleteItems = [];
         $.each($("input[name=listCheck]:checked"), function(item, index) {
-            deleteItems.push($(this).closest("tr").find("input[name=equ_cd]").val());
+            deleteItems.push($(this).closest("tr").find("input[name=tool_cd]").val());
         });
 
         $.ajax({
             type: "delete"
-            ,url: "/mes/base/equipment/equPackDelete"
+            ,url: "/mes/base/tool/toolPackDelete"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "DELETE"

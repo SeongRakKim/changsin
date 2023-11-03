@@ -517,11 +517,13 @@
 
 <script>
 
-    $(document).ready(() => {
+    $(document).ready(() =>
+    {
         // DataTables setting
         setDatatable();
         initAutoComplete("#pop_selector");
         initAutoComplete2("#pop_selector2");
+
 
         $("input:radio[name=pop_prod_mass_yn]").on("change", () => {
             $("input:radio[name=pop_prod_mass_yn]").each(function() {

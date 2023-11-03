@@ -101,16 +101,19 @@
 <%--                                                <label class="custom-control-label" for="listAll"></label>--%>
 <%--                                            </div>--%>
 <%--                                        </th>--%>
-                                        <th style="width: 8%">수주번호</th>
-                                        <th style="width: 8%">수주일</th>
-                                        <th style="width: 8%">납기요청일</th>
-                                        <th style="width: 12%">거래처</th>
-                                        <th style="width: 10%">품번</th>
-                                        <th style="width: 14%">품목명</th>
+                                        <th style="width: 7%">수주번호</th>
+                                        <th style="width: 7%">수주일</th>
+                                        <th style="width: 7%">납기요청일</th>
+                                        <th style="width: 7%">거래처</th>
+                                        <th>제품종류</th>
+                                        <th>제품분류</th>
+                                        <th>제품군</th>
+                                        <th style="width: 8%">품번</th>
+                                        <th style="width: 10%">품목명</th>
                                         <th>규격</th>
-                                        <th style="width: 8%">수주수량</th>
-                                        <th style="width: 8%">납품일</th>
-                                        <th style="width: 8%">납품수량</th>
+                                        <th style="width: 7%">수주수량</th>
+                                        <th style="width: 7%">납품일</th>
+                                        <th style="width: 7%">납품수량</th>
                                         <th>상태</th>
                                     </tr>
                                 </thead>
@@ -266,6 +269,9 @@
                 node.push("<div class='text-center'>" + IsEmpty(item.odr_dt) + "</div>");
                 node.push("<div class='text-center'>" + IsEmpty(item.odr_ship_dt) + "</div>");
                 node.push(IsEmpty(item.comp_nm));
+                node.push(IsEmpty(item.prod_kind_nm));
+                node.push(IsEmpty(item.prod_group_nm));
+                node.push(IsEmpty(item.prod_family_nm));
                 node.push(IsEmpty(item.prod_pn));
                 node.push(IsEmpty(item.prod_nm));
                 node.push(IsEmpty(item.prod_stand));

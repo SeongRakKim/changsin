@@ -36,4 +36,20 @@ public class EquipmentDAO extends MapperDAO {
         return selectList(mapperName + ".equipmentInterfaceData", vmap.getMap());
     }
 
+    public List<Map<String, Object>> equRepairList(VMap vmap) throws Exception {
+        return selectList(mapperName + ".equRepairList", vmap.getMap());
+    }
+
+    public Map<String, Object> equRepairOne(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".equRepairOne", vmap.getMap());
+    }
+
+    public int equRepairRegistModify(VMap vmap) throws Exception {
+        return insert(mapperName + ".equRepairRegistModify", vmap.getMap());
+    }
+
+    public int equRepairPackDelete(VMap vmap) throws Exception {
+        return update(mapperName + ".equRepairPackDelete", vmap.getMap());
+    }
+
 }

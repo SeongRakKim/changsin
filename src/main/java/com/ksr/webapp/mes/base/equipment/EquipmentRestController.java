@@ -62,5 +62,42 @@ public class EquipmentRestController {
         return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
     }
 
+    @PostMapping("/mes/base/equipment/equRepairList")
+    public ResponseEntity<List<Map<String, Object>>> equRepairList(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    {
+        vmap.set(map);
+        List<Map<String, Object>> equList = equipmentService.equRepairList(vmap);
+
+        return new ResponseEntity<>(equList, HttpStatus.OK);
+    }
+
+    @GetMapping("/mes/base/equipment/equRepairOne/{equ_cd}/{equ_repair_cd}")
+    public ResponseEntity<Map<String, Object>> equRepairOne(VMap vmap, @PathVariable("equ_cd") String equ_cd, @PathVariable("equ_repair_cd") String equ_repair_cd) throws Exception
+    {
+        vmap.put("equ_cd", equ_cd);
+        vmap.put("equ_repair_cd", equ_repair_cd);
+        Map<String, Object> equOne = equipmentService.equRepairOne(vmap);
+
+        return new ResponseEntity<>(equOne, HttpStatus.OK);
+    }
+
+    @PostMapping("/mes/base/equipment/equRepairRegistModify")
+    public ResponseEntity<String> equRepairRegistModify(VMap vmap, @RequestBody Map<String, Object> map) throws Exception
+    {
+        vmap.set(map);
+        equipmentService.equRepairRegistModify(vmap);
+
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/mes/base/equipment/equRepairPackDelete")
+    public ResponseEntity<String> equRepairPackDelete(VMap vmap, @RequestBody Map<String, Object> map ) throws Exception
+    {
+        vmap.set(map);
+        equipmentService.equRepairPackDelete(vmap);
+
+        return new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+    }
+
 
 }

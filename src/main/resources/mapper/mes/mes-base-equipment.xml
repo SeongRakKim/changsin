@@ -175,4 +175,101 @@
         JOIN MES_EQUIPMENT_INFO USING (EQU_CD)
     </select>
 
+    <select id="equRepairList" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,EQU_CD
+               ,EQU_REPAIR_CD
+               ,EQU_REPAIR_DATE
+               ,EQU_REPAIR_KIND
+               ,(SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = EQU_REPAIR_KIND) EQU_REPAIR_KIND_NM
+               ,EQU_REPAIR_CAUSE
+               ,EQU_REPAIR_BREAK
+               ,EQU_REPAIR_PART
+               ,EQU_REPAIR_TIME
+               ,EQU_REPAIR_YN
+               ,EQU_REPAIR_INDATE
+               ,EQU_REPAIR_INUSER
+               ,EQU_REPAIR_UPDATE
+               ,EQU_REPAIR_UPUSER
+        FROM MES_EQUIPMENT_REPAIR
+         WHERE EQU_REPAIR_YN = 'Y'
+           AND EQU_CD = #{equ_cd}
+    </select>
+
+    <select id="equRepairOne" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,EQU_CD
+               ,EQU_REPAIR_CD
+               ,EQU_REPAIR_DATE
+               ,EQU_REPAIR_KIND
+               ,(SELECT BASE_DETAIL_NM FROM DFT_BASE_DETAIL WHERE BASE_DETAIL_CD = EQU_REPAIR_KIND) EQU_REPAIR_KIND_NM
+               ,EQU_REPAIR_CAUSE
+               ,EQU_REPAIR_BREAK
+               ,EQU_REPAIR_PART
+               ,EQU_REPAIR_TIME
+               ,EQU_REPAIR_YN
+               ,EQU_REPAIR_INDATE
+               ,EQU_REPAIR_INUSER
+               ,EQU_REPAIR_UPDATE
+               ,EQU_REPAIR_UPUSER
+        FROM MES_EQUIPMENT_REPAIR
+         WHERE EQU_REPAIR_YN = 'Y'
+           AND EQU_CD = #{equ_cd}
+           AND EQU_REPAIR_CD = #{equ_repair_cd}
+    </select>
+
+    <insert id="equRepairRegistModify" parameterType="VMap">
+        INSERT INTO MES_EQUIPMENT_REPAIR
+        (
+            FACT_CD
+            ,EQU_CD
+            ,EQU_REPAIR_CD
+            ,EQU_REPAIR_DATE
+            ,EQU_REPAIR_KIND
+            ,EQU_REPAIR_CAUSE
+            ,EQU_REPAIR_BREAK
+            ,EQU_REPAIR_PART
+            ,EQU_REPAIR_TIME
+            ,EQU_REPAIR_YN
+            ,EQU_REPAIR_INDATE
+            ,EQU_REPAIR_INUSER
+            ,EQU_REPAIR_UPDATE
+            ,EQU_REPAIR_UPUSER
+        )VALUES
+        (
+            #{fact_cd}
+            ,#{equ_cd}
+            ,#{equ_repair_cd}
+            ,#{equ_repair_date}
+            ,#{equ_repair_kind}
+            ,#{equ_repair_cause}
+            ,#{equ_repair_break}
+            ,#{equ_repair_part}
+            ,#{equ_repair_time}
+            ,'Y'
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+            ,NOW()
+            ,IFNULL(#{u_cd}, 'system')
+        )
+        ON DUPLICATE KEY UPDATE
+             EQU_REPAIR_DATE = #{equ_repair_date}
+            ,EQU_REPAIR_KIND = #{equ_repair_kind}
+            ,EQU_REPAIR_CAUSE = #{equ_repair_cause}
+            ,EQU_REPAIR_BREAK = #{equ_repair_break}
+            ,EQU_REPAIR_PART = #{equ_repair_part}
+            ,EQU_REPAIR_TIME = #{equ_repair_time}
+            ,EQU_REPAIR_UPDATE = NOW()
+            ,EQU_REPAIR_UPUSER = IFNULL(#{u_cd}, 'system')
+    </insert>
+
+    <update id="equRepairPackDelete" parameterType="VMap">
+        UPDATE MES_EQUIPMENT_REPAIR
+        SET EQU_REPAIR_YN = 'N'
+        WHERE EQU_REPAIR_CD IN
+        <foreach collection="deleteItems" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
 </mapper>

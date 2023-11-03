@@ -111,7 +111,7 @@
                                 <th>센서명<span class="red"> (필수)</span></th>
                                 <td>
                                     <input type="text" id="pop_snsr_nm" name="pop_snsr_nm" class="form-control"
-                                           placeholder="센서명" title="센서명"
+                              75055555             placeholder="센서명" title="센서명"
                                            required />
                                 </td>
                                 <th>센서번호</th>
