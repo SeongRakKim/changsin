@@ -153,7 +153,10 @@
         {
             $(function()
             {
-                if ("${sessionScope.isLogOut}" === "Y") sendLogApi();
+                if ("${sessionScope.isLogOut}" === "Y") {
+                    sendLogApi();
+                    sendLogApi2();
+                }
             });
         })();
 
@@ -168,6 +171,45 @@
 
             let logData = {
                 crtfcKey: "$5$API$oSxSirazOfeKdU16pm/tNPbU3Xrr74Jkwyk.9Rl.44C",
+                logDt: dateTime,
+                useSe: "종료",
+                sysUser: "CHANGSHIN",
+                conectIp: "121.178.205.94",
+                dataUsgqty: "0"
+            };
+
+            $.ajax({
+                type : "POST",
+                url : "https://log.smart-factory.kr/apisvc/sendLogData.json",
+                cache : false,
+                timeout : 360000,
+                data : logData,
+                dataType : "json",
+                // contentType : "application/x-www-form-urlencoded; charset=utf-8",
+                beforeSend : function() {
+                },
+                success : function(data, textStatus, jqXHR) {
+                    var result = data.result;
+                    console.log(result);  // <-- 전송 결과 확인
+                },
+                error : function(jqXHR, textStatus, errorThrown) {
+                },
+                complete : function() {
+                }
+            });
+        }
+
+        function sendLogApi2()
+        {
+            let TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
+            let d = new Date();
+            let date = new Date(d.getTime() + TIME_ZONE).toISOString().split('T')[0];
+            let time = d.toTimeString().split(' ')[0];
+            let dateTime = date + " " + time + ".000";
+            console.log('오후 6:07', 'LineNumber : 131', dateTime);
+
+            let logData = {
+                crtfcKey: "$5$API$VjQw5ZNkkPD.itxtOGlIR2HxSAA0tI1EUceTrLh7DtC",
                 logDt: dateTime,
                 useSe: "종료",
                 sysUser: "CHANGSHIN",
