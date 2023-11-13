@@ -42,7 +42,7 @@
     <div class="menu-nav">
         <div>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 기준정보 <i class="fas fa-arrow-circle-right"></i> 검사기준정보
+                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 기준정보 <i class="fas fa-arrow-circle-right"></i> 센서정보
             </span>
         </div>
         <%@ include file="/WEB-INF/include/main-top-right.jspf"%>
@@ -65,15 +65,14 @@
                                                 <label class="custom-control-label" for="listAll"></label>
                                             </div>
                                         </th>
-                                        <th>검사기준코드</th>
-                                        <th>검사기준명</th>
-                                        <th>검사기준번호</th>
-                                        <th>규격</th>
-                                        <th>제작일</th>
-                                        <th>위치</th>
-                                        <th>적용제품</th>
-                                        <th>관리부서</th>
-                                        <th>최종검사일</th>
+                                        <th>센서코드</th>
+                                        <th>센서명</th>
+                                        <th>센서번호</th>
+                                        <th>모델명</th>
+                                        <th>제작국</th>
+                                        <th>단가</th>
+                                        <th>온도상한치</th>
+                                        <th>온도하한치</th>
                                         <th>비고</th>
                                     </tr>
                                 </thead>
@@ -102,71 +101,60 @@
                     <table id="tblPopData" class="table table-hover table-bordered mb-5 table-form">
                         <tbody>
                             <tr>
-                                <th>검사기준코드</th>
+                                <th>센서코드</th>
                                 <td>
-                                    <input type="text" id="pop_tool_cd" name="pop_tool_cd" class="form-control key"
-                                           placeholder="검사기준코드 / 미입력 시 자동생성" title="검사기준코드"
+                                    <input type="text" id="pop_snsr_cd" name="pop_snsr_cd" class="form-control key"
+                                           placeholder="센서코드 / 미입력 시 자동생성" title="센서코드"
                                            />
                                     <div class="invalid-feedback"></div>
                                 </td>
-                                <th>검사기준명<span class="red"> (필수)</span></th>
+                                <th>센서명<span class="red"> (필수)</span></th>
                                 <td>
-                                    <input type="text" id="pop_tool_nm" name="pop_tool_nm" class="form-control"
-                                           placeholder="검사기준명" title="검사기준명"
+                                    <input type="text" id="pop_snsr_nm" name="pop_snsr_nm" class="form-control"
+                                           placeholder="센서명" title="센서명"
                                            required />
                                 </td>
-                                <th>검사기준번호</th>
+                                <th>센서번호</th>
                                 <td>
-                                    <input type="text" id="pop_tool_no" name="pop_tool_no" class="form-control"
-                                           placeholder="관리번호" title="관리번호" />
+                                    <input type="text" id="pop_snsr_no" name="pop_snsr_no" class="form-control"
+                                           placeholder="센서번호" title="센서번호" />
                                 </td>
                             </tr>
                             <tr>
-                                <th>검사기준규격</th>
+                                <th>센서모델명</th>
                                 <td>
-                                    <input type="text" id="pop_tool_stand" name="pop_tool_stand" class="form-control"
-                                           placeholder="검사기준규격" title="검사기준규격" />
+                                    <input type="text" id="pop_snsr_model" name="pop_snsr_model" class="form-control"
+                                           placeholder="센서모델명" title="센서모델명" />
                                 </td>
-                                <th>제작일</th>
+                                <th>제작국</th>
                                 <td>
-                                    <input type="text" id="pop_tool_date" name="pop_tool_date" class="form-control datepicker"
-                                           placeholder="제작일" title="제작일" />
+                                    <input type="text" id="pop_snsr_nation" name="pop_snsr_nation" class="form-control"
+                                           placeholder="제작국" title="제작국" />
                                 </td>
-                                <th>위치</th>
+                                <th>단가</th>
                                 <td>
-                                    <input type="text" id="pop_tool_loc" name="pop_tool_loc" class="form-control"
-                                           placeholder="위치" title="위치" />
+                                    <input type="text" id="pop_snsr_price" name="pop_snsr_price" class="form-control"
+                                           placeholder="단가" title="단가" />
                                 </td>
                             </tr>
                             <tr>
-                                <th>적용제품</th>
+                                <th>온도상한치</th>
                                 <td>
-                                    <select id="pop_tool_pmok" name="pop_tool_pmok" class="custom-select w-100" required title="적용제품">
-                                        <option value="">적용제품선택</option>
-                                        <c:forEach var="item" items="${vmap.productList}" varStatus="status">
-                                            <option value="${item.prod_cd}">${item.prod_nm}</option>
-                                        </c:forEach>
-                                    </select>
+                                    <input type="text" id="pop_snsr_up_tp" name="pop_snsr_up_tp" class="form-control"
+                                           placeholder="온도상한치" title="온도상한치" />
                                 </td>
-                                <th>관리부서</th>
+                                <th>온도하한치</th>
                                 <td>
-                                    <select id="pop_tool_dept" name="pop_tool_dept" class="custom-select w-100" required title="관리부서">
-                                        <option value="">관리부서선택</option>
-                                        <c:forEach var="item" items="${vmap.deptList}" varStatus="status">
-                                            <option value="${item.dept_cd}">${item.dept_nm}</option>
-                                        </c:forEach>
-                                    </select>
+                                    <input type="text" id="pop_snsr_lw_tp" name="pop_snsr_lw_tp" class="form-control"
+                                           placeholder="온도하한치" title="온도하한치" />
                                 </td>
-                                <th>최종검사일</th>
-                                <td>
-                                    <input type="text" id="pop_tool_check_date" name="pop_tool_check_date" class="form-control datepicker"
-                                           placeholder="최종검사일" title="최종검사일" />
-                                </td>
+                                <th></th>
+                                <td></td>
                             </tr>
                             <tr>
                                 <th>비고</th>
                                 <td colspan="5">
-                                    <input type="text" id="pop_tool_notice" name="pop_tool_notice" class="form-control" placeholder="비고" title="비고" />
+                                    <input type="text" id="pop_snsr_notice" name="pop_snsr_notice" class="form-control" placeholder="비고" title="비고" />
                                 </td>
                             </tr>
                         </tbody>
@@ -206,14 +194,14 @@
 
         // Add Data - Call Data Form
         $("#btnNew").on("click", () => {
-            callEditmodal("검사기준 추가", "R");
+            callEditmodal("센서 추가", "R");
         });
 
         // 상세조회
         $("#tblMaster").on("dblclick", "tr", function() {
-            let tool_cd = $(this).find("input[name=tool_cd]").val();
-            callEditmodal("검사기준 수정", "M");
-            getDataOne(tool_cd);
+            let snsr_cd = $(this).find("input[name=snsr_cd]").val();
+            callEditmodal("센서 수정", "M");
+            getDataOne(snsr_cd);
         });
 
         // 저장
@@ -228,7 +216,7 @@
 
             Swal.fire({
                 title: '',
-                text: "검사기준 정보를 저장하시겠습니까?",
+                text: "센서 정보를 저장하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -253,7 +241,7 @@
 
             Swal.fire({
                 title: '',
-                text: "검사기준 정보를 삭제하시겠습니까?",
+                text: "센서 정보를 삭제하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -268,23 +256,23 @@
 
         });
 
-        $("#pop_tool_cd").on("keyup", () => {
-            if($("#pop_tool_cd").val().length > 3)
+        $("#pop_snsr_cd").on("keyup", () => {
+            if($("#pop_snsr_cd").val().length > 3)
             {
                 $.ajax({
                     type : 'get'
-                    ,url: '/mes/base/tool/toolOverlap/' + $("#pop_tool_cd").val()
+                    ,url: '/mes/base/sensor/snsrOverlap/' + $("#pop_snsr_cd").val()
                     ,dataType : 'json'
                 })
                     .done(function (data)
                     {
                         if(data) {
-                            $("#pop_tool_cd").removeClass("is-valid");
-                            $("#pop_tool_cd").addClass("is-invalid");
-                            $(".invalid-feedback").text("중복된 검사기준 코드입니다.");
+                            $("#pop_snsr_cd").removeClass("is-valid");
+                            $("#pop_snsr_cd").addClass("is-invalid");
+                            $(".invalid-feedback").text("중복된 센서 코드입니다.");
                         }else {
-                            $("#pop_tool_cd").removeClass("is-invalid");
-                            $("#pop_tool_cd").addClass("is-valid");
+                            $("#pop_snsr_cd").removeClass("is-invalid");
+                            $("#pop_snsr_cd").addClass("is-valid");
                             $(".invalid-feedback").text("");
                         }
                     })
@@ -360,7 +348,7 @@
         showWait('.container-fluid');
 
         $.ajax({
-            url: "/mes/base/tool/toolList"
+            url: "/mes/base/sensor/snsrList"
             ,type: "post"
             ,headers: {
                 "Content-Type": "application/json"
@@ -380,22 +368,21 @@
                 let node = [];
 
                 let checkBoxNode = "<div class=\"custom-control custom-checkbox\">" +
-                                   "    <input type=\"hidden\" name=\"tool_cd\" value=\"" + item.tool_cd + "\">" +
+                                   "    <input type=\"hidden\" name=\"snsr_cd\" value=\"" + item.snsr_cd + "\">" +
                                    "    <input type=\"checkbox\" class=\"custom-control-input\" id=\"listCheck_" + index + "\" name=\"listCheck\">" +
                                    "    <label class=\"custom-control-label\" for=\"listCheck_" + index + "\"></label>" +
                                    "</div>";
 
                 node.push(checkBoxNode);
-                node.push(IsEmpty(item.tool_cd));
-                node.push(IsEmpty(item.tool_nm));
-                node.push(IsEmpty(item.tool_no));
-                node.push(IsEmpty(item.tool_stand));
-                node.push(IsEmpty(item.tool_date));
-                node.push(IsEmpty(item.tool_loc));
-                node.push(IsEmpty(item.tool_pmok_nm));
-                node.push(IsEmpty(item.tool_dept_nm));
-                node.push(IsEmpty(item.tool_check_date));
-                node.push(IsEmpty(item.tool_notice));
+                node.push(IsEmpty(item.snsr_cd));
+                node.push(IsEmpty(item.snsr_nm));
+                node.push(IsEmpty(item.snsr_no));
+                node.push(IsEmpty(item.snsr_model));
+                node.push(IsEmpty(item.snsr_nation));
+                node.push(IsEmpty(item.snsr_price));
+                node.push(IsEmpty(item.snsr_up_tp));
+                node.push(IsEmpty(item.snsr_lw_tp));
+                node.push(IsEmpty(item.snsr_notice));
 
                 // 각 row node 추가
                 $("#tblMaster").DataTable().row.add(node).node();
@@ -412,12 +399,12 @@
         });
     }
 
-    function getDataOne(tool_cd)
+    function getDataOne(snsr_cd)
     {
         showWait('.dataModal');
 
         $.ajax({
-            url: "/mes/base/tool/toolOne/" + tool_cd
+            url: "/mes/base/sensor/snsrOne/" + snsr_cd
             ,type: "get"
             ,dataType: "json"
             // ,data: JSON.stringify({})
@@ -442,7 +429,7 @@
 
         $.ajax({
             type: "post"
-            ,url: "/mes/base/tool/toolRegistModify"
+            ,url: "/mes/base/sensor/snsrRegistModify"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "POST"
@@ -450,16 +437,15 @@
             ,dataType: "text"
             ,data: JSON.stringify({
                 fact_cd: "${vmap.fact_cd}"
-                ,tool_cd: $("#pop_tool_cd").val()
-                ,tool_nm: $("#pop_tool_nm").val()
-                ,tool_no: $("#pop_tool_no").val()
-                ,tool_stand: $("#pop_tool_stand").val()
-                ,tool_date: $("#pop_tool_date").val()
-                ,tool_loc: $("#pop_tool_loc").val()
-                ,tool_pmok: $("#pop_tool_pmok").val()
-                ,tool_dept: $("#pop_tool_dept").val()
-                ,tool_check_date: $("#pop_tool_check_date").val()
-                ,tool_notice: $("#pop_tool_notice").val()
+                ,snsr_cd: $("#pop_snsr_cd").val()
+                ,snsr_nm: $("#pop_snsr_nm").val()
+                ,snsr_no: $("#pop_snsr_no").val()
+                ,snsr_model: $("#pop_snsr_model").val()
+                ,snsr_nation: $("#pop_snsr_nation").val()
+                ,snsr_price: $("#pop_snsr_price").val().replace(/,/g, "")
+                ,snsr_up_tp: $("#pop_snsr_up_tp").val()
+                ,snsr_lw_tp: $("#pop_snsr_lw_tp").val()
+                ,snsr_notice: $("#pop_snsr_notice").val()
             })
         })
         .done(function (data) {
@@ -482,12 +468,12 @@
 
         let deleteItems = [];
         $.each($("input[name=listCheck]:checked"), function(item, index) {
-            deleteItems.push($(this).closest("tr").find("input[name=tool_cd]").val());
+            deleteItems.push($(this).closest("tr").find("input[name=snsr_cd]").val());
         });
 
         $.ajax({
             type: "delete"
-            ,url: "/mes/base/tool/toolPackDelete"
+            ,url: "/mes/base/sensor/snsrPackDelete"
             ,headers: {
                 "Content-Type": "application/json"
                 ,"X-HTTP-Method-Override": "DELETE"

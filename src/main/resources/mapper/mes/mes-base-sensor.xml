@@ -21,7 +21,14 @@
                ,SNSR_INUSER
                ,SNSR_UPDATE
                ,SNSR_UPUSER
-        FROM MES_SENSOR_INFO MEI
+        <choose>
+            <when test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(tableType)">
+                FROM MES_SENSOR_INFO2 MEI
+            </when>
+            <otherwise>
+                FROM MES_SENSOR_INFO MEI
+            </otherwise>
+        </choose>
          WHERE SNSR_YN = 'Y'
         <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(search_text)">
             AND
@@ -51,7 +58,28 @@
                ,SNSR_INUSER
                ,SNSR_UPDATE
                ,SNSR_UPUSER
-        FROM MES_SENSOR_INFO
+          FROM MES_SENSOR_INFO MEI
+         WHERE SNSR_YN = 'Y'
+           AND SNSR_CD = #{snsr_cd}
+    </select>
+
+    <select id="snsrOne2" parameterType="VMap" resultType="RowMap">
+        SELECT FACT_CD
+               ,SNSR_CD
+               ,SNSR_NM
+               ,SNSR_NO
+               ,SNSR_MODEL
+               ,SNSR_NATION
+               ,SNSR_PRICE
+               ,SNSR_UP_TP
+               ,SNSR_LW_TP
+               ,SNSR_YN
+               ,SNSR_NOTICE
+               ,SNSR_INDATE
+               ,SNSR_INUSER
+               ,SNSR_UPDATE
+               ,SNSR_UPUSER
+          FROM MES_SENSOR_INFO2 MEI
          WHERE SNSR_YN = 'Y'
            AND SNSR_CD = #{snsr_cd}
     </select>
@@ -72,7 +100,14 @@
                ,SNSR_INUSER
                ,SNSR_UPDATE
                ,SNSR_UPUSER
-        FROM MES_SENSOR_INFO
+        <choose>
+            <when test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(tableType)">
+                FROM MES_SENSOR_INFO2 MEI
+            </when>
+            <otherwise>
+                FROM MES_SENSOR_INFO MEI
+            </otherwise>
+        </choose>
          WHERE SNSR_YN = 'Y'
         <if test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(snsr_cd)">
             AND SNSR_CD = #{snsr_cd}
@@ -80,7 +115,14 @@
     </select>
 
     <insert id="snsrRegistModify" parameterType="VMap">
-        INSERT INTO MES_SENSOR_INFO
+        <choose>
+            <when test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(tableType)">
+                INSERT INTO MES_SENSOR_INFO2
+            </when>
+            <otherwise>
+                INSERT INTO MES_SENSOR_INFO
+            </otherwise>
+        </choose>
         (
             FACT_CD
             ,SNSR_CD
@@ -128,7 +170,14 @@
     </insert>
 
     <update id="snsrPackDelete" parameterType="VMap">
-        UPDATE MES_SENSOR_INFO
+        <choose>
+            <when test="@com.ksr.webapp.common.util.MybatisUtils@isNotEmpty(tableType)">
+                UPDATE MES_SENSOR_INFO2
+            </when>
+            <otherwise>
+                UPDATE MES_SENSOR_INFO
+            </otherwise>
+        </choose>
         SET SNSR_YN = 'N'
         WHERE SNSR_CD IN
         <foreach collection="deleteItems" item="item" separator="," open="(" close=")">

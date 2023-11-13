@@ -25,6 +25,10 @@ public class SensorService {
         return sensorDAO.snsrOne(vmap);
     }
 
+    public Map<String, Object> snsrOne2(VMap vmap) throws Exception {
+        return sensorDAO.snsrOne2(vmap);
+    }
+
     public Map<String, Object> snsrOverlap(VMap vmap) throws Exception {
         return sensorDAO.snsrOverlap(vmap);
     }

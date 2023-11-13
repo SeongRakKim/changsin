@@ -42,7 +42,7 @@
     <div class="menu-nav">
         <div>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 기준정보 <i class="fas fa-arrow-circle-right"></i> 검사기준정보
+                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 기준정보 <i class="fas fa-arrow-circle-right"></i> 치공구정보
             </span>
         </div>
         <%@ include file="/WEB-INF/include/main-top-right.jspf"%>
@@ -65,9 +65,9 @@
                                                 <label class="custom-control-label" for="listAll"></label>
                                             </div>
                                         </th>
-                                        <th>검사기준코드</th>
-                                        <th>검사기준명</th>
-                                        <th>검사기준번호</th>
+                                        <th>치공구코드</th>
+                                        <th>치공구명</th>
+                                        <th>치공구번호</th>
                                         <th>규격</th>
                                         <th>제작일</th>
                                         <th>위치</th>
@@ -102,30 +102,30 @@
                     <table id="tblPopData" class="table table-hover table-bordered mb-5 table-form">
                         <tbody>
                             <tr>
-                                <th>검사기준코드</th>
+                                <th>치공구코드</th>
                                 <td>
                                     <input type="text" id="pop_tool_cd" name="pop_tool_cd" class="form-control key"
-                                           placeholder="검사기준코드 / 미입력 시 자동생성" title="검사기준코드"
+                                           placeholder="치공구코드 / 미입력 시 자동생성" title="치공구코드"
                                            />
                                     <div class="invalid-feedback"></div>
                                 </td>
-                                <th>검사기준명<span class="red"> (필수)</span></th>
+                                <th>치공구명<span class="red"> (필수)</span></th>
                                 <td>
                                     <input type="text" id="pop_tool_nm" name="pop_tool_nm" class="form-control"
-                                           placeholder="검사기준명" title="검사기준명"
+                                           placeholder="치공구명" title="치공구명"
                                            required />
                                 </td>
-                                <th>검사기준번호</th>
+                                <th>치공구번호</th>
                                 <td>
                                     <input type="text" id="pop_tool_no" name="pop_tool_no" class="form-control"
                                            placeholder="관리번호" title="관리번호" />
                                 </td>
                             </tr>
                             <tr>
-                                <th>검사기준규격</th>
+                                <th>치공구규격</th>
                                 <td>
                                     <input type="text" id="pop_tool_stand" name="pop_tool_stand" class="form-control"
-                                           placeholder="검사기준규격" title="검사기준규격" />
+                                           placeholder="치공구규격" title="치공구규격" />
                                 </td>
                                 <th>제작일</th>
                                 <td>
@@ -206,13 +206,13 @@
 
         // Add Data - Call Data Form
         $("#btnNew").on("click", () => {
-            callEditmodal("검사기준 추가", "R");
+            callEditmodal("치공구 추가", "R");
         });
 
         // 상세조회
         $("#tblMaster").on("dblclick", "tr", function() {
             let tool_cd = $(this).find("input[name=tool_cd]").val();
-            callEditmodal("검사기준 수정", "M");
+            callEditmodal("치공구 수정", "M");
             getDataOne(tool_cd);
         });
 
@@ -228,7 +228,7 @@
 
             Swal.fire({
                 title: '',
-                text: "검사기준 정보를 저장하시겠습니까?",
+                text: "치공구 정보를 저장하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -253,7 +253,7 @@
 
             Swal.fire({
                 title: '',
-                text: "검사기준 정보를 삭제하시겠습니까?",
+                text: "치공구 정보를 삭제하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -281,7 +281,7 @@
                         if(data) {
                             $("#pop_tool_cd").removeClass("is-valid");
                             $("#pop_tool_cd").addClass("is-invalid");
-                            $(".invalid-feedback").text("중복된 검사기준 코드입니다.");
+                            $(".invalid-feedback").text("중복된 치공구 코드입니다.");
                         }else {
                             $("#pop_tool_cd").removeClass("is-invalid");
                             $("#pop_tool_cd").addClass("is-valid");

@@ -34,6 +34,15 @@ public class SensorRestController {
         return new ResponseEntity<>(snsrOne, HttpStatus.OK);
     }
 
+    @GetMapping("/mes/base/sensor/snsrOne2/{snsr_cd}")
+    public ResponseEntity<Map<String, Object>> snsrOne2(VMap vmap, @PathVariable("snsr_cd") String snsr_cd) throws Exception
+    {
+        vmap.put("snsr_cd", snsr_cd);
+        Map<String, Object> snsrOne = sensorService.snsrOne2(vmap);
+
+        return new ResponseEntity<>(snsrOne, HttpStatus.OK);
+    }
+
     @GetMapping("/mes/base/sensor/snsrOverlap/{snsr_cd}")
     public ResponseEntity<Boolean> snsrOverlap(VMap vmap, @PathVariable("snsr_cd") String snsr_cd) throws Exception
     {

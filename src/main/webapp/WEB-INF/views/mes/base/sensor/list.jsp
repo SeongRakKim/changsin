@@ -42,7 +42,7 @@
     <div class="menu-nav">
         <div>
             <span class="btn btn-pill btn-sm btn-primary">
-                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 기준정보 <i class="fas fa-arrow-circle-right"></i> 센서정보
+                <i class="fas fa-home"></i> <i class="fas fa-arrow-circle-right"></i> 기준정보 <i class="fas fa-arrow-circle-right"></i> 메뉴정보
             </span>
         </div>
         <%@ include file="/WEB-INF/include/main-top-right.jspf"%>
@@ -65,14 +65,14 @@
                                                 <label class="custom-control-label" for="listAll"></label>
                                             </div>
                                         </th>
-                                        <th>센서코드</th>
-                                        <th>센서명</th>
-                                        <th>센서번호</th>
+                                        <th>메뉴코드</th>
+                                        <th>메뉴명</th>
+                                        <th>메뉴번호</th>
                                         <th>모델명</th>
                                         <th>제작국</th>
-                                        <th>단가</th>
-                                        <th>온도상한치</th>
-                                        <th>온도하한치</th>
+<%--                                        <th>단가</th>--%>
+<%--                                        <th>온도상한치</th>--%>
+<%--                                        <th>온도하한치</th>--%>
                                         <th>비고</th>
                                     </tr>
                                 </thead>
@@ -101,30 +101,30 @@
                     <table id="tblPopData" class="table table-hover table-bordered mb-5 table-form">
                         <tbody>
                             <tr>
-                                <th>센서코드</th>
+                                <th>메뉴코드</th>
                                 <td>
                                     <input type="text" id="pop_snsr_cd" name="pop_snsr_cd" class="form-control key"
-                                           placeholder="센서코드 / 미입력 시 자동생성" title="센서코드"
+                                           placeholder="메뉴코드 / 미입력 시 자동생성" title="메뉴코드"
                                            />
                                     <div class="invalid-feedback"></div>
                                 </td>
-                                <th>센서명<span class="red"> (필수)</span></th>
+                                <th>메뉴명<span class="red"> (필수)</span></th>
                                 <td>
                                     <input type="text" id="pop_snsr_nm" name="pop_snsr_nm" class="form-control"
-                              75055555             placeholder="센서명" title="센서명"
+                                           placeholder="메뉴명" title="메뉴명"
                                            required />
                                 </td>
-                                <th>센서번호</th>
+                                <th>메뉴번호</th>
                                 <td>
                                     <input type="text" id="pop_snsr_no" name="pop_snsr_no" class="form-control"
-                                           placeholder="센서번호" title="센서번호" />
+                                           placeholder="메뉴번호" title="메뉴번호" />
                                 </td>
                             </tr>
                             <tr>
-                                <th>센서모델명</th>
+                                <th>메뉴모델명</th>
                                 <td>
                                     <input type="text" id="pop_snsr_model" name="pop_snsr_model" class="form-control"
-                                           placeholder="센서모델명" title="센서모델명" />
+                                           placeholder="메뉴모델명" title="메뉴모델명" />
                                 </td>
                                 <th>제작국</th>
                                 <td>
@@ -194,13 +194,13 @@
 
         // Add Data - Call Data Form
         $("#btnNew").on("click", () => {
-            callEditmodal("센서 추가", "R");
+            callEditmodal("메뉴 추가", "R");
         });
 
         // 상세조회
         $("#tblMaster").on("dblclick", "tr", function() {
             let snsr_cd = $(this).find("input[name=snsr_cd]").val();
-            callEditmodal("센서 수정", "M");
+            callEditmodal("메뉴 수정", "M");
             getDataOne(snsr_cd);
         });
 
@@ -216,7 +216,7 @@
 
             Swal.fire({
                 title: '',
-                text: "센서 정보를 저장하시겠습니까?",
+                text: "메뉴 정보를 저장하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -241,7 +241,7 @@
 
             Swal.fire({
                 title: '',
-                text: "센서 정보를 삭제하시겠습니까?",
+                text: "메뉴 정보를 삭제하시겠습니까?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -269,7 +269,7 @@
                         if(data) {
                             $("#pop_snsr_cd").removeClass("is-valid");
                             $("#pop_snsr_cd").addClass("is-invalid");
-                            $(".invalid-feedback").text("중복된 센서 코드입니다.");
+                            $(".invalid-feedback").text("중복된 메뉴 코드입니다.");
                         }else {
                             $("#pop_snsr_cd").removeClass("is-invalid");
                             $("#pop_snsr_cd").addClass("is-valid");
@@ -379,9 +379,9 @@
                 node.push(IsEmpty(item.snsr_no));
                 node.push(IsEmpty(item.snsr_model));
                 node.push(IsEmpty(item.snsr_nation));
-                node.push(IsEmpty(item.snsr_price));
-                node.push(IsEmpty(item.snsr_up_tp));
-                node.push(IsEmpty(item.snsr_lw_tp));
+                // node.push(IsEmpty(item.snsr_price));
+                // node.push(IsEmpty(item.snsr_up_tp));
+                // node.push(IsEmpty(item.snsr_lw_tp));
                 node.push(IsEmpty(item.snsr_notice));
 
                 // 각 row node 추가

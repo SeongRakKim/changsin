@@ -20,6 +20,10 @@ public class SensorDAO extends MapperDAO {
         return selectOne(mapperName + ".snsrOne", vmap.getMap());
     }
 
+    public Map<String, Object> snsrOne2(VMap vmap) throws Exception {
+        return selectOne(mapperName + ".snsrOne2", vmap.getMap());
+    }
+
     public Map<String, Object> snsrOverlap(VMap vmap) throws Exception {
         return selectOne(mapperName + ".snsrOverlap", vmap.getMap());
     }
