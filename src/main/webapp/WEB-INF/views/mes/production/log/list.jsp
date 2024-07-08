@@ -100,31 +100,31 @@
                     </thead>
                     <tbody style="text-align: center;">
                         <tr>
-                            <td>2023-09</td>
+                            <td>2024-05</td>
+                            <td>23</td>
+                            <td>5,114</td>
+                            <td>222</td>
+                            <td>28</td>
+                            <td>276</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>2024-06</td>
                             <td>20</td>
-                            <td>4,016</td>
-                            <td>201</td>
-                            <td>25</td>
-                            <td>240</td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td>2023-10</td>
-                            <td>21</td>
-                            <td>4,032</td>
-                            <td>192</td>
-                            <td>24</td>
-                            <td>252</td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td>2023-11</td>
+                            <td>4,432</td>
+                            <td>221</td>
+                            <td>27</td>
+                            <td>200</td>
                             <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>2024-07</td>
+                            <td>9</td>
                             <td>2,010</td>
-                            <td>201</td>
-                            <td>25</td>
-                            <td>120</td>
-                            <td>12</td>
+                            <td>223</td>
+                            <td>27</td>
+                            <td>99</td>
+                            <td>11</td>
                         </tr>
                     </tbody>
                 </table>
@@ -198,7 +198,8 @@
         $("#prod_kind, #prod_family, #prod_group").on("change", () => { getData() });
 
         // 조회
-        $("#btnSearch").on("click", () => { getData(), getData2() });
+        $("#btnSearch").on("click", () => { getData()});
+        // $("#btnSearch").on("click", () => { getData(), getData2() });
 
         setTimeout(() => getData(), 30);
         // setTimeout(() => getData2(), 30);
