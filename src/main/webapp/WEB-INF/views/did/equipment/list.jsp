@@ -116,7 +116,7 @@
                 $(titleId).text(item.equ_nm);
 
                 $(tableId).find(".equ_if_qty").text(item.equ_if_qty.comma('3'));
-                $(tableId).find(".equ_if_inoff").text((item.equ_if_inoff === "Y" ? "O" : "X"));
+                $(tableId).find(".equ_if_inoff").text((item.equ_if_onoff === "Y" ? "O" : "X"));
                 $(tableId).find(".equ_if_stdt").html(item.equ_if_st_date + "</br>" + item.equ_if_st_time);
                 $(tableId).find(".equ_if_eddt").html(item.equ_if_ed_date + "</br>" + item.equ_if_ed_time);
             });
